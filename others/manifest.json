@@ -1,0 +1,15 @@
+{
+    "short_name": "Pixmacr",
+    "name": "Pixmacr By Yaver & Zanoor",
+    "start_url": "../index.html",
+    "background_color": "#fff",
+    "theme_color": "#fff",
+    "display":"standalone",
+    "icons": [
+        {   "src":"../others/logo.png",
+            "sizes":"1080x1080",
+            "type":"image/png",
+            "purpose": "maskable"
+        }
+     ]
+}

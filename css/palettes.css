@@ -1,0 +1,34 @@
+.palette {
+    background: white;
+    width: 90%;
+    height: 5vh;
+    border-radius: 30px;
+    background: white;
+    -webkit-box-shadow: 0 1px gray;
+    box-shadow: 0 0 1px gray;
+    text-overflow: ellipsis;
+    margin-left: 5%;
+    display: flex;
+    overflow-x: hidden
+}
+.palette>* {
+    height: 5vh;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.selected-palette-color::before {
+    content: "";
+    top: 1vh;
+    left: 10%;
+    width: 1.5vh;
+    height: 1.5vh;
+    background-color: white;
+    box-sizing: border-box;
+    border: 0.5px solid black;
+    border-radius: 50%;
+}
