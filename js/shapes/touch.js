@@ -99,13 +99,23 @@ paintZone.addEventListener('touchmove', (event) => {
                 break;
             case 'circle':
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
+                let circleX, circleY
+                if (fixedRadius.checked) {
+                    
+                    currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                    circleX = Math.floor(currentCellIndex / cols);
+                    circleY = currentCellIndex % cols
+                } else {
+                    circleX = startingCoords.gridX - radius
+                    circleY = startingCoords.gridY + radius
+                }
                 if (circleAlgorithm.value == "accurate") {
-                    drawCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d, fillCircle.checked)
+                    drawCircle(circleX, circleY, radius, paintCells2d, fillCircle.checked)
                 } else if (circleAlgorithm.value == "natural") {
                     if (fillCircle.checked) {
-                        drawNaturalFilledCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
+                        drawNaturalFilledCircle(circleX, circleY, radius, paintCells2d)
                     } else {
-                        drawNaturalStrokeCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
+                        drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
                     }
                 }
                 break;

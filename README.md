@@ -1,6 +1,12 @@
-> THIS IS VERSION : `9.4.3`
+> THIS IS VERSION : `9.4.5`
 
 ## Changelog
+
+### 9.4.5[20-Oct-2023]
+- Fixed Size Rectangle And Circle Can Now Be Moved While Placing
+- You can replace now with colors automatically chosen as per surrounding colors
+- Layout Tweaks 
+
 
 ### 9.4.4[15-10-2023]
 - Now wallpapers rather than being random, there is only one background in this version

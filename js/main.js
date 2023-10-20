@@ -154,7 +154,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
             lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
             if (colorSelectionInProgress) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
-                let selectedColor = fullColor.slice(0,7)
+                let selectedColor = fullColor.slice(0, 7)
                 changeCellBorderColor(borderColor)
                 if (colorCopierCheckboxes.selectColorForFind.checked) {
                     colorToBeReplacedSelector.value = selectedColor
@@ -697,5 +697,6 @@ function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 
 }
 
 
-setupNumInputWithButtons(id("minus-rw-count"), id("plus-rw-count"), id("fixed-rect-width"),1,1,false)
-setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-rect-height"),1,1,false)
+setupNumInputWithButtons(id("minus-rw-count"), id("plus-rw-count"), id("fixed-rect-width"), 1, 1, false)
+setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-rect-height"), 1, 1, false)
+setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)

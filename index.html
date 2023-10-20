@@ -30,16 +30,14 @@
         <input type="button" value="+F" onclick="addFrame()">
         <input type="button" id="redo" value="REDO">
     </div>
-
     <marquee>
         #Ad : Buy This Space For Ads, Feel Free To Email Us On <a href="mailto:syn.pixmacr@gmail.com">syn.pixmacr@gmail.com</a>!
     </marquee>
-    <div id="paint-zone">
+    <div id="paint-zone"></div>
+    <div id="info">
+        <span id="line-info-shower">y:0,x:0,</span>
+        <span id="frame-count-top">frames:0,</span>
     </div>
-        <div id="info">
-            <span id="line-info-shower">y:0,x:0,</span>
-            <span id="frame-count-top">frames:0,</span>
-        </div>
     <div id="main-selectors-container">
         <div id="shapes-selector" class="h-selector">
             <img data-value="none" class="active-shape" src="icons/paint-mode/none.png">
@@ -222,18 +220,6 @@
                 <div>
                     <br>
                     <h3 data-shortcutkey="t">Basic Tools</h3> <br>
-                    <label for="slight-variations-checkbox">Slight Variations In Color : </label>
-                    <input type="checkbox" id="slight-variations-checkbox">
-                    <input type="button" value=". . ." onclick="gotoTab('variation-settings')" class="left-flat">
-                    <br>
-                    <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()" class="right-flat">
-                    <input type="button" value=". . ." class="left-flat" onclick="gotoTab('simplify-colors-options')">
-                    <br>
-                    <label for="fill-alternate">Fill Alternate : </label>
-                    <input type="checkbox" id="fill-alternate" class=" left-flat">
-                    <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ." class="left-flat">
-                    <br>
-                    <hr><br>
                     <label for="only-fill-transaprent">Fill Only <input value="If" type="button" id="flip-fill-only-if-type"> Color Is </label>
                     <input type="button" value="×" class="right-flat" onclick="fillOnlyThisColor.value=''">
                     <input type="text" id="fill-only-this-color" class="hex-input left-flat" placeholder="Any CSS Color"> :
@@ -246,6 +232,17 @@
                     <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
                     <span id="only-fill-matching-threshold-shower">(Exact Match)</span>
                     <hr><br>
+                    <label for="slight-variations-checkbox">Slight Variations In Color : </label>
+                    <input type="checkbox" id="slight-variations-checkbox">
+                    <input type="button" value=". . ." onclick="gotoTab('variation-settings')" class="left-flat">
+                    <br>
+                    <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()" class="right-flat">
+                    <input type="button" value=". . ." class="left-flat" onclick="gotoTab('simplify-colors-options')">
+                    <br>
+                    <label for="fill-alternate">Fill Alternate : </label>
+                    <input type="checkbox" id="fill-alternate" class=" left-flat">
+                    <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ." class="left-flat">
+                    <br>
                     <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
                     <label for="image-to-pixel" class="file-label">
                         <input type="file" id="image-to-pixel" accept="image/*">
@@ -316,14 +313,12 @@
                         <br>
                         <label for="fixed-rect-width">Fixed Width Value : </label>
                         <input type="button" id="minus-rw-count">
-
-                        <input type="number" id="fixed-rect-width" placeholder="Enter Fixed Width..." value="0">
+                        <input type="number" id="fixed-rect-width" placeholder="Enter Fixed Width..." value="5">
                         <input type="button" id="plus-rw-count">
-
                         <br>
                         <label for="fixed-rect-height">Fixed Height Value : </label>
                         <input type="button" id="minus-rh-count">
-                        <input type="number" id="fixed-rect-height" placeholder="Enter Fixed Height...">
+                        <input type="number" id="fixed-rect-height" placeholder="Enter Fixed Height..." value="5">
                         <input type="button" id="plus-rh-count">
 
                     </div>
@@ -350,7 +345,10 @@
                         <input type="checkbox" id="fixed-radius">
                         <br>
                         <label for="fixed-radius-value">Fixed Radius Value : </label>
-                        <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value...">
+                        <input type="button" id="m-f-radius">
+                        <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..." value="5">
+                                                <input type="button" id="p-f-radius">
+
                     </div>
                     <div class="shape-settings" data-settingname="paste">
                         <h3>Paste</h3>
@@ -453,6 +451,7 @@
                     <input type="range" min="0" max="225" value="0" id="color-match-threshold-range">
                     <span id="threshold-shower">(0)</span>
                     <br> <input type="button" value="Replace" id="replace-button"> <br>
+                    <input type="button" id="replace-content-awarely" value="Replace Content Awarely (NØ THRESHOLD SUPPORT)">
                 </div>
                 <div>
                     <br>
@@ -535,7 +534,7 @@
                     <a href="https://yaverjavid.github.io/bitmacr/apk/app.apk">Download App(Andriod)</a> <br>
                     <br> <a href="mailto:yaverjavid@gmail.com">Contact : yaverjavid@gmail.com</a><br>
                     <img src="others/logo.png" width="50" alt="Logo" style="border-radius: 6px;" ondblclick="gotoTab('dev')"><br>
-                    <span>Pixmacr @ 9.4.4</span>
+                    <span>Pixmacr @ 9.4.5</span>
                 </div>
                 <div>
                     <br>
@@ -712,6 +711,7 @@
     <script src="js/palettes.js"></script>
     <script src="js/sound.js"></script>
     <script src="js/auto-tools.js"></script>
+    <script src="js/outline.js"></script>
     <script>
         // Post script
     </script>

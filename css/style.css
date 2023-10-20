@@ -733,3 +733,7 @@ box-shadow: 0 0 1px gray; */
      padding: 10px;
      margin-left: calc((100vw - 75vw)/4);
  }
+
+.shape-settings > input[type=number]{
+    width: 15%;
+}
