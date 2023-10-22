@@ -85,6 +85,9 @@ paintZone.addEventListener('mousemove', (event) => {
                     paintCells2d
                 )
                 break;
+            case "eq-triangle":
+                drawEquilateralTriangle(startingCoords.gridX, startingCoords.gridY, 6, paintCells2d)
+                break;
             case 'circle':
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
                 if (circleAlgorithm.value == "accurate") {

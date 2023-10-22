@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <title>Pixmacr - A pixel art maker by Zanoor & Yaver</title>
+    <title>Pixmacr - A pixel art maker by Yaver & Zanoor</title>
     <link rel="icon" type="image/x-icon" href="others/logo.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sessions.css">
@@ -30,8 +30,7 @@
         <input type="button" value="+F" onclick="addFrame()">
         <input type="button" id="redo" value="REDO">
     </div>
-    <marquee>
-        #Ad : Buy This Space For Ads, Feel Free To Email Us On <a href="mailto:syn.pixmacr@gmail.com">syn.pixmacr@gmail.com</a>!
+    <marquee id="adstrip">
     </marquee>
     <div id="paint-zone"></div>
     <div id="info">
@@ -47,9 +46,9 @@
             <img data-value="selecting" id="copy-selector" src="icons/paint-mode/copy.png">
             <img data-value="paste" src="icons/paint-mode/paste.png">
             <img data-value="line" src="icons/paint-mode/line.png">
+            <img data-value="triangle" src="icons/paint-mode/triangle.png">
             <img data-value="sphere" src="icons/paint-mode/sphere.png" style="margin-right: 5px">
         </div>
-
         <div class="selector" id="click-mode-selector" data-oneway="true">
             <!-- Make Sure Height Of Every Option Is Same -->
             <img data-value="cell" src="icons/fill-mode/cell.png">
@@ -299,6 +298,19 @@
                     </div>
                     <div data-settingname="none" class="shape-settings active-shape-setting">
                         <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED" style="width: 70%">
+                    </div>
+                    <div class="shape-settings" data-settingname="triangle">
+                        <h3>Triangle</h3>
+                        <br>
+                        <label for="change-per-col">Change Per Col : </label>
+                        <input type="number" id="change-per-col" value="2">
+                        <br>
+                        <label for="all-changes-on">All Changes On : </label>
+                        <select id="all-changes-on">
+                            <option value="">Divided</option>
+                            <option value="right">Right</option>
+                            <option value="left">Left</option>
+                        </select>
                     </div>
                     <div class="shape-settings" data-settingname="rect">
                         <h3>Rectangle</h3>
@@ -660,6 +672,7 @@
                         <option value="stroke">Old Stroke</option>
                         <option value="selecting">Selecting</option>
                         <option value="paste">Paste</option>
+                        <option value="triangle">triangle</option>
                     </select>
                     <br>
                     <label for="image-pixelart-to-pixel" class="file-label">
@@ -711,7 +724,8 @@
     <script src="js/palettes.js"></script>
     <script src="js/sound.js"></script>
     <script src="js/auto-tools.js"></script>
-    <script src="js/outline.js"></script>
+    <script src="js/replace.js"></script>
+    <script src="js/ad-management.js"></script>
     <script>
         // Post script
     </script>

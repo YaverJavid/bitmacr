@@ -101,7 +101,7 @@ paintZone.addEventListener('touchmove', (event) => {
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
                 let circleX, circleY
                 if (fixedRadius.checked) {
-                    
+
                     currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
                     circleX = Math.floor(currentCellIndex / cols);
                     circleY = currentCellIndex % cols
@@ -118,6 +118,12 @@ paintZone.addEventListener('touchmove', (event) => {
                         drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
                     }
                 }
+                break;
+            case "triangle":
+                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                let tx = Math.floor(currentCellIndex / cols);
+                let ty = currentCellIndex % cols
+                drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value),  {allOn : id("all-changes-on").value})
                 break;
             case 'sphere':
                 drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
@@ -187,3 +193,33 @@ paintZone.addEventListener('touchend', (event) => {
     }
     if (paintModeSelector.value != "none") recordPaintData()
 })
+
+function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
+    if(blx == -1 || bly == -1) return
+    let linesize = size
+    while(linesize > 0){
+        for (let dx = 0; dx < linesize; dx++) {
+            pixels[bly][blx + dx].style.background = getCurrentSelectedColor()
+        }
+        bly--
+        linesize -= perColDY
+        if(options.allOn == "left") blx += perColDY
+        else if(options.allOn == "right") blx
+        else blx += (Math.ceil(perColDY/2))
+    }
+}
+
+function generateTriangleCoordinates(x, y, angle1_deg, angle2_deg, size) {
+    // Convert angles from degrees to radians
+    const angle1_rad = (angle1_deg * Math.PI) / 180;
+    const angle2_rad = (angle2_deg * Math.PI) / 180;
+
+    // Calculate coordinates of other two vertices
+    const x1 = x + Math.cos(angle1_rad) * size; // x-coordinate of second vertex
+    const y1 = y + Math.sin(angle1_rad) * size; // y-coordinate of second vertex
+
+    const x2 = x + Math.cos(angle2_rad) * size; // x-coordinate of third vertex
+    const y2 = y + Math.sin(angle2_rad) * size; // y-coordinate of third vertex
+
+    return [[x, y], [x1, y1], [x2, y2]];
+}

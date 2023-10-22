@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 9.4.6[22-Oct-2023]
+- Animation Frames Now Have Colors For Easy Identification 
+- Added Triangle Shape
+
 ### 9.4.5[20-Oct-2023]
 - Fixed Size Rectangle And Circle Can Now Be Moved While Placing
 - You can replace now with colors automatically chosen as per surrounding colors

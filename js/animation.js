@@ -6,6 +6,7 @@ const updateFrameCount = () => {
     frameCount.textContent = framesContainer.children.length
     frameCountTop.textContent = `frames:${frameCount.textContent},`
 }
+const animationBackgroundsColor = ["#E74C3C", "#3498DB", "#2ECC71", "#F39C12", "#9B59B6", "#1ABC9C", "#E67E22", "#2980B9", "#27AE60", "#D35400"];
 
 function deleteFrame(elem) {
     let frameElem = elem.parentNode.parentNode
@@ -17,7 +18,7 @@ function deleteFrame(elem) {
 }
 
 function getFrameHTML(src) {
-    return `<div class="frame">
+    return `<div class="frame" style="background: ${animationBackgroundsColor[Math.floor(Math.random() * animationBackgroundsColor.length)]}">
                 <img src="${src}" class="frame-preview" width="100">
                 <div class="frame-buttons">
                     <img src="icons/duplicate.svg" onclick="duplicateFrame(this)">
