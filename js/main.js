@@ -700,3 +700,4 @@ function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 
 setupNumInputWithButtons(id("minus-rw-count"), id("plus-rw-count"), id("fixed-rect-width"), 1, 1, false)
 setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-rect-height"), 1, 1, false)
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
+

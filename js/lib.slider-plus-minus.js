@@ -28,3 +28,4 @@ function setupNumInputWithButtons(minusButton, plusButton, input, minusCount = 1
         plusAct()
     }
 }
+

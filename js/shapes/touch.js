@@ -209,17 +209,3 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
     }
 }
 
-function generateTriangleCoordinates(x, y, angle1_deg, angle2_deg, size) {
-    // Convert angles from degrees to radians
-    const angle1_rad = (angle1_deg * Math.PI) / 180;
-    const angle2_rad = (angle2_deg * Math.PI) / 180;
-
-    // Calculate coordinates of other two vertices
-    const x1 = x + Math.cos(angle1_rad) * size; // x-coordinate of second vertex
-    const y1 = y + Math.sin(angle1_rad) * size; // y-coordinate of second vertex
-
-    const x2 = x + Math.cos(angle2_rad) * size; // x-coordinate of third vertex
-    const y2 = y + Math.sin(angle2_rad) * size; // y-coordinate of third vertex
-
-    return [[x, y], [x1, y1], [x2, y2]];
-}

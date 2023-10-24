@@ -1,6 +1,10 @@
-> THIS IS VERSION : `9.4.5`
+> THIS IS VERSION : `9.4.7`
 
 ## Changelog
+
+### 9.4.7[24-Oct-2023]
+- Added Selected Data Rotation
+- BUG FIX : NOW DUPLICATE FRAME GETS A NEW RANDOM Color
 
 ### 9.4.6[22-Oct-2023]
 - Animation Frames Now Have Colors For Easy Identification 

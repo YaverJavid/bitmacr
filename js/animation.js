@@ -77,9 +77,11 @@ function moveFrameDown(elem) {
 }
 
 function duplicateFrame(elem) {
-    let frame = elem.parentNode.parentNode
-    frame.after(frame.cloneNode(true))
-    updateFrameCount()
+    let frame = elem.parentNode.parentNode;
+    let duplicateFrame = frame.cloneNode(true);
+    duplicateFrame.style.background = animationBackgroundsColor[Math.floor(Math.random() * animationBackgroundsColor.length)]
+    frame.after(duplicateFrame);
+    updateFrameCount();
 }
 
 function deleteAllFrames() {

@@ -113,11 +113,12 @@ colorStringInput.oninput = () => {
 
 }
 
-hueSpeedSlider.addEventListener("input", () => {
+hueSpeedSlider.oninput = updateHueSpeedShower
+function updateHueSpeedShower () {
     hueSpeedShower.innerHTML = `(${hueSpeedSlider.value}&deg;)`
+}
 
-
-})
+setupSliderWithButtons(id("m-hue-speed"), id("p-hue-speed"), hueSpeedSlider, 0.1, 0.1, updateHueSpeedShower, updateHueSpeedShower)
 
 lightingSlider.addEventListener("input", () => {
     updateHueColorShower()

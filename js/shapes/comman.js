@@ -157,10 +157,10 @@ function copy() {
         result.push(row)
     }
     selectionCoords = undefined
-    if(result.length == 0) return {failed : true}
+    if (result.length == 0) return { failed: true }
     selectedPart = result
     selectionSize.textContent = `(w:${w},h:${h})`
-    return {failed : false}
+    return { failed: false }
 }
 
 function paste(xb, yb, data2d, paint2d) {
@@ -371,3 +371,36 @@ function drawRoundedRectangle(startX, startY, width, height, borderRadius, array
         }
     }
 }
+
+const rotateCopiedDataButtons = document.getElementsByClassName("rotate-copied-data")
+
+for (let i = 0; i < rotateCopiedDataButtons.length; i++) {
+    rotateCopiedDataButtons[i].onclick = () => {
+        if (!selectedPart) {
+            customAlert("No Data Selected")
+            return
+        }
+        selectedPart = rotateArray90Degrees(selectedPart, false)
+        selectionSize.textContent = `(w:${selectedPart[0].length},h:${selectedPart.length})`
+        for (let i = 0; i < selectionImageShowers.length; i++) {
+            selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null)
+            selectionImageShowers[i].style.border = "1px solid black"
+        }
+    }
+}
+
+function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
+    if(blx == -1 || bly == -1) return
+    let linesize = size
+    while(linesize > 0){
+        for (let dx = 0; dx < linesize; dx++) {
+            pixels[bly][blx + dx].style.background = getCurrentSelectedColor()
+        }
+        bly--
+        linesize -= perColDY
+        if(options.allOn == "left") blx += perColDY
+        else if(options.allOn == "right") blx
+        else blx += (Math.ceil(perColDY/2))
+    }
+}
+
