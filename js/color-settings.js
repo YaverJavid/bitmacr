@@ -177,6 +177,16 @@ function setCellColor(cellElem, color) {
 
 }
 
+onlyFillIfColorIsCheckbox.oninput = ()=>{
+    id("info-fill-rule").textContent = onlyFillIfColorIsCheckbox.checked ? "[FILL RULE ON]," : "fill rule off,"
+    if(onlyFillIfColorIsCheckbox.checked){
+        id("info-fill-rule").style.color = "red"
+    }else{
+        id("info-fill-rule").style.color = "var(--primary)"
+    }
+    
+}
+
 function fillCell(cellElem, color) {
     let currentColor = rgbaToHex(window.getComputedStyle(cellElem).getPropertyValue('background-color'))
     let fillOnlyIfColorsAre = fillOnlyThisColor.value.split("||")

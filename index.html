@@ -18,9 +18,9 @@
 </head>
 
 <body>
-    <img src="icons/logo/lettering-color.png" width=125 id="top-logo">
+    <img src="icons/logo/lettering-color.png" width=125 id="top-logo" class="image">
     <div id="sessions-section">
-        <img id="add-session" src="icons/close.svg">
+        <img id="add-session" src="icons/close.svg" class="icon">
         <div id="sessions-container"> </div>
     </div>
     <div class="controls" id="top-control-container">
@@ -30,10 +30,13 @@
         <input type="button" value="+F" onclick="addFrame()">
         <input type="button" id="redo" value="REDO">
     </div>
+    
     <marquee id="adstrip">
     </marquee>
     <div id="paint-zone"></div>
     <div id="info">
+        <span id="info-size"></span>
+        <span id="info-fill-rule">fill rule off,</span>
         <span id="line-info-shower">y:0,x:0,</span>
         <span id="frame-count-top">frames:0,</span>
     </div>
@@ -67,6 +70,16 @@
                 <div>
                     <br>
                     <h3 data-shortcutkey="s">General</h3>
+                    <br>
+                    <div id="color-m-selector" class="h-selector">
+                        <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
+                        <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
+                        <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
+                        <img src='icons/color-mode/random.png' alt='cm' data-value="random">
+                        <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
+                        <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl">
+                    </div>
+                    <br>
                     <br>
                     <div id="color-selector-unit">
                         <div id="no-specific-color-selector" class="visible-color-selector">
@@ -119,8 +132,7 @@
                             <label for="hue-speed-slider">Speed : </label>
                             <input type="button" id="m-hue-speed">
                             <input type="range" id="hue-speed-slider" min="0" max="15" step="0.1" value="0">
-                                                        <input type="button" id="p-hue-speed">
-
+                            <input type="button" id="p-hue-speed">
                             <span id="hue-speed-shower">(0&deg;)</span>
                         </div>
                         <div data-csname="css-color">
@@ -130,16 +142,6 @@
                         </div>
                     </div>
                     <hr>
-                    <br>
-                    <div id="color-m-selector" class="h-selector">
-                        <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
-                        <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
-                        <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
-                        <img src='icons/color-mode/random.png' alt='cm' data-value="random">
-                        <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
-                        <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl">
-                    </div>
-                    <br>
                     <br>
                     <label for="opacity">Opacity : </label>
                     <input type="range" step="0.1" max="1" min="0" value="1" id="opacity">
@@ -222,6 +224,7 @@
                 <div>
                     <br>
                     <h3 data-shortcutkey="t">Basic Tools</h3> <br>
+                    <h4>Fill Rule</h4>
                     <label for="only-fill-transaprent">Fill Only <input value="If" type="button" id="flip-fill-only-if-type"> Color Is </label>
                     <input type="button" value="×" class="right-flat" onclick="fillOnlyThisColor.value=''">
                     <input type="text" id="fill-only-this-color" class="hex-input left-flat" placeholder="Any CSS Color"> :
@@ -339,7 +342,7 @@
                     </div>
                     <div class="shape-settings" data-settingname="selecting">
                         <h3>Selection</h3>
-                        <img class="selection-image-shower">
+                        <img class="selection-image-shower image">
                         <br>
                         <span id="selection-size"></span>
                         <br> <br>
@@ -365,12 +368,12 @@
                         <label for="fixed-radius-value">Fixed Radius Value : </label>
                         <input type="button" id="m-f-radius">
                         <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..." value="5">
-                                                <input type="button" id="p-f-radius">
+                        <input type="button" id="p-f-radius">
 
                     </div>
                     <div class="shape-settings" data-settingname="paste">
                         <h3>Paste</h3>
-                        <img class="selection-image-shower">
+                        <img class="selection-image-shower image">
                         <br> <br>
                         <label for="paste-transparent-cell-effect">Transparent Cells Have No Effect : </label>
                         <input type="checkbox" id="paste-transparent-cell-effect" checked>
@@ -553,8 +556,8 @@
                     <br>
                     <a href="https://yaverjavid.github.io/bitmacr/apk/app.apk">Download App(Andriod)</a> <br>
                     <br> <a href="mailto:yaverjavid@gmail.com">Contact : yaverjavid@gmail.com</a><br>
-                    <img src="others/logo.png" width="50" alt="Logo" style="border-radius: 6px;" ondblclick="gotoTab('dev')"><br>
-                    <span>Pixmacr @ 9.4.7</span>
+                    <img src="others/logo.png" width="50" alt="Logo" style="border-radius: 6px;" ondblclick="gotoTab('dev')" class="image"><br>
+                    <span>Pixmacr @ 9.4.8</span>
                 </div>
                 <div>
                     <br>

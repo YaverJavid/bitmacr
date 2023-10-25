@@ -1,6 +1,11 @@
-> THIS IS VERSION : `9.4.7`
+> THIS IS VERSION : `9.4.8`
 
 ## Changelog
+
+### 9.4.8[25-Oct-2023]
+- Canvas Size & Fill Mode Info On Info String
+- Added Frost Theme
+- Accessibility Expanded
 
 ### 9.4.7[24-Oct-2023]
 - Added Selected Data Rotation

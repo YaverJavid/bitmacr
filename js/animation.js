@@ -16,16 +16,15 @@ function deleteFrame(elem) {
             updateFrameCount()
         })
 }
-
 function getFrameHTML(src) {
     return `<div class="frame" style="background: ${animationBackgroundsColor[Math.floor(Math.random() * animationBackgroundsColor.length)]}">
-                <img src="${src}" class="frame-preview" width="100">
+                <img src="${src}" class="frame-preview image" width="100">
                 <div class="frame-buttons">
-                    <img src="icons/duplicate.svg" onclick="duplicateFrame(this)">
-                    <img src="icons/up.svg" onclick="moveFrameUp(this)">
-                    <img src="icons/down.svg" onclick="moveFrameDown(this)">
-                    <img src="icons/delete.svg" onclick="deleteFrame(this)">
-                    <img src="icons/trace.png" width=50 onclick="addFrameAsTrace(this)"> 
+                    <img src="icons/duplicate.svg" onclick="duplicateFrame(this)" class="image">
+                    <img src="icons/up.svg" onclick="moveFrameUp(this)" class="image">
+                    <img src="icons/down.svg" onclick="moveFrameDown(this)" class="image">
+                    <img src="icons/delete.svg" onclick="deleteFrame(this)" class="image">
+                    <img src="icons/trace.png" width=50 onclick="addFrameAsTrace(this)" class="image"> 
                     <input type="number" class="frame-time" placeholder="Enter Time(ms)" />
                 </div>
             </div>`

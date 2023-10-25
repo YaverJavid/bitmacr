@@ -98,13 +98,13 @@ function saveDrawings() {
 
 function getDrawingHTML(drawingName) {
     return `<div class="drawing">
-                <img class="drawing-preview" ></img>
+                <img class="drawing-preview image"></img>
                 <p class="drawing-name">${drawingName}</p>
                 <div class="drawing-icons-container">
-                <img class="drawing-delete-icon" src="icons/delete.svg">
-                <img class="drawing-apply-icon" src="icons/play.svg">
-                <img class="drawing-download-icon" src="icons/download.svg">
-                <img class="drawing-preview-icon" src="icons/see.svg"></icon>
+                <img class="drawing-delete-icon image" src="icons/delete.svg">
+                <img class="drawing-apply-icon image" src="icons/play.svg">
+                <img class="drawing-download-icon image" src="icons/download.svg">
+                <img class="drawing-preview-icon image" src="icons/see.svg"></icon>
                 </div>
             </div>`
 }

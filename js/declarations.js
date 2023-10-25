@@ -88,4 +88,4 @@ const id = id => document.getElementById(id),
     autoSave = id("auto-save"),
     addNewSessionOnOpening = id("add-new-session-on-opening"),
     pasteTransparentCellEffect = id("paste-transparent-cell-effect")
-    
+

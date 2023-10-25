@@ -88,10 +88,10 @@ function firstLevelArrayCompare(arr1, arr2) {
 }
 
 
-
+let fillMissCount = 0
 function recordPaintData() {
     let data = []
-    for (var i = 0; i < paintCells.length; i++) {
+    for (let i = 0; i < paintCells.length; i++) {
         data.push(window.getComputedStyle(paintCells[i]).getPropertyValue('background-color'))
     }
     let canvasData;
@@ -101,9 +101,23 @@ function recordPaintData() {
     } catch {
         skipCheck = true;
     }
-    if ((!skipCheck) && firstLevelArrayCompare(data, canvasData)) return data
+    if ((!skipCheck) && firstLevelArrayCompare(data, canvasData)){
+        fillMissCount++
+        if(fillMissCount == 3 && onlyFillIfColorIsCheckbox.checked){
+            fillMissCount = 0
+            customConfirm("It seems you've forgotten about the fill rule that you applied, Do you want to remove it?", ()=>{
+                onlyFillIfColorIsCheckbox.checked = false
+                id("info-fill-rule").textContent = "fill rule off,"
+                id("info-fill-rule").style.color = "var(--primary)"
+            })
+        } else if(!onlyFillIfColorIsCheckbox.checked){
+            fillMissCount = 0
+        }
+        return data
+    }
     buffer.deleteRight()
     buffer.addItem(data)
+    fillMissCount = 0
     return data
 }
 
@@ -124,6 +138,7 @@ function applyPaintData(data, simpleFill = true) {
 function addCanvas(argRows, argCols, clearStack = true) {
     rows = argRows
     cols = argCols
+    id("info-size").textContent = `c${cols}:r${rows},`
     if (clearStack)
         buffer.clearStack()
     paintZone.innerHTML = ""
