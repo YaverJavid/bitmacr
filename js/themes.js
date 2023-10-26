@@ -9,7 +9,9 @@ if((localStorageREF.getItem("pixm_theme").length - localStorageREF.getItem("pixm
 let currentTheme = localStorageREF.getItem("pixm_theme").split(",")
 setTheme(currentTheme[0], currentTheme[1], currentTheme[2], currentTheme[3] === "true")
 
-function setTheme(accent, primary, secondary, iconsInverted = false) {
+function setTheme(accent, primary, secondary , iconsInverted = false) {
+    if(accent == "#00000000") root.style.setProperty("--frostblur","blur(6px)")
+    else root.style.setProperty("--frostblur","blur(0px)")
     setSecondaryColor(secondary)
     setAccentColor(accent)
     setPrimaryColor(primary)
@@ -43,13 +45,14 @@ class Theme {
 let themes = [
     new Theme("#E1F5FE", "#000000", "#ffffff", "Light Theme"),
     new Theme("#F9E1FE", "#000000", "#ffffff", "Violet Theme"),
+    new Theme("#ffffff", "#000000", "#ffffff", "Dark", true),
     new Theme("#FEE1F1", "#000000", "#ffffff", "Pink Theme"),
-    new Theme("#FEF0E1", "#000000", "#ffffff", "Buff Theme"),
     new Theme("#F5FEE1", "#000000", "#ffffff", "Green Theme"),
     new Theme("#FEE1E1", "#000000", "#ffffff", "Red Theme"),
     new Theme("#F1E1FE", "#000000", "#ffffff", "Purple Theme"),
     new Theme("#FEFCE1", "#000000", "#ffffff", "Yellow Theme"),
-    new Theme("#545454", "#ffffff", "#000000", "Dark Theme.beta"),
+    new Theme("#000000", "#ffffff", "#000000", "Obsidian [DARK]", true),
+    new Theme("#545454", "#ffffff", "#000000", "Greyish", true),
     new Theme("#ffffff", "#000000", "#ffffff", "White Theme"),
     new Theme("#FFDE49", "#000000", "#ffffff", "Deep Slumber"),
     new Theme("#00000000", "#ffffff", "#000000", "Frost", true)
@@ -71,6 +74,6 @@ document.getElementById("theme-hue").addEventListener("input", function() {
 
 
 function handleIconInvertion(invert){
-    document.documentElement.style.setProperty("--iconInversion", `invert(${invert ? '1' : '0'})`)
+    root.style.setProperty("--iconInversion", `invert(${invert ? '1' : '0'})`)
 }
 

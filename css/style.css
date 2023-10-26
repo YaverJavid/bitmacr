@@ -7,7 +7,8 @@
      --primary: #000;
      --trace-image-opacity: 50%;
      --trace-image: none;
-     --iconInversion: invert(0)
+     --iconInversion: invert(0);
+     --frostblur: blur(5px)
  }
 
 
@@ -176,7 +177,7 @@
      -webkit-box-shadow: 0 1px gray;
      box-shadow: 0 0 1px gray;
      margin-bottom: 1.5vw;
-     backdrop-filter: blur(5px);
+     backdrop-filter: var(--frostblur);
 
 
  }
@@ -223,7 +224,7 @@
      border-radius: 5vh;
      -webkit-box-shadow: 0 1px gray;
      box-shadow: 0 0 1px gray;
-     backdrop-filter: blur(5px);
+     backdrop-filter: var(--frostblur);
  }
 
 
@@ -285,7 +286,7 @@
      /*      -webkit-box-shadow: 0 1px gray;
 box-shadow: 0 0 1px gray; */
      border: 0.5px solid #22222220;
-     backdrop-filter: blur(6px);
+     backdrop-filter: var(--frostblur);
 
  }
 
@@ -437,7 +438,7 @@ box-shadow: 0 0 1px gray; */
      background: var(--accent) !important;
      -webkit-box-shadow: 0 1px gray;
      box-shadow: 0 0 1px gray;
-          backdrop-filter: blur(6px);
+          backdrop-filter: var(--frostblur);
 
  }
 
@@ -643,7 +644,7 @@ box-shadow: 0 0 1px gray; */
      box-shadow: 0 0 1px gray;
      scroll-behavior: smooth;
      background: var(--accent);
-     backdrop-filter: blur(6px);
+     backdrop-filter: var(--frostblur);
  }
 
  #click-mode-selector img {
@@ -664,7 +665,7 @@ box-shadow: 0 0 1px gray; */
      background: var(--accent);
      width: 85%;
      max-height: 65px;
-     backdrop-filter: blur(6px);
+     backdrop-filter: var(--frostblur);
      display: inline-flex;
      border-radius: 50vh;
      -webkit-box-shadow: 0 1px gray;
