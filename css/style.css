@@ -23,7 +23,7 @@
      text-align: center;
      background: var(--secondary);
      background-size: 100%;
-     /* image-rendering: pixelated */
+     /* image-rendering */
  }
 
  #top-logo {

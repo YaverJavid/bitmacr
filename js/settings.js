@@ -62,7 +62,7 @@ document.getElementById("animate-menu-checkbox").addEventListener("input", funct
 setUpLocalStorageBucket("pixmacr_background_image", "0")
 
 execBucket("pixmacr_background_image", "1", () => {
-    document.body.style.backgroundImage = "url(icons/background.png)"
+    document.body.style.backgroundImage = "url(icons/wallpapers/default.png)"
     document.querySelector("marquee").style.color = "white"
     id("add-image-background-checkbox").checked = true
 })
@@ -70,7 +70,7 @@ execBucket("pixmacr_background_image", "1", () => {
 
 id("add-image-background-checkbox").addEventListener("input", function() {
     setBucketOnCondition("pixmacr_background_image", this.checked, "1", "0")
-    document.body.style.backgroundImage = this.checked ? "url(icons/background.png)" : "none"
+    document.body.style.backgroundImage = this.checked ? "url(icons/wallpapers/default.png)" : "none"
     document.querySelector("marquee").style.color = this.checked ? "white" : "var(--primary)"
 })
 
