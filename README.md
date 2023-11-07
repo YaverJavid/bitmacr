@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 9.4.9[07-Nov-2023]
+- Changed Export Tab Layout
+- Added Pixel Size Slider In SVG Export
+
 ### 9.4.8[25-Oct-2023]
 - Canvas Size & Fill Mode Info On Info String
 - Added Frost Theme

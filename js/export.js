@@ -65,9 +65,14 @@ function createSVGFromArray(colorArray, pixelSize) {
 
 
 id("export-svg").onclick = () => {
-    downloadText("pixmacr.svg", createSVGFromArray(toPaintData2D(buffer.getItem()), 1))
+    downloadText("pixmacr.svg", createSVGFromArray(toPaintData2D(buffer.getItem()),parseInt(id("svg-pixel-size").value)))
 }
 
 id("export-res").oninput = () => {
     id("export-res-shower").textContent = `(${id("export-res").value})`
+}
+
+id("svg-pixel-size").oninput = () =>{
+  console.log("3");
+  id("svg-pixel-size-shower").textContent = `(${id("svg-pixel-size").value})`
 }
