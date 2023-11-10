@@ -5,7 +5,8 @@ const paletteCreatorPalette = id("palette-creator-palette")
 const PName = id("p-name")
 const paletteSelector = id("palette-selector")
 const paletteCS = id("palette-cs")
-setUpLocalStorageBucket(B_SAVED_PALETTES, '{"Pop4 (Default)":["red","cyan","#447090","deeppink"]}')
+const PALETTE_LIMIT = 256
+setUpLocalStorageBucket(B_SAVED_PALETTES, '{"Flowing Water":["lightblue", "deeppink"]}')
 
 let savedPalettes = JSON.parse(getBucketVal(B_SAVED_PALETTES))
 
@@ -46,8 +47,8 @@ function addEventListenerOnPallete(palette) {
 }
 
 document.getElementById("p-add-new-color").onclick = () => {
-    if (paletteCreatorPalette.children.length == 15) {
-        customAlert("Cannot Add More Colours, Reached Limit : 15 !")
+    if (paletteCreatorPalette.children.length == PALETTE_LIMIT) {
+        customAlert("Cannot Add More Colours, Reached Limit : " + PALETTE_LIMIT + " !")
         return
     }
     const newColor = document.createElement("div")
