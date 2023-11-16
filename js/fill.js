@@ -17,7 +17,7 @@ function fill(a2d, x, y, main = true) {
     if (isInBounds(xb, yb, xln, yln) && a2d[yb][xb] == currentColor) a2d = fill(a2d, xb, yb, false)
     if (isInBounds(xl, yl, xln, yln) && a2d[yl][xl] == currentColor) a2d = fill(a2d, xl, yl, false)
     if (isInBounds(xr, yr, xln, yln) && a2d[yr][xr] == currentColor) a2d = fill(a2d, xr, yr, false)
-        return a2d
+    return a2d
         
 }
 

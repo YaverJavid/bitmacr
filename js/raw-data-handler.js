@@ -92,6 +92,7 @@ function saveCanvasAsDrawing() {
 
 function saveDrawings() {
     localStorageREF.setItem("drawings", JSON.stringify(drawings))
+    updateNodrawingPresentDiv()
 }
 
 
@@ -133,6 +134,7 @@ function addEventListenersToSavedDrawings() {
                     delete drawings[currentDrawingName]
                     drawingElements[i].style.display = "none"
                     deleteSound.play()
+                    updateNodrawingPresentDiv()
                 },
                 () => {}, saveDrawings
             )
@@ -223,3 +225,11 @@ document.getElementById("image-to-pixel").addEventListener("input", function() {
         reader.readAsDataURL(file);
     }
 });
+
+
+function updateNodrawingPresentDiv(){
+    if(Object.keys(drawings).length === 0) id("no-drawing-present-div").style.display = "initial"
+    else id("no-drawing-present-div").style.display = "none"
+}
+
+updateNodrawingPresentDiv()

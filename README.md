@@ -1,6 +1,10 @@
-> THIS IS VERSION : `9.4.9`
+> THIS IS VERSION : `9.5.0`
 
 ## Changelog
+
+### 9.5.0[16-Nov-2023]
+- Palette Manager Has Option To Extract The Colors From Canvas
+- Changed Layout 
 
 ### 9.4.9[07-Nov-2023]
 - Changed Export Tab Layout

@@ -145,8 +145,9 @@ function addCanvas(argRows, argCols, clearStack = true) {
     let HTML = ' <div id="selection-shower"></div>'
     let i = 0
     let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
+    
     while (i < rows * cols) {
-        HTML += `<div class="cell" style="width:${elemWidth}vw;height:${elemWidth}vw"></div>`
+        HTML += `<div class="cell" style="width:${elemWidth }vw;height:${elemWidth}vw"></div>`
         i++
     }
     paintZone.style.height = elemWidth * rows + "vw"

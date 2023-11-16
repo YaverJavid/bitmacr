@@ -19,8 +19,6 @@ for (let prop in savedPalettes) {
 }
 
 
-
-
 for (let i = 0; i < palettes.length; i++) {
     if (palettes[i].dataset.onlyShow != "true")
         addEventListenerOnPallete(palettes[i])
@@ -46,15 +44,19 @@ function addEventListenerOnPallete(palette) {
     }
 }
 
+function addColorToPaletteManager(color){
+  if (paletteCreatorPalette.children.length == PALETTE_LIMIT) {
+    customAlert("Cannot Add More Colours, Reached Limit : " + PALETTE_LIMIT + " !")
+    return
+  }
+  const newColor = document.createElement("div")
+  newColor.style.background = color ? color : getRandColor()
+  paletteCreatorPalette.appendChild(newColor)
+  addEventListenerOnPallete(paletteCreatorPalette)
+}
+
 document.getElementById("p-add-new-color").onclick = () => {
-    if (paletteCreatorPalette.children.length == PALETTE_LIMIT) {
-        customAlert("Cannot Add More Colours, Reached Limit : " + PALETTE_LIMIT + " !")
-        return
-    }
-    const newColor = document.createElement("div")
-    newColor.style.background = getRandColor()
-    paletteCreatorPalette.appendChild(newColor)
-    addEventListenerOnPallete(paletteCreatorPalette)
+    addColorToPaletteManager()
 }
 
 document.getElementById("change-palette-creator-css-color").addEventListener("input", function() {
@@ -144,3 +146,9 @@ id("p-copy-selected").onclick = () => {
     }
     addEventListenerOnPallete(paletteCreatorPalette)
 }
+
+id("p-extract-from-canvas").onclick = ()=>{
+  let allUniqueColorsFromCanvas = Array.from(new Set(buffer.getItem().slice()))
+  allUniqueColorsFromCanvas.forEach(color => addColorToPaletteManager(color))
+}
+

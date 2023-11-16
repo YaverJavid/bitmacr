@@ -72,6 +72,10 @@ function rgbToHex(str) {
 
 
 function downloadImage(dataUrl, fileName = 'pixmacr-yj-') {
+    if(platform == "android"){
+        cordova.plugins.DownloadManager.download(dataUrl, filename);
+        return
+    }
     const anchor = document.createElement('a');
     anchor.href = dataUrl;
     anchor.download = fileName;

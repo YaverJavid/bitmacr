@@ -68,7 +68,10 @@ execBucket("pixmacr_background_image", "1", () => {
 })
 
 
+
+
 id("add-image-background-checkbox").addEventListener("input", function() {
+    console.log(33);
     setBucketOnCondition("pixmacr_background_image", this.checked, "1", "0")
     document.body.style.backgroundImage = this.checked ? "url(icons/wallpapers/default.png)" : "none"
     document.querySelector("marquee").style.color = this.checked ? "white" : "var(--primary)"
