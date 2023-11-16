@@ -1,4 +1,4 @@
-let platform = "android"
+let platform = "web"
 
 if (platform == "android") {
     let cordova = document.createElement('script');
