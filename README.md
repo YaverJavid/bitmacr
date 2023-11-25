@@ -2,6 +2,9 @@
 
 ## Changelog
 
+### 9.5.1[25-Nov-2023]
+- Theme Layout Changed
+
 ### 9.5.0[16-Nov-2023]
 - Palette Manager Has Option To Extract The Colors From Canvas
 - Changed Layout 

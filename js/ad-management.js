@@ -8,4 +8,3 @@ const setAd = msg => adstrip.innerHTML = "#Ad : " + msg
 
 setAd(ADSTRINGS[Math.floor(Math.random() * (ADSTRINGS.length ))])
 
-

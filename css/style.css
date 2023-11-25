@@ -653,10 +653,13 @@ box-shadow: 0 0 1px gray; */
 
  #click-mode-selector img {
      height: 12vw;
-     margin: 0;
+      width: 12vw; 
+      margin: 0; 
      display: block;
-     padding: 1vw;
-     max-height: 70px
+      padding: 1vw; 
+     max-height: 70px;
+     max-height: 70px; 
+     
  }
 
  #click-mode-selector {
@@ -696,7 +699,8 @@ box-shadow: 0 0 1px gray; */
  }
 
  #main-selectors-container {
-     margin: 5vw;
+     
+     margin: 5vw 2.5vw ;
      display: flex;
      gap: 2.5vw;
  }

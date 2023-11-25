@@ -3,15 +3,15 @@ if (!localStorageREF.getItem("pixm_theme")) {
 }
 
 // BACKWARDS COMPATIBILITY 
-if((localStorageREF.getItem("pixm_theme").length - localStorageREF.getItem("pixm_theme").replaceAll(",","").length) == 2) localStorageREF.setItem("pixm_theme", localStorageREF.getItem("pixm_theme") + ",false")
+if ((localStorageREF.getItem("pixm_theme").length - localStorageREF.getItem("pixm_theme").replaceAll(",", "").length) == 2) localStorageREF.setItem("pixm_theme", localStorageREF.getItem("pixm_theme") + ",false")
 
 
 let currentTheme = localStorageREF.getItem("pixm_theme").split(",")
 setTheme(currentTheme[0], currentTheme[1], currentTheme[2], currentTheme[3] === "true")
 
-function setTheme(accent, primary, secondary , iconsInverted = false) {
-    if(accent == "#00000000") root.style.setProperty("--frostblur","blur(6px)")
-    else root.style.setProperty("--frostblur","blur(0px)")
+function setTheme(accent, primary, secondary, iconsInverted = false) {
+    if (accent == "#00000000") root.style.setProperty("--frostblur", "blur(6px)")
+    else root.style.setProperty("--frostblur", "blur(0px)")
     setSecondaryColor(secondary)
     setAccentColor(accent)
     setPrimaryColor(primary)
@@ -31,6 +31,7 @@ class Theme {
             this.secondary = secondary,
             this.name = name,
             this.primary = primary,
+            this.iconsInverted = iconsInverted,
             this.htmlString = Theme.getThemeButtonHTML(accent, primary, secondary, name, iconsInverted)
     }
     static getThemeButtonHTML(accent, primary, secondary, name, iconsInverted = false) {
@@ -43,24 +44,25 @@ class Theme {
 
 
 let themes = [
-    new Theme("#E1F5FE", "#000000", "#ffffff", "Light Theme"),
-    new Theme("#F9E1FE", "#000000", "#ffffff", "Violet Theme"),
-    new Theme("#ffffff", "#000000", "#ffffff", "Dark", true),
-    new Theme("#FEE1F1", "#000000", "#ffffff", "Pink Theme"),
-    new Theme("#F5FEE1", "#000000", "#ffffff", "Green Theme"),
-    new Theme("#FEE1E1", "#000000", "#ffffff", "Red Theme"),
-    new Theme("#F1E1FE", "#000000", "#ffffff", "Purple Theme"),
-    new Theme("#FEFCE1", "#000000", "#ffffff", "Yellow Theme"),
-    new Theme("#000000", "#ffffff", "#000000", "Obsidian [DARK]", true),
-    new Theme("#545454", "#ffffff", "#000000", "Greyish", true),
+    new Theme("#E1F5FE", "#000000", "#ffffff", "Blue Theme"),
+    new Theme("#FEFCE1", "#000000", "#ffffff", "Creame Theme"),
     new Theme("#ffffff", "#000000", "#ffffff", "White Theme"),
-    new Theme("#FFDE49", "#000000", "#ffffff", "Deep Slumber"),
-    new Theme("#00000000", "#ffffff", "#000000", "Frost", true)
+    new Theme("#F9E1FE", "#000000", "#ffffff", "Violet Theme"),
+    new Theme("#FEE1F1", "#000000", "#ffffff", "Pink Theme"),
+    new Theme("#FEE1E1", "#000000", "#ffffff", "Red Theme"),
+  new Theme("#00000000", "#ffffff", "#000000", "Frost", true),
+    new Theme("#000000", "#ffffff", "#000000", "Obsidian", true),
+    new Theme("#333333", "white", "#333333", "Greyish")
 ]
 
 for (let i = 0; i < themes.length; i++) {
     themesSection.innerHTML += themes[i].htmlString
+    themesSection.children[themesSection.children.length - 1].style.background = themes[i].accent
+    if (themes[i].iconsInverted) {
+        themesSection.children[themesSection.children.length - 1].style.background = "gray"
+    }
 }
+
 
 for (let i = 0; i < themeSelectors.length; i++) {
     themeSelectors[i].addEventListener("click", () => {
@@ -69,11 +71,10 @@ for (let i = 0; i < themeSelectors.length; i++) {
 }
 
 document.getElementById("theme-hue").addEventListener("input", function() {
-    setTheme(rgbToHex(cssToRGBAOrRgb(`hsla(${this.value}, 100%, 93%, 1)`)),  "#000000", "#ffffff")
+    setTheme(rgbToHex(cssToRGBAOrRgb(`hsla(${this.value}, 100%, 93%, 1)`)), "#000000", "#ffffff")
 })
 
 
-function handleIconInvertion(invert){
+function handleIconInvertion(invert) {
     root.style.setProperty("--iconInversion", `invert(${invert ? '1' : '0'})`)
 }
-
