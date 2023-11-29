@@ -2,6 +2,9 @@
 
 ## Changelog
 
+### 9.5.2[29-Nov-2023]
+- Added color formula system
+
 ### 9.5.1[25-Nov-2023]
 - Theme Layout Changed
 

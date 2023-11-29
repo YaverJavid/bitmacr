@@ -101,6 +101,54 @@ function getCurrentSelectedColor(preview = false) {
         color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value));
     else if (colorMods == "palette")
         color = rgbToHex(window.getComputedStyle(paletteCS.selected).getPropertyValue("background"))
+    else if (colorMods == "formula") {
+
+        if (colorFormulaTypeSelector.value == "hsl") {
+            let hue = evalFormula(id("cf-hsl-hue").value, colorFormulaVars)
+            let saturation = evalFormula(id("cf-hsl-saturation").value, colorFormulaVars)
+            let lightness = evalFormula(id("cf-hsl-lightness").value, colorFormulaVars)
+            if (hue === undefined || saturation === undefined || lightness === undefined)
+                color = "#000000"
+            else color = hslToHex(`hsl(${hue},${saturation},${lightness})`)
+        } else if (colorFormulaTypeSelector.value = "rgb") {
+            let r = evalFormula(id("cf-rgb-r").value, colorFormulaVars)
+            let g = evalFormula(id("cf-rgb-g").value, colorFormulaVars)
+            let b = evalFormula(id("cf-rgb-b").value, colorFormulaVars)
+            if (r === undefined || g === undefined || b === undefined)
+                color = "#000000"
+            else color = rgbaToHex(`rgba(${r}, ${g}, ${b}, 1)`).slice(0, 7)
+        }
+        [...id("vars").children].forEach((elem) => {
+            let name = elem.children[2].value
+            let changeAssignmentOperator = elem.children[6].value
+            let change = elem.children[7].value
+
+            let maxPossibleValue = elem.children[9].value == "" ? Infinity : parseFloat(elem.children[9].value)
+            let baseValue = elem.children[13].value == "" ? 0 : parseFloat(elem.children[13].value)
+            let minPossibleValue = elem.children[11].value == "" ? -Infinity : parseFloat(elem.children[11].value)
+            switch (changeAssignmentOperator) {
+                case "+=":
+                    colorFormulaVars[name] += evalFormula(change, colorFormulaVars)
+                    break
+                case "-=":
+                    colorFormulaVars[name] -= evalFormula(change, colorFormulaVars)
+                    break
+                case "*=":
+                    colorFormulaVars[name] *=evalFormula(change, colorFormulaVars)
+                    break
+                case "/=":
+                    colorFormulaVars[name] /= evalFormula(change, colorFormulaVars)
+                    break
+                case "=":
+                    colorFormulaVars[name] = evalFormula(change, colorFormulaVars)
+                    break
+            }
+            if (colorFormulaVars[name] > maxPossibleValue) colorFormulaVars[name] = baseValue
+            if (colorFormulaVars[name] < minPossibleValue) colorFormulaVars[name] = baseValue
+            elem.children[4].value = colorFormulaVars[name]
+            elem.children[4].style.width = elem.children[4].value.length + "ch";
+        })
+    }
     else
         color = currentSelectedColor
     let opacityHex = Math.round(opacity.value * 255).toString(16).padStart(2, '0')
@@ -114,7 +162,8 @@ colorStringInput.oninput = () => {
 }
 
 hueSpeedSlider.oninput = updateHueSpeedShower
-function updateHueSpeedShower () {
+
+function updateHueSpeedShower() {
     hueSpeedShower.innerHTML = `(${hueSpeedSlider.value}&deg;)`
 }
 
@@ -177,14 +226,14 @@ function setCellColor(cellElem, color) {
 
 }
 
-onlyFillIfColorIsCheckbox.oninput = ()=>{
+onlyFillIfColorIsCheckbox.oninput = () => {
     id("info-fill-rule").textContent = onlyFillIfColorIsCheckbox.checked ? "[FILL RULE ON]," : "fill rule off,"
-    if(onlyFillIfColorIsCheckbox.checked){
+    if (onlyFillIfColorIsCheckbox.checked) {
         id("info-fill-rule").style.color = "red"
-    }else{
+    } else {
         id("info-fill-rule").style.color = "var(--primary)"
     }
-    
+
 }
 
 function fillCell(cellElem, color) {

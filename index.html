@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sessions.css">
     <link rel="stylesheet" href="css/palettes.css">
+    <link rel="stylesheet" href="css/color-formula.css">
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6878751772112744"
@@ -73,6 +74,7 @@
                     <br>
                     <div id="color-m-selector" class="h-selector">
                         <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
+                        <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
                         <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
                         <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
                         <img src='icons/color-mode/random.png' alt='cm' data-value="random">
@@ -88,6 +90,27 @@
                             Or <input class="hex-input" type="text" id="color-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
                             <label for="select-color">Select Color From Cell : </label>
                             <input type="checkbox" name="select-color" id="select-color">
+                        </div>
+                        <div data-csname="formula">
+                            <div id="vars-section">
+                                <img src="icons/close.svg" id="add-var">
+                                <div id="vars">
+                                </div>
+                            </div>
+                            <br>
+                            <label for="color-formula-type">Input Type : </label>
+                            <select id="color-formula-type">
+                                <option value="hsl">HSL</option>
+                                <option value="rgb">RGB</option>
+                            </select>
+                            <div id="color-formula-inputs-container">
+                                <div data-cfinputname="hsl" class="active-cf-input">
+                                    hsl(<input type="text" id="cf-hsl-hue">, <input type="text" id="cf-hsl-saturation">, <input type="text" id="cf-hsl-lightness">)
+                                </div>
+                                <div data-cfinputname="rgb">
+                                    rgb(<input type="text" id="cf-rgb-r">,<input type="text" id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
+                                </div>
+                            </div>
                         </div>
                         <div data-csname="palette">
                             <div class="palette" id="palette-cs"></div>
@@ -142,7 +165,6 @@
                         </div>
                     </div>
                     <hr>
-                    <br>
                     <label for="opacity">Opacity : </label>
                     <input type="range" step="0.1" max="1" min="0" value="1" id="opacity">
                     <span id="opacity-shower">(1)</span>
@@ -584,8 +606,8 @@
                     <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-research.png" width="60%">
                     <br>
                     <br>
-                   <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
-                   <span>Pixmacr @ 9.5.0 (<a href="README.md">What's New?</a>)</span>
+                    <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
+                    <span>Pixmacr @ 9.5.2 (<a href="README.md">What's New?</a>)</span>
                 </div>
                 <div>
                     <br>
@@ -771,6 +793,7 @@
     <script src="js/replace.js"></script>
     <script src="js/ad-management.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/color-formula.js"></script>
     <script>
         // Post script
     </script>

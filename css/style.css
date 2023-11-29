@@ -160,8 +160,9 @@
 
 
  hr {
-     width: 95%;
+     width: 25%;
      opacity: 0.2;
+     
  }
 
 
@@ -220,7 +221,7 @@
  #bottom-control-container {
      width: 95vw;
      display: flex;
-     overflow: hidden;
+     overflow: hidden; 
      scroll-behavior: smooth;
      color: var(--primary) !important;
      margin-left: 2.5vw !important;
@@ -230,6 +231,10 @@
      box-shadow: 0 0 1px gray;
      backdrop-filter: var(--frostblur);
  }
+ 
+  #bottom-control-container > div{
+     width: 100%;
+  }
 
 
  h1 {

@@ -1,0 +1,74 @@
+#vars-section {
+    display: flex;
+    overflow-x: scroll;
+    align-items: center;
+    gap: 1vw;
+    flex-shrink: 0;
+    overflow-y: hidden;
+    width: 85%;
+    margin-left: 7.5%
+}
+
+#vars {
+    display: flex;
+    gap: 1vw;
+    flex-shrink: 0;
+
+}
+
+.var {
+    background: white;
+    display: flex;
+    border-radius: 4vh;
+    padding: 1vw;
+    gap: 1vw;
+    align-items: center;
+    border: 1px solid black;
+    height: 8vw;
+    flex-shrink: 0;
+
+}
+
+.var * {
+    margin: 0 !important;
+}
+
+.var span {}
+
+.var img {
+    width: 5vw;
+
+}
+
+.var input {
+    text-decoration: underline;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+
+#add-var {
+    margin: 0;
+    border-radius: 59vh;
+    background: white;
+    border: 1px solid black;
+    width: 7vw;
+    transform: rotate(45deg);
+    padding: 1vw;
+}
+
+#color-formula-inputs-container div input {
+    width: 15vw;
+}
+
+
+.active-cf-input{
+    display: initial!important
+}
+
+#color-formula-inputs-container > div{
+    display: none
+}
