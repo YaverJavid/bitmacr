@@ -1,6 +1,9 @@
-> THIS IS VERSION : `9.5.0`
+> THIS IS VERSION : `9.5.3`
 
 ## Changelog
+
+### 9.5.3[30-Nov-2023]
+- Added Custom Filter System 
 
 ### 9.5.2[29-Nov-2023]
 - Added color formula system

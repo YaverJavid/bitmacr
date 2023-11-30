@@ -1,4 +1,4 @@
-const simplifyColorsThreshold = document.getElementById("simplify-colors-threshold")
+const simplifyColorsThreshold = id("simplify-colors-threshold")
 
 
 function filterCanvas(filterFunction, ...args) {
@@ -13,7 +13,7 @@ function filterCanvas(filterFunction, ...args) {
 }
 
 
-document.getElementById("filter-invert").addEventListener("click", () => {
+id("filter-invert").onclick = () => {
     filterCanvas((pixel) => {
         return {
             r: 255 - pixel.r,
@@ -22,9 +22,9 @@ document.getElementById("filter-invert").addEventListener("click", () => {
             a: pixel.a
         };
     })
-})
+}
 
-document.getElementById("filter-sepia").addEventListener("click", () => {
+id("filter-sepia").onclick = () => {
     filterCanvas((pixel) => {
         let r = pixel.r;
         let g = pixel.g;
@@ -34,16 +34,16 @@ document.getElementById("filter-sepia").addEventListener("click", () => {
         pixel.b = (r * 0.272) + (g * 0.534) + (b * 0.131);
         return pixel;
     })
-})
+}
 
-
-document.getElementById("filter-grayscale").addEventListener("click", () => {
+id("filter-grayscale").onclick = () => {
     filterCanvas((pixel) => {
         const average = (pixel.r + pixel.g + pixel.b) / 3;
         return { r: average, g: average, b: average, a: pixel.a };
     })
-})
-document.getElementById("filter-solorize").addEventListener("click", () => {
+}
+
+id("filter-solorize").onclick = () => {
     filterCanvas((pixel) => {
         return {
             r: pixel.r > 128 ? 255 - pixel.r : pixel.r,
@@ -52,9 +52,9 @@ document.getElementById("filter-solorize").addEventListener("click", () => {
             a: pixel.a
         };
     })
-})
+}
 
-document.getElementById("shift-colors-button").addEventListener("click", () => {
+id("shift-colors-button").onclick = () => {
     filterCanvas((pixel) => {
         if (pixel.a == 0) return pixel
         return {
@@ -64,9 +64,9 @@ document.getElementById("shift-colors-button").addEventListener("click", () => {
             a: pixel.a
         };
     })
-})
+}
 
-document.getElementById("filter-duotone").addEventListener("click", () => {
+id("filter-duotone").onclick = () => {
     filterCanvas((pixel) => {
         let r = pixel.r
         let g = pixel.g
@@ -77,25 +77,24 @@ document.getElementById("filter-duotone").addEventListener("click", () => {
             return { a, r: 255, g: 255, b: 255 }
         return { a, r: 0, g: 0, b: 0 }
     })
-})
+}
 
-
-function simplifyColors(colors, th = 150){
+function simplifyColors(colors, th = 150) {
     let uniqueColors = [colors[0]]
     for (let i = 0; i < colors.length; i++) {
-        for(let j = 0; j < uniqueColors.length; j++){
-            if(matchHexColors(colors[i], uniqueColors[j], th)){
+        for (let j = 0; j < uniqueColors.length; j++) {
+            if (matchHexColors(colors[i], uniqueColors[j], th)) {
                 colors[i] = uniqueColors[j]
                 break
             }
-            if(j == uniqueColors.length-1) uniqueColors.push(colors[i])
+            if (j == uniqueColors.length - 1) uniqueColors.push(colors[i])
         }
-            
+
     }
     return colors
 }
 
-function simplifyColorsEvent(){
+function simplifyColorsEvent() {
     let hexColors = []
     let paintData = buffer.getItem()
     for (let i = 0; i < paintData.length; i++) {
@@ -105,7 +104,27 @@ function simplifyColorsEvent(){
     recordPaintData()
 }
 
-simplifyColorsThreshold.oninput = ()=>{
-    document.getElementById("simplify-colors-threshold-shower").textContent = `(${simplifyColorsThreshold.value})`
+simplifyColorsThreshold.oninput = () => {
+    id("simplify-colors-threshold-shower").textContent = `(${simplifyColorsThreshold.value})`
 }
 
+
+id("apply-custom-filter").onclick = () => {
+    let rExpr = id("custom-filter-r").value
+    let gExpr = id("custom-filter-g").value
+    let bExpr = id("custom-filter-b").value
+    rExpr = rExpr === "" ? "r" : rExpr
+    gExpr = gExpr === "" ? "g" : gExpr
+    bExpr = bExpr === "" ? "b" : bExpr
+
+    filterCanvas(p => {
+        with(p) {
+            return {
+                r: eval(rExpr),
+                g: eval(gExpr),
+                b: eval(bExpr),
+                a
+            }
+        }
+    })
+}

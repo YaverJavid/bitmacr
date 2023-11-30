@@ -1,8 +1,9 @@
 function toPixelArtDimentions(ctx, canvas) {
     let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height)
     let d = imgd.data
-    let totalVerticalTransitions = 1
+    let verticalTransitionsCountArray = []
     for (let hl = 0; hl < canvas.height; hl++) {
+        verticalTransitionsCountArray.unshift(0)
         let lc = undefined
         for (let i = 0; i < canvas.width * 4; i += 4) {
             let index = i + (hl * canvas.width * 4)
@@ -12,14 +13,13 @@ function toPixelArtDimentions(ctx, canvas) {
             let a = d[index + 3]
             let c = new RGB(r, g, b)
             if (lc)
-                if (!c.isEqual(lc)) totalVerticalTransitions++
+                if (!c.isEqual(lc)) verticalTransitionsCountArray[0] ++
             lc = new RGB(r, g, b)
         }
     }
-    let avgTransitions = totalVerticalTransitions / canvas.height
-    let width = Math.round(avgTransitions) + 1
+    let width = Math.max(...verticalTransitionsCountArray)
     let pixelSize = canvas.width / width
-    let height = Math.round((canvas.height - 1) / pixelSize)
+    let height = Math.round((canvas.height) / pixelSize)
     return { height, width }
 }
 
