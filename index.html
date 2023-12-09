@@ -74,12 +74,12 @@
                     <br>
                     <div id="color-m-selector" class="h-selector">
                         <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
-                        <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
                         <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
                         <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
+                        <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
                         <img src='icons/color-mode/random.png' alt='cm' data-value="random">
-                        <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
                         <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl">
+                        <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
                     </div>
                     <br>
                     <br>
@@ -502,7 +502,7 @@
                     <input type="button" value="Apply Filter" id="apply-custom-filter">
                     <br>
                     <span>
-                       &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b` are their original values for each pixel.
+                        &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b` are their original values for each pixel.
                     </span>
                 </div>
                 <div>
@@ -541,6 +541,17 @@
                 </div>
                 <div>
                     <br>
+                    <h3 data-tabname="shape-manager" data-type="hidden-tab">Shape Selector</h3>
+                    <br>
+                    <label for="add-shape" class="file-label">
+                        <input type="file" id="add-shape" accept="image/*">
+                        Add Shape
+                    </label>
+                    <br>
+                    <img src="" alt="" id="shape-preview" width="100">
+                </div>
+                <div>
+                    <br>
                     <h3 data-shortcutkey="e">Export Options</h3><br>
                     <label for="export-selector">
                         Export :
@@ -568,21 +579,27 @@
                     <span id="export-res-shower">(1024)</span>
                     <input id="export-res" type="range" min="100" , max="5000" value="1024">
                     <br>
-                    <input type="button" id="export-button2" value="Export (PNG)">
+                    <input type="button" id="export-button2" value="Export (PNG)" class="highlighted-border">
+                    <br>
+                    <hr>
+                    <br>
+                    <input type="button" value="Add Shape Here" onclick="gotoTab('shape-manager')">
+                    <br>
+                    <input type="button" value="Export With Shape" id="export-with-shape" class="highlighted-border">
                     <hr>
                     <h4>SVG</h4>
                     <label for="svg-pixel-size">Pixel Size : </label>
                     <input type="range" id="svg-pixel-size" max="50" min="1" value="1">
                     <span id="svg-pixel-size-shower">(1)</span>
                     <br>
-                    <input type="button" value="Export SVG" id="export-svg">
+                    <input type="button" value="Export SVG" id="export-svg" class="highlighted-border">
                     <br>
                     <hr>
                     <h4>Native</h4>
-                    <input type="button" value="Export SPAD)" id="export-raw-data"><br>
+                    <input type="button" value="Export (SPAD)" id="export-raw-data" class="highlighted-border"><br>
                     <hr>
                     <h4>Miscellaneous</h4>
-                    <input type="button" value="Export Mini" id="export-mini"> <br>
+                    <input type="button" value="Export Mini" id="export-mini" class="highlighted-border"> <br>
                     <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your pixel art.</span>
                     <hr>
                 </div>

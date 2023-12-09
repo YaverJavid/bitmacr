@@ -65,14 +65,62 @@ function createSVGFromArray(colorArray, pixelSize) {
 
 
 id("export-svg").onclick = () => {
-    downloadText("pixmacr.svg", createSVGFromArray(toPaintData2D(buffer.getItem()),parseInt(id("svg-pixel-size").value)))
+    downloadText("pixmacr.svg", createSVGFromArray(toPaintData2D(buffer.getItem()), parseInt(id("svg-pixel-size").value)))
 }
 
 id("export-res").oninput = () => {
     id("export-res-shower").textContent = `(${id("export-res").value})`
 }
 
-id("svg-pixel-size").oninput = () =>{
-  console.log("3");
-  id("svg-pixel-size-shower").textContent = `(${id("svg-pixel-size").value})`
+id("svg-pixel-size").oninput = () => {
+    console.log("3");
+    id("svg-pixel-size-shower").textContent = `(${id("svg-pixel-size").value})`
+}
+let shapeAdded = false
+id("add-shape").addEventListener("input", function() {
+    let file = this.files[0];
+    if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file)
+        reader.onload = (event) => {
+            id("shape-preview").src = event.target.result;
+            shapeAdded = true
+        }
+
+    }
+})
+
+id("export-with-shape").onclick = () => {
+    if (!shapeAdded) {
+        customAlert("No Shape Added!")
+        return
+    }
+    let exportImage = new Image()
+    let currentBuffer = buffer.getItem()
+    paintData = []
+    for (let i = 0; i < currentBuffer.length; i++)
+        paintData.push(rgbaToHex(currentBuffer[i]))
+    paintData = toPaintData2D(paintData)
+    exportImage.src = colorDataToImage(
+        paintData,
+        cellBorderWidthSlider.value,
+        cellBorderColorSelector.value
+    )
+    let canvas = document.createElement("canvas")
+    canvas.width = exportImage.naturalWidth
+    canvas.height = exportImage.naturalHeight
+    let ctx = canvas.getContext("2d")
+    // //ctx.drawImage(img, 0, 0)
+    let cw = canvas.width / cols
+    let shape = new Image;
+    shape.src = id("shape-preview").src
+    shape.onload = function() {
+        ctx.drawImage(exportImage, 0, 0)
+        for (let c = 0; c < cols; c++) {
+            for (let r = 0; r < rows; r++) {
+                ctx.drawImage(shape, c * cw, r * cw, cw, cw)
+            }
+        }
+        downloadImage(canvas.toDataURL(), "pix_shape.png")
+    }
 }

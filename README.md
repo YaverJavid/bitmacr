@@ -1,6 +1,10 @@
-> THIS IS VERSION : `9.5.3`
+> THIS IS VERSION : `9.5.4`
 
 ## Changelog
+
+### 9.5.4[09-Dec-2023]
+- Added Shape On Cell Support
+- Changed Layout 
 
 ### 9.5.3[30-Nov-2023]
 - Added Custom Filter System 
