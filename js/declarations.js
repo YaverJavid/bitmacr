@@ -3,8 +3,7 @@
    ONLY UNIVERSALLY REQUIRED DECLARATIONS ARE DEFINATELY HERE
 */
 
-const id = id => document.getElementById(id),
-    paintCells = document.getElementsByClassName("cell"),
+const paintCells = document.getElementsByClassName("cell"),
     cellsSlider = id('cells-slider'),
     paintZone = id('paint-zone'),
     colorSelector = id('color-selector'),
@@ -88,4 +87,3 @@ const id = id => document.getElementById(id),
     autoSave = id("auto-save"),
     addNewSessionOnOpening = id("add-new-session-on-opening"),
     pasteTransparentCellEffect = id("paste-transparent-cell-effect")
-

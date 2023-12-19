@@ -469,8 +469,7 @@
                     <input type="button" value="Save Drawing(Browser)" id="save-to-ls" onclick="saveCanvasAsDrawing()">
                     <br>
                     <div id="no-drawing-present-div">
-                        <!-- <img src="icons/banners/no-drawing-present.png" alt="no drawing present" width="80%"> -->
-                        <img src="icons/banners/no-drawing-present.png" alt="" width="64px">
+                        <img src="icons/tick.png" alt="" width="64px">
                         <br>
                         <span style="font-size: 1rem">Your Saved Drawings Should Appear Here.</span>
                         <br>
@@ -806,6 +805,12 @@
         <button onclick="okAlert()" id="alert-ok-button">Ok</button>
         <br>
     </div>
+        <script src="js/process.js"></script>
+<script>
+    //Pre Script
+    const id = id => document.getElementById(id)
+    startProcess("Starting...")
+</script>
     <script src="js/utils.js"></script>
     <script src="js/selec.js"></script>
     <script src="js/alert.js"></script>
@@ -841,10 +846,10 @@
     <script src="js/app.js"></script>
     <script src="js/color-formula.js"></script>
     <script src="js/formula-methods.js"></script>
-    <script src="js/process.js"></script>
 
     <script>
         // Post script
+        endProcess()
     </script>
 </body>
 
