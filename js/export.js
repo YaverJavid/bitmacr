@@ -104,13 +104,14 @@ id("export-with-shape").onclick = () => {
     exportImage.src = colorDataToImage(
         paintData,
         cellBorderWidthSlider.value,
-        cellBorderColorSelector.value
+        cellBorderColorSelector.value,
+        false,
+        id("export-res").value
     )
     let canvas = document.createElement("canvas")
     canvas.width = exportImage.naturalWidth
     canvas.height = exportImage.naturalHeight
     let ctx = canvas.getContext("2d")
-    // //ctx.drawImage(img, 0, 0)
     let cw = canvas.width / cols
     let shape = new Image;
     shape.src = id("shape-preview").src
@@ -118,7 +119,8 @@ id("export-with-shape").onclick = () => {
         ctx.drawImage(exportImage, 0, 0)
         for (let c = 0; c < cols; c++) {
             for (let r = 0; r < rows; r++) {
-                ctx.drawImage(shape, c * cw, r * cw, cw, cw)
+                if (id("add-shape-on-transparent-cells").checked || paintData[r][c] != "#00000000")
+                    ctx.drawImage(shape, c * cw, r * cw, cw, cw)
             }
         }
         downloadImage(canvas.toDataURL(), "pix_shape.png")

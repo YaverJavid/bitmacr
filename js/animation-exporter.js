@@ -11,6 +11,7 @@ document.getElementById("export-gif").onclick = async () => {
         customAlert("No Frames Present!")
         return
     }
+    startProcess("Rendering Gif...")
     let gif = new GIFEncoder()
     const format = "rgb444";
     for (let i = 0; i < framesContainer.children.length; i++) {
@@ -28,11 +29,12 @@ document.getElementById("export-gif").onclick = async () => {
         gif.writeFrame(index, img.width, img.height, { palette, delay });
         await new Promise(resolve => setTimeout(resolve, 0));
     }
-
+    
     gif.finish()
+    
     const buffer = gif.bytesView();
     download(buffer, 'animation.gif', { type: 'image/gif' });
-
+    endProcess()
 }
 
 function imageToRGBAUint8Array(image) {

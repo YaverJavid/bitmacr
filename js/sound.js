@@ -16,3 +16,4 @@ class SoundFeedback{
 const saveSound = new SoundFeedback("audio/effect.save.wav")
 const deleteSound = new SoundFeedback("audio/effect.delete.wav")
 const CIDSound = new SoundFeedback("audio/effect.cid.wav")
+const mouseClickSound = new SoundFeedback("audio/effect.mouse-click.mp3")

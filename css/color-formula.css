@@ -17,7 +17,7 @@
 }
 
 .var {
-    background: white;
+    background: var(--secondary);
     display: flex;
     border-radius: 4vh;
     padding: 1vw;
@@ -47,6 +47,7 @@
     border-radius: 0;
     background: transparent !important;
     box-shadow: none !important;
+    color: var(--primary)
 }
 
 
@@ -67,6 +68,10 @@
 
 .active-cf-input{
     display: initial!important
+}
+
+.active-cf-input input{
+    color:var(--primary);
 }
 
 #color-formula-inputs-container > div{

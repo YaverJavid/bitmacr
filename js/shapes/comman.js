@@ -210,6 +210,7 @@ function removeActiveHintFromShapeElems() {
 for (let i = 0; i < shapesElems.length; i++) {
     shapesElems[i].onclick = () => {
         removeActiveHintFromShapeElems()
+        mouseClickSound.play()
         shapesElems[i].classList.add(ACTIVE_SHAPE_CLASS)
         paintModeSelector.value = shapesElems[i].dataset.value
         hideAllShapeSettings()

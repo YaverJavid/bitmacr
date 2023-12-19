@@ -1,6 +1,10 @@
-> THIS IS VERSION : `9.5.4`
 
 ## Changelog
+
+### 9.5.5[19-Dec-2023]
+- Added Loader For Gif Exportation
+- Changed No Drawings Present Banner & Text
+- Sound On Color Or Shape Change
 
 ### 9.5.4[09-Dec-2023]
 - Added Shape On Cell Support

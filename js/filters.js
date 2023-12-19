@@ -6,7 +6,7 @@ function filterCanvas(filterFunction, ...args) {
     for (let i = 0; i < currentPaintData.length; i++) {
         let colorObj = convertRGBAStrToObj(currentPaintData[i])
         if (colorObj.a === undefined) colorObj.a = 1
-        setCellColor(paintCells[i], colorObjectToRGBA(filterFunction(colorObj, ...args)))
+        setCellColor(paintCells[i], colorObjectToRGBA(filterFunction(colorObj,i, ...args)))
 
     }
     recordPaintData()
@@ -14,7 +14,7 @@ function filterCanvas(filterFunction, ...args) {
 
 
 id("filter-invert").onclick = () => {
-    filterCanvas((pixel) => {
+    filterCanvas((pixel, pid) => {
         return {
             r: 255 - pixel.r,
             g: 255 - pixel.g,
@@ -25,7 +25,7 @@ id("filter-invert").onclick = () => {
 }
 
 id("filter-sepia").onclick = () => {
-    filterCanvas((pixel) => {
+    filterCanvas((pixel, pid) => {
         let r = pixel.r;
         let g = pixel.g;
         let b = pixel.b;
@@ -37,14 +37,14 @@ id("filter-sepia").onclick = () => {
 }
 
 id("filter-grayscale").onclick = () => {
-    filterCanvas((pixel) => {
+    filterCanvas((pixel, pid) => {
         const average = (pixel.r + pixel.g + pixel.b) / 3;
         return { r: average, g: average, b: average, a: pixel.a };
     })
 }
 
 id("filter-solorize").onclick = () => {
-    filterCanvas((pixel) => {
+    filterCanvas((pixel, pid) => {
         return {
             r: pixel.r > 128 ? 255 - pixel.r : pixel.r,
             g: pixel.g > 128 ? 255 - pixel.g : pixel.g,
@@ -55,7 +55,7 @@ id("filter-solorize").onclick = () => {
 }
 
 id("shift-colors-button").onclick = () => {
-    filterCanvas((pixel) => {
+    filterCanvas((pixel, pid) => {
         if (pixel.a == 0) return pixel
         return {
             r: Math.min(255, pixel.r + (Math.round(Math.random() * 50) - 25)),
@@ -67,7 +67,7 @@ id("shift-colors-button").onclick = () => {
 }
 
 id("filter-duotone").onclick = () => {
-    filterCanvas((pixel) => {
+    filterCanvas((pixel, pid) => {
         let r = pixel.r
         let g = pixel.g
         let b = pixel.b
@@ -104,9 +104,8 @@ function simplifyColorsEvent() {
     recordPaintData()
 }
 
-simplifyColorsThreshold.oninput = () => {
-    id("simplify-colors-threshold-shower").textContent = `(${simplifyColorsThreshold.value})`
-}
+simplifyColorsThreshold.oninput = () => id("simplify-colors-threshold-shower").textContent = `(${simplifyColorsThreshold.value})`
+
 
 
 id("apply-custom-filter").onclick = () => {
@@ -117,7 +116,7 @@ id("apply-custom-filter").onclick = () => {
     gExpr = gExpr === "" ? "g" : gExpr
     bExpr = bExpr === "" ? "b" : bExpr
 
-    filterCanvas(p => {
+    filterCanvas((p, pid) => {
         with(p) {
             return {
                 r: eval(rExpr),
@@ -128,3 +127,5 @@ id("apply-custom-filter").onclick = () => {
         }
     })
 }
+
+

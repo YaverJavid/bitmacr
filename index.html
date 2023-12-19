@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/sessions.css">
     <link rel="stylesheet" href="css/palettes.css">
     <link rel="stylesheet" href="css/color-formula.css">
+    <link rel="stylesheet" href="css/process.css">
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6878751772112744"
@@ -468,11 +469,11 @@
                     <input type="button" value="Save Drawing(Browser)" id="save-to-ls" onclick="saveCanvasAsDrawing()">
                     <br>
                     <div id="no-drawing-present-div">
-                        <img src="icons/banners/no-drawing-present.png" alt="no drawing present" width="80%">
+                        <!-- <img src="icons/banners/no-drawing-present.png" alt="no drawing present" width="80%"> -->
+                        <img src="icons/banners/no-drawing-present.png" alt="" width="64px">
                         <br>
-                        <span style="font-size: 1.3rem">You've Finished</span>
+                        <span style="font-size: 1rem">Your Saved Drawings Should Appear Here.</span>
                         <br>
-                        <span>No Drawings Saved Yet</span>
                     </div>
                     <div id="drawings">
                     </div>
@@ -585,6 +586,9 @@
                     <br>
                     <input type="button" value="Add Shape Here" onclick="gotoTab('shape-manager')">
                     <br>
+                    <label for="add-shape-on-transparent-cells">Add Shape On Transparent Cells : </label>
+                    <input type="checkbox" id="add-shape-on-transparent-cells" checked>
+                    <br>
                     <input type="button" value="Export With Shape" id="export-with-shape" class="highlighted-border">
                     <hr>
                     <h4>SVG</h4>
@@ -642,7 +646,7 @@
                     <br>
                     <br>
                     <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
-                    <span>Pixmacr @ 9.5.3 (<a href="README.md">What's New?</a>)</span>
+                    <span>Pixmacr @ 9.5.5 (<a href="README.md">What's New?</a>)</span>
                 </div>
                 <div>
                     <br>
@@ -788,6 +792,13 @@
     <br>
     <!--The following tag will be used for color conversion-->
     <div id="psedo"></div>
+    <div id="process">
+        <img src="icons/loader.png" alt="" width="64px" class="loader">
+        <br>
+        <span>Please wait...</span>
+        <br>
+        <span id="process-info">Gif is being rendered... Shouldn't take long...</span>
+    </div>
     <div id="alert">
         <p id="alert-heading">The Page Says : </p>
         <p id="alert-message"></p>
@@ -829,6 +840,9 @@
     <script src="js/ad-management.js"></script>
     <script src="js/app.js"></script>
     <script src="js/color-formula.js"></script>
+    <script src="js/formula-methods.js"></script>
+    <script src="js/process.js"></script>
+
     <script>
         // Post script
     </script>
