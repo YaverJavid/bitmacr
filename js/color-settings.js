@@ -338,7 +338,7 @@ function removeHintFromCmodes() {
 for (let i = 0; i < cmodes.length; i++) {
     cmodes[i].onclick = () => {
         removeHintFromCmodes()
-        mouseClickSound.play()
+        // mouseClickSound.play()
         cmodes[i].classList.add(ACTIVE_CMODE_CTOKEN)
         colorMSelector.value = cmodes[i].dataset.value
         refreshColorMode()

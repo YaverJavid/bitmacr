@@ -126,3 +126,5 @@ id("export-with-shape").onclick = () => {
         downloadImage(canvas.toDataURL(), "pix_shape.png")
     }
 }
+
+
