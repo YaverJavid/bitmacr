@@ -70,7 +70,7 @@ id("image-pixelart-to-pixel").addEventListener("input", function(event) {
                 return
             }
             let data = imageToPixeArtData(img, dimensions.width, dimensions.height)
-            addCanvas(dimensions.width, dimensions.height)
+            addCanvas(dimensions.height, dimensions.width)
             applyPaintData(data)
             buffer.clearStack()
             recordPaintData()
