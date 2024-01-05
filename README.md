@@ -1,6 +1,9 @@
 
 ## Changelog
 
+### 9.5.6[30-Dec-2023]
+- Auto Size Detection For Data From An Image
+
 ### 9.5.5[19-Dec-2023]
 - Added Loader For Gif Exportation
 - Changed No Drawings Present Banner & Text
