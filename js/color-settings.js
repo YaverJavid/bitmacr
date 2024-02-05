@@ -75,7 +75,8 @@ function getCurrentSelectedColor(preview = false) {
             case "color-history":
                 if (usedColors.length == 0) {
                     customAlert("No Color Present In Color History!")
-                    color = currentSelectedColor
+                    color = "#000000"
+                    break 
                 }
                 color = usedColors[Math.floor(Math.random() * usedColors.length)]
                 break;

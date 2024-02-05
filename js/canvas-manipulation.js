@@ -139,12 +139,14 @@ id('clear-button').addEventListener("click", () => {
     recordPaintData()
 })
 
-id('fill-all-button').addEventListener("click", () => {
+id('fill-all-button').onclick = fillAll
+
+function fillAll(){
     for (let i = 0; i < paintCells.length; i++) {
         setCellColor(paintCells[i], getCurrentSelectedColor())
     }
     recordPaintData()
-})
+}
 
 cellsSlider.addEventListener("change", () => changeCanvasSize())
 document.getElementById("increment-canvas-size").addEventListener("click", () => changeCanvasSize(1))

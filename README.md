@@ -1,6 +1,9 @@
 
 ## Changelog
 
+### 9.5.7[05-Feb-2024]
+- Added A Formula Logger
+
 ### 9.5.6[30-Dec-2023]
 - Auto Size Detection For Data From An Image
 

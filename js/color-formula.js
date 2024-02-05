@@ -1,10 +1,12 @@
-const VAR_OPERATORS = ["+", "","-", "*", "/"]
+const VAR_OPERATORS = ["+", "", "-", "*", "/"]
 
 var resizableInputs = document.querySelectorAll('.resizable-input'); // get the input element
 let colorFormulaTypeSelector = id("color-formula-type")
 let colorFormulaVars = {
 
 }
+
+let formulaLogReport = new VisualLogReport(id("error-log"), 10)
 
 const COLOR_FORMULA_UI_SEPARATOR = "•"
 const ACTIVE_CF_INPUT_TOKEN = "active-cf-input"
@@ -79,7 +81,8 @@ function evalFormula(formula, data) {
             return eval(formula)
         }
         catch (e) {
-            console.log(`The Formula "${formula}" resulted in error "${e}".`);
+            let err = `The Formula "${formula}" resulted in error "${e}"`
+            formulaLogReport.log(err)
         }
     }
 }
@@ -88,11 +91,15 @@ function removeColorFormulaVar(elem) {
     customConfirm("Do you really want to delete this variable?", () => elem.parentNode.remove())
 }
 
-colorFormulaTypeSelector.oninput = ()=>{
+colorFormulaTypeSelector.oninput = () => {
     for (let i = 0; i < colorFormulaInputsContainer.children.length; i++) {
-        if(colorFormulaInputsContainer.children[i].classList.contains(ACTIVE_CF_INPUT_TOKEN))
+        if (colorFormulaInputsContainer.children[i].classList.contains(ACTIVE_CF_INPUT_TOKEN))
             colorFormulaInputsContainer.children[i].classList.remove(ACTIVE_CF_INPUT_TOKEN)
-        if(colorFormulaInputsContainer.children[i].dataset.cfinputname == colorFormulaTypeSelector.value)
+        if (colorFormulaInputsContainer.children[i].dataset.cfinputname == colorFormulaTypeSelector.value)
             colorFormulaInputsContainer.children[i].classList.add(ACTIVE_CF_INPUT_TOKEN)
     }
+}
+
+id("download-full-log-report").onclick = ()=>{
+    downloadText("pixmacrLogReport.txt", formulaLogReport.report)
 }

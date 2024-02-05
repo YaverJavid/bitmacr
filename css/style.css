@@ -234,6 +234,7 @@
 
  #bottom-control-container>div {
      width: 100%;
+     /*scroll-snap-align: center*/
  }
 
 
@@ -777,8 +778,24 @@ box-shadow: 0 0 1px gray; */
 
  .highlighted-border {
      background: linear-gradient(white, white) padding-box,
-     linear-gradient(to right, darkblue, darkorchid) border-box;
-     border-radius: 20px!important;
-     border: 8px solid transparent!important;
+         linear-gradient(to right, darkblue, darkorchid) border-box;
+     border-radius: 20px !important;
+     border: 8px solid transparent !important;
      border-color: transparent;
+ }
+
+ #error-log * {
+     margin:  0;
+     color: red;
+     white-space: nowrap;
+     overflow-x: auto;
+ }
+
+
+ #error-log> :nth-child(even) {
+     background-color: white;
+ }
+
+ #error-log> :nth-child(odd) {
+     background-color: #E7E5EC;
  }

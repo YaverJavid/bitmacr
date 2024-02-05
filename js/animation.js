@@ -16,6 +16,7 @@ function deleteFrame(elem) {
             updateFrameCount()
         })
 }
+
 function getFrameHTML(src) {
     return `<div class="frame" style="background: ${animationBackgroundsColor[Math.floor(Math.random() * animationBackgroundsColor.length)]}">
                 <img src="${src}" class="frame-preview image" width="100">
@@ -45,7 +46,7 @@ function addFrame() {
         addFrameAsTrace(framesContainer.children[framesContainer.children.length - 1].children[1].children[4])
     }
     if (id("auto-fallback-to-background").checked) {
-        if (animationBackground != undefined && (cols* rows == animationBackground.length)) {
+        if (animationBackground != undefined && (cols * rows == animationBackground.length)) {
             applyPaintData(animationBackground)
             recordPaintData()
         }

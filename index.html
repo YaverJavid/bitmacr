@@ -73,6 +73,7 @@
                     <br>
                     <h3 data-shortcutkey="s">General</h3>
                     <br>
+
                     <div id="color-m-selector" class="h-selector">
                         <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
                         <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
@@ -112,6 +113,8 @@
                                     rgb(<input type="text" id="cf-rgb-r">,<input type="text" id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
                                 </div>
                             </div>
+                            <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
+                            <input value="Logs" onclick="gotoTab('error-log')" type="button">
                         </div>
                         <div data-csname="palette">
                             <div class="palette" id="palette-cs"></div>
@@ -650,7 +653,7 @@
                     <br>
                     <br>
                     <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
-                    <span>Pixmacr @ 9.5.6 (<a href="README.md">What's New?</a>)</span>
+                    <span>Pixmacr @ 9.5.7 (<a href="README.md">What's New?</a>)</span>
                 </div>
                 <div>
                     <br>
@@ -784,7 +787,16 @@
                         <option value="triangle">triangle</option>
                     </select>
                     <br>
-
+                </div>
+                <div>
+                    <br>
+                    <h3 data-type="hidden-tab" data-tabname="error-log">Error Logger</h3>
+                    <br>
+                    <input type="button" value="Download Full Log Report" id="download-full-log-report">
+                    <br>
+                    <h4>Last 100 Errors : </h4>
+                    <div id="error-log">
+                    </div>
                 </div>
             </div>
         </div>
@@ -816,6 +828,7 @@
     <script src="js/utils.js"></script>
     <script src="js/selec.js"></script>
     <script src="js/alert.js"></script>
+    <script src="js/logging.js"></script>
     <script src="js/lib.local-storage-tools.js"></script>
     <script src="js/lib.slider-plus-minus.js"></script>
     <script src="js/declarations.js"></script>
@@ -848,7 +861,7 @@
     <script src="js/app.js"></script>
     <script src="js/color-formula.js"></script>
     <script src="js/formula-methods.js"></script>
-
+    
     <script>
         // Post script
         endProcess()
