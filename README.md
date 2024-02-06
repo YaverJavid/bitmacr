@@ -1,6 +1,9 @@
 
 ## Changelog
 
+### 9.5.8[06-Feb-2024]
+- Added Custom Script Support
+
 ### 9.5.7[05-Feb-2024]
 - Added A Formula Logger
 

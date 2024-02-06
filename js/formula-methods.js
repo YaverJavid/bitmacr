@@ -21,3 +21,6 @@ const avgc = (r,g,b) => (r+g+b)/3
 // }
 
 
+function $(id) {
+    return colorFormulaVars[id]
+}

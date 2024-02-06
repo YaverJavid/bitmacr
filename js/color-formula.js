@@ -6,7 +6,7 @@ let colorFormulaVars = {
 
 }
 
-let formulaLogReport = new VisualLogReport(id("error-log"), 10)
+let logReport = new VisualLogReport(id("error-log"), 100)
 
 const COLOR_FORMULA_UI_SEPARATOR = "•"
 const ACTIVE_CF_INPUT_TOKEN = "active-cf-input"
@@ -82,7 +82,7 @@ function evalFormula(formula, data) {
         }
         catch (e) {
             let err = `The Formula "${formula}" resulted in error "${e}"`
-            formulaLogReport.log(err)
+            logReport.log(err)
         }
     }
 }
@@ -101,5 +101,5 @@ colorFormulaTypeSelector.oninput = () => {
 }
 
 id("download-full-log-report").onclick = ()=>{
-    downloadText("pixmacrLogReport.txt", formulaLogReport.report)
+    downloadText("pixmacrLogReport.txt", logReport.report)
 }

@@ -799,3 +799,9 @@ box-shadow: 0 0 1px gray; */
  #error-log> :nth-child(odd) {
      background-color: #E7E5EC;
  }
+ 
+ #custom-script{
+     width: 90%;
+     resize: vertical;
+     height: 45vh;
+ }

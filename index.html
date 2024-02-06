@@ -628,6 +628,18 @@
                     <br>
                     <div id="frames"></div>
                 </div>
+                <div>
+                    <br>
+                    <h3>Custom Script</h3>
+                    <br>
+                    <textarea id="custom-script"></textarea>
+                    <br>
+                    <br>
+                    <input type="button" value="Execute" id="execute-custom-script">
+                    <br>
+                    <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
+                    <input value="Logs" onclick="gotoTab('error-log')" type="button">
+                </div>
                 <div id="themes-section">
                     <br>
                     <h3 data-shortcutkey="h" data-type="hidden-tab" data-tabname="themes">Themes</h3><br>
@@ -653,7 +665,7 @@
                     <br>
                     <br>
                     <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
-                    <span>Pixmacr @ 9.5.7 (<a href="README.md">What's New?</a>)</span>
+                    <span>Pixmacr @ 9.5.8 (<a href="README.md">What's New?</a>)</span>
                 </div>
                 <div>
                     <br>
@@ -672,6 +684,7 @@
                     <label for="add-image-background-checkbox">Use Image Background : </label>
                     <input type="checkbox" id="add-image-background-checkbox"> <br>
                 </div>
+
                 <div id="drawing-checker-section">
                     <br>
                     <h3 data-type="hidden-tab" data-tabname="drawing_preview">Drawing Preview</h3>
@@ -792,12 +805,15 @@
                     <br>
                     <h3 data-type="hidden-tab" data-tabname="error-log">Error Logger</h3>
                     <br>
+                    <span>&#9432;This only includes errors of user formulas and custom scripts.</span>
+                    <br>
                     <input type="button" value="Download Full Log Report" id="download-full-log-report">
                     <br>
                     <h4>Last 100 Errors : </h4>
                     <div id="error-log">
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -861,7 +877,7 @@
     <script src="js/app.js"></script>
     <script src="js/color-formula.js"></script>
     <script src="js/formula-methods.js"></script>
-    
+    <script src="js/custom-script-manager.js"></script>
     <script>
         // Post script
         endProcess()
