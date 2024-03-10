@@ -5,11 +5,15 @@ const paletteCreatorPalette = id("palette-creator-palette")
 const PName = id("p-name")
 const paletteSelector = id("palette-selector")
 const paletteCS = id("palette-cs")
-const PALETTE_LIMIT = 256
+const PALETTE_LIMIT = 128
 setUpLocalStorageBucket(B_SAVED_PALETTES, '{"Flowing Water":["lightblue", "deeppink"]}')
 
 let savedPalettes = JSON.parse(getBucketVal(B_SAVED_PALETTES))
 
+let savedPaletteKeys = Object.keys(savedPalettes)
+for (let i = 0; i < savedPaletteKeys.length; i++) {
+   if("." == savedPaletteKeys[i][0]) delete savedPalettes[savedPaletteKeys[i]]
+}
 
 for (let prop in savedPalettes) {
     let option = document.createElement("option")
@@ -44,15 +48,15 @@ function addEventListenerOnPallete(palette) {
     }
 }
 
-function addColorToPaletteManager(color){
-  if (paletteCreatorPalette.children.length == PALETTE_LIMIT) {
-    customAlert("Cannot Add More Colours, Reached Limit : " + PALETTE_LIMIT + " !")
-    return
-  }
-  const newColor = document.createElement("div")
-  newColor.style.background = color ? color : getRandColor()
-  paletteCreatorPalette.appendChild(newColor)
-  addEventListenerOnPallete(paletteCreatorPalette)
+function addColorToPaletteManager(color) {
+    if (paletteCreatorPalette.children.length == PALETTE_LIMIT) {
+        customAlert("Cannot Add More Colours, Reached Limit : " + PALETTE_LIMIT + " !")
+        return
+    }
+    const newColor = document.createElement("div")
+    newColor.style.background = color ? color : getRandColor()
+    paletteCreatorPalette.appendChild(newColor)
+    addEventListenerOnPallete(paletteCreatorPalette)
 }
 
 document.getElementById("p-add-new-color").onclick = () => {
@@ -147,8 +151,7 @@ id("p-copy-selected").onclick = () => {
     addEventListenerOnPallete(paletteCreatorPalette)
 }
 
-id("p-extract-from-canvas").onclick = ()=>{
-  let allUniqueColorsFromCanvas = Array.from(new Set(buffer.getItem().slice()))
-  allUniqueColorsFromCanvas.forEach(color => addColorToPaletteManager(color))
+id("p-extract-from-canvas").onclick = () => {
+    let allUniqueColorsFromCanvas = Array.from(new Set(buffer.getItem().slice()))
+    allUniqueColorsFromCanvas.forEach(color => addColorToPaletteManager(color))
 }
-
