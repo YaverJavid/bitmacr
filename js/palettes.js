@@ -98,7 +98,8 @@ document.getElementById("save-palette").onclick = () => {
     }
     savedPalettes[PName.value] = palette
     updatePaletteSelector()
-    customAlert("The Palette Has Been Saved!")
+    if(PName.value[0] == ".") customAlert("The palette has been TEMPORARILY SAVED, slated for vanishing upon page refresh. Palette titles prefixed with a dot (.) are earmarked as provisional. Kindly expunge the dot (.) if its impermanence wasn't your intention!")
+    else customAlert("The Palette Has Been Saved!")
 }
 
 paletteSelector.oninput = () => {
