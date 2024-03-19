@@ -14,16 +14,16 @@ let setAccentColor = color => root.style.setProperty("--accent", color)
 let setSecondaryColor = color => root.style.setProperty("--secondary", color)
 let setPrimaryColor = color => root.style.setProperty("--primary", color)
 
-let colorToBeReplaced = colorToBeReplacedSelector.value
-let colorToReplaceWith = colorToReplaceWithSelector.value
+let targetColor = colorToBeReplacedSelector.value
+let replacementColor = colorToReplaceWithSelector.value
 colorToBeReplacedSelector.addEventListener("change", () => {
-    colorToBeReplaced = colorToBeReplacedSelector.value
+    targetColor = colorToBeReplacedSelector.value
 })
 
 
 
 colorToReplaceWithSelector.addEventListener("change", () => {
-    colorToReplaceWith = colorToReplaceWithSelector.value
+    replacementColor = colorToReplaceWithSelector.value
 })
 
 
@@ -174,14 +174,14 @@ function addCanvas(argRows, argCols, clearStack = true) {
                 changeCellBorderColor(borderColor)
                 if (colorCopierCheckboxes.selectColorForFind.checked) {
                     colorToBeReplacedSelector.value = selectedColor
-                    colorToBeReplaced = selectedColor
+                    targetColor = selectedColor
                     colorCopierCheckboxes.selectColorForFind.checked = false
                 } else if (colorCopierCheckboxes.colorSelectCheckbox.checked) {
                     setCurrentColor(selectedColor)
                     colorCopierCheckboxes.colorSelectCheckbox.checked = false
                 } else if (colorCopierCheckboxes.selectColorForReplacer.checked) {
                     colorToReplaceWithSelector.value = selectedColor
-                    colorToReplaceWith = selectedColor
+                    replacementColor = selectedColor
                     colorCopierCheckboxes.selectColorForReplacer.checked = false
                 } else if (colorCopierCheckboxes.copyColorFromCellCheckbox.checked) {
                     copyTextToClipboard(selectedColor);
@@ -491,14 +491,17 @@ updateCopyTargetString()
 
 
 
-replaceButton.addEventListener("click", () => {
-    for (var i = 0; i < paintCells.length; i++) {
+replaceButton.onclick = replace
+
+
+function replace(ignore) {
+    for (let i = 0; i < paintCells.length; i++) {
         let currentColor = rgbToHex(getComputedStyle(paintCells[i]).getPropertyValue("background-color"))
-        if (matchHexColors(colorToBeReplaced, currentColor, colorMatchThresholdSlider.value))
-            setCellColor(paintCells[i], replaceWithNormalCheckbox.checked ? getCurrentSelectedColor() : colorToReplaceWith)
+        if (matchHexColors(targetColor, currentColor, colorMatchThresholdSlider.value))
+            setCellColor(paintCells[i], replaceWithNormalCheckbox.checked ? getCurrentSelectedColor() : replacementColor)
     }
     recordPaintData()
-})
+}
 
 function changeCellBorderColor(color) {
     for (let i = 0; i < paintCells.length; i++) {
@@ -562,14 +565,14 @@ id("color-selector-hex").addEventListener("input", function() {
 id("color-to-be-replaced-selector-hex").addEventListener("input", function() {
     if (validateHex(this.value)) {
         colorToBeReplacedSelector.value = this.value
-        colorToBeReplaced = this.value
+        targetColor = this.value
     }
 })
 
 id("color-to-replace-with-selector-hex").addEventListener("input", function() {
     if (validateHex(this.value)) {
         colorToReplaceWithSelector.value = this.value
-        colorToReplaceWith = this.value
+        replacementColor = this.value
     }
 })
 

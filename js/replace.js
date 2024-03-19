@@ -1,10 +1,10 @@
 
 
-id("replace-content-awarely").onclick = () => {
+id("replace-content-awarely").onclick= ()=>{
     let pd = toPaintData2D(buffer.getItem().slice())
-    let targetColor = hexToRgbaObject(colorToBeReplaced)
-    targetColor = `rgba(${targetColor.r}, ${targetColor.g}, ${targetColor.b}, ${targetColor.a})`
-    applyPaintData(replaceContentAwarely(pd, targetColor).flat())
+    let tc = hexToRgbaObject(targetColor)
+    tc = `rgba(${tc.r}, ${tc.g}, ${tc.b}, ${tc.a})`
+    applyPaintData(replaceContentAwarely(pd, tc).flat())
     recordPaintData()
 }
 
@@ -74,3 +74,4 @@ function replaceContentAwarely(colorArray, targetColor) {
     
     return colorArray;
 }
+
