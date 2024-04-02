@@ -8,7 +8,8 @@
      --trace-image-opacity: 50%;
      --trace-image: none;
      --iconInversion: invert(0);
-     --frostblur: blur(5px)
+     --frostblur: blur(5px);
+     color-scheme: only light;
  }
 
 
@@ -785,7 +786,7 @@ box-shadow: 0 0 1px gray; */
  }
 
  #error-log * {
-     margin:  0;
+     margin: 0;
      color: red;
      white-space: nowrap;
      overflow-x: auto;
@@ -799,8 +800,8 @@ box-shadow: 0 0 1px gray; */
  #error-log> :nth-child(odd) {
      background-color: #E7E5EC;
  }
- 
- #custom-script{
+
+ #custom-script {
      width: 90%;
      resize: vertical;
      height: 45vh;
