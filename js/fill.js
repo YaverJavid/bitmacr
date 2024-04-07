@@ -1,5 +1,4 @@
 function fill(a2d, x, y, main = true) {
-    if(main) fc = 0
     let xln = a2d[0].length,
         yln = a2d.length,
         xt = x,
@@ -20,5 +19,34 @@ function fill(a2d, x, y, main = true) {
     return a2d
         
 }
+function fill(a2d, x, y, main = true) {
+    const queue = [];
+    const xln = a2d[0].length;
+    const yln = a2d.length;
+    const currentColor = a2d[y][x];
+    const newColor = getCurrentSelectedColor();
+
+    const isInBounds = (x, y) => (x >= 0) && (x < xln) && (y >= 0) && (y < yln);
+
+    queue.push([x, y]);
+
+    while (queue.length > 0) {
+        const [cx, cy] = queue.shift();
+        a2d[cy][cx] = newColor;
+
+        // Check adjacent cells
+        const directions = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+        for (const [dx, dy] of directions) {
+            const nx = cx + dx;
+            const ny = cy + dy;
+            if (isInBounds(nx, ny) && a2d[ny][nx] === currentColor) {
+                queue.push([nx, ny]);
+            }
+        }
+    }
+
+    return a2d;
+}
 
 let isInBounds = (x, y, xln, yln) => (x >= 0) && (x < xln) && (y >= 0) && (y < yln)
+

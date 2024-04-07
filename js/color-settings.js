@@ -256,6 +256,7 @@ function fillCell(cellElem, color) {
         }
     }
     cellElem.style.background = color
+    if(id("add-frame-after-every-color-change").checked) addFrame()
 }
 
 function checkIfColorInArray(array, color, th = 100) {

@@ -26,6 +26,10 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
+const VERSION = "v.9.5.8"
+
+id("version").textContent = VERSION
+
 
 let cellWidth
 let cellHeight
