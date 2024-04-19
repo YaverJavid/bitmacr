@@ -11,7 +11,7 @@ document.getElementById("export-gif").onclick = async () => {
         customAlert("No Frames Present!")
         return
     }
-    startProcess("Rendering Gif...")
+    startProcess(`Rendering Gif... (Total Frames : ${framesContainer.children.length})`)
     let gif = new GIFEncoder()
     const format = "rgb444";
     for (let i = 0; i < framesContainer.children.length; i++) {
