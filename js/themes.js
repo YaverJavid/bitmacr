@@ -54,7 +54,6 @@ let themes = [
     new Theme("#000000", "#ffffff", "#000000", "Obsidian", true),
     new Theme("#333333", "#ffffff", "#333333", "Greyish"),
     new Theme("#E3FF55", "#000000", "#ffffff", "[M] Syn For Awards"),
-        new Theme("#E3FF55", "#000000", "#E3FF55", "[M] Syn For Awards")
 
 ]
 
