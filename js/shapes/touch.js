@@ -50,7 +50,6 @@ paintZone.addEventListener('touchmove', (event) => {
             paintCells2d.push(paintCells[i])
         }
         paintCells2d = toPaintData2D(paintCells2d)
-        event.preventDefault()
         const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width")
         const cw = (parseFloat(paintZoneWidth) / cols)
         let dx = Math.ceil(Math.abs(startingCoords.x - x) / cw)
@@ -58,6 +57,7 @@ paintZone.addEventListener('touchmove', (event) => {
 
         let gridY, gridX, currentCellIndex
         let radius = dx
+            event.preventDefault()
         switch (paintModeSelector.value) {
             case "selecting":
                 paintZonePosition = paintZone.getBoundingClientRect()

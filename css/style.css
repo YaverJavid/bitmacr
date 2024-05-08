@@ -115,7 +115,7 @@
 
  input[type=button] {
      background: var(--secondary);
-     color: var(--primary);
+     color: var(--primary); 
      outline-color: #00000000;
      margin-bottom: 20px;
      cursor: pointer;
@@ -198,7 +198,7 @@
 
  .controls>div>*,
  details>* {
-     color: var(--primary) !important;
+     color: var(--primary) ;
      border-color: var(--primary) !important
  }
 
@@ -417,10 +417,6 @@ box-shadow: 0 0 1px gray; */
      box-shadow: 0 0 1px gray;
  }
 
- .theme-selector {
-     margin-bottom: 2px !important;
-     margin-left: 1vw
- }
 
  .default-pallette {
      border-style: dashed
@@ -805,4 +801,10 @@ box-shadow: 0 0 1px gray; */
      width: 90%;
      resize: vertical;
      height: 45vh;
+ }
+ 
+ 
+ .theme-selector {
+     margin-bottom: 2px !important;
+     margin-left: 1vw;
  }

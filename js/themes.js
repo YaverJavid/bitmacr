@@ -35,7 +35,7 @@ class Theme {
             this.htmlString = Theme.getThemeButtonHTML(accent, primary, secondary, name, iconsInverted)
     }
     static getThemeButtonHTML(accent, primary, secondary, name, iconsInverted = false) {
-        return `<input type="button" class="theme-selector" data-accent="${accent}" data-secondary="${secondary}" data-primary=${primary} data-ii="${iconsInverted}" value="${name}"/>`
+        return `<input style="color: green" type="button" class="theme-selector" data-accent="${accent}" data-secondary="${secondary}" data-primary=${primary} data-ii="${iconsInverted}" value="${name}"/>`
     }
 }
 
@@ -52,7 +52,10 @@ let themes = [
     new Theme("#FEE1E1", "#000000", "#ffffff", "Red Theme"),
   new Theme("#00000000", "#ffffff", "#000000", "Frost", true),
     new Theme("#000000", "#ffffff", "#000000", "Obsidian", true),
-    new Theme("#333333", "white", "#333333", "Greyish"),
+    new Theme("#333333", "#ffffff", "#333333", "Greyish"),
+    new Theme("#E3FF55", "#000000", "#ffffff", "[M] Syn For Awards"),
+        new Theme("#E3FF55", "#000000", "#E3FF55", "[M] Syn For Awards")
+
 ]
 
 
@@ -60,9 +63,9 @@ let themes = [
 for (let i = 0; i < themes.length; i++) {
     themesSection.innerHTML += themes[i].htmlString
     themesSection.children[themesSection.children.length - 1].style.background = themes[i].accent
-    if (themes[i].iconsInverted) {
-        themesSection.children[themesSection.children.length - 1].style.background = "gray"
-    }
+        themesSection.children[themesSection.children.length - 1].style.color = (themes[i].iconsInverted || themes[i].name == "Greyish")? "white" : "black"
+
+    if (themes[i].iconsInverted)  themesSection.children[themesSection.children.length - 1].style.background = "gray"
 }
 
 

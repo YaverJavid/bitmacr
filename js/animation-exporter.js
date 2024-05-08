@@ -4,6 +4,8 @@ import {
     applyPalette
 } from 'https://unpkg.com/gifenc@1.0.3';
 
+//import { transliterate } from './node_modules/@digitallinguistics/transliterate/transliterate.js';
+
 const globalFrameDelaySelector = document.getElementById("global-frame-delay")
 
 document.getElementById("export-gif").onclick = async () => {
