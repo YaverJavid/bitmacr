@@ -1,6 +1,11 @@
 
 ## Changelog
 
+### 9.5.9[16-May-2024]
+- Note: many changes have occurred which are not added here. 
+- Removed col and row click mode
+
+
 ### 9.5.8[06-Feb-2024]
 - Added Custom Script Support
 

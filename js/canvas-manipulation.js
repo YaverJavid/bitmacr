@@ -141,7 +141,7 @@ id('clear-button').addEventListener("click", () => {
 
 id('fill-all-button').onclick = fillAll
 
-function fillAll(){
+function fillAll() {
     for (let i = 0; i < paintCells.length; i++) {
         setCellColor(paintCells[i], getCurrentSelectedColor())
     }
@@ -237,7 +237,6 @@ const popularAspectRatios = [
   [18, 9],
   [21, 9],
   [2.39, 1],
-  [5, 4]
 ];
 
 const popularAspectRatiosContainer = id("popular-aspect-ratios-container")
@@ -245,14 +244,15 @@ const popularAspectRatiosContainer = id("popular-aspect-ratios-container")
 for (let i = 0; i < popularAspectRatios.length; i++) {
     let ratioButton = document.createElement("input")
     ratioButton.setAttribute("type", "button")
-    ratioButton.value = `${popularAspectRatios[i]}`.replace(",", "/")
+    let w = popularAspectRatios[i][0]
+    let h = popularAspectRatios[i][1]
+    ratioButton.value = popularAspectRatios[i].length === 2 ? `${w}:${h}` + (w < h ? "" : "") : popularAspectRatios[i][2]
     popularAspectRatiosContainer.appendChild(ratioButton)
     ratioButton.onclick = () => {
-        hByWRatio.value = parseFloat((popularAspectRatios[i][0] / popularAspectRatios[i][1]).toFixed(3))
-        localStorageREF.setItem(B_ASPECT_RATIO, parseFloat((popularAspectRatios[i][0] / popularAspectRatios[i][1]).toFixed(3)))
-        
+        hByWRatio.value = parseFloat((w / h).toFixed(3))
+        localStorageREF.setItem(B_ASPECT_RATIO, parseFloat((w / h).toFixed(3)))
     }
-    
+
 }
 
 const popularPixelArtSizes = [
@@ -263,6 +263,7 @@ const popularPixelArtSizes = [
   [64, 64, 'Standard 64'],
   [24, 24, '24-Bit'],
   [72, 72, '72-Bit'],
+  [4, 4, 'Four Square']
 ];
 
 
@@ -280,4 +281,3 @@ for (let i = 0; i < popularPixelArtSizes.length; i++) {
             })
     }
 }
-
