@@ -549,11 +549,11 @@
                 </div>
                 <div>
                     <br>
-                    <h3 data-tabname="shape-manager" data-type="hidden-tab">Shape Selector</h3>
+                    <h3 data-tabname="shape-manager" data-type="hidden-tab">Overlay Selector</h3>
                     <br>
                     <label for="add-shape" class="file-label">
                         <input type="file" id="add-shape" accept="image/*">
-                        Add Shape
+                        Add Overlay Image
                     </label>
                     <br>
                     <img src="" alt="" id="shape-preview" width="100">
@@ -591,12 +591,19 @@
                     <br>
                     <hr>
                     <br>
-                    <input type="button" value="Add Shape Here" onclick="gotoTab('shape-manager')">
+                    <h4>Overlays</h4>
+                    <input type="button" value="Add Overlay Image Here" onclick="gotoTab('shape-manager', true)">
                     <br>
-                    <label for="add-shape-on-transparent-cells">Add Shape On Transparent Cells : </label>
+                    <label for="add-shape-on-transparent-cells">Add Overlay On Transparent Cells : </label>
                     <input type="checkbox" id="add-shape-on-transparent-cells" checked>
                     <br>
-                    <input type="button" value="Export With Shape" id="export-with-shape" class="highlighted-border">
+                    <input type="button" value="Export With Overlays" id="export-with-shape" class="highlighted-border">
+                    <details>
+                        <summary>
+                            &#9432;
+                        </summary>
+                        Overlay is an image that is painted over every pixel. It is usually a transparent image. It can be used to give pixels shading.
+                    </details>
                     <hr>
                     <h4>SVG</h4>
                     <label for="svg-pixel-size">Pixel Size : </label>
@@ -665,7 +672,7 @@
                     <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-research.png" width="60%" onclick="confirm('Do you really want to leave for an external site?') ? window.location.href = 'https://synfr.vercel.app' : false">
                     <h2>Awarded By(2024): </h2>
                     <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-awards.png" width="60%">
-<br>
+                    <br>
                     <br>
                     <br>Contact : <a href="mailto:yaverjavid@gmail.com"> yaverjavid@gmail.com</a><br>
                     <br>

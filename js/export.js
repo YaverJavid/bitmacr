@@ -92,7 +92,7 @@ id("add-shape").addEventListener("input", function() {
 
 id("export-with-shape").onclick = () => {
     if (!shapeAdded) {
-        customAlert("No Shape Added!")
+        customAlert("No Overlay Image Added!")
         return
     }
     let exportImage = new Image()
