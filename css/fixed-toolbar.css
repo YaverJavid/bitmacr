@@ -1,0 +1,7 @@
+#fixed-toolbar{
+    background: red;
+    position: fixed;
+    right: 25px;
+    top: 200px;
+    z-index: 290;
+}

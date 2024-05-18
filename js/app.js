@@ -5,3 +5,4 @@ if (platform == "android") {
     cordova.setAttribute('src', 'cordova.js');
     document.head.appendChild(cordova);
 }
+

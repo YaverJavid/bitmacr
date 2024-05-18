@@ -57,12 +57,36 @@ paintZone.addEventListener('touchmove', (event) => {
 
         let gridY, gridX, currentCellIndex
         let radius = dx
-            event.preventDefault()
+        event.preventDefault()
         switch (paintModeSelector.value) {
             case "selecting":
                 paintZonePosition = paintZone.getBoundingClientRect()
-                const correctedStartingY = startingCoords.y - paintZonePosition.y
-                const correctedStartingX = startingCoords.x - paintZonePosition.x
+                correctedStartingY = startingCoords.y - paintZonePosition.y
+                correctedStartingX = startingCoords.x - paintZonePosition.x
+                correctedX = x - paintZonePosition.x
+                correctedY = y - paintZonePosition.y
+                gridX = Math.floor(correctedX / cw)
+                gridY = Math.floor(correctedY / cw)
+
+                handleSelectionShowerVisibility(
+                    // 1 is border width of self
+                    (gridY - startingCoords.gridX) * cw - 1 + "px",
+                    (gridX - startingCoords.gridY) * cw - 1 + "px",
+                    (correctedStartingY - (correctedStartingY % cw)) + "px",
+                    (correctedStartingX - (correctedStartingX % cw)) + "px",
+                    "1px"
+                )
+                selectionCoords = {
+                    ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
+                    xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
+                    ybr: Math.min(gridY, rows),
+                    xbr: Math.min(gridX, cols)
+                }
+                break
+            case "zoom":
+                paintZonePosition = paintZone.getBoundingClientRect()
+                correctedStartingY = startingCoords.y - paintZonePosition.y
+                correctedStartingX = startingCoords.x - paintZonePosition.x
                 correctedX = x - paintZonePosition.x
                 correctedY = y - paintZonePosition.y
                 gridX = Math.floor(correctedX / cw)
@@ -123,7 +147,7 @@ paintZone.addEventListener('touchmove', (event) => {
                 currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
                 let tx = Math.floor(currentCellIndex / cols);
                 let ty = currentCellIndex % cols
-                drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value),  {allOn : id("all-changes-on").value})
+                drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
                 break;
             case 'sphere':
                 drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
@@ -184,7 +208,26 @@ paintZone.addEventListener('touchend', (event) => {
                 selectionImageShowers[i].style.border = "1px solid black"
             }
         }
-    } else if (paintModeSelector.value == "line") {
+    } else if (paintModeSelector.value == "zoom") {
+        if (!selectionCoords) return
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        if (zoomedIn){
+            customAlert("Already Zoomed In... Try Zooming Out First...")
+            return
+        }
+        zoomOriginY = selectionCoords.ybr
+        zoomOriginX = selectionCoords.xbr
+        fullCols = cols
+        fullRows = rows
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        if (!copy(zoom = true).failed) {
+            zoomedIn = true
+            originalSnapshot = JSON.stringify(buffer)
+            applySelectedPartSilent(zoomedPart)
+            recordPaintData()
+        }
+    }
+    else if (paintModeSelector.value == "line") {
         let x = event.changedTouches[event.changedTouches.length - 1].clientX
         let y = event.changedTouches[event.changedTouches.length - 1].clientY
         currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
@@ -195,17 +238,16 @@ paintZone.addEventListener('touchend', (event) => {
 })
 
 function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
-    if(blx == -1 || bly == -1) return
+    if (blx == -1 || bly == -1) return
     let linesize = size
-    while(linesize > 0){
+    while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
             pixels[bly][blx + dx].style.background = getCurrentSelectedColor()
         }
         bly--
         linesize -= perColDY
-        if(options.allOn == "left") blx += perColDY
-        else if(options.allOn == "right") blx
-        else blx += (Math.ceil(perColDY/2))
+        if (options.allOn == "left") blx += perColDY
+        else if (options.allOn == "right") blx
+        else blx += (Math.ceil(perColDY / 2))
     }
 }
-

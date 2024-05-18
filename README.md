@@ -1,6 +1,9 @@
 
 ## Changelog
 
+### 9.6.0[18-May-2024]
+- Zoom Feature Added
+
 ### 9.5.9[16-May-2024]
 - Note: many changes have occurred which are not added here. 
 - Removed col and row click mode

@@ -13,8 +13,12 @@
     <link rel="stylesheet" href="css/palettes.css">
     <link rel="stylesheet" href="css/color-formula.css">
     <link rel="stylesheet" href="css/process.css">
+    <link rel="stylesheet" href="css/fixed-toolbar.css">
+
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
+
+
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6878751772112744"
      crossorigin="anonymous"></script> -->
 </head>
@@ -27,12 +31,12 @@
     </div>
     <div class="controls" id="top-control-container">
         <input type="button" id="undo" value="UNDO">
+        <input type="button" class="zoom-out" value="⇱">
         <input type="button" id="export-button" value="SAVE&darr;">
         <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;">
         <input type="button" value="+F" onclick="addFrame()">
         <input type="button" id="redo" value="REDO">
     </div>
-
     <marquee id="adstrip">
     </marquee>
     <div id="paint-zone"></div>
@@ -46,6 +50,7 @@
         <div id="shapes-selector" class="h-selector">
             <img data-value="none" class="active-shape" src="icons/paint-mode/none.png">
             <img data-value="line-stroke" src="icons/paint-mode/stroke.png">
+            <img data-value="zoom" src="icons/paint-mode/zoom.png">
             <img data-value="rect" src="icons/paint-mode/rectangle-filled.png">
             <img data-value="circle" src="icons/paint-mode/circle-filled.png">
             <img data-value="selecting" id="copy-selector" src="icons/paint-mode/copy.png">
@@ -350,6 +355,11 @@
                             <option value="left">Left</option>
                         </select>
                     </div>
+                    <div class="shape-settings" data-settingname="zoom">
+                        <h3>Zooming</h3>
+                        <br>
+                        <input type="button" class="zoom-out" value="Zoom Out">
+                    </div>
                     <div class="shape-settings" data-settingname="rect">
                         <h3>Rectangle</h3>
                         <br>
@@ -381,7 +391,6 @@
                         <input type="button" value="Apply Selected Data" id="apply-selected-data">
                         <br>
                         <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
-
                     </div>
                     <div class="shape-settings" data-settingname="circle">
                         <h3>Circle</h3> <br>
@@ -800,6 +809,8 @@
                     <select id="paint-mode-selector">
                         <option value="none">None</option>
                         <option value="circle">Circle</option>
+                        <option value="zoom">Zoom</option>
+
                         <option value="sphere">Sphere</option>
                         <option value="rect">Rectangle</option>
                         <option value="line">Line</option>
@@ -807,7 +818,7 @@
                         <option value="stroke">Old Stroke</option>
                         <option value="selecting">Selecting</option>
                         <option value="paste">Paste</option>
-                        <option value="triangle">triangle</option>
+                        <option value="triangle">Triangle</option>
                     </select>
                     <br>
                 </div>

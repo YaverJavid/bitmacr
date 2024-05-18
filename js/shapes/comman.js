@@ -12,7 +12,8 @@ const selectionShower = document.getElementById("selection-shower")
 const shapesElems = document.getElementById("shapes-selector").children
 const ACTIVE_SHAPE_CLASS = "active-shape"
 const SELECTED_CELL_HINT_TOKEN = "selected-cell-hint"
-let selectedPart
+let selectedPart, zoomedPart, zoomOriginX, zoomOriginY, fullRows, fullCols
+let originalSnapshot, zoomedIn
 const selectionImageShowers = document.querySelectorAll(".selection-image-shower")
 const selectionSize = document.getElementById("selection-size")
 selectionSize.textContent = "Nothing Selected!"
@@ -138,7 +139,7 @@ let isStartOfLineStroke
 let selectionCoords
 let pasteOffset = 50
 
-function copy() {
+function copy(zoom = false) {
     let xtl = selectionCoords.xtl,
         ytl = selectionCoords.ytl,
         ybr = selectionCoords.ybr,
@@ -158,13 +159,17 @@ function copy() {
     }
     selectionCoords = undefined
     if (result.length == 0) return { failed: true }
-    selectedPart = result
-    selectionSize.textContent = `(w:${w},h:${h})`
+    if (zoom) zoomedPart = result
+    else {
+        selectedPart = result
+        selectionSize.textContent = `(w:${w},h:${h})`
+    }
     return { failed: false }
 }
 
 function paste(xb, yb, data2d, paint2d) {
     if (!data2d) return
+    console.log(2)
     let h = data2d.length
     let w = data2d[0].length
     let xt = xb - w
@@ -391,17 +396,44 @@ for (let i = 0; i < rotateCopiedDataButtons.length; i++) {
 }
 
 function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
-    if(blx == -1 || bly == -1) return
+    if (blx == -1 || bly == -1) return
     let linesize = size
-    while(linesize > 0){
+    while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
             pixels[bly][blx + dx].style.background = getCurrentSelectedColor()
         }
         bly--
         linesize -= perColDY
-        if(options.allOn == "left") blx += perColDY
-        else if(options.allOn == "right") blx
-        else blx += (Math.ceil(perColDY/2))
+        if (options.allOn == "left") blx += perColDY
+        else if (options.allOn == "right") blx
+        else blx += (Math.ceil(perColDY / 2))
     }
 }
 
+let zoomOutButtons = document.getElementsByClassName("zoom-out")
+
+for (let i = 0; i < zoomOutButtons.length; i++) {
+    zoomOutButtons[i].onclick = () => {
+        if(!zoomedIn){
+            customAlert("Already Zoomed Out...")
+            return
+        }
+        zoomedIn = false
+        let partToPaste = toPaintData2D(buffer.getItem().slice(), zoomedPart.length, zoomedPart[0].length)
+        originalSnapshot = JSON.parse(originalSnapshot)
+        let fullBuffer = new Stack(64)
+        fullBuffer.data = originalSnapshot.data
+        fullBuffer.limit = originalSnapshot.limit
+        fullBuffer.pointer = originalSnapshot.pointer
+        applySelectedPartSilent(toPaintData2D(fullBuffer.getItem(), fullRows, fullCols))
+        buffer = fullBuffer
+        let paintCells = document.querySelectorAll(".cell")
+        let paintCells2d = []
+        for (let i = 0; i < paintCells.length; i++) {
+            paintCells2d.push(paintCells[i])
+        }
+        paintCells2d = toPaintData2D(paintCells2d, 32, 32)
+        paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
+        recordPaintData()
+    }
+}

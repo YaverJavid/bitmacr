@@ -219,13 +219,23 @@ colSlider.oninput = () => colsShower.innerHTML = `(${colSlider.value})`
 
 
 id("apply-selected-data").onclick = () => {
-    if (!selectedPart) customAlert("Select A Part First!")
+    applySelectedPart(selectedPart)
+}
+
+function applySelectedPart(data) {
+    if (!data) customAlert("Select A Part First!")
     else customConfirm("Do You Really Want To Apply Selected Data On Canvas (Your Existing Data Will Be Lost) ?", () => {
-        if (!selectedPart) customAlert("Selectk ki A Part First!")
-        addCanvas(selectedPart.length, selectedPart[0].length)
-        applyPaintData(selectedPart.slice().flat())
+        if (!data) customAlert("Select A Part First!")
+        addCanvas(data.length, data[0].length)
+        applyPaintData(data.slice().flat())
         recordPaintData()
     })
+}
+
+function applySelectedPartSilent(data) {
+    addCanvas(data.length, data[0].length)
+    applyPaintData(data.slice().flat())
+    recordPaintData()
 }
 
 const popularAspectRatios = [
