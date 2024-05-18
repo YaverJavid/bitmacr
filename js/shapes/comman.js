@@ -432,7 +432,7 @@ for (let i = 0; i < zoomOutButtons.length; i++) {
         for (let i = 0; i < paintCells.length; i++) {
             paintCells2d.push(paintCells[i])
         }
-        paintCells2d = toPaintData2D(paintCells2d, 32, 32)
+        paintCells2d = toPaintData2D(paintCells2d, fullRows, fullCols)
         paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
         recordPaintData()
     }
