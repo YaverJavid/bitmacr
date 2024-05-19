@@ -76,7 +76,6 @@ function getSessionElement(n, active = true) {
             session.classList.add(SESSION_ACTIVE_CLASS);
             sessions[n].buffer.deleteRight()
             sessions[n].use()
-            
         } else {
             if (n == currentSession) {
                 customAlert(`Can't Close "Session ${n}", its active!`)

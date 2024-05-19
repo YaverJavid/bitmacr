@@ -439,4 +439,5 @@ function zoomOut() {
     paintCells2d = toPaintData2D(paintCells2d, fullRows, fullCols)
     paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
     recordPaintData()
+    sessions[currentSession].buffer = buffer
 }
