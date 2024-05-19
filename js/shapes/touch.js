@@ -225,6 +225,7 @@ paintZone.addEventListener('touchend', (event) => {
             originalSnapshot = JSON.stringify(buffer)
             applySelectedPartSilent(zoomedPart)
             recordPaintData()
+            id("top-zoom-out").style.border= "3px solid var(--primary)"
         }
     }
     else if (paintModeSelector.value == "line") {

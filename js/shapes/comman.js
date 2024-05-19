@@ -413,27 +413,30 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
 let zoomOutButtons = document.getElementsByClassName("zoom-out")
 
 for (let i = 0; i < zoomOutButtons.length; i++) {
-    zoomOutButtons[i].onclick = () => {
-        if(!zoomedIn){
-            customAlert("Already Zoomed Out...")
-            return
-        }
-        zoomedIn = false
-        let partToPaste = toPaintData2D(buffer.getItem().slice(), zoomedPart.length, zoomedPart[0].length)
-        originalSnapshot = JSON.parse(originalSnapshot)
-        let fullBuffer = new Stack(64)
-        fullBuffer.data = originalSnapshot.data
-        fullBuffer.limit = originalSnapshot.limit
-        fullBuffer.pointer = originalSnapshot.pointer
-        applySelectedPartSilent(toPaintData2D(fullBuffer.getItem(), fullRows, fullCols))
-        buffer = fullBuffer
-        let paintCells = document.querySelectorAll(".cell")
-        let paintCells2d = []
-        for (let i = 0; i < paintCells.length; i++) {
-            paintCells2d.push(paintCells[i])
-        }
-        paintCells2d = toPaintData2D(paintCells2d, fullRows, fullCols)
-        paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
-        recordPaintData()
+    zoomOutButtons[i].onclick = zoomOut
+}
+
+function zoomOut() {
+    if (!zoomedIn) {
+        customAlert("Already Zoomed Out...")
+        return
     }
+    zoomedIn = false
+    id("top-zoom-out").style.border= "0px solid var(--primary)"
+    let partToPaste = toPaintData2D(buffer.getItem().slice(), zoomedPart.length, zoomedPart[0].length)
+    originalSnapshot = JSON.parse(originalSnapshot)
+    let fullBuffer = new Stack(64)
+    fullBuffer.data = originalSnapshot.data
+    fullBuffer.limit = originalSnapshot.limit
+    fullBuffer.pointer = originalSnapshot.pointer
+    applySelectedPartSilent(toPaintData2D(fullBuffer.getItem(), fullRows, fullCols))
+    buffer = fullBuffer
+    let paintCells = document.querySelectorAll(".cell")
+    let paintCells2d = []
+    for (let i = 0; i < paintCells.length; i++) {
+        paintCells2d.push(paintCells[i])
+    }
+    paintCells2d = toPaintData2D(paintCells2d, fullRows, fullCols)
+    paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
+    recordPaintData()
 }

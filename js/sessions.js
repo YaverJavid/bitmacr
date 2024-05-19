@@ -55,7 +55,6 @@ function getSessionElement(n, active = true) {
         removeActiveClassesOnSessions()
         session.classList.add(SESSION_ACTIVE_CLASS)
         localStorageREF.setItem(B_SESSION_NO, currentSession)
-
     }
     session.classList.add("session")
     let closeButton = document.createElement("img")
@@ -71,11 +70,13 @@ function getSessionElement(n, active = true) {
         let n = parseInt(session.children[1].textContent)
         if (!(ev.target === session.children[0])) {
             if (n == currentSession) return
+            if(zoomedIn) zoomOut()
             removeActiveClassesOnSessions()
             currentSession = n
             session.classList.add(SESSION_ACTIVE_CLASS);
             sessions[n].buffer.deleteRight()
             sessions[n].use()
+            
         } else {
             if (n == currentSession) {
                 customAlert(`Can't Close "Session ${n}", its active!`)
