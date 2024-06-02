@@ -59,31 +59,8 @@ paintZone.addEventListener('touchmove', (event) => {
         let radius = dx
         event.preventDefault()
         switch (paintModeSelector.value) {
-            case "selecting":
-                paintZonePosition = paintZone.getBoundingClientRect()
-                correctedStartingY = startingCoords.y - paintZonePosition.y
-                correctedStartingX = startingCoords.x - paintZonePosition.x
-                correctedX = x - paintZonePosition.x
-                correctedY = y - paintZonePosition.y
-                gridX = Math.floor(correctedX / cw)
-                gridY = Math.floor(correctedY / cw)
-
-                handleSelectionShowerVisibility(
-                    // 1 is border width of self
-                    (gridY - startingCoords.gridX) * cw - 1 + "px",
-                    (gridX - startingCoords.gridY) * cw - 1 + "px",
-                    (correctedStartingY - (correctedStartingY % cw)) + "px",
-                    (correctedStartingX - (correctedStartingX % cw)) + "px",
-                    "1px"
-                )
-                selectionCoords = {
-                    ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
-                    xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
-                    ybr: Math.min(gridY, rows),
-                    xbr: Math.min(gridX, cols)
-                }
-                break
             case "zoom":
+            case "selecting":
                 paintZonePosition = paintZone.getBoundingClientRect()
                 correctedStartingY = startingCoords.y - paintZonePosition.y
                 correctedStartingX = startingCoords.x - paintZonePosition.x

@@ -137,7 +137,7 @@ let startingCoords = {}
 let lastLineStrokeEndingCoords = {}
 let isStartOfLineStroke
 let selectionCoords
-let pasteOffset = 50
+let pasteOffset = 0
 
 function copy(zoom = false) {
     let xtl = selectionCoords.xtl,
@@ -441,3 +441,5 @@ function zoomOut() {
     recordPaintData()
     sessions[currentSession].buffer = buffer
 }
+
+

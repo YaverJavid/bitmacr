@@ -29,3 +29,7 @@ function setupNumInputWithButtons(minusButton, plusButton, input, minusCount = 1
     }
 }
 
+setupSliderWithButtons(id("export-res-minus"), id("export-res-plus"), id("export-res"), 1, 1,
+    plusAct = () => id("export-res-shower").innerHTML = `(${id("export-res").value})`,
+    minusAct = () => id("export-res-shower").innerHTML = `(${id("export-res").value})`
+)

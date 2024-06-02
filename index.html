@@ -557,7 +557,6 @@
                     Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
                 </div>
                 <div>
-                    <br>
                     <h3 data-tabname="shape-manager" data-type="hidden-tab">Overlay Selector</h3>
                     <br>
                     <label for="add-shape" class="file-label">
@@ -592,14 +591,15 @@
                     <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On Transparent Cells: </label>
                     <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
                     <br>
-                    <label for="export-res">Resulution : </label>
+                    <label for="export-res">Resolution : </label>
                     <span id="export-res-shower">(1024)</span>
+                    <input type="button" id="export-res-minus">
                     <input id="export-res" type="range" min="100" , max="5000" value="1024">
+                    <input type="button" id="export-res-plus">
                     <br>
                     <input type="button" id="export-button2" value="Export (PNG)" class="highlighted-border">
                     <br>
                     <hr>
-                    <br>
                     <h4>Overlays</h4>
                     <input type="button" value="Add Overlay Image Here" onclick="gotoTab('shape-manager', true)">
                     <br>

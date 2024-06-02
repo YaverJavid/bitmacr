@@ -39,10 +39,10 @@
  }
 
  * {
-     font-family: 'Noto Sans Symbols', sans-serif;
+     /* font-family: 'Noto Sans Symbols', sans-serif; */
      /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
      user-select: none;
-     /* line-height: 2.3; */
+     line-height: 2.3;
      /* font-family: 'Paytone One', sans-serif; */
 
  }
