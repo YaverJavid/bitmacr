@@ -62,9 +62,9 @@ let themes = [
 for (let i = 0; i < themes.length; i++) {
     themesSection.innerHTML += themes[i].htmlString
     themesSection.children[themesSection.children.length - 1].style.background = themes[i].accent
-        themesSection.children[themesSection.children.length - 1].style.color = (themes[i].iconsInverted || themes[i].name == "Greyish")? "white" : "black"
+    themesSection.children[themesSection.children.length - 1].style.color = (themes[i].iconsInverted || themes[i].name == "Greyish") ? "white" : "black"
 
-    if (themes[i].iconsInverted)  themesSection.children[themesSection.children.length - 1].style.background = "gray"
+    if (themes[i].iconsInverted) themesSection.children[themesSection.children.length - 1].style.background = "gray"
 }
 
 

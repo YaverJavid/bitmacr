@@ -14,13 +14,9 @@
     <link rel="stylesheet" href="css/color-formula.css">
     <link rel="stylesheet" href="css/process.css">
     <link rel="stylesheet" href="css/fixed-toolbar.css">
-
+    <link rel="stylesheet" href="css/toggle-switch.css">
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
-
-
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6878751772112744"
-     crossorigin="anonymous"></script> -->
 </head>
 
 <body>
@@ -363,13 +359,26 @@
                     <div class="shape-settings" data-settingname="rect">
                         <h3>Rectangle</h3>
                         <br>
-                        <label for="fill-rect">Fill Rectangle : </label>
-                        <input type="checkbox" checked id="fill-rect">
+                        <div class="switch-container">
+                            <label for="shortcut-info-checkbox">Fill Rectangle :</label>
+
+                            <label class="switch">
+                                <input type="checkbox" id="fill-rect" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                         <br>
+                        <div class="switch-container">
+                            <label for="fixed-rect-size">Fixed Size : </label>
+
+                            <label class="switch">
+                                <input type="checkbox" id="fixed-rect-size">
+
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                         <!-- <label for="rect-border-radius">Rect Border Radius bX : </label>
                         <input type="range" id="rect-border-radius"> -->
-                        <label for="fixed-rect-size">Fixed Size : </label>
-                        <input type="checkbox" id="fixed-rect-size">
                         <br>
                         <label for="fixed-rect-width">Fixed Width Value : </label>
                         <input type="button" id="minus-rw-count">
@@ -693,14 +702,46 @@
                 <div>
                     <br>
                     <h3 data-type="hidden-tab" data-tabname="layout">Layout Settings</h3> <br>
-                    <label for="shortcut-info-checkbox">Show Shortcut Info : </label>
-                    <input type="checkbox" id="shortcut-info-checkbox" checked> <br>
-                    <label for="hide-default-pallette-checkbox">Hide Default Pallette : </label>
-                    <input type="checkbox" id="hide-default-pallette-checkbox"> <br>
-                    <label for="animate-menu-checkbox">Animate Menu : </label>
-                    <input type="checkbox" id="animate-menu-checkbox" checked> <br>
-                    <label for="add-image-background-checkbox">Use Image Background : </label>
-                    <input type="checkbox" id="add-image-background-checkbox"> <br>
+                    <div class="switch-container">
+                        <label for="shortcut-info-checkbox">Show Shortcut Info</label>
+
+                        <label class="switch">
+
+                            <input type="checkbox" id="shortcut-info-checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <br>
+
+                    <div class="switch-container">
+                        <label for="hide-default-pallette-checkbox">Hide Default Pallette</label>
+
+                        <label class="switch">
+                            <input type="checkbox" id="hide-default-pallette-checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <br>
+
+                    <div class="switch-container">
+                        <label for="animate-menu-checkbox">Animate Menu</label>
+
+                        <label class="switch">
+                            <input type="checkbox" id="animate-menu-checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <br>
+
+                    <div class="switch-container">
+                        <label for="add-image-background-checkbox">Use Image Background</label>
+
+                        <label class="switch">
+                            <input type="checkbox" id="add-image-background-checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <br>
                 </div>
 
                 <div id="drawing-checker-section">
@@ -737,10 +778,21 @@
                 <div>
                     <br>
                     <h3 data-type="hidden-tab" data-tabname="preferences">Preferences</h3> <br>
-                    <label for="auto-save">Auto Save Sessions : </label>
-                    <input type="checkbox" id="auto-save" checked> <br>
-                    <label for="add-new-session-on-opening">Add New Session On Opening : </label>
-                    <input type="checkbox" id="add-new-session-on-opening">
+                    <div class="switch-container">
+                        <label for="auto-save">Auto Save Sessions</label>
+                        <label class="switch">
+                            <input type="checkbox" id="auto-save" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="switch-container">
+                        <label for="add-new-session-on-opening">Add New Session On Opening </label>
+                        <label class="switch">
+                            <input type="checkbox" id="add-new-session-on-opening">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
                 <div>
                     <br>
