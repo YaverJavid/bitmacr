@@ -25,873 +25,879 @@
         <img id="add-session" src="icons/close.svg" class="icon">
         <div id="sessions-container"> </div>
     </div>
-    <div class="controls" id="top-control-container">
-        <input type="button" id="undo" value="UNDO">
-        <input type="button" class="zoom-out" id="top-zoom-out" value="⇱">
-        <input type="button" id="export-button" value="SAVE&darr;">
-        <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;">
-        <input type="button" value="+F" onclick="addFrame()">
-        <input type="button" id="redo" value="REDO">
-    </div>
-    <marquee id="adstrip">
-    </marquee>
-    <div id="paint-zone"></div>
-    <div id="info">
-        <span id="info-size"></span>
-        <span id="info-fill-rule">fill rule off,</span>
-        <span id="line-info-shower">y:0,x:0,</span>
-        <span id="frame-count-top">frames:0,</span>
-    </div>
-    <div id="main-selectors-container">
-        <div id="shapes-selector" class="h-selector">
-            <img data-value="none" class="active-shape" src="icons/paint-mode/none.png">
-            <img data-value="line-stroke" src="icons/paint-mode/stroke.png">
-            <img data-value="zoom" src="icons/paint-mode/zoom.png">
-            <img data-value="rect" src="icons/paint-mode/rectangle-filled.png">
-            <img data-value="circle" src="icons/paint-mode/circle-filled.png">
-            <img data-value="selecting" id="copy-selector" src="icons/paint-mode/copy.png">
-            <img data-value="paste" src="icons/paint-mode/paste.png">
-            <img data-value="line" src="icons/paint-mode/line.png">
-            <img data-value="triangle" src="icons/paint-mode/triangle.png">
-            <img data-value="sphere" src="icons/paint-mode/sphere.png" style="margin-right: 5px">
-        </div>
-        <div class="selector" id="click-mode-selector" data-oneway="true">
-            <!-- Make Sure Height Of Every Option Is Same -->
-            <img data-value="cell" src="icons/fill-mode/cell.png">
-            <!--<img data-value="row" src="icons/fill-mode/row.png">
-            <img data-value="col" src="icons/fill-mode/col.png">-->
-            <img data-value="fill" src="icons/fill-mode/fill.png">
-        </div>
-    </div>
-    <br>
-    <div>
-        <div id="menu-nav">
-        </div>
-        <div id="controls-container">
+    <div id="main-container">
+        <div id="left">
 
-            <div class="controls" id="bottom-control-container">
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="s">General</h3>
-                    <br>
+            <div class="controls" id="top-control-container">
+                <input type="button" id="undo" value="UNDO">
+                <input type="button" class="zoom-out" id="top-zoom-out" value="⇱">
+                <input type="button" id="export-button" value="SAVE&darr;">
+                <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;">
+                <input type="button" value="+F" onclick="addFrame()">
+                <input type="button" id="redo" value="REDO">
+            </div>
+            <marquee id="adstrip">
+            </marquee>
+            <div id="paint-zone"></div>
+            <div id="info">
+                <span id="info-size"></span>
+                <span id="info-fill-rule">fill rule off,</span>
+                <span id="line-info-shower">y:0,x:0,</span>
+                <span id="frame-count-top">frames:0,</span>
+            </div>
+            <div id="main-selectors-container">
+                <div id="shapes-selector" class="h-selector">
+                    <img data-value="none" class="active-shape" src="icons/paint-mode/none.png">
+                    <img data-value="line-stroke" src="icons/paint-mode/stroke.png">
+                    <img data-value="zoom" src="icons/paint-mode/zoom.png">
+                    <img data-value="rect" src="icons/paint-mode/rectangle-filled.png">
+                    <img data-value="circle" src="icons/paint-mode/circle-filled.png">
+                    <img data-value="selecting" id="copy-selector" src="icons/paint-mode/copy.png">
+                    <img data-value="paste" src="icons/paint-mode/paste.png">
+                    <img data-value="line" src="icons/paint-mode/line.png">
+                    <img data-value="triangle" src="icons/paint-mode/triangle.png">
+                    <img data-value="sphere" src="icons/paint-mode/sphere.png" style="margin-right: 5px">
+                </div>
+                <div class="selector" id="click-mode-selector" data-oneway="true">
+                    <!-- Make Sure Height Of Every Option Is Same -->
+                    <img data-value="cell" src="icons/fill-mode/cell.png">
+                    <!--<img data-value="row" src="icons/fill-mode/row.png">
+                        <img data-value="col" src="icons/fill-mode/col.png">-->
+                    <img data-value="fill" src="icons/fill-mode/fill.png">
+                </div>
+            </div>
+            <br>
+        </div>
+        <div id="right">
+            <div>
+                <div id="menu-nav">
+                </div>
+                <br>
+                <div id="controls-container">
 
-                    <div id="color-m-selector" class="h-selector">
-                        <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
-                        <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
-                        <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
-                        <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
-                        <img src='icons/color-mode/random.png' alt='cm' data-value="random">
-                        <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl">
-                        <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
-                    </div>
-                    <br>
-                    <br>
-                    <div id="color-selector-unit">
-                        <div id="no-specific-color-selector" class="visible-color-selector">
-                            <label for="color-selector">Select Color : </label>
-                            <input value="#556677" type="color" name="color-selector" id="color-selector">
-                            Or <input class="hex-input" type="text" id="color-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
-                            <label for="select-color">Select Color From Cell : </label>
-                            <input type="checkbox" name="select-color" id="select-color">
-                        </div>
-                        <div data-csname="formula">
-                            <div id="vars-section">
-                                <img src="icons/close.svg" id="add-var">
-                                <div id="vars">
-                                </div>
+                    <div class="controls" id="bottom-control-container">
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="s">General</h3>
+                            <br>
+
+                            <div id="color-m-selector" class="h-selector">
+                                <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
+                                <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
+                                <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
+                                <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
+                                <img src='icons/color-mode/random.png' alt='cm' data-value="random">
+                                <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl">
+                                <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
                             </div>
                             <br>
-                            <label for="color-formula-type">Input Type : </label>
-                            <select id="color-formula-type">
-                                <option value="hsl">HSL</option>
-                                <option value="rgb">RGB</option>
-                            </select>
-                            <div id="color-formula-inputs-container">
-                                <div data-cfinputname="hsl" class="active-cf-input">
-                                    hsl(<input type="text" id="cf-hsl-hue">, <input type="text" id="cf-hsl-saturation">, <input type="text" id="cf-hsl-lightness">)
+                            <br>
+                            <div id="color-selector-unit">
+                                <div id="no-specific-color-selector" class="visible-color-selector">
+                                    <label for="color-selector">Select Color : </label>
+                                    <input value="#556677" type="color" name="color-selector" id="color-selector">
+                                    Or <input class="hex-input" type="text" id="color-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
+                                    <label for="select-color">Select Color From Cell : </label>
+                                    <input type="checkbox" name="select-color" id="select-color">
                                 </div>
-                                <div data-cfinputname="rgb">
-                                    rgb(<input type="text" id="cf-rgb-r">,<input type="text" id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
+                                <div data-csname="formula">
+                                    <div id="vars-section">
+                                        <img src="icons/close.svg" id="add-var">
+                                        <div id="vars">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <label for="color-formula-type">Input Type : </label>
+                                    <select id="color-formula-type">
+                                        <option value="hsl">HSL</option>
+                                        <option value="rgb">RGB</option>
+                                    </select>
+                                    <div id="color-formula-inputs-container">
+                                        <div data-cfinputname="hsl" class="active-cf-input">
+                                            hsl(<input type="text" id="cf-hsl-hue">, <input type="text" id="cf-hsl-saturation">, <input type="text" id="cf-hsl-lightness">)
+                                        </div>
+                                        <div data-cfinputname="rgb">
+                                            rgb(<input type="text" id="cf-rgb-r">,<input type="text" id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
+                                        </div>
+                                    </div>
+                                    <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
+                                    <input value="Logs" onclick="gotoTab('error-log')" type="button">
+                                </div>
+                                <div data-csname="palette">
+                                    <div class="palette" id="palette-cs"></div>
+                                    <br>
+                                    <label for="palette-selector">Select Palette : </label>
+                                    <select id="palette-selector">
+                                    </select>
+                                    <br>
+                                    <input type="button" value="Palette Manager" onclick='gotoTab("palette-manager")'>
+
+                                </div>
+                                <div data-csname="eraser">
+                                    HUH¡
+                                </div>
+                                <div data-csname="random">
+                                    <label for="random-from">Random From : </label>
+                                    <select id="random-from">
+                                        <option value="all">All</option>
+                                        <option value="color-history">Color History</option>
+                                        <option value="selected-palette">Selected Pallette</option>
+                                    </select>
+                                </div>
+                                <div data-csname="hsl">
+                                    <input type="color" id="hue-color-shower">
+
+                                    <br>
+                                    <label for="saturation-slider">Saturation : </label>
+                                    <input type="range" name="" id="saturation-slider" min="0" max="100" value="50">
+                                    <span id="saturation-shower">(50%)</span>
+                                    <input type="checkbox" id="select-saturation-cell">
+                                    <br>
+                                    <label for="lighting-slider">Lighting : </label>
+                                    <input type="range" id="lighting-slider" min="0" max="100" value="40">
+                                    <span id="lighting-shower">(40%)</span>
+                                    <input type="checkbox" id="select-lighting-cell">
+                                    <br>
+                                    <label for="hue-angle">Hue Angle : </label>
+                                    <input type="range" id="hue-angle" min="0" max="360" step="0.1" value="0">
+                                    <span id="hue-angle-shower">(0&deg;)</span>
+                                    <input type="checkbox" id="select-hue-from-cell">
+                                    <br>
+                                    <label for="hue-speed-slider">Speed : </label>
+                                    <input type="button" id="m-hue-speed">
+                                    <input type="range" id="hue-speed-slider" min="0" max="15" step="0.1" value="0">
+                                    <input type="button" id="p-hue-speed">
+                                    <span id="hue-speed-shower">(0&deg;)</span>
+                                </div>
+                                <div data-csname="css-color">
+                                    <label for="color-string-input">CSS Color String : </label>
+                                    <input type="text" id="color-string-input" placeholder="Enter CSS Color String" class="right-flat" style="width:45vw">
+                                    <div id="css-color-string-shower" class="left-flat"></div>
                                 </div>
                             </div>
+                            <hr>
+                            <label for="opacity">Opacity : </label>
+                            <input type="range" step="0.1" max="1" min="0" value="1" id="opacity">
+                            <span id="opacity-shower">(1)</span>
+                            <br>
+                            <input type="button" id="clear-button" value="Clear All">
+                            <input type="button" id="fill-all-button" value="Fill All">
+                            <input type="button" id="rotate-clockwise-button" value="Rotate 90&deg;">
+                            <br>
+                            <input type="button" id="flip-vertically" value="Flip Vertically &#8597;">
+                            <input type="button" id="flip-horizontally" value="Flip Horizontally &harr;"> <br>
+                            <div class="infinite-scroll-x" id="popular-sizes-container">
+                            </div>
+                            <label for="row-slider">Rows(&#8597;) : </label>
+                            <input type="button" value="- 1" id="decrement-row">
+                            <input type="range" id="row-slider" min='1' max='100' value='10'>
+                            <input type="button" value="+ 1" id="increment-row">
+                            <span id="rows-shower">(10)</span>
+                            <br>
+                            <label for="col-slider">Cols(&harr;) : </label>
+                            <input type="button" value="- 1" id="decrement-col">
+                            <input type="range" id="col-slider" min='1' max='100' value='10'>
+                            <input type="button" value="+ 1" id="increment-col">
+                            <span id="cols-shower">(10)</span>
+                            <br>
+                            <label for="cell-slider">C. Size : </label>
+                            <input type="button" value="- 1" id="decrement-canvas-size">
+                            <input type="range" name="cell-slider" id="cells-slider" min='1' max='100' value='10'>
+                            <input type="button" value="+ 1" id="increment-canvas-size">
+                            <span id="canvas-size-shower">(10)</span>
+                            <br>
+                            <div class="infinite-scroll-x" id="popular-aspect-ratios-container">
+                            </div>
+                            <label for="h-w-ratio">H/W Ratio : </label>
+                            <input type="number" id="h-w-ratio" placeholder="h/w">
+                            <br>
+                            <label for="guide-cell-border2">Cell Border : </label>
+                            <input type="checkbox" id="guide-cell-border2" checked>
+                            <input type="button" class="left-flat" value="Guide Options" onclick="gotoTab('guide-options', true)">
+
+                            <br>
+                            <input type="button" value="Canvas Manipulation" onclick="gotoTab('canvas-manipulation', true)">
+                            <br>
+                            <input type="button" value="Trace Tools" onclick="gotoTab('tracing-tools', true)">
+                            <br>
+                            <input type="button" value="Color History" onclick="gotoTab('color-history', true)">
+                            <br>
+                            <input type="button" value="Force Save Sessions" onclick="saveSessions(sessions)">
+                            <input type="button" value="Close All Sessions" onclick="closeAllSessions()">
+                            <details>
+                                <summary>&#9432; (Force Save Sessions)</summary>
+                                <p>Hint : Use This To Forcefully Save, Due To The Limitations In Browser Auto Save Might Not Work. <kbd>ctrl+L</kbd></p>
+                            </details>
+                        </div>
+                        <div>
+
+                            <br>
+                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab">Canvas Manipulation</h3><br>
+                            <input type="button" id="shift-up" value="Shift Up"> <br>
+                            <input type="button" id="shift-right" value="Shift Right" style="margin-right: 0.7lh">
+                            <input type="button" id="shift-left" value="Shift Left"> <br>
+                            <input type="button" id="shift-down" value="Shift Down"> <br>
+                            <label for="wrap-shift">Wrap Shift : </label>
+                            <input type="checkbox" id="wrap-shift">
+                            <br>
+                            <label for="shift-fill">Shift Fill With Selected Color: </label>
+                            <input type="checkbox" id="shift-fill">
+                            <hr>
+                            <input type="button" id="add-row-top" value="Add Row Top"> <br>
+                            <input type="button" id="add-col-right" value="Add Col Right" style="margin-right: 0.7lh">
+                            <input type="button" id="add-col-left" value="Add Col Left"> <br>
+                            <input type="button" id="add-row-down" value="Add Row Down"> <br>
+                            <label for="give-up-undo-state">Give Up Undo State : </label> <input type="checkbox" id="give-up-undo-state">
+                            <br>
+                            <details>
+                                <summary>&#9432;</summary>
+                                <br>
+                                We Recommend You To Turn This Checkbox On For Faster Response Time (If You Turn This On Undo State Will Be Lost For Row Or Col Addition)
+                            </details>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="t">Basic Tools</h3>
+                            <h4>Fill Rule</h4>
+                            <label for="only-fill-transaprent">Fill <input value="If" type="button" id="flip-fill-only-if-type"> Color Is </label>
+                            <input type="button" value="×" class="right-flat" onclick="fillOnlyThisColor.value=''">
+                            <input type="text" id="fill-only-this-color" class="hex-input left-flat" placeholder="Any CSS Color"> :
+                            <input type="checkbox" id="only-fill-if-color-is" />
+                            <br>
+                            <label for="select-for-only-fill-if">Select Color From Cell : </label>
+                            <input type="checkbox" id="select-for-only-fill-if">
+                            <br>
+                            <label for="only-fill-matching-threshold">Threshold : </label>
+                            <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
+                            <span id="only-fill-matching-threshold-shower">(Exact Match)</span>
+                            <hr><br>
+                            <label for="slight-variations-checkbox">Slight Variations In Color : </label>
+                            <input type="checkbox" id="slight-variations-checkbox">
+                            <input type="button" value=". . ." onclick="gotoTab('variation-settings')" class="left-flat">
+                            <br>
+                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()" class="right-flat">
+                            <input type="button" value=". . ." class="left-flat" onclick="gotoTab('simplify-colors-options')">
+                            <br>
+                            <label for="fill-alternate">Fill Alternate : </label>
+                            <input type="checkbox" id="fill-alternate" class=" left-flat">
+                            <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ." class="left-flat">
+                            <br>
+                            <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
+                            <label for="image-pixelart-to-pixel" class="file-label">
+                                <input type="file" id="image-pixelart-to-pixel" accept="image/*">
+                                Add Pixel Data From Image (Auto Size Detection)
+                            </label>
+                            <br><br>
+                            <label for="image-to-pixel" class="file-label">
+                                <input type="file" id="image-to-pixel" accept="image/*">
+                                Add Pixel Data From Image
+                            </label>
+                            <br>
+                            <input type="button" value=". . ." onclick="gotoTab('pixel-data-from-image-settings', true)" style="padding: 0 15vw;border-radius: 0 0 50vw 50vw">
+                            <br>
+                            <label for="raw-data-fp" class="file-label">
+                                Add Pixel Data Raw Data (SPAD)
+                                <input type="file" id="raw-data-fp" accept=".spad" value="F">
+                            </label> <br> <br>
+                            <label for="copy-color-from-cell-checkbox">Copy Color From Cell : </label>
+                            <input type="checkbox" id="copy-color-from-cell-checkbox"><br>
+                            <span id="copied-color-shower"></span><br>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="pixel-data-from-image-settings" data-type="hidden-tab">Pixel Data From Image Settings</h3> <br>
+                            <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled : </label>
+                            <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
+                            <label for="flexible-dimension">Flexible Dimension : </label>
+                            <select id="flexible-dimension">
+                                <option value="none">None(Strech)</option>
+                                <option value="width">Width</option>
+                                <option value="height">Height</option>
+                                <option value="lesser">Whichever Is Lesser</option>
+                                <option value="greater">Whichever Is Greater</option>
+
+                            </select>
+                        </div>
+
+                        <div><br>
+                            <h3 data-type="hidden-tab" data-tabname="variation-settings">Variation Settings</h3> <br>
+                            <label for="color-variation-th-slider">Threshold : </label>
+                            <input type="range" id="color-variation-th-slider" max="15" min="1" value="2">
+                            <span id="color-variation-th-shower">(2)</span>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey='d' data-type="hidden-tab" data-tabname="color-history">Color History</h3> <br>
+                            <input type="button" value="Extract Colours" id="extract-pallette">
+                            <input type="button" value="Delete All Colors" id="delete-non-default-pallette">
+                            <br>
+                            <div id="pallate-container">
+                            </div>
+
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="shape-tools">Shape Tools</h3> <br>
+                            <div class="shape-settings">
+                                <img src="icons/banners/no-settings-present.png" alt="NO SETTINGS PRESENT" style="width: 70%">
+                            </div>
+                            <div data-settingname="none" class="shape-settings active-shape-setting">
+                                <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED" style="width: 70%">
+                            </div>
+                            <div class="shape-settings" data-settingname="triangle">
+                                <h3>Triangle</h3>
+                                <br>
+                                <label for="change-per-col">Change Per Col : </label>
+                                <input type="number" id="change-per-col" value="2">
+                                <br>
+                                <label for="all-changes-on">All Changes On : </label>
+                                <select id="all-changes-on">
+                                    <option value="">Divided</option>
+                                    <option value="right">Right</option>
+                                    <option value="left">Left</option>
+                                </select>
+                            </div>
+                            <div class="shape-settings" data-settingname="zoom">
+                                <h3>Zooming</h3>
+                                <br>
+                                <input type="button" class="zoom-out" value="Zoom Out">
+                            </div>
+                            <div class="shape-settings" data-settingname="rect">
+                                <h3>Rectangle</h3>
+                                <br>
+                                <div class="switch-container">
+                                    <label for="shortcut-info-checkbox">Fill Rectangle :</label>
+
+                                    <label class="switch">
+                                        <input type="checkbox" id="fill-rect" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="switch-container">
+                                    <label for="fixed-rect-size">Fixed Size : </label>
+
+                                    <label class="switch">
+                                        <input type="checkbox" id="fixed-rect-size">
+
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <!-- <label for="rect-border-radius">Rect Border Radius bX : </label>
+                        <input type="range" id="rect-border-radius"> -->
+                                <br>
+                                <label for="fixed-rect-width">Fixed Width Value : </label>
+                                <input type="button" id="minus-rw-count">
+                                <input type="number" id="fixed-rect-width" placeholder="Enter Fixed Width..." value="5">
+                                <input type="button" id="plus-rw-count">
+                                <br>
+                                <label for="fixed-rect-height">Fixed Height Value : </label>
+                                <input type="button" id="minus-rh-count">
+                                <input type="number" id="fixed-rect-height" placeholder="Enter Fixed Height..." value="5">
+                                <input type="button" id="plus-rh-count">
+
+                            </div>
+                            <div class="shape-settings" data-settingname="selecting">
+                                <h3>Selection</h3>
+                                <img class="selection-image-shower image">
+                                <br>
+                                <span id="selection-size"></span>
+                                <br> <br>
+                                <input type="button" value="Apply Selected Data" id="apply-selected-data">
+                                <br>
+                                <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
+                            </div>
+                            <div class="shape-settings" data-settingname="circle">
+                                <h3>Circle</h3> <br>
+                                <label for="fill-circle">Fill Circle : </label>
+                                <input type="checkbox" checked id="fill-circle">
+                                <br>
+                                <label for="circle-algorithm">Circle Algorithm : </label>
+                                <select id="circle-algorithm">
+                                    <option value="natural">Natural</option>
+                                    <option value="accurate">Accurate</option>
+                                </select>
+                                <br>
+                                <label for="fixed-radius">Fixed Radius: </label>
+                                <input type="checkbox" id="fixed-radius">
+                                <br>
+                                <label for="fixed-radius-value">Fixed Radius Value : </label>
+                                <input type="button" id="m-f-radius">
+                                <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..." value="5">
+                                <input type="button" id="p-f-radius">
+
+                            </div>
+                            <div class="shape-settings" data-settingname="paste">
+                                <h3>Paste</h3>
+                                <img class="selection-image-shower image">
+                                <br> <br>
+                                <label for="paste-transparent-cell-effect">Transparent Cells Have No Effect : </label>
+                                <input type="checkbox" id="paste-transparent-cell-effect" checked>
+                                <br>
+                                <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
+                            </div>
+                            <div class="shape-settings" data-settingname="line">
+                                <h3>Line</h3> <br>
+                                <label for="connect-last-line-location">Connect To Last Line : </label>
+                                <input type="checkbox" id="connect-last-line-location">
+                            </div>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="tracing-tools">Tracing Tools</h3>
+                            <br>
+                            <label for="fp-trace-image" class="file-label">
+                                <input type="file" id="fp-trace-image" accept="image/*">
+                                Select Trace Image
+                            </label> <br> <br>
+                            <label for="trace-image-opacity">Trace Image Opacity : </label>
+                            <input type="range" id="trace-image-opacity" value="50"> <br>
+                            <label for="paint-zone-opacity">Paint Zone Opacity : </label>
+                            <input type="range" value="100" id="paint-zone-opacity"> <br>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="c" data-type="hidden-tab" data-tabname="copy_options">Copy Options</h3><br>
+                            <label for="guide-checkbox2">Quadrant Guides: </label>
+                            <input type="checkbox" name="guide-checkbox2" id="guide-checkbox2">
+                            <br>
+                            <label for="multiply-q-selector">Multiply From : </label>
+                            <select name="multiply-q-selector" id="multiply-q-selector">
+                                <option value="1">Quadrant I</option>
+                                <option value="2">Quadrant II</option>
+                                <option value="3">Quadrant III</option>
+                                <option value="4">Quadrant IV</option>
+                            </select> <br>
+                            <details>
+                                <summary>
+                                    Copy To : <span id="copy-targets-shower"></span>
+                                </summary>
+                                <br>
+                                <input type="button" id="select-all-copy-targets" value="Select All">
+                                <br>
+                                <label for="q1-multiply-target-checkbox">Quadrant I : </label>
+                                <input type="checkbox" id="q1-multiply-target-checkbox" checked>
+                                <br>
+                                <label for="q2-multiply-target-checkbox">Quadrant II : </label>
+                                <input type="checkbox" id="q2-multiply-target-checkbox" checked>
+                                <br>
+                                <label for="q3-multiply-target-checkbox">Quadrant III : </label>
+                                <input type="checkbox" id="q3-multiply-target-checkbox" checked>
+                                <br>
+                                <label for="q4-multiply-target-checkbox">Quadrant IV : </label>
+                                <input type="checkbox" id="q4-multiply-target-checkbox" checked>
+                                <br>
+                            </details>
+                            <br> <input type="button" value="Multiply" id="multiply-q-button">
+                        </div>
+
+                        <div id="drawings-section">
+                            <br>
+                            <h3 data-shortcutkey="q">Saved Drawings</h3>
+                            <br>
+                            <input type="text" placeholder="Enter Drawing Name" id="drawing-name" class="right-flat">
+                            <input type="button" value="×" class="left-flat" onclick="drawingName.value=''">
+                            <br>
+                            <input type="button" value="Save Drawing(Browser)" id="save-to-ls" onclick="saveCanvasAsDrawing()">
+                            <br>
+                            <div id="no-drawing-present-div">
+                                <img src="icons/tick.png" alt="" width="64px">
+                                <br>
+                                <span style="font-size: 1rem">Your Saved Drawings Should Appear Here.</span>
+                                <br>
+                            </div>
+                            <div id="drawings">
+                            </div>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="o">Filters</h3> <br>
+                            <input type="button" value="Invert" id="filter-invert">
+                            <input type="button" value="Sepia" id="filter-sepia">
+                            <input type="button" value="Grayscale" id="filter-grayscale">
+                            <input type="button" value="Solorize" id="filter-solorize">
+                            <input type="button" value="Duotone" id="filter-duotone">
+                            <input type="button" value="Add Noise" id="shift-colors-button">
+                            <br>
+                            <br>
+                            <h4>Custom Filter</h4>
+                            <br>
+                            <label for="custom-filter-r">R = </label>
+                            <input type="text" id="custom-filter-r">
+                            <br>
+                            <label for="custom-filter-g">G = </label>
+                            <input type="text" id="custom-filter-g">
+                            <br>
+                            <label for="custom-filter-b">B = </label>
+                            <input type="text" id="custom-filter-b">
+                            <br>
+                            <input type="button" value="Apply Filter" id="apply-custom-filter">
+                            <br>
+                            <span>
+                                &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b` are their original values for each pixel.
+                            </span>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="f">Replace Tools</h3><br>
+                            <label for="color-selector">Find : </label>
+                            <input value="#FF0000" type="color" id="color-to-be-replaced-selector">
+                            Or <input class="hex-input" type="text" id="color-to-be-replaced-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
+                            <label for="select-color-for-find">Select Color From Cell : </label>
+                            <input type="checkbox" id="select-color-for-find"><br>
+                            <label for="color-selector">Replace With : </label>
+                            <input value="#FF0000" type="color" id="color-to-replace-with-selector">
+                            Or <input class="hex-input" type="text" id="color-to-replace-with-selector-hex" placeholder="Enter Hex..." maxlength="7">
+                            <br> <label for="select-color-for-replacer">Select Color From Cell : </label>
+                            <input type="checkbox" id="select-color-for-replacer"><br>
+                            <label for="replace-with-normal">Or Replace With Selected Color : </label>
+                            <input type="checkbox" id="replace-with-normal"><br>
+                            <label for="color-match-threshold-range">Threshold : </label>
+                            <input type="range" min="0" max="225" value="0" id="color-match-threshold-range">
+                            <span id="threshold-shower">(0)</span>
+                            <br> <input type="button" value="Replace" id="replace-button"> <br>
+                            <input type="button" id="replace-content-awarely" value="Replace Content Awarely (no th support)">
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="g" data-type="hidden-tab" data-tabname="guide-options">Guide Options</h3> <br>
+                            <label for="guide-checkbox">Quadrant Guides: </label>
+                            <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
+                            <br>
+                            <label for="border-checkbox">Show Cell Border: </label>
+                            <input type="checkbox" name="border-checkbox" id="border-checkbox" checked>
+                            <br>
+                            <label for="guide-cell-border-color">Cell Border Color: </label>
+                            <input type="color" id="guide-cell-border-color" value="#ffffff">
+                            Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="shape-manager" data-type="hidden-tab">Overlay Selector</h3>
+                            <br>
+                            <label for="add-shape" class="file-label">
+                                <input type="file" id="add-shape" accept="image/*">
+                                Add Overlay Image
+                            </label>
+                            <br>
+                            <img src="" alt="Shape Preview" id="shape-preview" width="100">
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="e">Export Options</h3><br>
+                            <label for="export-selector">
+                                Export :
+                            </label>
+                            <select id="export-selector">
+                                <option value="canvas">Canvas</option>
+                                <option value="selected-part">Selected Part</option>
+                            </select>
+                            <br>
+                            <input type="button" value="Drawing Preview" onclick="gotoTab('drawing_preview')">
+                            <hr>
+                            <h4>PNG</h4>
+                            <label for="cell-border-width-slider">Cell Border: </label>
+                            <input type="range" name="cell-border-width-slider" id="cell-border-width-slider" min='0' max='5' value='0' step="0.1">
+                            <span id="cell-border-width-shower">(0)</span>
+                            <br>
+                            <label for="cell-border-color-selector">Cell Border Color: </label>
+                            <input type="color" id="cell-border-color-selector">
+                            Or <input class="hex-input" type="text" id="export-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
+                            <br>
+                            <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On Transparent Cells: </label>
+                            <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
+                            <br>
+                            <label for="export-res">Resolution : </label>
+                            <span id="export-res-shower">(1024)</span>
+                            <input type="button" id="export-res-minus">
+                            <input id="export-res" type="range" min="100" , max="5000" value="1024">
+                            <input type="button" id="export-res-plus">
+                            <br>
+                            <input type="button" id="export-button2" value="Export (PNG)" class="highlighted-border">
+                            <br>
+                            <hr>
+                            <h4>Overlays</h4>
+                            <input type="button" value="Add Overlay Image Here" onclick="gotoTab('shape-manager', true)">
+                            <br>
+                            <label for="add-shape-on-transparent-cells">Add Overlay On Transparent Cells : </label>
+                            <input type="checkbox" id="add-shape-on-transparent-cells" checked>
+                            <br>
+                            <input type="button" value="Export With Overlays" id="export-with-shape" class="highlighted-border">
+                            <details>
+                                <summary>
+                                    &#9432;
+                                </summary>
+                                Overlay is an image that is painted over every pixel. It is usually a transparent image. It can be used to give pixels shading.
+                            </details>
+                            <hr>
+                            <h4>SVG</h4>
+                            <label for="svg-pixel-size">Pixel Size : </label>
+                            <input type="range" id="svg-pixel-size" max="50" min="1" value="1">
+                            <span id="svg-pixel-size-shower">(1)</span>
+                            <br>
+                            <input type="button" value="Export SVG" id="export-svg" class="highlighted-border">
+                            <br>
+                            <hr>
+                            <h4>Native</h4>
+                            <input type="button" value="Export (SPAD)" id="export-raw-data" class="highlighted-border"><br>
+                            <hr>
+                            <h4>Miscellaneous</h4>
+                            <input type="button" value="Export Mini" id="export-mini" class="highlighted-border"> <br>
+                            <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your pixel art.</span>
+                            <hr>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="anim">Animation</h3> <br>
+                            <input type="button" value="Options" onclick="gotoTab('anim-options')">
+                            <br>
+                            <input type="button" value="Add Frame" id="add-frame">
+                            <input type="button" value="Delete All Frames" onclick="deleteAllFrames()">
+                            <br> <span id="frame-count">0</span> Frame(s) <br>
+                            <input type="number" id="global-frame-delay" placeholder="Time Per Frame(ms)">
+                            <br>
+                            <input type="button" value="Export GIF" id="export-gif">
+                            <br>
+                            <div id="frames"></div>
+                        </div>
+                        <div>
+                            <br>
+                            <h3>Custom Script</h3>
+                            <br>
+                            <textarea id="custom-script"></textarea>
+                            <br>
+                            <br>
+                            <input type="button" value="Execute" id="execute-custom-script">
+                            <br>
                             <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
                             <input value="Logs" onclick="gotoTab('error-log')" type="button">
                         </div>
-                        <div data-csname="palette">
-                            <div class="palette" id="palette-cs"></div>
+                        <div id="themes-section">
                             <br>
-                            <label for="palette-selector">Select Palette : </label>
-                            <select id="palette-selector">
+                            <h3 data-shortcutkey="h" data-type="hidden-tab" data-tabname="themes">Themes</h3><br>
+                            <input type="button" value="Layout" onclick="gotoTab('layout')">
+                            <br>
+                            <label for="theme-hue">Theme Hue : </label>
+                            <input type="range" id="theme-hue" min="0" max="360">
+                            <br>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="z">Settings</h3> <br>
+                            <input type="button" value="Preferences" onclick="gotoTab('preferences')">
+                            <input type="button" value="Layout" onclick="gotoTab('layout')">
+                            <input type="button" value="Themes" onclick="gotoTab('themes')"> <br>
+                            <input type="button" value="Previous Versions" onclick="gotoTab('previous_versions')">
+                        </div>
+                        <div>
+                            <br>
+                            <h3>About</h3>
+                            <br>
+                            Contact : <a href="mailto:yaverjavid@gmail.com"> yaverjavid@gmail.com</a><br>
+                            <br>
+                            <h2>Developed Under: </h2>
+                            <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-research.png" width="60%" onclick="confirm('Do you really want to leave for an external site?') ? window.location.href = 'https://synfr.vercel.app' : false">
+                            <h2>Awarded By(2024): </h2>
+                            <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-awards.png" width="60%">
+                            <br>
+                            <br>
+                            <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
+                            <span>Pixmacr @ <span id="version"></span> (<a href="README.md">What's New?</a>)</span>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="layout">Layout Settings</h3> <br>
+                            <div class="switch-container">
+                                <label for="shortcut-info-checkbox">Show Shortcut Info</label>
+
+                                <label class="switch">
+
+                                    <input type="checkbox" id="shortcut-info-checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
+
+                            <div class="switch-container">
+                                <label for="hide-default-pallette-checkbox">Hide Default Pallette</label>
+
+                                <label class="switch">
+                                    <input type="checkbox" id="hide-default-pallette-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
+
+                            <div class="switch-container">
+                                <label for="animate-menu-checkbox">Animate Menu</label>
+
+                                <label class="switch">
+                                    <input type="checkbox" id="animate-menu-checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
+
+                            <div class="switch-container">
+                                <label for="add-image-background-checkbox">Use Image Background</label>
+
+                                <label class="switch">
+                                    <input type="checkbox" id="add-image-background-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div id="drawing-checker-section">
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="drawing_preview">Drawing Preview</h3>
+                            <br>
+                            <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
+                            <img width="0" height="0">
+                        </div>
+
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="fill-alternate-settings">Fill Alternate Settings</h3>
+                            <br>
+                            <label for="fill-gap">Fill Gap : </label>
+                            <input type="number" id="fill-gap" value="1"> <br>
+
+                            <label for="fill-count">Fill Count : </label>
+                            <input type="button" id="minus-fill-count">
+                            <input type="number" value="1" id="fill-count">
+                            <input type="button" id="plus-fill-count">
+
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="previous_versions">Previous Versions</h3> <br>
+                            <a href="https://yaverjavid.github.io/bitmacr.v1">Version 1</a> <br>
+                            <a href="https://yaverjavid.github.io/bitmacr.v2">Version 2</a> <br>
+                            <a href="https://yaverjavid.github.io/bitmacr.v3">Version 3</a> <br>
+                            <a href="https://yaverjavid.github.io/bitmacr.v4">Version 4</a> <br>
+                            <a href="https://yaverjavid.github.io/bitmacr.v5">Version 5</a> <br>
+                            <a href="https://yaverjavid.github.io/bitmacr.v6">Version 6</a>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="preferences">Preferences</h3> <br>
+                            <div class="switch-container">
+                                <label for="auto-save">Auto Save Sessions</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="auto-save" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
+                            <div class="switch-container">
+                                <label for="add-new-session-on-opening">Add New Session On Opening </label>
+                                <label class="switch">
+                                    <input type="checkbox" id="add-new-session-on-opening">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="simplify-colors-options">Simplify Colors Settings</h3>
+                            <br>
+                            <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
+                            <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
+                            <span id="simplify-colors-threshold-shower">(100)</span>
+                            <br>
+                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
+
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="palette-manager" data-type="hidden-tab">Palette Manager</h3>
+                            <hr>
+                            <br>
+                            <input type="button" value="Add New Color" id="p-add-new-color">
+                            <input type="button" value="Delete Selected Color" id="p-remove-selected-color">
+                            <input type="button" value="Copy Selected Pallete" id="p-copy-selected">
+                            <br>
+                            <input type="button" value="Extract Colors From Canvas" id="p-extract-from-canvas">
+                            <br>
+                            <div class="palette" id="palette-creator-palette">
+                                <div style="background: deeppink"> </div>
+                                <div style="background: lightblue"> </div>
+                            </div> <br>
+                            <label for="change-palette-creator-color">Change Color To : </label>
+                            <input type="color" id="change-palette-creator-color" value="#ff0000">
+                            <br>
+                            <br>
+                            <input type="text" id="change-palette-creator-css-color" placeholder="Any Css Color...">
+                            <br>
+                            <label for="select-color-for-palette-creator">Select Color From Cell : </label>
+                            <input type="checkbox" id="select-color-for-palette-creator">
+                            <hr>
+                            <br>
+                            <input type="text" id="p-name" placeholder="Palette Name...">
+                            <br>
+                            <input type="button" id="save-palette" value="Save Palette">
+                            <hr><br>
+                            <input type="button" value="Delete Selected Palette" onclick="deleteSelectedPalette()">
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="anim-options">Animation Options</h3>
+                            <br>
+                            <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
+                            <input type="checkbox" id="auto-trace-last-frame" checked>
+                            <br>
+                            <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
+                            <input type="checkbox" id="auto-fallback-to-background" checked>
+                            <br>
+                            <img src="" id="animation-background-shower">
+                            <br>
+                            <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
+                            <br>
+                            <label for="add-frame-after-every-color-change">Fill Frame After Every Color Change : </label>
+                            <input type="checkbox" id="add-frame-after-every-color-change">
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="dev">Dev</h3>
+                            <br>
+                            <p>This Is Experimental And Unpolished</p>
+                            <br>
+                            <select id="paint-mode-selector">
+                                <option value="none">None</option>
+                                <option value="circle">Circle</option>
+                                <option value="zoom">Zoom</option>
+
+                                <option value="sphere">Sphere</option>
+                                <option value="rect">Rectangle</option>
+                                <option value="line">Line</option>
+                                <option value="line-stroke">Stroke</option>
+                                <option value="stroke">Old Stroke</option>
+                                <option value="selecting">Selecting</option>
+                                <option value="paste">Paste</option>
+                                <option value="triangle">Triangle</option>
                             </select>
                             <br>
-                            <input type="button" value="Palette Manager" onclick='gotoTab("palette-manager")'>
-
                         </div>
-                        <div data-csname="eraser">
-                            HUH¡
-                        </div>
-                        <div data-csname="random">
-                            <label for="random-from">Random From : </label>
-                            <select id="random-from">
-                                <option value="all">All</option>
-                                <option value="color-history">Color History</option>
-                                <option value="selected-palette">Selected Pallette</option>
-                            </select>
-                        </div>
-                        <div data-csname="hsl">
-                            <input type="color" id="hue-color-shower">
-
+                        <div>
                             <br>
-                            <label for="saturation-slider">Saturation : </label>
-                            <input type="range" name="" id="saturation-slider" min="0" max="100" value="50">
-                            <span id="saturation-shower">(50%)</span>
-                            <input type="checkbox" id="select-saturation-cell">
+                            <h3 data-type="hidden-tab" data-tabname="error-log">Error Logger</h3>
                             <br>
-                            <label for="lighting-slider">Lighting : </label>
-                            <input type="range" id="lighting-slider" min="0" max="100" value="40">
-                            <span id="lighting-shower">(40%)</span>
-                            <input type="checkbox" id="select-lighting-cell">
+                            <span>&#9432;This only includes errors of user formulas and custom scripts.</span>
                             <br>
-                            <label for="hue-angle">Hue Angle : </label>
-                            <input type="range" id="hue-angle" min="0" max="360" step="0.1" value="0">
-                            <span id="hue-angle-shower">(0&deg;)</span>
-                            <input type="checkbox" id="select-hue-from-cell">
+                            <input type="button" value="Download Full Log Report" id="download-full-log-report">
                             <br>
-                            <label for="hue-speed-slider">Speed : </label>
-                            <input type="button" id="m-hue-speed">
-                            <input type="range" id="hue-speed-slider" min="0" max="15" step="0.1" value="0">
-                            <input type="button" id="p-hue-speed">
-                            <span id="hue-speed-shower">(0&deg;)</span>
+                            <h4>Last 100 Errors : </h4>
+                            <div id="error-log">
+                            </div>
                         </div>
-                        <div data-csname="css-color">
-                            <label for="color-string-input">CSS Color String : </label>
-                            <input type="text" id="color-string-input" placeholder="Enter CSS Color String" class="right-flat" style="width:45vw">
-                            <div id="css-color-string-shower" class="left-flat"></div>
-                        </div>
-                    </div>
-                    <hr>
-                    <label for="opacity">Opacity : </label>
-                    <input type="range" step="0.1" max="1" min="0" value="1" id="opacity">
-                    <span id="opacity-shower">(1)</span>
-                    <br>
-                    <input type="button" id="clear-button" value="Clear All">
-                    <input type="button" id="fill-all-button" value="Fill All">
-                    <input type="button" id="rotate-clockwise-button" value="Rotate 90&deg;">
-                    <br>
-                    <input type="button" id="flip-vertically" value="Flip Vertically &#8597;">
-                    <input type="button" id="flip-horizontally" value="Flip Horizontally &harr;"> <br>
-                    <div class="infinite-scroll-x" id="popular-sizes-container">
-                    </div>
-                    <label for="row-slider">Rows(&#8597;) : </label>
-                    <input type="button" value="- 1" id="decrement-row">
-                    <input type="range" id="row-slider" min='1' max='100' value='10'>
-                    <input type="button" value="+ 1" id="increment-row">
-                    <span id="rows-shower">(10)</span>
-                    <br>
-                    <label for="col-slider">Cols(&harr;) : </label>
-                    <input type="button" value="- 1" id="decrement-col">
-                    <input type="range" id="col-slider" min='1' max='100' value='10'>
-                    <input type="button" value="+ 1" id="increment-col">
-                    <span id="cols-shower">(10)</span>
-                    <br>
-                    <label for="cell-slider">C. Size : </label>
-                    <input type="button" value="- 1" id="decrement-canvas-size">
-                    <input type="range" name="cell-slider" id="cells-slider" min='1' max='100' value='10'>
-                    <input type="button" value="+ 1" id="increment-canvas-size">
-                    <span id="canvas-size-shower">(10)</span>
-                    <br>
-                    <div class="infinite-scroll-x" id="popular-aspect-ratios-container">
-                    </div>
-                    <label for="h-w-ratio">H/W Ratio : </label>
-                    <input type="number" id="h-w-ratio" placeholder="h/w">
-                    <br>
-                    <label for="guide-cell-border2">Cell Border : </label>
-                    <input type="checkbox" id="guide-cell-border2" checked>
-                    <input type="button" class="left-flat" value="Guide Options" onclick="gotoTab('guide-options', true)">
-
-                    <br>
-                    <input type="button" value="Canvas Manipulation" onclick="gotoTab('canvas-manipulation', true)">
-                    <br>
-                    <input type="button" value="Trace Tools" onclick="gotoTab('tracing-tools', true)">
-                    <br>
-                    <input type="button" value="Color History" onclick="gotoTab('color-history', true)">
-                    <br>
-                    <input type="button" value="Force Save Sessions" onclick="saveSessions(sessions)">
-                    <input type="button" value="Close All Sessions" onclick="closeAllSessions()">
-                    <details>
-                        <summary>&#9432; (Force Save Sessions)</summary>
-                        <p>Hint : Use This To Forcefully Save, Due To The Limitations In Browser Auto Save Might Not Work. <kbd>ctrl+L</kbd></p>
-                    </details>
-                </div>
-                <div>
-
-                    <br>
-                    <h3 data-tabname="canvas-manipulation" data-type="hidden-tab">Canvas Manipulation</h3><br>
-                    <input type="button" id="shift-up" value="Shift Up"> <br>
-                    <input type="button" id="shift-right" value="Shift Right" style="margin-right: 0.7lh">
-                    <input type="button" id="shift-left" value="Shift Left"> <br>
-                    <input type="button" id="shift-down" value="Shift Down"> <br>
-                    <label for="wrap-shift">Wrap Shift : </label>
-                    <input type="checkbox" id="wrap-shift">
-                    <br>
-                    <label for="shift-fill">Shift Fill With Selected Color: </label>
-                    <input type="checkbox" id="shift-fill">
-                    <hr>
-                    <input type="button" id="add-row-top" value="Add Row Top"> <br>
-                    <input type="button" id="add-col-right" value="Add Col Right" style="margin-right: 0.7lh">
-                    <input type="button" id="add-col-left" value="Add Col Left"> <br>
-                    <input type="button" id="add-row-down" value="Add Row Down"> <br>
-                    <label for="give-up-undo-state">Give Up Undo State : </label> <input type="checkbox" id="give-up-undo-state">
-                    <br>
-                    <details>
-                        <summary>&#9432;</summary>
-                        <br>
-                        We Recommend You To Turn This Checkbox On For Faster Response Time (If You Turn This On Undo State Will Be Lost For Row Or Col Addition)
-                    </details>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="t">Basic Tools</h3>
-                    <h4>Fill Rule</h4>
-                    <label for="only-fill-transaprent">Fill <input value="If" type="button" id="flip-fill-only-if-type"> Color Is </label>
-                    <input type="button" value="×" class="right-flat" onclick="fillOnlyThisColor.value=''">
-                    <input type="text" id="fill-only-this-color" class="hex-input left-flat" placeholder="Any CSS Color"> :
-                    <input type="checkbox" id="only-fill-if-color-is" />
-                    <br>
-                    <label for="select-for-only-fill-if">Select Color From Cell : </label>
-                    <input type="checkbox" id="select-for-only-fill-if">
-                    <br>
-                    <label for="only-fill-matching-threshold">Threshold : </label>
-                    <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
-                    <span id="only-fill-matching-threshold-shower">(Exact Match)</span>
-                    <hr><br>
-                    <label for="slight-variations-checkbox">Slight Variations In Color : </label>
-                    <input type="checkbox" id="slight-variations-checkbox">
-                    <input type="button" value=". . ." onclick="gotoTab('variation-settings')" class="left-flat">
-                    <br>
-                    <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()" class="right-flat">
-                    <input type="button" value=". . ." class="left-flat" onclick="gotoTab('simplify-colors-options')">
-                    <br>
-                    <label for="fill-alternate">Fill Alternate : </label>
-                    <input type="checkbox" id="fill-alternate" class=" left-flat">
-                    <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ." class="left-flat">
-                    <br>
-                    <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
-                    <label for="image-pixelart-to-pixel" class="file-label">
-                        <input type="file" id="image-pixelart-to-pixel" accept="image/*">
-                        Add Pixel Data From Image (Auto Size Detection)
-                    </label>
-                    <br><br>
-                    <label for="image-to-pixel" class="file-label">
-                        <input type="file" id="image-to-pixel" accept="image/*">
-                        Add Pixel Data From Image
-                    </label>
-                    <br>
-                    <input type="button" value=". . ." onclick="gotoTab('pixel-data-from-image-settings', true)" style="padding: 0 15vw;border-radius: 0 0 50vw 50vw">
-                    <br>
-                    <label for="raw-data-fp" class="file-label">
-                        Add Pixel Data Raw Data (SPAD)
-                        <input type="file" id="raw-data-fp" accept=".spad" value="F">
-                    </label> <br> <br>
-                    <label for="copy-color-from-cell-checkbox">Copy Color From Cell : </label>
-                    <input type="checkbox" id="copy-color-from-cell-checkbox"><br>
-                    <span id="copied-color-shower"></span><br>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-tabname="pixel-data-from-image-settings" data-type="hidden-tab">Pixel Data From Image Settings</h3> <br>
-                    <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled : </label>
-                    <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
-                    <label for="flexible-dimension">Flexible Dimension : </label>
-                    <select id="flexible-dimension">
-                        <option value="none">None(Strech)</option>
-                        <option value="width">Width</option>
-                        <option value="height">Height</option>
-                        <option value="lesser">Whichever Is Lesser</option>
-                        <option value="greater">Whichever Is Greater</option>
-
-                    </select>
-                </div>
-
-                <div><br>
-                    <h3 data-type="hidden-tab" data-tabname="variation-settings">Variation Settings</h3> <br>
-                    <label for="color-variation-th-slider">Threshold : </label>
-                    <input type="range" id="color-variation-th-slider" max="15" min="1" value="2">
-                    <span id="color-variation-th-shower">(2)</span>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey='d' data-type="hidden-tab" data-tabname="color-history">Color History</h3> <br>
-                    <input type="button" value="Extract Colours" id="extract-pallette">
-                    <input type="button" value="Delete All Colors" id="delete-non-default-pallette">
-                    <br>
-                    <div id="pallate-container">
-                    </div>
-
-                </div>
-                <div>
-                    <br>
-                    <h3 data-tabname="shape-tools">Shape Tools</h3> <br>
-                    <div class="shape-settings">
-                        <img src="icons/banners/no-settings-present.png" alt="NO SETTINGS PRESENT" style="width: 70%">
-                    </div>
-                    <div data-settingname="none" class="shape-settings active-shape-setting">
-                        <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED" style="width: 70%">
-                    </div>
-                    <div class="shape-settings" data-settingname="triangle">
-                        <h3>Triangle</h3>
-                        <br>
-                        <label for="change-per-col">Change Per Col : </label>
-                        <input type="number" id="change-per-col" value="2">
-                        <br>
-                        <label for="all-changes-on">All Changes On : </label>
-                        <select id="all-changes-on">
-                            <option value="">Divided</option>
-                            <option value="right">Right</option>
-                            <option value="left">Left</option>
-                        </select>
-                    </div>
-                    <div class="shape-settings" data-settingname="zoom">
-                        <h3>Zooming</h3>
-                        <br>
-                        <input type="button" class="zoom-out" value="Zoom Out">
-                    </div>
-                    <div class="shape-settings" data-settingname="rect">
-                        <h3>Rectangle</h3>
-                        <br>
-                        <div class="switch-container">
-                            <label for="shortcut-info-checkbox">Fill Rectangle :</label>
-
-                            <label class="switch">
-                                <input type="checkbox" id="fill-rect" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <br>
-                        <div class="switch-container">
-                            <label for="fixed-rect-size">Fixed Size : </label>
-
-                            <label class="switch">
-                                <input type="checkbox" id="fixed-rect-size">
-
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <!-- <label for="rect-border-radius">Rect Border Radius bX : </label>
-                        <input type="range" id="rect-border-radius"> -->
-                        <br>
-                        <label for="fixed-rect-width">Fixed Width Value : </label>
-                        <input type="button" id="minus-rw-count">
-                        <input type="number" id="fixed-rect-width" placeholder="Enter Fixed Width..." value="5">
-                        <input type="button" id="plus-rw-count">
-                        <br>
-                        <label for="fixed-rect-height">Fixed Height Value : </label>
-                        <input type="button" id="minus-rh-count">
-                        <input type="number" id="fixed-rect-height" placeholder="Enter Fixed Height..." value="5">
-                        <input type="button" id="plus-rh-count">
 
                     </div>
-                    <div class="shape-settings" data-settingname="selecting">
-                        <h3>Selection</h3>
-                        <img class="selection-image-shower image">
-                        <br>
-                        <span id="selection-size"></span>
-                        <br> <br>
-                        <input type="button" value="Apply Selected Data" id="apply-selected-data">
-                        <br>
-                        <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
-                    </div>
-                    <div class="shape-settings" data-settingname="circle">
-                        <h3>Circle</h3> <br>
-                        <label for="fill-circle">Fill Circle : </label>
-                        <input type="checkbox" checked id="fill-circle">
-                        <br>
-                        <label for="circle-algorithm">Circle Algorithm : </label>
-                        <select id="circle-algorithm">
-                            <option value="natural">Natural</option>
-                            <option value="accurate">Accurate</option>
-                        </select>
-                        <br>
-                        <label for="fixed-radius">Fixed Radius: </label>
-                        <input type="checkbox" id="fixed-radius">
-                        <br>
-                        <label for="fixed-radius-value">Fixed Radius Value : </label>
-                        <input type="button" id="m-f-radius">
-                        <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..." value="5">
-                        <input type="button" id="p-f-radius">
-
-                    </div>
-                    <div class="shape-settings" data-settingname="paste">
-                        <h3>Paste</h3>
-                        <img class="selection-image-shower image">
-                        <br> <br>
-                        <label for="paste-transparent-cell-effect">Transparent Cells Have No Effect : </label>
-                        <input type="checkbox" id="paste-transparent-cell-effect" checked>
-                        <br>
-                        <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
-                    </div>
-                    <div class="shape-settings" data-settingname="line">
-                        <h3>Line</h3> <br>
-                        <label for="connect-last-line-location">Connect To Last Line : </label>
-                        <input type="checkbox" id="connect-last-line-location">
-                    </div>
                 </div>
-                <div>
-                    <br>
-                    <h3 data-tabname="tracing-tools">Tracing Tools</h3>
-                    <br>
-                    <label for="fp-trace-image" class="file-label">
-                        <input type="file" id="fp-trace-image" accept="image/*">
-                        Select Trace Image
-                    </label> <br> <br>
-                    <label for="trace-image-opacity">Trace Image Opacity : </label>
-                    <input type="range" id="trace-image-opacity" value="50"> <br>
-                    <label for="paint-zone-opacity">Paint Zone Opacity : </label>
-                    <input type="range" value="100" id="paint-zone-opacity"> <br>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="c" data-type="hidden-tab" data-tabname="copy_options">Copy Options</h3><br>
-                    <label for="guide-checkbox2">Quadrant Guides: </label>
-                    <input type="checkbox" name="guide-checkbox2" id="guide-checkbox2">
-                    <br>
-                    <label for="multiply-q-selector">Multiply From : </label>
-                    <select name="multiply-q-selector" id="multiply-q-selector">
-                        <option value="1">Quadrant I</option>
-                        <option value="2">Quadrant II</option>
-                        <option value="3">Quadrant III</option>
-                        <option value="4">Quadrant IV</option>
-                    </select> <br>
-                    <details>
-                        <summary>
-                            Copy To : <span id="copy-targets-shower"></span>
-                        </summary>
-                        <br>
-                        <input type="button" id="select-all-copy-targets" value="Select All">
-                        <br>
-                        <label for="q1-multiply-target-checkbox">Quadrant I : </label>
-                        <input type="checkbox" id="q1-multiply-target-checkbox" checked>
-                        <br>
-                        <label for="q2-multiply-target-checkbox">Quadrant II : </label>
-                        <input type="checkbox" id="q2-multiply-target-checkbox" checked>
-                        <br>
-                        <label for="q3-multiply-target-checkbox">Quadrant III : </label>
-                        <input type="checkbox" id="q3-multiply-target-checkbox" checked>
-                        <br>
-                        <label for="q4-multiply-target-checkbox">Quadrant IV : </label>
-                        <input type="checkbox" id="q4-multiply-target-checkbox" checked>
-                        <br>
-                    </details>
-                    <br> <input type="button" value="Multiply" id="multiply-q-button">
-                </div>
-
-                <div id="drawings-section">
-                    <br>
-                    <h3 data-shortcutkey="q">Saved Drawings</h3>
-                    <br>
-                    <input type="text" placeholder="Enter Drawing Name" id="drawing-name" class="right-flat">
-                    <input type="button" value="×" class="left-flat" onclick="drawingName.value=''">
-                    <br>
-                    <input type="button" value="Save Drawing(Browser)" id="save-to-ls" onclick="saveCanvasAsDrawing()">
-                    <br>
-                    <div id="no-drawing-present-div">
-                        <img src="icons/tick.png" alt="" width="64px">
-                        <br>
-                        <span style="font-size: 1rem">Your Saved Drawings Should Appear Here.</span>
-                        <br>
-                    </div>
-                    <div id="drawings">
-                    </div>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="o">Filters</h3> <br>
-                    <input type="button" value="Invert" id="filter-invert">
-                    <input type="button" value="Sepia" id="filter-sepia">
-                    <input type="button" value="Grayscale" id="filter-grayscale">
-                    <input type="button" value="Solorize" id="filter-solorize">
-                    <input type="button" value="Duotone" id="filter-duotone">
-                    <input type="button" value="Add Noise" id="shift-colors-button">
-                    <br>
-                    <br>
-                    <h4>Custom Filter</h4>
-                    <br>
-                    <label for="custom-filter-r">R = </label>
-                    <input type="text" id="custom-filter-r">
-                    <br>
-                    <label for="custom-filter-g">G = </label>
-                    <input type="text" id="custom-filter-g">
-                    <br>
-                    <label for="custom-filter-b">B = </label>
-                    <input type="text" id="custom-filter-b">
-                    <br>
-                    <input type="button" value="Apply Filter" id="apply-custom-filter">
-                    <br>
-                    <span>
-                        &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b` are their original values for each pixel.
-                    </span>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="f">Replace Tools</h3><br>
-                    <label for="color-selector">Find : </label>
-                    <input value="#FF0000" type="color" id="color-to-be-replaced-selector">
-                    Or <input class="hex-input" type="text" id="color-to-be-replaced-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
-                    <label for="select-color-for-find">Select Color From Cell : </label>
-                    <input type="checkbox" id="select-color-for-find"><br>
-                    <label for="color-selector">Replace With : </label>
-                    <input value="#FF0000" type="color" id="color-to-replace-with-selector">
-                    Or <input class="hex-input" type="text" id="color-to-replace-with-selector-hex" placeholder="Enter Hex..." maxlength="7">
-                    <br> <label for="select-color-for-replacer">Select Color From Cell : </label>
-                    <input type="checkbox" id="select-color-for-replacer"><br>
-                    <label for="replace-with-normal">Or Replace With Selected Color : </label>
-                    <input type="checkbox" id="replace-with-normal"><br>
-                    <label for="color-match-threshold-range">Threshold : </label>
-                    <input type="range" min="0" max="225" value="0" id="color-match-threshold-range">
-                    <span id="threshold-shower">(0)</span>
-                    <br> <input type="button" value="Replace" id="replace-button"> <br>
-                    <input type="button" id="replace-content-awarely" value="Replace Content Awarely (no th support)">
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="g" data-type="hidden-tab" data-tabname="guide-options">Guide Options</h3> <br>
-                    <label for="guide-checkbox">Quadrant Guides: </label>
-                    <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
-                    <br>
-                    <label for="border-checkbox">Show Cell Border: </label>
-                    <input type="checkbox" name="border-checkbox" id="border-checkbox" checked>
-                    <br>
-                    <label for="guide-cell-border-color">Cell Border Color: </label>
-                    <input type="color" id="guide-cell-border-color" value="#ffffff">
-                    Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
-                </div>
-                <div>
-                    <br>
-                    <h3 data-tabname="shape-manager" data-type="hidden-tab">Overlay Selector</h3>
-                    <br>
-                    <label for="add-shape" class="file-label">
-                        <input type="file" id="add-shape" accept="image/*">
-                        Add Overlay Image
-                    </label>
-                    <br>
-                    <img src="" alt="Shape Preview" id="shape-preview" width="100">
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="e">Export Options</h3><br>
-                    <label for="export-selector">
-                        Export :
-                    </label>
-                    <select id="export-selector">
-                        <option value="canvas">Canvas</option>
-                        <option value="selected-part">Selected Part</option>
-                    </select>
-                    <br>
-                    <input type="button" value="Drawing Preview" onclick="gotoTab('drawing_preview')">
-                    <hr>
-                    <h4>PNG</h4>
-                    <label for="cell-border-width-slider">Cell Border: </label>
-                    <input type="range" name="cell-border-width-slider" id="cell-border-width-slider" min='0' max='5' value='0' step="0.1">
-                    <span id="cell-border-width-shower">(0)</span>
-                    <br>
-                    <label for="cell-border-color-selector">Cell Border Color: </label>
-                    <input type="color" id="cell-border-color-selector">
-                    Or <input class="hex-input" type="text" id="export-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
-                    <br>
-                    <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On Transparent Cells: </label>
-                    <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
-                    <br>
-                    <label for="export-res">Resolution : </label>
-                    <span id="export-res-shower">(1024)</span>
-                    <input type="button" id="export-res-minus">
-                    <input id="export-res" type="range" min="100" , max="5000" value="1024">
-                    <input type="button" id="export-res-plus">
-                    <br>
-                    <input type="button" id="export-button2" value="Export (PNG)" class="highlighted-border">
-                    <br>
-                    <hr>
-                    <h4>Overlays</h4>
-                    <input type="button" value="Add Overlay Image Here" onclick="gotoTab('shape-manager', true)">
-                    <br>
-                    <label for="add-shape-on-transparent-cells">Add Overlay On Transparent Cells : </label>
-                    <input type="checkbox" id="add-shape-on-transparent-cells" checked>
-                    <br>
-                    <input type="button" value="Export With Overlays" id="export-with-shape" class="highlighted-border">
-                    <details>
-                        <summary>
-                            &#9432;
-                        </summary>
-                        Overlay is an image that is painted over every pixel. It is usually a transparent image. It can be used to give pixels shading.
-                    </details>
-                    <hr>
-                    <h4>SVG</h4>
-                    <label for="svg-pixel-size">Pixel Size : </label>
-                    <input type="range" id="svg-pixel-size" max="50" min="1" value="1">
-                    <span id="svg-pixel-size-shower">(1)</span>
-                    <br>
-                    <input type="button" value="Export SVG" id="export-svg" class="highlighted-border">
-                    <br>
-                    <hr>
-                    <h4>Native</h4>
-                    <input type="button" value="Export (SPAD)" id="export-raw-data" class="highlighted-border"><br>
-                    <hr>
-                    <h4>Miscellaneous</h4>
-                    <input type="button" value="Export Mini" id="export-mini" class="highlighted-border"> <br>
-                    <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your pixel art.</span>
-                    <hr>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-tabname="anim">Animation</h3> <br>
-                    <input type="button" value="Options" onclick="gotoTab('anim-options')">
-                    <br>
-                    <input type="button" value="Add Frame" id="add-frame">
-                    <input type="button" value="Delete All Frames" onclick="deleteAllFrames()">
-                    <br> <span id="frame-count">0</span> Frame(s) <br>
-                    <input type="number" id="global-frame-delay" placeholder="Time Per Frame(ms)">
-                    <br>
-                    <input type="button" value="Export GIF" id="export-gif">
-                    <br>
-                    <div id="frames"></div>
-                </div>
-                <div>
-                    <br>
-                    <h3>Custom Script</h3>
-                    <br>
-                    <textarea id="custom-script"></textarea>
-                    <br>
-                    <br>
-                    <input type="button" value="Execute" id="execute-custom-script">
-                    <br>
-                    <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
-                    <input value="Logs" onclick="gotoTab('error-log')" type="button">
-                </div>
-                <div id="themes-section">
-                    <br>
-                    <h3 data-shortcutkey="h" data-type="hidden-tab" data-tabname="themes">Themes</h3><br>
-                    <input type="button" value="Layout" onclick="gotoTab('layout')">
-                    <br>
-                    <label for="theme-hue">Theme Hue : </label>
-                    <input type="range" id="theme-hue" min="0" max="360">
-                    <br>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-shortcutkey="z">Settings</h3> <br>
-                    <input type="button" value="Preferences" onclick="gotoTab('preferences')">
-                    <input type="button" value="Layout" onclick="gotoTab('layout')">
-                    <input type="button" value="Themes" onclick="gotoTab('themes')"> <br>
-                    <input type="button" value="Previous Versions" onclick="gotoTab('previous_versions')">
-                </div>
-                <div>
-                    <br>
-                    <h3>About</h3>
-                    <br>
-                    <h2>Developed Under: </h2>
-                    <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-research.png" width="60%" onclick="confirm('Do you really want to leave for an external site?') ? window.location.href = 'https://synfr.vercel.app' : false">
-                    <h2>Awarded By(2024): </h2>
-                    <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-awards.png" width="60%">
-                    <br>
-                    <br>
-                    <br>Contact : <a href="mailto:yaverjavid@gmail.com"> yaverjavid@gmail.com</a><br>
-                    <br>
-                    <br>
-                    <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
-                    <span>Pixmacr @ <span id="version"></span> (<a href="README.md">What's New?</a>)</span>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="layout">Layout Settings</h3> <br>
-                    <div class="switch-container">
-                        <label for="shortcut-info-checkbox">Show Shortcut Info</label>
-
-                        <label class="switch">
-
-                            <input type="checkbox" id="shortcut-info-checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <br>
-
-                    <div class="switch-container">
-                        <label for="hide-default-pallette-checkbox">Hide Default Pallette</label>
-
-                        <label class="switch">
-                            <input type="checkbox" id="hide-default-pallette-checkbox">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <br>
-
-                    <div class="switch-container">
-                        <label for="animate-menu-checkbox">Animate Menu</label>
-
-                        <label class="switch">
-                            <input type="checkbox" id="animate-menu-checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <br>
-
-                    <div class="switch-container">
-                        <label for="add-image-background-checkbox">Use Image Background</label>
-
-                        <label class="switch">
-                            <input type="checkbox" id="add-image-background-checkbox">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <br>
-                </div>
-
-                <div id="drawing-checker-section">
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="drawing_preview">Drawing Preview</h3>
-                    <br>
-                    <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
-                    <img width="0" height="0">
-                </div>
-
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="fill-alternate-settings">Fill Alternate Settings</h3>
-                    <br>
-                    <label for="fill-gap">Fill Gap : </label>
-                    <input type="number" id="fill-gap" value="1"> <br>
-
-                    <label for="fill-count">Fill Count : </label>
-                    <input type="button" id="minus-fill-count">
-                    <input type="number" value="1" id="fill-count">
-                    <input type="button" id="plus-fill-count">
-
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="previous_versions">Previous Versions</h3> <br>
-                    <a href="https://yaverjavid.github.io/bitmacr.v1">Version 1</a> <br>
-                    <a href="https://yaverjavid.github.io/bitmacr.v2">Version 2</a> <br>
-                    <a href="https://yaverjavid.github.io/bitmacr.v3">Version 3</a> <br>
-                    <a href="https://yaverjavid.github.io/bitmacr.v4">Version 4</a> <br>
-                    <a href="https://yaverjavid.github.io/bitmacr.v5">Version 5</a> <br>
-                    <a href="https://yaverjavid.github.io/bitmacr.v6">Version 6</a>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="preferences">Preferences</h3> <br>
-                    <div class="switch-container">
-                        <label for="auto-save">Auto Save Sessions</label>
-                        <label class="switch">
-                            <input type="checkbox" id="auto-save" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <br>
-                    <div class="switch-container">
-                        <label for="add-new-session-on-opening">Add New Session On Opening </label>
-                        <label class="switch">
-                            <input type="checkbox" id="add-new-session-on-opening">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="simplify-colors-options">Simplify Colors Settings</h3>
-                    <br>
-                    <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
-                    <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
-                    <span id="simplify-colors-threshold-shower">(100)</span>
-                    <br>
-                    <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
-
-                </div>
-                <div>
-                    <br>
-                    <h3 data-tabname="palette-manager" data-type="hidden-tab">Palette Manager</h3>
-                    <hr>
-                    <br>
-                    <input type="button" value="Add New Color" id="p-add-new-color">
-                    <input type="button" value="Delete Selected Color" id="p-remove-selected-color">
-                    <input type="button" value="Copy Selected Pallete" id="p-copy-selected">
-                    <br>
-                    <input type="button" value="Extract Colors From Canvas" id="p-extract-from-canvas">
-                    <br>
-                    <div class="palette" id="palette-creator-palette">
-                        <div style="background: deeppink"> </div>
-                        <div style="background: lightblue"> </div>
-                    </div> <br>
-                    <label for="change-palette-creator-color">Change Color To : </label>
-                    <input type="color" id="change-palette-creator-color" value="#ff0000">
-                    <br>
-                    <br>
-                    <input type="text" id="change-palette-creator-css-color" placeholder="Any Css Color...">
-                    <br>
-                    <label for="select-color-for-palette-creator">Select Color From Cell : </label>
-                    <input type="checkbox" id="select-color-for-palette-creator">
-                    <hr>
-                    <br>
-                    <input type="text" id="p-name" placeholder="Palette Name...">
-                    <br>
-                    <input type="button" id="save-palette" value="Save Palette">
-                    <hr><br>
-                    <input type="button" value="Delete Selected Palette" onclick="deleteSelectedPalette()">
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="anim-options">Animation Options</h3>
-                    <br>
-                    <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
-                    <input type="checkbox" id="auto-trace-last-frame" checked>
-                    <br>
-                    <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
-                    <input type="checkbox" id="auto-fallback-to-background" checked>
-                    <br>
-                    <img src="" id="animation-background-shower">
-                    <br>
-                    <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
-                    <br>
-                    <label for="add-frame-after-every-color-change">Fill Frame After Every Color Change : </label>
-                    <input type="checkbox" id="add-frame-after-every-color-change">
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="dev">Dev</h3>
-                    <br>
-                    <p>This Is Experimental And Unpolished</p>
-                    <br>
-                    <select id="paint-mode-selector">
-                        <option value="none">None</option>
-                        <option value="circle">Circle</option>
-                        <option value="zoom">Zoom</option>
-
-                        <option value="sphere">Sphere</option>
-                        <option value="rect">Rectangle</option>
-                        <option value="line">Line</option>
-                        <option value="line-stroke">Stroke</option>
-                        <option value="stroke">Old Stroke</option>
-                        <option value="selecting">Selecting</option>
-                        <option value="paste">Paste</option>
-                        <option value="triangle">Triangle</option>
-                    </select>
-                    <br>
-                </div>
-                <div>
-                    <br>
-                    <h3 data-type="hidden-tab" data-tabname="error-log">Error Logger</h3>
-                    <br>
-                    <span>&#9432;This only includes errors of user formulas and custom scripts.</span>
-                    <br>
-                    <input type="button" value="Download Full Log Report" id="download-full-log-report">
-                    <br>
-                    <h4>Last 100 Errors : </h4>
-                    <div id="error-log">
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
-
     <br>
     <!--The following tag will be used for color conversion-->
     <div id="psedo"></div>

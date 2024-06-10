@@ -15,6 +15,7 @@ function setTheme(accent, primary, secondary, iconsInverted = false) {
     setSecondaryColor(secondary)
     setAccentColor(accent)
     setPrimaryColor(primary)
+    root.style.setProperty("--shadow-color", iconsInverted ? "white" : "gray")
     changeCellBorderColor(secondary)
     localStorageREF.setItem("pixm_theme", `${accent},${primary},${secondary},${iconsInverted}`)
     borderColor = "#" + getPrimaryColor().slice(1)

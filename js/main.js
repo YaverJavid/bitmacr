@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.9.6.0"
+const VERSION = "v.2024.005"
 
 id("version").textContent = VERSION
 
