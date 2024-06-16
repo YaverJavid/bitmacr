@@ -76,7 +76,7 @@ function getCurrentSelectedColor(preview = false) {
                 if (usedColors.length == 0) {
                     customAlert("No Color Present In Color History!")
                     color = "#000000"
-                    break 
+                    break
                 }
                 color = usedColors[Math.floor(Math.random() * usedColors.length)]
                 break;
@@ -135,10 +135,13 @@ function getCurrentSelectedColor(preview = false) {
                     colorFormulaVars[name] -= evalFormula(change, colorFormulaVars)
                     break
                 case "*=":
-                    colorFormulaVars[name] *=evalFormula(change, colorFormulaVars)
+                    colorFormulaVars[name] *= evalFormula(change, colorFormulaVars)
                     break
                 case "/=":
                     colorFormulaVars[name] /= evalFormula(change, colorFormulaVars)
+                    break
+                case "%=":
+                    colorFormulaVars[name] %= evalFormula(change, colorFormulaVars)
                     break
                 case "=":
                     colorFormulaVars[name] = evalFormula(change, colorFormulaVars)
@@ -256,7 +259,7 @@ function fillCell(cellElem, color) {
         }
     }
     cellElem.style.background = color
-    if(id("add-frame-after-every-color-change").checked) addFrame()
+    if (id("add-frame-after-every-color-change").checked) addFrame()
 }
 
 function checkIfColorInArray(array, color, th = 100) {

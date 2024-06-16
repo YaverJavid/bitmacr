@@ -104,3 +104,17 @@ addNewSessionOnOpening.addEventListener("input", () => {
 })
 
 setUpLocalStorageBucket(B_COLOR, "#115740")
+
+// fill mode warning session
+const prefFillModeWarning = id("pref-no-fill-mode-warning")
+
+const B_FILL_MODE_WARNING = "pix_fill_mode_warning"
+setUpLocalStorageBucket(B_FILL_MODE_WARNING, "1")
+
+execBucket(B_FILL_MODE_WARNING, "0", ()=>{
+    prefFillModeWarning.checked = false
+})
+
+prefFillModeWarning.oninput = ()=>{
+    setBucketOnCondition(B_FILL_MODE_WARNING, prefFillModeWarning.checked, "1", "0")
+}

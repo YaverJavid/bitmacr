@@ -3,28 +3,24 @@ const addColRight = document.querySelector("#add-col-right")
 const addColLeft = document.querySelector("#add-col-left")
 const addRowDown = document.querySelector("#add-row-down")
 const hByWRatio = document.getElementById("h-w-ratio")
+const addColRowCount = id("add-col-row-count")
 // THR BELOW IS FOR ADDING ROWS AND COLS
 const giveUpUndoState = document.getElementById('give-up-undo-state')
 
 addRowDown.onclick = () => {
     let data = []
     let pointer = 0
-    if (giveUpUndoState.checked) {
+    let count = addColRowCount.value == "" ? 1 : parseInt(addColRowCount.value)
+
+    pointer = buffer.pointer
+    for (let i = 0; i < buffer.data.length; i++) {
+        let paintData = buffer.data[i].slice()
         let newRow = []
         for (let i = 0; i < cols; i++) newRow.push("rgba(0,0,0,0)")
-        buffer.getItem().push(...newRow)
-        data.push(buffer.getItem());
-    } else {
-        pointer = buffer.pointer
-        for (let i = 0; i < buffer.data.length; i++) {
-            console.log(buffer.data[i]);
-            let paintData = buffer.data[i].slice()
-            let newRow = []
-            for (let i = 0; i < cols; i++) newRow.push("rgba(0,0,0,0)")
-            paintData.push(...newRow)
-            data.push(paintData)
-        }
+        paintData.push(...newRow)
+        data.push(paintData)
     }
+
     addCanvas(parseInt(rows) + 1, cols)
     buffer.pointer = pointer
     applyPaintData(data[buffer.pointer])
@@ -190,6 +186,7 @@ function changeRowSize(offset = 0) {
 }
 
 function changeColSize(offset = 0) {
+    let count = addColRowCount.value = "" ? 1 : parseInt(addColRowCount.value)
     colSlider.value = parseInt(colSlider.value) + offset
     colsShower.textContent = `(${colSlider.value})`
     customConfirm(`You will loose your artwork if you resize. Do you really want to resize from ${cols} col(s) to ${colSlider.value}col(s)?`,

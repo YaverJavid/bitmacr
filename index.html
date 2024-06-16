@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Pixmacr is a advanced mobile and desktop pixel art editor.">
     <title>Pixmacr - A pixel art maker by Yaver & Zanoor</title>
     <link rel="icon" type="image/x-icon" href="others/logo.png">
     <link rel="stylesheet" href="css/style.css">
@@ -245,6 +246,7 @@
                             <hr>
                             <input type="button" id="add-row-top" value="Add Row Top"> <br>
                             <input type="button" id="add-col-right" value="Add Col Right" style="margin-right: 0.7lh">
+                            <input type="number" id="add-col-row-count" style="width: 32px; margin-right: 0.7lh" value="1" placeholder="Count">
                             <input type="button" id="add-col-left" value="Add Col Left"> <br>
                             <input type="button" id="add-row-down" value="Add Row Down"> <br>
                             <label for="give-up-undo-state">Give Up Undo State : </label> <input type="checkbox" id="give-up-undo-state">
@@ -798,6 +800,14 @@
                                     <span class="slider"></span>
                                 </label>
                             </div>
+                            <br>
+                            <div class="switch-container">
+                                <label for="pref-no-fill-mode-warning">Warn About Fill Mode</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="pref-no-fill-mode-warning" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
                         </div>
                         <div>
                             <br>
@@ -902,7 +912,7 @@
     <!--The following tag will be used for color conversion-->
     <div id="psedo"></div>
     <div id="process">
-        <img src="icons/loader.png" alt="" width="64px" class="loader">
+        <img src="icons/loader.png" alt="" width="64px" class="loader image">
         <br>
         <span>Please Wait...</span>
         <br>

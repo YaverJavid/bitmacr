@@ -297,7 +297,6 @@ function drawNaturalFilledCircle(centerX, centerY, radius, array2D) {
 function drawNaturalStrokeCircle(centerX, centerY, radius, array2D) {
     const rows = array2D.length;
     const cols = array2D[0].length;
-
     let x = radius;
     let y = 0;
     let radiusError = 1 - x;
@@ -338,10 +337,6 @@ function drawNaturalStrokeCircle(centerX, centerY, radius, array2D) {
         }
     }
 }
-
-
-
-
 
 
 function hideAllShapeSettings() {
@@ -400,7 +395,7 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
     let linesize = size
     while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
-            pixels[bly][blx + dx].style.background = getCurrentSelectedColor()
+          setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
         }
         bly--
         linesize -= perColDY

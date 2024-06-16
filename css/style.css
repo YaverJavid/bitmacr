@@ -810,12 +810,14 @@ box-shadow: 0 0 1px var(--shadow-color); */
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
-@media(min-width:840px){
+@media(min-width:600px){
     #right, #left{
         width: 45%;
         flex: 1;
+        max-width: 75vh
     }
     #bottom-control-container{
         border-radius: 32px;

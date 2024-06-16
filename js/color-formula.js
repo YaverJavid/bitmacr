@@ -1,4 +1,4 @@
-const VAR_OPERATORS = ["+", "", "-", "*", "/"]
+const VAR_OPERATORS = ["+", "", "-", "*", "/", "%"]
 
 var resizableInputs = document.querySelectorAll('.resizable-input'); // get the input element
 let colorFormulaTypeSelector = id("color-formula-type")

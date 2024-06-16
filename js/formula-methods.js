@@ -12,13 +12,13 @@ const fp = console.log
 const avgc = (r,g,b) => (r+g+b)/3
 
 // TODO
-// function getCol(pid){
-//   return pid % rows
-// }
+ function y(pid){
+   return pid % rows
+ }
 
-// function getRow(pid){
-//     return pid/cols
-// }
+function x(pid){
+     return pid/cols
+}
 
 
 function $(id) {

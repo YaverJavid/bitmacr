@@ -93,6 +93,7 @@ function firstLevelArrayCompare(arr1, arr2) {
 
 
 let fillMissCount = 0
+
 function recordPaintData() {
     let data = []
     for (let i = 0; i < paintCells.length; i++) {
@@ -105,17 +106,19 @@ function recordPaintData() {
     } catch {
         skipCheck = true;
     }
-    if ((!skipCheck) && firstLevelArrayCompare(data, canvasData)){
+    if ((!skipCheck) && firstLevelArrayCompare(data, canvasData)) {
         fillMissCount++
-        if(fillMissCount == 3 && onlyFillIfColorIsCheckbox.checked){
-            fillMissCount = 0
-            customConfirm("It seems you've forgotten about the fill rule that you applied, Do you want to remove it?", ()=>{
-                onlyFillIfColorIsCheckbox.checked = false
-                id("info-fill-rule").textContent = "fill rule off,"
-                id("info-fill-rule").style.color = "var(--primary)"
-            })
-        } else if(!onlyFillIfColorIsCheckbox.checked){
-            fillMissCount = 0
+        if (prefFillModeWarning.checked) {
+            if (fillMissCount >= 5 && onlyFillIfColorIsCheckbox.checked) {
+                fillMissCount = 0
+                customConfirm("It seems you've forgotten about the fill rule that you applied, Do you want to remove it?", () => {
+                    onlyFillIfColorIsCheckbox.checked = false
+                    id("info-fill-rule").textContent = "fill rule off,"
+                    id("info-fill-rule").style.color = "var(--primary)"
+                })
+            } else if (!onlyFillIfColorIsCheckbox.checked) {
+                fillMissCount = 0
+            }
         }
         return data
     }
@@ -149,7 +152,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
     let HTML = ' <div id="selection-shower"></div>'
     let i = 0
     let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
-    
+
     while (i < rows * cols) {
         HTML += `<div class="cell" style="width:${elemWidth }vw;height:${elemWidth}vw"></div>`
         i++
@@ -723,4 +726,3 @@ function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 
 setupNumInputWithButtons(id("minus-rw-count"), id("plus-rw-count"), id("fixed-rect-width"), 1, 1, false)
 setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-rect-height"), 1, 1, false)
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
-
