@@ -28,19 +28,14 @@
      /* image-rendering */
  }
 
- #top-logo {
-     -webkit-box-shadow: 0 1px var(--shadow-color);
-     box-shadow: 0 0 1px var(--shadow-color);
-     border-radius: 5px;
 
- }
 
  h4 {
      margin: 2vw;
  }
 
  * {
-      font-family: 'Noto Sans Symbols', sans-serif; 
+     font-family: 'Noto Sans Symbols', sans-serif;
      user-select: none;
      /*line-height: 2.3;*/
      /* font-family: 'Paytone One', sans-serif; */
@@ -112,7 +107,7 @@
 
  input[type=button] {
      background: var(--secondary);
-     color: var(--primary); 
+     color: var(--primary);
      outline-color: #00000000;
      margin-bottom: 20px;
      cursor: pointer;
@@ -194,7 +189,7 @@
 
  .controls>div>*,
  details>* {
-     color: var(--primary) ;
+     color: var(--primary);
      border-color: var(--primary) !important
  }
 
@@ -297,8 +292,7 @@ box-shadow: 0 0 1px var(--shadow-color); */
 
  }
 
- .menu-nav-items:nth-child(1) {
- }
+ .menu-nav-items:nth-child(1) {}
 
  .menu-nav-items:hover {}
 
@@ -658,9 +652,7 @@ box-shadow: 0 0 1px var(--shadow-color); */
 
  }
 
- #click-mode-selector {
-
- }
+ #click-mode-selector {}
 
  .h-selector {
      background: var(--accent);
@@ -691,7 +683,7 @@ box-shadow: 0 0 1px var(--shadow-color); */
 
  #main-selectors-container {
      display: flex;
-     
+
      gap: 2.5vw;
  }
 
@@ -736,6 +728,20 @@ box-shadow: 0 0 1px var(--shadow-color); */
 
  #color-selector-unit>* {
      display: none;
+ }
+
+ #color-selector-unit {
+     background:
+         linear-gradient(to right, var(--shadow-color) 2px, transparent 2px) 0 0,
+         linear-gradient(to right, var(--shadow-color) 2px, transparent 2px) 0 100%,
+         linear-gradient(to left, var(--shadow-color) 2px, transparent 2px) 100% 0,
+         linear-gradient(to left, var(--shadow-color) 2px, transparent 2px) 100% 100%,
+         linear-gradient(to bottom, var(--shadow-color) 2px, transparent 2px) 0 0,
+         linear-gradient(to bottom, var(--shadow-color) 2px, transparent 2px) 100% 0,
+         linear-gradient(to top, var(--shadow-color) 2px, transparent 2px) 0 100%,
+         linear-gradient(to top, var(--shadow-color) 2px, transparent 2px) 100% 100%;
+     background-repeat: no-repeat;
+     background-size: 20px 20px;
  }
 
  .visible-color-selector {
@@ -788,39 +794,43 @@ box-shadow: 0 0 1px var(--shadow-color); */
      width: 90%;
      resize: vertical;
      height: 45vh;
-          color: black!important
+     color: black !important
  }
- 
- 
+
+
  .theme-selector {
      margin-bottom: 2px !important;
      margin-left: 1vw;
  }
- 
-#right, #left{
-    padding:2.5%;
-    width: 95%;
- }
- 
- /*right & l wrt wide devices layout*/
- 
- 
- 
-#main-container{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
 
-@media(min-width:600px){
-    #right, #left{
-        width: 45%;
-        flex: 1;
-        max-width: 75vh
-    }
-    #bottom-control-container{
-        border-radius: 32px;
-        overflow-y: scroll
-    }
-}
+ #right,
+ #left {
+     padding: 2.5%;
+     width: 95%;
+ }
+
+ /*right & l wrt wide devices layout*/
+
+
+
+ #main-container {
+     width: 100%;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: space-evenly;
+ }
+
+ @media(min-width:600px) {
+
+     #right,
+     #left {
+         width: 45%;
+         flex: 1;
+         max-width: 75vh
+     }
+
+     #bottom-control-container {
+         border-radius: 32px;
+         overflow-y: scroll
+     }
+ }

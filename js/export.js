@@ -127,3 +127,8 @@ id("export-with-shape").onclick = () => {
     }
 }
 
+function toOverlays() {
+    customConfirm("Do you want to leave to another site (undo date will be lost)?", ()=>{
+        window.location.href = "/overlays"
+    })
+}
