@@ -106,10 +106,6 @@ paletteSelector.oninput = () => {
     updatePaletteSelector()
 }
 
-window.addEventListener("unload", () => {
-    localStorageREF.setItem(B_SAVED_PALETTES, JSON.stringify(savedPalettes))
-})
-
 function updatePaletteSelector() {
     let palette = savedPalettes[paletteSelector.value]
     paletteCS.innerHTML = ""

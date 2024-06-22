@@ -172,8 +172,11 @@ sessions[currentSession].use()
 
 
 window.addEventListener("unload", () => {
-    if (autoSave.checked)
+    localStorageREF.setItem(B_SAVED_PALETTES, JSON.stringify(savedPalettes))
+    if (autoSave.checked){
+        if(zoomedIn) zoomOut()
         saveSessions(sessions)
+    }
 })
 
 

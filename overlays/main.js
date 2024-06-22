@@ -21,10 +21,10 @@ fileInput.addEventListener('change', () => {
                     let g = imgd.data[i + 1];
                     let b = imgd.data[i + 2];
                     let l = (0.3 * r) + (0.587 * g) + (0.114 * b);
-                    imgd.data[i] = l;
-                    imgd.data[i + 1] = l;
-                    imgd.data[i + 2] = l;
-                    imgd.data[i + 3] = l/2;
+                    imgd.data[i] 
+                    imgd.data[i + 1] ;
+                    imgd.data[i + 2] ;
+                    imgd.data[i + 3] =  l;
                 }
                 ctx.putImageData(imgd, 0, 0);
 
