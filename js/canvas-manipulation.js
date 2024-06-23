@@ -6,6 +6,11 @@ const hByWRatio = document.getElementById("h-w-ratio")
 const addColRowCount = id("add-col-row-count")
 // THR BELOW IS FOR ADDING ROWS AND COLS
 const giveUpUndoState = document.getElementById('give-up-undo-state')
+const B_MAX_CANVAS_DIMENSION = "max-canvas-dimension"
+id("max-allowed-canvas-size").value = B_MAX_CANVAS_DIMENSION
+
+setUpLocalStorageBucket(B_MAX_CANVAS_DIMENSION, "100")
+const MAX_CANVAS_DIMENSION = getBucketVal(B_MAX_CANVAS_DIMENSION)
 
 addRowDown.onclick = () => {
     let data = []
@@ -154,14 +159,14 @@ function getHByWRatio() {
 
 function changeCanvasSize(offset = 0) {
     cellsSlider.value = parseInt(cellsSlider.value) + offset
-    if (Math.round(getHByWRatio() * cellsSlider.value) > 100) {
-        customAlert("Can't add canvas with one demension greater than 100!")
+    if (Math.round(getHByWRatio() * cellsSlider.value) > MAX_CANVAS_DIMENSION) {
+        customAlert(`Cannot add canvas with one demension greater than ${MAX_CANVAS_DIMENSION}!`)
         cellsSlider.value = cols
         canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
         return
     }
     canvasSizeShower.textContent = `(c${Math.round(getHByWRatio() * cellsSlider.value)} : r${cellsSlider.value})`
-    customConfirm(`You will loose your artwork if you resize. Do you really want to resize from (c${cols} : r${rows}) to (c${cellsSlider.value} : r${cellsSlider.value})?`,
+    customConfirm(`You will loose your artwork if you resize. Do you really want to resize from (c${cols} : r${rows}) to (r${cellsSlider.value} : c${Math.round(cellsSlider.value * getHByWRatio())})?`,
         () => {
             addCanvas(cellsSlider.value, Math.round(cellsSlider.value * getHByWRatio()))
         },
@@ -288,3 +293,16 @@ for (let i = 0; i < popularPixelArtSizes.length; i++) {
             })
     }
 }
+
+id("max-allowed-canvas-size").oninput = () => {
+    if (parseInt(id("max-allowed-canvas-size").value) > 250) {
+        id("max-allowed-canvas-size").value = 250
+    } else if (parseInt(id("max-allowed-canvas-size").value) < 10) {
+        id("max-allowed-canvas-size").value = 10
+    }
+    setBucketVal(B_MAX_CANVAS_DIMENSION, id("max-allowed-canvas-size").value)
+}
+
+cellsSlider.max = MAX_CANVAS_DIMENSION
+rowSlider.max = MAX_CANVAS_DIMENSION
+colSlider.max = MAX_CANVAS_DIMENSION

@@ -33,3 +33,6 @@ function getBucketVal(bucketName){
 }
 
 
+function setBucketVal(bucketName, value) {
+    localStorageREF.setItem(bucketName, value)
+}
