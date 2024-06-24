@@ -3,6 +3,9 @@
 ### 2024-006[24-Jun-2024]
 - Added maximum possible canvas size customisation (in preferences)
 - Bug Fix - No more wrong canvas sizes in confirm box
+##### 2024-006.x1 -> [24-Jun-2024]:
+- Added a way to select browser type manualy in preferences 
+- Bug fixes
 
 ### 2024.005 [10-Jun-2024]
 - Added Desktop Friendly Layout For Desktop and Tablets 

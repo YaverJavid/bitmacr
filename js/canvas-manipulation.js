@@ -7,10 +7,10 @@ const addColRowCount = id("add-col-row-count")
 // THR BELOW IS FOR ADDING ROWS AND COLS
 const giveUpUndoState = document.getElementById('give-up-undo-state')
 const B_MAX_CANVAS_DIMENSION = "max-canvas-dimension"
-id("max-allowed-canvas-size").value = B_MAX_CANVAS_DIMENSION
 
 setUpLocalStorageBucket(B_MAX_CANVAS_DIMENSION, "100")
 const MAX_CANVAS_DIMENSION = getBucketVal(B_MAX_CANVAS_DIMENSION)
+id("max-allowed-canvas-size").value = MAX_CANVAS_DIMENSION
 
 addRowDown.onclick = () => {
     let data = []
@@ -295,10 +295,12 @@ for (let i = 0; i < popularPixelArtSizes.length; i++) {
 }
 
 id("max-allowed-canvas-size").oninput = () => {
-    if (parseInt(id("max-allowed-canvas-size").value) > 250) {
+    if (id("max-allowed-canvas-size").value == "") {
+        id("max-allowed-canvas-size").value = 100
+    }else if (parseInt(id("max-allowed-canvas-size").value) > 250) {
         id("max-allowed-canvas-size").value = 250
-    } else if (parseInt(id("max-allowed-canvas-size").value) < 10) {
-        id("max-allowed-canvas-size").value = 10
+    } else if (parseInt(id("max-allowed-canvas-size").value) < 1) {
+        id("max-allowed-canvas-size").value = 1
     }
     setBucketVal(B_MAX_CANVAS_DIMENSION, id("max-allowed-canvas-size").value)
 }

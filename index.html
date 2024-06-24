@@ -810,10 +810,28 @@
                                     <span class="slider"></span>
                                 </label>
                             </div>
+                            <br>
                             <hr>
-                            <h2>Restart To Apply: </h2>
+                            <h5>Following Settings Require a Reload To Apply: </h5>
                             <label for="max-allowed-canvas-size">Maximum Allowed Canvas Size (max:250) : </label>
                             <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px" placeholder="(100)">
+                            <br>
+                            <label for="browser-selector">Choose Browser Manually : </label>
+                            <select id="browser-selector" class="right-flat">
+                                <option value="IOS.SAFARI">Safari (iOS)</option>
+                                <option value="IOS.WV">WebView (iOS)</option>
+                                <option value="AOS.WV">WebView (Android)</option>
+                                <option value="AOS.CHROME">Chrome (Android)</option>
+                                <option value="AOS.FIREFOX">Firefox (Android)</option>
+                                <option value="AOS.EDGE">Edge (Android)</option>
+                                <option value="AOS.OTHER">Other (Android)</option>
+                                <option value="DESKTOP.CHROME">Chrome (Desktop)</option>
+                                <option value="DESKTOP.FIREFOX">Firefox (Desktop)</option>
+                                <option value="DESKTOP.EDGE">Edge (Desktop)</option>
+                                <option value="DESKTOP.SAFARI">Safari (Desktop)</option>
+                                <option value="DESKTOP.OTHER">Other (Desktop)</option>
+                            </select>
+                            <input type="button" value="Reset" class="left-flat" id="reset-browser-type">
                         </div>
                         <div>
                             <br>
