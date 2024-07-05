@@ -21,10 +21,10 @@ fileInput.addEventListener('change', () => {
                     let g = imgd.data[i + 1];
                     let b = imgd.data[i + 2];
                     let l = (0.3 * r) + (0.587 * g) + (0.114 * b);
-                    imgd.data[i] 
-                    imgd.data[i + 1] ;
-                    imgd.data[i + 2] ;
-                    imgd.data[i + 3] =  l;
+                    imgd.data[i] = 0;
+                    imgd.data[i + 1] = 0;
+                    imgd.data[i + 2] = 0;
+                    imgd.data[i + 3] = imgd.data[i + 3]  == 0 ? 0 : (255-l)
                 }
                 ctx.putImageData(imgd, 0, 0);
 
@@ -36,3 +36,7 @@ fileInput.addEventListener('change', () => {
         reader.readAsDataURL(file);
     }
 });
+
+document.getElementById("randomise-bg").onclick = ()=>{
+    document.body.style.backgroundColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`
+}

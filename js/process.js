@@ -6,4 +6,3 @@ function startProcess(htmlContent = "") {
 function endProcess() {
     id("process").style.display = "none"
 }
-
