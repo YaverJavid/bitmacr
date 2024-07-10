@@ -25,6 +25,12 @@ fileInput.addEventListener('change', () => {
                     imgd.data[i + 1] = 0;
                     imgd.data[i + 2] = 0;
                     imgd.data[i + 3] = imgd.data[i + 3]  == 0 ? 0 : (255-l)
+                    if(imgd.data[i+3] == 0){
+                        imgd.data[i] = 255;
+                        imgd.data[i + 1] = 255;
+                        imgd.data[i + 2] = 255;
+                        imgd.data[i + 3] = 255;
+                    }
                 }
                 ctx.putImageData(imgd, 0, 0);
 
