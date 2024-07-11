@@ -47,10 +47,11 @@ paintZone.addEventListener('mousemove', (event) => {
         let radius = dx;
 
         switch (paintModeSelector.value) {
+            case "zoom":
             case "selecting":
                 paintZonePosition = paintZone.getBoundingClientRect()
-                const correctedStartingY = startingCoords.y - paintZonePosition.y
-                const correctedStartingX = startingCoords.x - paintZonePosition.x
+                correctedStartingY = startingCoords.y - paintZonePosition.y
+                correctedStartingX = startingCoords.x - paintZonePosition.x
                 correctedX = x - paintZonePosition.x
                 correctedY = y - paintZonePosition.y
                 gridX = Math.floor(correctedX / cw)
@@ -149,6 +150,25 @@ paintZone.addEventListener('mouseup', (event) => {
         for (let i = 0; i < selectionImageShowers.length; i++) {
             selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
             selectionImageShowers[i].style.border = "1px solid black";
+        }
+    } else if (paintModeSelector.value == "zoom") {
+        if (!selectionCoords) return
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        if (zoomedIn) {
+            customAlert("Already Zoomed In... Try Zooming Out First...")
+            return
+        }
+        zoomOriginY = selectionCoords.ybr
+        zoomOriginX = selectionCoords.xbr
+        fullCols = cols
+        fullRows = rows
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        if (!copy(zoom = true).failed) {
+            zoomedIn = true
+            originalSnapshot = JSON.stringify(buffer)
+            applySelectedPartSilent(zoomedPart)
+            recordPaintData()
+            id("top-zoom-out").style.border = "3px solid var(--primary)"
         }
     } else if (paintModeSelector.value == "line") {
         let x = event.clientX;
