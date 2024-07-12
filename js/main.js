@@ -728,6 +728,3 @@ setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-re
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
 
 
-window.onresize = ()=>{
-    customConfirm("Resizing window might be causing layout bugs, if so click 'YES' to 'RELOAD'?", ()=>window.location.reload())
-}

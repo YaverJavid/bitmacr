@@ -787,6 +787,8 @@
                         <div>
                             <br>
                             <h3 data-type="hidden-tab" data-tabname="preferences">Preferences</h3> <br>
+                            <input type="button" value="Suppressors" onclick="gotoTab('suppressors')">
+                            <br>
                             <div class="switch-container">
                                 <label for="auto-save">Auto Save Sessions</label>
                                 <label class="switch">
@@ -926,7 +928,20 @@
                             <div id="error-log">
                             </div>
                         </div>
-
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="suppressors">Suppressors</h3>
+                            <br>
+                            <h5>Following Settings Require a Reload To Apply: </h5>
+                            <br>
+                            <div class="switch-container">
+                                <label for="resize-handler-suppressor">Resize Handler</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="resize-handler-suppressor">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
