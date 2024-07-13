@@ -101,6 +101,12 @@ paintZone.addEventListener('mousemove', (event) => {
                     }
                 }
                 break;
+            case "triangle":
+                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                let tx = Math.floor(currentCellIndex / cols);
+                let ty = currentCellIndex % cols
+                drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
+                break;
             case 'sphere':
                 drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
                 break;

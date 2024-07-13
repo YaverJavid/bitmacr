@@ -582,7 +582,7 @@
                                 Add Overlay Image
                             </label>
                             <br>
-                            <img src="" alt="Shape Preview" id="shape-preview" width="100">
+                            <img src="" class="image" alt="Shape Preview" id="shape-preview" width="100">
                             <br>
                             <input type="button" value="Create Overlays Here" onclick="toOverlays()">
                         </div>
@@ -758,7 +758,7 @@
                             <h3 data-type="hidden-tab" data-tabname="drawing_preview">Drawing Preview</h3>
                             <br>
                             <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
-                            <img width="0" height="0">
+                            <img width="0" height="0" >
                         </div>
 
                         <div>
@@ -787,7 +787,7 @@
                         <div>
                             <br>
                             <h3 data-type="hidden-tab" data-tabname="preferences">Preferences</h3> <br>
-                            <input type="button" value="Suppressors" onclick="gotoTab('suppressors')">
+                            <input type="button" value="Alert Suppressors" onclick="gotoTab('suppressors')">
                             <br>
                             <div class="switch-container">
                                 <label for="auto-save">Auto Save Sessions</label>
@@ -801,14 +801,6 @@
                                 <label for="add-new-session-on-opening">Add New Session On Opening </label>
                                 <label class="switch">
                                     <input type="checkbox" id="add-new-session-on-opening">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <br>
-                            <div class="switch-container">
-                                <label for="pref-no-fill-mode-warning">Warn About Fill Mode</label>
-                                <label class="switch">
-                                    <input type="checkbox" id="pref-no-fill-mode-warning" checked>
                                     <span class="slider"></span>
                                 </label>
                             </div>
@@ -904,7 +896,6 @@
                                 <option value="none">None</option>
                                 <option value="circle">Circle</option>
                                 <option value="zoom">Zoom</option>
-
                                 <option value="sphere">Sphere</option>
                                 <option value="rect">Rectangle</option>
                                 <option value="line">Line</option>
@@ -930,17 +921,26 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-type="hidden-tab" data-tabname="suppressors">Suppressors</h3>
+                            <h3 data-type="hidden-tab" data-tabname="suppressors">Alert Suppressors</h3>
                             <br>
                             <h5>Following Settings Require a Reload To Apply: </h5>
                             <br>
                             <div class="switch-container">
-                                <label for="resize-handler-suppressor">Resize Handler</label>
+                                <label for="resize-handler-suppressor">Suppress Resize Handler</label>
                                 <label class="switch">
                                     <input type="checkbox" id="resize-handler-suppressor">
                                     <span class="slider"></span>
                                 </label>
                             </div>
+                            <br>
+                            <div class="switch-container">
+                                <label for="pref-no-fill-mode-warning">Warn About Fill Mode</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="pref-no-fill-mode-warning" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
                         </div>
                     </div>
                 </div>

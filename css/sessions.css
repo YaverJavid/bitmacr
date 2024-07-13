@@ -1,7 +1,7 @@
 #sessions-container {
     margin: 0% 2%;
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
     width: 100%;
     color: var(--primary)
 }
