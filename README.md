@@ -11,7 +11,6 @@
 - Added Desktop Friendly Layout For Desktop and Tablets 
 - Added Support for Better Dark Mode, CHANGES EVERYTHING 😬
 
-
 ### 9.6.0[18-May-2024]
 - Zoom Feature Added
 

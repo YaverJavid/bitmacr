@@ -2,7 +2,7 @@
     display: flex;
     overflow-x: scroll;
     align-items: center;
-    gap: 1vw;
+    gap: 10px;
     flex-shrink: 0;
     overflow-y: hidden;
     width: 85%;
@@ -19,14 +19,14 @@
 .var {
     background: var(--secondary);
     display: flex;
-    border-radius: 4vh;
+    border-radius: 45px;
     padding: 1vw;
     gap: 1vw;
     align-items: center;
-    border: 1px solid black;
-    height: 8vw;
-    flex-shrink: 0;
-
+    justify-items: center;
+    border: 1px solid var(--primary);
+    height: 25px;
+    flex-shrink: 0
 }
 
 .var * {
@@ -35,7 +35,7 @@
 
 
 .var img {
-    width: 5vw;
+    width: 25px;
 
 }
 
@@ -52,10 +52,10 @@
 
 #add-var {
     margin: 0;
-    border-radius: 59vh;
+    border-radius: 100px;
     background: white;
     border: 1px solid black;
-    width: 7vw;
+    width: 25px;
     transform: rotate(45deg);
     padding: 1vw;
 }

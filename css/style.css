@@ -752,12 +752,12 @@ box-shadow: 0 0 1px var(--shadow-color); */
 
  .infinite-scroll-x {
      display: flex;
-     overflow-x: scroll;
+     overflow-x: scroll!important;
      color: var(--primary);
-     gap: 2vw;
-     width: 75vw;
+     gap: 10px;
+     width: 80%;
      padding: 10px;
-     margin-left: calc((100vw - 75vw)/4);
+     margin-left: 5%;
  }
 
  .shape-settings>input[type=number] {
@@ -834,6 +834,7 @@ box-shadow: 0 0 1px var(--shadow-color); */
          border-radius: 32px;
          overflow-y: scroll
      }
+     
  }
  
  

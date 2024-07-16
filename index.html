@@ -83,7 +83,8 @@
                             <br>
 
                             <div id="color-m-selector" class="h-selector">
-                                <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode">
+                                <img src='icons/color-mode/normal.png' alt='cm' data-value="normal"
+                                    class="active-cmode">
                                 <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
                                 <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
                                 <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
@@ -97,7 +98,8 @@
                                 <div id="no-specific-color-selector" class="visible-color-selector">
                                     <label for="color-selector">Select Color : </label>
                                     <input value="#556677" type="color" name="color-selector" id="color-selector">
-                                    Or <input class="hex-input" type="text" id="color-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
+                                    Or <input class="hex-input" type="text" id="color-selector-hex"
+                                        placeholder="Enter Hex..." maxlength="7"> <br>
                                     <label for="select-color">Select Color From Cell : </label>
                                     <input type="checkbox" name="select-color" id="select-color">
                                 </div>
@@ -115,10 +117,12 @@
                                     </select>
                                     <div id="color-formula-inputs-container">
                                         <div data-cfinputname="hsl" class="active-cf-input">
-                                            hsl(<input type="text" id="cf-hsl-hue">, <input type="text" id="cf-hsl-saturation">, <input type="text" id="cf-hsl-lightness">)
+                                            hsl(<input type="text" id="cf-hsl-hue">, <input type="text"
+                                                id="cf-hsl-saturation">, <input type="text" id="cf-hsl-lightness">)
                                         </div>
                                         <div data-cfinputname="rgb">
-                                            rgb(<input type="text" id="cf-rgb-r">,<input type="text" id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
+                                            rgb(<input type="text" id="cf-rgb-r">,<input type="text"
+                                                id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
                                         </div>
                                     </div>
                                     <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
@@ -172,7 +176,8 @@
                                 </div>
                                 <div data-csname="css-color">
                                     <label for="color-string-input">CSS Color String : </label>
-                                    <input type="text" id="color-string-input" placeholder="Enter CSS Color String" class="right-flat" style="width:45vw">
+                                    <input type="text" id="color-string-input" placeholder="Enter CSS Color String"
+                                        class="right-flat" style="width:45vw">
                                     <div id="css-color-string-shower" class="left-flat"></div>
                                 </div>
                             </div>
@@ -214,10 +219,12 @@
                             <br>
                             <label for="guide-cell-border2">Cell Border : </label>
                             <input type="checkbox" id="guide-cell-border2" checked>
-                            <input type="button" class="left-flat" value="Guide Options" onclick="gotoTab('guide-options', true)">
+                            <input type="button" class="left-flat" value="Guide Options"
+                                onclick="gotoTab('guide-options', true)">
 
                             <br>
-                            <input type="button" value="Canvas Manipulation" onclick="gotoTab('canvas-manipulation', true)">
+                            <input type="button" value="Canvas Manipulation"
+                                onclick="gotoTab('canvas-manipulation', true)">
                             <br>
                             <input type="button" value="Trace Tools" onclick="gotoTab('tracing-tools', true)">
                             <br>
@@ -227,7 +234,8 @@
                             <input type="button" value="Close All Sessions" onclick="closeAllSessions()">
                             <details>
                                 <summary>&#9432; (Force Save Sessions)</summary>
-                                <p>Hint : Use This To Forcefully Save, Due To The Limitations In Browser Auto Save Might Not Work. <kbd>ctrl+L</kbd></p>
+                                <p>Hint : Use This To Forcefully Save, Due To The Limitations In Browser Auto Save Might
+                                    Not Work. <kbd>ctrl+L</kbd></p>
                             </details>
                         </div>
                         <div>
@@ -246,24 +254,29 @@
                             <hr>
                             <input type="button" id="add-row-top" value="Add Row Top"> <br>
                             <input type="button" id="add-col-right" value="Add Col Right" style="margin-right: 0.7lh">
-                            <input type="number" id="add-col-row-count" style="width: 32px; margin-right: 0.7lh" value="1" placeholder="Count">
+                            <input type="number" id="add-col-row-count" style="width: 32px; margin-right: 0.7lh"
+                                value="1" placeholder="Count">
                             <input type="button" id="add-col-left" value="Add Col Left"> <br>
                             <input type="button" id="add-row-down" value="Add Row Down"> <br>
-                            <label for="give-up-undo-state">Give Up Undo State : </label> <input type="checkbox" id="give-up-undo-state">
+                            <label for="give-up-undo-state">Give Up Undo State : </label> <input type="checkbox"
+                                id="give-up-undo-state">
                             <br>
                             <details>
                                 <summary>&#9432;</summary>
                                 <br>
-                                We Recommend You To Turn This Checkbox On For Faster Response Time (If You Turn This On Undo State Will Be Lost For Row Or Col Addition)
+                                We Recommend You To Turn This Checkbox On For Faster Response Time (If You Turn This On
+                                Undo State Will Be Lost For Row Or Col Addition)
                             </details>
                         </div>
                         <div>
                             <br>
                             <h3 data-shortcutkey="t">Basic Tools</h3>
                             <h4>Fill Rule</h4>
-                            <label for="only-fill-transaprent">Fill <input value="If" type="button" id="flip-fill-only-if-type"> Color Is </label>
+                            <label for="only-fill-transaprent">Fill <input value="If" type="button"
+                                    id="flip-fill-only-if-type"> Color Is </label>
                             <input type="button" value="×" class="right-flat" onclick="fillOnlyThisColor.value=''">
-                            <input type="text" id="fill-only-this-color" class="hex-input left-flat" placeholder="Any CSS Color"> :
+                            <input type="text" id="fill-only-this-color" class="hex-input left-flat"
+                                placeholder="Any CSS Color"> :
                             <input type="checkbox" id="only-fill-if-color-is" />
                             <br>
                             <label for="select-for-only-fill-if">Select Color From Cell : </label>
@@ -275,27 +288,36 @@
                             <hr><br>
                             <label for="slight-variations-checkbox">Slight Variations In Color : </label>
                             <input type="checkbox" id="slight-variations-checkbox">
-                            <input type="button" value=". . ." onclick="gotoTab('variation-settings')" class="left-flat">
+                            <input type="button" value=". . ." onclick="gotoTab('variation-settings')"
+                                class="left-flat">
                             <br>
-                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()" class="right-flat">
-                            <input type="button" value=". . ." class="left-flat" onclick="gotoTab('simplify-colors-options')">
+                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()"
+                                class="right-flat">
+                            <input type="button" value=". . ." class="left-flat"
+                                onclick="gotoTab('simplify-colors-options')">
                             <br>
                             <label for="fill-alternate">Fill Alternate : </label>
                             <input type="checkbox" id="fill-alternate" class=" left-flat">
-                            <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ." class="left-flat">
+                            <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ."
+                                class="left-flat">
                             <br>
                             <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
                             <label for="image-pixelart-to-pixel" class="file-label">
                                 <input type="file" id="image-pixelart-to-pixel" accept="image/*">
                                 Add Pixel Data From Image (Auto Size Detection)
                             </label>
-                            <br><br>
+                            <br>
+                            <input type="button" value=". . ."
+                                onclick="gotoTab('auto-pixel-data-from-image-settings', true)"
+                                style="border-radius: 0 0 50vw 50vw">
+                            <br>
                             <label for="image-to-pixel" class="file-label">
                                 <input type="file" id="image-to-pixel" accept="image/*">
                                 Add Pixel Data From Image
                             </label>
                             <br>
-                            <input type="button" value=". . ." onclick="gotoTab('pixel-data-from-image-settings', true)" style="padding: 0 15vw;border-radius: 0 0 50vw 50vw">
+                            <input type="button" value=". . ." onclick="gotoTab('pixel-data-from-image-settings', true)"
+                                style="border-radius: 0 0 50vw 50vw">
                             <br>
                             <label for="raw-data-fp" class="file-label">
                                 Add Pixel Data Raw Data (SPAD)
@@ -307,8 +329,19 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="pixel-data-from-image-settings" data-type="hidden-tab">Pixel Data From Image Settings</h3> <br>
-                            <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled : </label>
+                            <h3 data-tabname="auto-pixel-data-from-image-settings" data-type="hidden-tab">Auto Size
+                                Detection Settings</h3>
+                            <br>
+                            <label for="auto-size-detection-threshold">Threshold : </label>
+                            <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0">
+                            <span id="auto-size-detection-threshold-shower">(0)</span>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="pixel-data-from-image-settings" data-type="hidden-tab">Pixel Data From
+                                Image Settings</h3> <br>
+                            <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled :
+                            </label>
                             <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
                             <label for="flexible-dimension">Flexible Dimension : </label>
                             <select id="flexible-dimension">
@@ -329,7 +362,8 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey='d' data-type="hidden-tab" data-tabname="color-history">Color History</h3> <br>
+                            <h3 data-shortcutkey='d' data-type="hidden-tab" data-tabname="color-history">Color History
+                            </h3> <br>
                             <input type="button" value="Extract Colours" id="extract-pallette">
                             <input type="button" value="Delete All Colors" id="delete-non-default-pallette">
                             <br>
@@ -341,10 +375,12 @@
                             <br>
                             <h3 data-tabname="shape-tools">Shape Tools</h3> <br>
                             <div class="shape-settings">
-                                <img src="icons/banners/no-settings-present.png" alt="NO SETTINGS PRESENT" style="width: 70%">
+                                <img src="icons/banners/no-settings-present.png" alt="NO SETTINGS PRESENT"
+                                    style="width: 70%">
                             </div>
                             <div data-settingname="none" class="shape-settings active-shape-setting">
-                                <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED" style="width: 70%">
+                                <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED"
+                                    style="width: 70%">
                             </div>
                             <div class="shape-settings" data-settingname="triangle">
                                 <h3>Triangle</h3>
@@ -395,7 +431,8 @@
                                 <br>
                                 <label for="fixed-rect-height">Fixed Height Value : </label>
                                 <input type="button" id="minus-rh-count">
-                                <input type="number" id="fixed-rect-height" placeholder="Enter Fixed Height..." value="5">
+                                <input type="number" id="fixed-rect-height" placeholder="Enter Fixed Height..."
+                                    value="5">
                                 <input type="button" id="plus-rh-count">
 
                             </div>
@@ -425,7 +462,8 @@
                                 <br>
                                 <label for="fixed-radius-value">Fixed Radius Value : </label>
                                 <input type="button" id="m-f-radius">
-                                <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..." value="5">
+                                <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..."
+                                    value="5">
                                 <input type="button" id="p-f-radius">
 
                             </div>
@@ -459,7 +497,8 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="c" data-type="hidden-tab" data-tabname="copy_options">Copy Options</h3><br>
+                            <h3 data-shortcutkey="c" data-type="hidden-tab" data-tabname="copy_options">Copy Options
+                            </h3><br>
                             <label for="guide-checkbox2">Quadrant Guides: </label>
                             <input type="checkbox" name="guide-checkbox2" id="guide-checkbox2">
                             <br>
@@ -500,7 +539,8 @@
                             <input type="text" placeholder="Enter Drawing Name" id="drawing-name" class="right-flat">
                             <input type="button" value="×" class="left-flat" onclick="drawingName.value=''">
                             <br>
-                            <input type="button" value="Save Drawing(Browser)" id="save-to-ls" onclick="saveCanvasAsDrawing()">
+                            <input type="button" value="Save Drawing(Browser)" id="save-to-ls"
+                                onclick="saveCanvasAsDrawing()">
                             <br>
                             <div id="no-drawing-present-div">
                                 <img src="icons/tick.png" alt="" width="64px">
@@ -536,7 +576,8 @@
                             <input type="button" value="Apply Filter" id="apply-custom-filter">
                             <br>
                             <span>
-                                &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b` are their original values for each pixel.
+                                &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b`
+                                are their original values for each pixel.
                             </span>
                         </div>
                         <div>
@@ -544,12 +585,14 @@
                             <h3 data-shortcutkey="f">Replace Tools</h3><br>
                             <label for="color-selector">Find : </label>
                             <input value="#FF0000" type="color" id="color-to-be-replaced-selector">
-                            Or <input class="hex-input" type="text" id="color-to-be-replaced-selector-hex" placeholder="Enter Hex..." maxlength="7"> <br>
+                            Or <input class="hex-input" type="text" id="color-to-be-replaced-selector-hex"
+                                placeholder="Enter Hex..." maxlength="7"> <br>
                             <label for="select-color-for-find">Select Color From Cell : </label>
                             <input type="checkbox" id="select-color-for-find"><br>
                             <label for="color-selector">Replace With : </label>
                             <input value="#FF0000" type="color" id="color-to-replace-with-selector">
-                            Or <input class="hex-input" type="text" id="color-to-replace-with-selector-hex" placeholder="Enter Hex..." maxlength="7">
+                            Or <input class="hex-input" type="text" id="color-to-replace-with-selector-hex"
+                                placeholder="Enter Hex..." maxlength="7">
                             <br> <label for="select-color-for-replacer">Select Color From Cell : </label>
                             <input type="checkbox" id="select-color-for-replacer"><br>
                             <label for="replace-with-normal">Or Replace With Selected Color : </label>
@@ -558,11 +601,13 @@
                             <input type="range" min="0" max="225" value="0" id="color-match-threshold-range">
                             <span id="threshold-shower">(0)</span>
                             <br> <input type="button" value="Replace" id="replace-button"> <br>
-                            <input type="button" id="replace-content-awarely" value="Replace Content Awarely (no th support)">
+                            <input type="button" id="replace-content-awarely"
+                                value="Replace Content Awarely (no th support)">
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="g" data-type="hidden-tab" data-tabname="guide-options">Guide Options</h3> <br>
+                            <h3 data-shortcutkey="g" data-type="hidden-tab" data-tabname="guide-options">Guide Options
+                            </h3> <br>
                             <label for="guide-checkbox">Quadrant Guides: </label>
                             <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
                             <br>
@@ -571,7 +616,8 @@
                             <br>
                             <label for="guide-cell-border-color">Cell Border Color: </label>
                             <input type="color" id="guide-cell-border-color" value="#ffffff">
-                            Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
+                            Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex"
+                                placeholder="Enter Hex..." maxlength="7">
                         </div>
                         <div>
                             <br>
@@ -601,14 +647,17 @@
                             <hr>
                             <h4>PNG</h4>
                             <label for="cell-border-width-slider">Cell Border: </label>
-                            <input type="range" name="cell-border-width-slider" id="cell-border-width-slider" min='0' max='5' value='0' step="0.1">
+                            <input type="range" name="cell-border-width-slider" id="cell-border-width-slider" min='0'
+                                max='5' value='0' step="0.1">
                             <span id="cell-border-width-shower">(0)</span>
                             <br>
                             <label for="cell-border-color-selector">Cell Border Color: </label>
                             <input type="color" id="cell-border-color-selector">
-                            Or <input class="hex-input" type="text" id="export-cell-border-selector-hex" placeholder="Enter Hex..." maxlength="7">
+                            Or <input class="hex-input" type="text" id="export-cell-border-selector-hex"
+                                placeholder="Enter Hex..." maxlength="7">
                             <br>
-                            <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On Transparent Cells: </label>
+                            <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On Transparent
+                                Cells: </label>
                             <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
                             <br>
                             <label for="export-res">Resolution : </label>
@@ -621,17 +670,20 @@
                             <br>
                             <hr>
                             <h4>Overlays</h4>
-                            <input type="button" value="Add Overlay Image Here" onclick="gotoTab('shape-manager', true)">
+                            <input type="button" value="Add Overlay Image Here"
+                                onclick="gotoTab('shape-manager', true)">
                             <br>
                             <label for="add-shape-on-transparent-cells">Add Overlay On Transparent Cells : </label>
                             <input type="checkbox" id="add-shape-on-transparent-cells" checked>
                             <br>
-                            <input type="button" value="Export With Overlays" id="export-with-shape" class="highlighted-border">
+                            <input type="button" value="Export With Overlays" id="export-with-shape"
+                                class="highlighted-border">
                             <details>
                                 <summary>
                                     &#9432;
                                 </summary>
-                                Overlay is an image that is painted over every pixel. It is usually a transparent image. It can be used to give pixels shading.
+                                Overlay is an image that is painted over every pixel. It is usually a transparent image.
+                                It can be used to give pixels shading.
                             </details>
                             <hr>
                             <h4>SVG</h4>
@@ -643,11 +695,13 @@
                             <br>
                             <hr>
                             <h4>Native</h4>
-                            <input type="button" value="Export (SPAD)" id="export-raw-data" class="highlighted-border"><br>
+                            <input type="button" value="Export (SPAD)" id="export-raw-data"
+                                class="highlighted-border"><br>
                             <hr>
                             <h4>Miscellaneous</h4>
                             <input type="button" value="Export Mini" id="export-mini" class="highlighted-border"> <br>
-                            <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your pixel art.</span>
+                            <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your pixel
+                                art.</span>
                             <hr>
                         </div>
                         <div>
@@ -700,12 +754,16 @@
                             Contact : <a href="mailto:yaverjavid@gmail.com"> yaverjavid@gmail.com</a><br>
                             <br>
                             <h2>Developed Under: </h2>
-                            <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-research.png" width="60%" onclick="confirm('Do you really want to leave for an external site?') ? window.location.href = 'https://synfr.vercel.app' : false">
+                            <img style="margin: 0; border-radius: 1vh " class="image"
+                                src="icons/logo/syn-for-research.png" width="60%"
+                                onclick="confirm('Do you really want to leave for an external site?') ? window.location.href = 'https://synfr.vercel.app' : false">
                             <h2>Awarded By(2024): </h2>
-                            <img style="margin: 0; border-radius: 1vh " class="image" src="icons/logo/syn-for-awards.png" width="60%">
+                            <img style="margin: 0; border-radius: 1vh " class="image"
+                                src="icons/logo/syn-for-awards.png" width="60%">
                             <br>
                             <br>
-                            <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0" ondblclick="gotoTab('dev')" class="image"><br>
+                            <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0"
+                                ondblclick="gotoTab('dev')" class="image"><br>
                             <span>Pixmacr @ <span id="version"></span> (<a href="README.md">What's New?</a>)</span>
                         </div>
                         <div>
@@ -758,12 +816,13 @@
                             <h3 data-type="hidden-tab" data-tabname="drawing_preview">Drawing Preview</h3>
                             <br>
                             <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
-                            <img width="0" height="0" >
+                            <img width="0" height="0">
                         </div>
 
                         <div>
                             <br>
-                            <h3 data-type="hidden-tab" data-tabname="fill-alternate-settings">Fill Alternate Settings</h3>
+                            <h3 data-type="hidden-tab" data-tabname="fill-alternate-settings">Fill Alternate Settings
+                            </h3>
                             <br>
                             <label for="fill-gap">Fill Gap : </label>
                             <input type="number" id="fill-gap" value="1"> <br>
@@ -808,7 +867,8 @@
                             <hr>
                             <h5>Following Settings Require a Reload To Apply: </h5>
                             <label for="max-allowed-canvas-size">Max C. Size (max:250) : </label>
-                            <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px" placeholder="(100)">
+                            <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px"
+                                placeholder="(100)">
                             <br>
                             <label for="browser-selector">Browser: </label>
                             <select id="browser-selector" class="right-flat">
@@ -829,7 +889,8 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-type="hidden-tab" data-tabname="simplify-colors-options">Simplify Colors Settings</h3>
+                            <h3 data-type="hidden-tab" data-tabname="simplify-colors-options">Simplify Colors Settings
+                            </h3>
                             <br>
                             <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
                             <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
@@ -881,9 +942,11 @@
                             <br>
                             <img src="" id="animation-background-shower">
                             <br>
-                            <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
+                            <input type="button" value="Add Current Canvas As Background "
+                                id="add-canvas-as-background" />
                             <br>
-                            <label for="add-frame-after-every-color-change">Fill Frame After Every Color Change : </label>
+                            <label for="add-frame-after-every-color-change">Fill Frame After Every Color Change :
+                            </label>
                             <input type="checkbox" id="add-frame-after-every-color-change">
                         </div>
                         <div>

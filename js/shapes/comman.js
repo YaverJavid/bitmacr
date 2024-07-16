@@ -169,7 +169,6 @@ function copy(zoom = false) {
 
 function paste(xb, yb, data2d, paint2d) {
     if (!data2d) return
-    console.log(2)
     let h = data2d.length
     let w = data2d[0].length
     let xt = xb - w

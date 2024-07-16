@@ -148,7 +148,7 @@ paintZone.addEventListener('mousemove', (event) => {
     setCellColor(currentCell, getCurrentSelectedColor());
 });
 
-paintZone.addEventListener('mouseup', (event) => {
+function handleMousePaintEnd(event) {
     if (paintModeSelector.value == "selecting") {
         if (!selectionCoords) return;
         handleSelectionShowerVisibility("0", "0", "0", "0", "0");
@@ -184,4 +184,10 @@ paintZone.addEventListener('mouseup', (event) => {
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
     if (paintModeSelector.value != "none") recordPaintData();
-});
+}
+
+paintZone.onmouseleave = (event) => {
+    if (event.buttons !== 1) return
+    handleMousePaintEnd(event)
+}
+paintZone.addEventListener('mouseup', handleMousePaintEnd)

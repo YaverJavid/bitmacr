@@ -1,4 +1,4 @@
-function toPixelArtDimensions(ctx, canvas) {
+function toPixelArtDimensions(ctx, canvas, threshold) {
     let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let d = imgd.data;
     let minVerticalColorChunkSize = Infinity;
@@ -15,7 +15,7 @@ function toPixelArtDimensions(ctx, canvas) {
             let c = new RGB(r, g, b);
 
             if (lastColor) {
-                if (c.isEqual(lastColor)) {
+                if (c.isEqual(lastColor, threshold)) {
                     currentVerticalColorChunkSize++;
                 } else {
                     if (minVerticalColorChunkSize > currentVerticalColorChunkSize) {
@@ -47,25 +47,28 @@ class RGB {
         this.b = b;
         this.g = g;
     }
-    isEqual(rgb) {
-        return this.r == rgb.r && this.g == rgb.g && this.b == rgb.b
+    isEqual(rgb, threshold = 0) {
+        return Math.abs(this.r - rgb.r) < threshold &&
+            Math.abs(this.g - rgb.g) < threshold &&
+            Math.abs(this.b - rgb.b) < threshold;
     }
+
 }
 
 
-id("image-pixelart-to-pixel").addEventListener("input", function(event) {
+id("image-pixelart-to-pixel").addEventListener("input", function (event) {
     let fr = new FileReader();
-    fr.onload = function() {
+    fr.onload = function () {
         let img = new Image();
-        img.onload = function() {
+        img.onload = function () {
             let canvas = document.createElement("canvas")
             canvas.height = img.height
             canvas.width = img.width
             let ctx = canvas.getContext("2d")
             ctx.imageSmoothingEnabled = false
             ctx.drawImage(img, 0, 0)
-            let dimensions = toPixelArtDimensions(ctx, canvas)
-            if (dimensions.width > 200 || dimensions.height > 200) {
+            let dimensions = toPixelArtDimensions(ctx, canvas, parseInt(id("auto-size-detection-threshold").value))
+            if (dimensions.width > (MAX_CANVAS_DIMENSION + 20) || dimensions.height > (MAX_CANVAS_DIMENSION + 20)) {
                 customAlert(`Dimension Greater Than 100! (${dimensions.height}:${dimensions.width})`)
                 return
             }
@@ -84,3 +87,7 @@ id("image-pixelart-to-pixel").addEventListener("input", function(event) {
     }
     this.value = null;
 })
+
+id("auto-size-detection-threshold").oninput = () => {
+    id("auto-size-detection-threshold-shower").innerHTML = `(${id("auto-size-detection-threshold").value})`
+}

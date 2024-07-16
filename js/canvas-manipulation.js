@@ -4,7 +4,7 @@ const addColLeft = document.querySelector("#add-col-left")
 const addRowDown = document.querySelector("#add-row-down")
 const hByWRatio = document.getElementById("h-w-ratio")
 const addColRowCount = id("add-col-row-count")
-// THR BELOW IS FOR ADDING ROWS AND COLS
+// THE BELOW IS FOR ADDING ROWS AND COLS
 const giveUpUndoState = document.getElementById('give-up-undo-state')
 const B_MAX_CANVAS_DIMENSION = "max-canvas-dimension"
 
@@ -18,15 +18,16 @@ addRowDown.onclick = () => {
     let count = addColRowCount.value == "" ? 1 : parseInt(addColRowCount.value)
 
     pointer = buffer.pointer
-    for (let i = 0; i < buffer.data.length; i++) {
-        let paintData = buffer.data[i].slice()
-        let newRow = []
-        for (let i = 0; i < cols; i++) newRow.push("rgba(0,0,0,0)")
-        paintData.push(...newRow)
-        data.push(paintData)
+    for (let j = 0; j < count; j++) {
+        for (let i = 0; i < buffer.data.length; i++) {
+            let paintData = buffer.data[i].slice()
+            let newRow = []
+            for (let i = 0; i < cols; i++) newRow.push("rgba(0,0,0,0)")
+            paintData.push(...newRow)
+            data.push(paintData)
+        }
     }
-
-    addCanvas(parseInt(rows) + 1, cols)
+    addCanvas(parseInt(rows) + count, cols)
     buffer.pointer = pointer
     applyPaintData(data[buffer.pointer])
     buffer.data = data
@@ -241,14 +242,14 @@ function applySelectedPartSilent(data) {
 }
 
 const popularAspectRatios = [
-  [16, 9],
-  [1, 1],
-  [4, 3],
-  [3, 4],
-  [7, 5],
-  [18, 9],
-  [21, 9],
-  [2.39, 1],
+    [16, 9],
+    [1, 1],
+    [4, 3],
+    [3, 4],
+    [7, 5],
+    [18, 9],
+    [21, 9],
+    [2.39, 1],
 ];
 
 const popularAspectRatiosContainer = id("popular-aspect-ratios-container")
@@ -268,14 +269,14 @@ for (let i = 0; i < popularAspectRatios.length; i++) {
 }
 
 const popularPixelArtSizes = [
-  [8, 8, '8-Bit'],
-  [16, 16, '16-Bit'],
-  [32, 32, '32-Bit'],
-  [16, 16, 'Minecraft 16 : 16'],
-  [64, 64, 'Standard 64'],
-  [24, 24, '24-Bit'],
-  [72, 72, '72-Bit'],
-  [4, 4, 'Four Square']
+    [8, 8, '8-Bit'],
+    [16, 16, '16-Bit'],
+    [32, 32, '32-Bit'],
+    [16, 16, 'Minecraft 16 : 16'],
+    [64, 64, 'Standard 64'],
+    [24, 24, '24-Bit'],
+    [72, 72, '72-Bit'],
+    [4, 4, 'Four Square']
 ];
 
 
@@ -297,7 +298,7 @@ for (let i = 0; i < popularPixelArtSizes.length; i++) {
 id("max-allowed-canvas-size").oninput = () => {
     if (id("max-allowed-canvas-size").value == "") {
         id("max-allowed-canvas-size").value = 100
-    }else if (parseInt(id("max-allowed-canvas-size").value) > 250) {
+    } else if (parseInt(id("max-allowed-canvas-size").value) > 250) {
         id("max-allowed-canvas-size").value = 250
     } else if (parseInt(id("max-allowed-canvas-size").value) < 1) {
         id("max-allowed-canvas-size").value = 1
