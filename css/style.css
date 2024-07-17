@@ -834,10 +834,28 @@ box-shadow: 0 0 1px var(--shadow-color); */
          border-radius: 32px;
          overflow-y: scroll
      }
-     
+     #paint-zone{
+        width: 60vh;
+     }
+     #info{
+        width: 60vh;
+     }
  }
  
  
 ::-webkit-scrollbar {
   display: none;
+}
+
+#paint-zone-container{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+#info-container{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
 }

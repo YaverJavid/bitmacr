@@ -11,7 +11,8 @@ canvas{
     border: 2px solid black;
     padding: 8px 16px;
     border-radius: 500px
-} .file-label {
+} 
+.file-label {
      display: inline-block;
      cursor: pointer;
      padding: 0 2vw;

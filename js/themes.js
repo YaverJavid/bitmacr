@@ -51,11 +51,10 @@ let themes = [
     new Theme("#F9E1FE", "#000000", "#ffffff", "Violet Theme"),
     new Theme("#FEE1F1", "#000000", "#ffffff", "Pink Theme"),
     new Theme("#FEE1E1", "#000000", "#ffffff", "Red Theme"),
-  new Theme("#00000000", "#ffffff", "#000000", "Frost", true),
+    new Theme("#00000000", "#ffffff", "#000000", "Frost", true),
     new Theme("#000000", "#ffffff", "#000000", "Obsidian", true),
     new Theme("#333333", "#ffffff", "#333333", "Greyish"),
     new Theme("#E3FF55", "#000000", "#ffffff", "[M] Syn For Awards"),
-
 ]
 
 

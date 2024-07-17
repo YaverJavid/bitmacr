@@ -39,12 +39,16 @@
             </div>
             <marquee id="adstrip">
             </marquee>
-            <div id="paint-zone"></div>
-            <div id="info">
-                <span id="info-size"></span>
-                <span id="info-fill-rule">fill rule off,</span>
-                <span id="line-info-shower">y:0,x:0,</span>
-                <span id="frame-count-top">frames:0,</span>
+            <div id="paint-zone-container">
+                <div id="paint-zone"></div>
+            </div>
+            <div id="info-container">
+                <div id="info">
+                    <span id="info-size"></span>
+                    <span id="info-fill-rule">fill rule off,</span>
+                    <span id="line-info-shower">y:0,x:0,</span>
+                    <span id="frame-count-top">frames:0,</span>
+                </div>
             </div>
             <div id="main-selectors-container">
                 <div id="shapes-selector" class="h-selector">
@@ -1062,7 +1066,7 @@
     <script src="js/animation.js"></script>
     <!-- end -->
     <script src="js/animation-exporter.js" type="module"></script>
-    <script src="js/fill.js"></script>
+    <script src="js/flood-fill.js"></script>
     <script src="js/sessions.js"></script>
     <script src="js/trace-image.js"></script>
     <script src="js/export.js"></script>

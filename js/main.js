@@ -241,7 +241,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
                 applyPaintData(newData.flat(), false)
                 recordPaintData()
             } else if (clickModeSelector.value == "fill") {
-                applyPaintData(fill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
+                applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
                 recordPaintData()
             }
             else {
