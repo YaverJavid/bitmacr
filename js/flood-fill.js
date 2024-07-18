@@ -3,14 +3,12 @@ function floodFill(a2d, x, y) {
     const yLength = a2d.length;
     const currentColor = a2d[y][x];
 
-    const queue = [[x, y]]; // Use a queue for iterative approach
-    let visited = new Set(); // Keep track of visited cells
+    const queue = [[x, y]]; 
+    let visited = new Set();
 
     while (queue.length > 0) {
       const [currentX, currentY] = queue.shift();
-      visited.add(`${currentX}-${currentY}`); // Mark current cell as visited
-
-      // Check and update adjacent cells if within bounds and same color
+      visited.add(`${currentX}-${currentY}`); 
       const neighbors = [
         [currentX - 1, currentY],
         [currentX + 1, currentY],

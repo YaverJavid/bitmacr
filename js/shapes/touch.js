@@ -203,6 +203,10 @@ paintZone.addEventListener('touchend', (event) => {
             applySelectedPartSilent(zoomedPart)
             recordPaintData()
             id("top-zoom-out").style.border= "3px solid var(--primary)"
+            for (let i = 0; i < zoomOutButtons.length; i++) {
+                zoomOutButtons[i].style.cursor = "zoom-out"
+            }
+        
         }
     }
     else if (paintModeSelector.value == "line") {

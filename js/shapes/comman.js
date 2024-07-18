@@ -217,6 +217,7 @@ for (let i = 0; i < shapesElems.length; i++) {
         //mouseClickSound.play()
         shapesElems[i].classList.add(ACTIVE_SHAPE_CLASS)
         paintModeSelector.value = shapesElems[i].dataset.value
+        paintZone.style.cursor = shapesElems[i].dataset.cursor
         hideAllShapeSettings()
         let wasSettingActivated = false
         for (let i = 0; i < shapeSettings.length; i++) {
@@ -230,7 +231,7 @@ for (let i = 0; i < shapesElems.length; i++) {
             gotoTab("shape-tools")
         }
         if (!wasSettingActivated) shapeSettings[0].classList.add(ACTIVE_SHAPE_SETTING_CLASSNAME)
-
+        
     }
 }
 
@@ -434,6 +435,10 @@ function zoomOut() {
     paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
     recordPaintData()
     sessions[currentSession].buffer = buffer
+    for (let i = 0; i < zoomOutButtons.length; i++) {
+        zoomOutButtons[i].style.cursor = "not-allowed"
+    }
+
 }
 
 

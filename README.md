@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2024-007[18-Jul-2024]
+- Added event specific cursor types
+
 ### 2024-006[24-Jun-2024]
 - Added maximum possible canvas size customisation (in preferences)
 - Bug Fix - No more wrong canvas sizes in confirm box
