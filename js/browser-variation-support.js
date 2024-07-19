@@ -62,8 +62,13 @@ function applyBrowserVariation(browserType) {
             }
             break;
         case "DESKTOP.CHROME":
+            addResizeHandler()
+            id("top-reload").style.display = "initial"
+            break
         case "DESKTOP.EDGE":
             addResizeHandler()
+            id("top-reload").style.display = "initial"
+            break
         default:
             // Tab to edit
     }

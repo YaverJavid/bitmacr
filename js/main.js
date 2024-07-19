@@ -728,3 +728,6 @@ setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-re
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
 
 
+id("top-reload").onclick = ()=>{
+    window.location.reload()
+}

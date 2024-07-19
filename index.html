@@ -35,6 +35,7 @@
                 <input type="button" id="export-button" value="SAVE&darr;">
                 <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;">
                 <input type="button" value="+F" onclick="addFrame()">
+                <input type="button" value="&#x21bb;" id="top-reload">
                 <input type="button" id="redo" value="REDO">
             </div>
             <marquee id="adstrip">
@@ -993,7 +994,7 @@
                             <h5>Following Settings Require a Reload To Apply: </h5>
                             <br>
                             <div class="switch-container">
-                                <label for="resize-handler-suppressor">Suppress Resize Handler</label>
+                                <label for="resize-handler-suppressor">Turn Resize Handler On</label>
                                 <label class="switch">
                                     <input type="checkbox" id="resize-handler-suppressor">
                                     <span class="slider"></span>
