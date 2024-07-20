@@ -1,12 +1,15 @@
 id("execute-custom-script").onclick = () => {
-    let script = id("custom-script").value 
+    let script = id("custom-script").value
     customConfirm("Do you really want to run this script?", () => {
-        setTimeout(()=>{startProcess("Running Your Script...")}, 100)
-        try {
-            eval(script + "\n endProcess();")
-        } catch (e) {
-            logReport.log(`Custom Script Error : "${e}"`)
-        }
+        startProcess("Running Your Script...")
+
+        setTimeout(() => {
+            try {
+                eval(script + "\n endProcess();")
+            } catch (e) {
+                logReport.log(`Custom Script Error : "${e}"`)
+            }
+        }, 100)
     })
 }
 
@@ -24,7 +27,7 @@ id("paste-into-custom-script-textarea").onclick = async () => {
             id("custom-script").value += text;
         }
     } catch (err) {
-        customAlert('Failed to read clipboard contents: '+ err);
+        customAlert('Failed to read clipboard contents: ' + err);
     }
 }
 
