@@ -51,7 +51,7 @@ function flip2DArrayVertically(arr) {
 
 function flip2DArrayHorizontally(arr) {
     var newArr = arr.slice();
-    return newArr.map(function(row) {
+    return newArr.map(function (row) {
         return row.slice().reverse();
     });
 }
@@ -180,9 +180,9 @@ function copyTextToClipboard(text) {
         fallbackCopyTextToClipboard(text);
         return;
     }
-    navigator.clipboard.writeText(text).then(function() {
+    navigator.clipboard.writeText(text).then(function () {
         console.log('Async: Copying to clipboard was successful!');
-    }, function(err) {
+    }, function (err) {
         console.error('Async: Could not copy text: ', err);
     });
 }
@@ -330,4 +330,9 @@ function getHSLFromHex(hex) {
 
     // Return an object containing the HSL values
     return { hue: hue, saturation: saturation, lightness: lightness };
+}
+
+async function runScriptAsync(script) {
+    const asyncScript = `(async () => { ${script} })()`;
+    return await eval(asyncScript);
 }

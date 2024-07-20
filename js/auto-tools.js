@@ -15,7 +15,7 @@ function toPixelArtDimensions(ctx, canvas, threshold) {
             let c = new RGB(r, g, b);
 
             if (lastColor) {
-                if (c.isEqual(lastColor, threshold)) {
+                if (c.isEqual(lastColor)) {
                     currentVerticalColorChunkSize++;
                 } else {
                     if (minVerticalColorChunkSize > currentVerticalColorChunkSize) {
@@ -47,12 +47,9 @@ class RGB {
         this.b = b;
         this.g = g;
     }
-    isEqual(rgb, threshold = 0) {
-        return Math.abs(this.r - rgb.r) < threshold &&
-            Math.abs(this.g - rgb.g) < threshold &&
-            Math.abs(this.b - rgb.b) < threshold;
+    isEqual(rgb) {
+        return this.r === rgb.r && this.g === rgb.g && this.b === rgb.b
     }
-
 }
 
 

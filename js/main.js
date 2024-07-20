@@ -173,7 +173,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
     }
     canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
     for (let i = 0; i < paintCells.length; i++) {
-        paintCells[i].addEventListener("click", function() {
+        paintCells[i].onclick = function() {
             lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
             if (colorSelectionInProgress) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
@@ -250,7 +250,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
             }
 
 
-        })
+        }
         paintCells[i].style.borderColor = borderColor
     }
     recordPaintData()

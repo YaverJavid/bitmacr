@@ -20,7 +20,26 @@ function x(pid){
      return pid/cols
 }
 
-
 function $(id) {
     return colorFormulaVars[id]
+}
+
+function fc(i) {
+    paintCells[i].onclick()
+}
+
+function undo(){
+    if (buffer.setPointer(buffer.pointer - 1))
+        applyPaintData(buffer.getItem())
+}
+
+function pack(x, y){
+    return y * cols + x
+}
+
+function drawWrapper(func, ...args){
+    let paintCells2d = [];
+    for (let i = 0; i < paintCells.length; i++) paintCells2d.push(paintCells[i]);    
+    paintCells2d = toPaintData2D(paintCells2d);
+    return func(paintCells2d, ...args)
 }
