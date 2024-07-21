@@ -1,12 +1,12 @@
 id("execute-custom-script").onclick = () => {
     let script = id("custom-script").value
-    customConfirm("Do you really want to run this script?", () => {
+    customConfirm("Do you really want to run this script? Make sure you know what you are doing!", () => {
         startProcess("Running Your Script...")
-
         setTimeout(() => {
             try {
                 eval(script + "\n endProcess();")
             } catch (e) {
+                endProcess()
                 logReport.log(`Custom Script Error : "${e}"`)
             }
         }, 100)

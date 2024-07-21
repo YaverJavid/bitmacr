@@ -566,6 +566,14 @@
                             <input type="button" value="Duotone" id="filter-duotone">
                             <input type="button" value="Add Noise" id="shift-colors-button">
                             <br>
+                            <hr>
+                            <h4>Blur</h4>
+                            <input type="button" value="Guassian Blur" id="filter-gaussian-blur">
+                            <input type="button" value="Box Blur" id="filter-box-blur">
+                            <input type="button" value="Motion Blur" id="filter-motion-blur">
+                            <br>
+                            <input type="button" value="Blur Settings" onclick="gotoTab('blur-settings')">
+                            <br>
                             <br>
                             <h4>Custom Filter</h4>
                             <br>
@@ -584,6 +592,32 @@
                                 &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b`
                                 are their original values for each pixel.
                             </span>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="blur-settings" data-type="hidden-tab">Blur Settings</h3>
+                            <h4>Motion Blur</h4>
+                           
+                            <label for="motion-blur-direction">Blur Direction : </label>
+                            <select id="motion-blur-direction">
+                                <option value="horizontal">Horizontal</option>
+                                <option value="vertical">Vertical</option>
+                            </select>
+                            <br>
+                            <label for="motion-blur-radius">Motion Blur Radius : </label>
+                            <input type="range" id="motion-blur-radius" value="1" max="15" min="1">
+                            <span id="motion-blur-radius-shower">(1)</span>
+                            <hr>
+                            <h4>Guassian Blur</h4>
+                            <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
+                            <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
+                            <span id="gaussian-blur-radius-shower">(1)</span>
+                            <hr>
+                            <h4>Box Blur</h4>
+                            <label for="box-blur-radius">Box Blur Radius : </label>
+                            <input type="range" id="box-blur-radius" value="1" max="15" min="1">
+                            <span id="box-blur-radius-shower">(1)</span>
+                            
                         </div>
                         <div>
                             <br>

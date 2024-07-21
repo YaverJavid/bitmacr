@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2024-008[21-Jul-2024]
+- Added Blur Options
+
 ### 2024-007[18-Jul-2024]
 - Added event specific cursor types
 

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Function List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>List of Available Functions</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Arguments</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>fc</td>
+            <td>index : int</td>
+            <td>Clicks on the specific cell at the given index, use pack func. to use x, y coords instead.</td>
+        </tr>
+        <tr>
+            <td>fp</td>
+            <td>msg... : any</td>
+            <td>Alais for console.log</td>
+        </tr>
+        <tr>
+            <td>pack</td>
+            <td>x , y : ints</td>
+            <td>returns y * cols + x</td>
+        </tr>
+        <tr>
+            <td>avgc</td>
+            <td>r, g, b : ints</td>
+            <td>Returns (r+g+b)/3 that is the average.</td>
+        </tr>
+        <tr>
+            <td>$</td>
+            <td>name : str</td>
+            <td>Returns the variable from the color formula variables.</td>
+        </tr>
+        <tr>
+            <td>drawWrapper</td>
+            <td>drawFunction : func, funcArgs...</td>
+            <td>For a draw functions it automatically passes in the grid matrix.</td>
+        </tr>
+        <tr>
+            <td>undo</td>
+            <td>-</td>
+            <td>Undoes.</td>
+        </tr>
+        <tr>
+            <td>recordPaintData</td>
+            <td>-</td>
+            <td>Records the unrecorded paint data. After doing a step which don't record data automatically. This is a mandatory step, do not skip this if you don't understand the inner workings of this project. Appearing pf data on canvas does't mean data is recorded, check the buffer for that.</td>
+        </tr>
+        <tr>
+            <td>toUpperCase</td>
+            <td>string</td>
+            <td>Converts a string to uppercase and returns the new string.</td>
+        </tr>
+        <tr>
+            <td>toUpperCase</td>
+            <td>string</td>
+            <td>Converts a string to uppercase and returns the new string.</td>
+        </tr>
+        <tr>
+            <td>toUpperCase</td>
+            <td>string</td>
+            <td>Converts a string to uppercase and returns the new string.</td>
+        </tr>
+        <tr>
+            <td>toUpperCase</td>
+            <td>string</td>
+            <td>Converts a string to uppercase and returns the new string.</td>
+        </tr>
+    </table>
+</body>
+
+</html>

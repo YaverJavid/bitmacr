@@ -6,7 +6,7 @@ function filterCanvas(filterFunction, ...args) {
     for (let i = 0; i < currentPaintData.length; i++) {
         let colorObj = convertRGBAStrToObj(currentPaintData[i])
         if (colorObj.a === undefined) colorObj.a = 1
-        setCellColor(paintCells[i], colorObjectToRGBA(filterFunction(colorObj,i, ...args)))
+        setCellColor(paintCells[i], colorObjectToRGBA(filterFunction(colorObj, i, ...args)))
 
     }
     recordPaintData()
@@ -117,7 +117,7 @@ id("apply-custom-filter").onclick = () => {
     bExpr = bExpr === "" ? "b" : bExpr
 
     filterCanvas((p, pid) => {
-        with(p) {
+        with (p) {
             return {
                 r: eval(rExpr),
                 g: eval(gExpr),
@@ -128,4 +128,176 @@ id("apply-custom-filter").onclick = () => {
     })
 }
 
+
+function gaussianBlur(pixels, width, height, blurRadius) {
+    const blurredPixels = new Array(pixels.length);
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let redSum = 0;
+            let greenSum = 0;
+            let blueSum = 0;
+            let weightSum = 0;
+            const kernelSize = blurRadius * 2 + 1;
+
+            // Loop through neighboring pixels within kernel radius
+            for (let dy = -blurRadius; dy <= blurRadius; dy++) {
+                for (let dx = -blurRadius; dx <= blurRadius; dx++) {
+                    const neighborX = x + dx;
+                    const neighborY = y + dy;
+
+                    // Handle edge cases (clamp to image boundaries)
+                    const clampedX = Math.max(0, Math.min(neighborX, width - 1));
+                    const clampedY = Math.max(0, Math.min(neighborY, height - 1));
+
+                    // Calculate distance from center pixel
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // Apply Gaussian weight based on distance
+                    const weight = Math.exp(-distance * distance / (2 * blurRadius * blurRadius));
+
+                    const index = clampedY * width + clampedX;
+                    const rgbaString = pixels[index];
+                    const rgbaValues = convertRGBAStrToObj(rgbaString)
+
+                    // Extract and accumulate color and alpha values with weights
+                    redSum += parseInt(rgbaValues.r) * weight;
+                    greenSum += parseInt(rgbaValues.g) * weight;
+                    blueSum += parseInt(rgbaValues.b) * weight;
+                    weightSum += weight;
+                }
+            }
+            const averagedRed = Math.round(redSum / weightSum);
+            const averagedGreen = Math.round(greenSum / weightSum);
+            const averagedBlue = Math.round(blueSum / weightSum);
+            const blurredPixel = `rgb(${averagedRed}, ${averagedGreen}, ${averagedBlue})`;
+            blurredPixels[y * width + x] = blurredPixel;
+
+        }
+    }
+    return blurredPixels
+}
+
+function boxBlur(pixels, width, height, blurRadius) {
+    const blurredPixels = new Array(pixels.length);
+    const kernelSize = blurRadius * 2 + 1;
+    const kernelArea = kernelSize * kernelSize;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let redSum = 0;
+            let greenSum = 0;
+            let blueSum = 0;
+
+            for (let dy = -blurRadius; dy <= blurRadius; dy++) {
+                for (let dx = -blurRadius; dx <= blurRadius; dx++) {
+                    const neighborX = x + dx;
+                    const neighborY = y + dy;
+
+                    const clampedX = Math.max(0, Math.min(neighborX, width - 1));
+                    const clampedY = Math.max(0, Math.min(neighborY, height - 1));
+
+                    const index = clampedY * width + clampedX;
+                    const rgbaString = pixels[index];
+                    const rgbaValues = convertRGBAStrToObj(rgbaString);
+
+                    redSum += parseInt(rgbaValues.r);
+                    greenSum += parseInt(rgbaValues.g);
+                    blueSum += parseInt(rgbaValues.b);
+                }
+            }
+
+            const averagedRed = Math.round(redSum / kernelArea);
+            const averagedGreen = Math.round(greenSum / kernelArea);
+            const averagedBlue = Math.round(blueSum / kernelArea);
+            const blurredPixel = `rgb(${averagedRed}, ${averagedGreen}, ${averagedBlue})`;
+            blurredPixels[y * width + x] = blurredPixel;
+        }
+    }
+
+    return blurredPixels;
+}
+
+function motionBlur(pixels, width, height, blurRadius, direction = 'horizontal') {
+    const blurredPixels = new Array(pixels.length);
+    const kernelSize = blurRadius * 2 + 1; // Total kernel elements
+    const kernelArea = kernelSize;  // Assuming a uniform kernel for simplicity
+
+    const weights = calculateMotionBlurWeights(blurRadius, kernelSize, direction);  // New line
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let redSum = 0;
+            let greenSum = 0;
+            let blueSum = 0;
+
+            for (let dy = -blurRadius; dy <= blurRadius; dy++) {
+                // Calculate offset based on direction (considering edge clamping)
+                let offsetY = Math.max(0, Math.min(y + dy * (direction === 'vertical' ? 1 : 0), height - 1));
+
+                for (let dx = -blurRadius; dx <= blurRadius; dx++) {
+                    // Calculate offset based on direction (considering edge clamping)
+                    let offsetX = Math.max(0, Math.min(x + dx * (direction === 'horizontal' ? 1 : 0), width - 1));
+
+                    const index = offsetY * width + offsetX;
+                    const rgbaString = pixels[index];
+                    const rgbaValues = convertRGBAStrToObj(rgbaString);
+
+                    const weight = weights[dy + blurRadius][dx + blurRadius];  // Access weight using offsets
+
+                    redSum += parseInt(rgbaValues.r) * weight;
+                    greenSum += parseInt(rgbaValues.g) * weight;
+                    blueSum += parseInt(rgbaValues.b) * weight;
+                }
+            }
+
+            const averagedRed = Math.round(redSum / kernelArea);  // Use kernelArea for simplicity
+            const averagedGreen = Math.round(greenSum / kernelArea);
+            const averagedBlue = Math.round(blueSum / kernelArea);
+            const blurredPixel = `rgb(${averagedRed}, ${averagedGreen}, ${averagedBlue})`;
+            blurredPixels[y * width + x] = blurredPixel;
+        }
+    }
+
+    return blurredPixels;
+}
+
+// Helper function to calculate motion blur weights (optional)
+function calculateMotionBlurWeights(blurRadius, kernelSize, direction) {
+    const weights = new Array(kernelSize);
+    for (let i = 0; i < kernelSize; i++) {
+        weights[i] = new Array(kernelSize);
+        for (let j = 0; j < kernelSize; j++) {
+            const distance = Math.abs(i - blurRadius) + Math.abs(j - blurRadius);
+            weights[i][j] = direction === 'horizontal' ? 1 / (distance + 1) : 1;  // Adjust for direction (uniform for vertical)
+        }
+    }
+    return weights;
+}
+
+
+id("filter-box-blur").onclick = () => {
+    let blurredData = boxBlur(buffer.getItem().slice(), cols, rows, id("box-blur-radius").value)
+    applyPaintData(blurredData)
+    recordPaintData()
+}
+id("filter-gaussian-blur").onclick = () => {
+    let blurredData = gaussianBlur(buffer.getItem().slice(), cols, rows, id("gaussian-blur-radius").value)
+    applyPaintData(blurredData)
+    recordPaintData()
+}
+id("filter-motion-blur").onclick = () => {
+    let blurredData = motionBlur(buffer.getItem().slice(), cols, rows, parseInt(id("motion-blur-radius").value), id("motion-blur-direction").value)
+    applyPaintData(blurredData)
+    recordPaintData()
+}
+
+id("motion-blur-radius").oninput = () => {
+    id("motion-blur-radius-shower").innerHTML = `(${id("motion-blur-radius").value})`
+}
+id("gaussian-blur-radius").oninput = () => {
+    id("gaussian-blur-radius-shower").innerHTML = `(${id("gaussian-blur-radius").value})`
+}
+id("box-blur-radius").oninput = () => {
+    id("box-blur-radius-shower").innerHTML = `(${id("box-blur-radius").value})`
+}
 
