@@ -138,7 +138,7 @@ function gaussianBlur(pixels, width, height, blurRadius) {
             let blueSum = 0;
             let weightSum = 0;
             const kernelSize = blurRadius * 2 + 1;
-
+            
             // Loop through neighboring pixels within kernel radius
             for (let dy = -blurRadius; dy <= blurRadius; dy++) {
                 for (let dx = -blurRadius; dx <= blurRadius; dx++) {
@@ -169,7 +169,10 @@ function gaussianBlur(pixels, width, height, blurRadius) {
             const averagedRed = Math.round(redSum / weightSum);
             const averagedGreen = Math.round(greenSum / weightSum);
             const averagedBlue = Math.round(blueSum / weightSum);
-            const blurredPixel = `rgb(${averagedRed}, ${averagedGreen}, ${averagedBlue})`;
+            const rgbaString = pixels[pack(x, y)];
+            const rgbaValues = convertRGBAStrToObj(rgbaString)
+            console.log(rgbaValues, rgbaString);
+            const blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${rgbaValues.a})`;
             blurredPixels[y * width + x] = blurredPixel;
 
         }

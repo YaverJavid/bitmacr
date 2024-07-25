@@ -14,8 +14,9 @@
     border-radius: 50vh;
     display: flex;
     justify-content: space-between;
-    border: 1px solid var(--shadow-color);
+    border: 2px dotted var(--shadow-color);
     backdrop-filter: var(--frostblur);
+    opacity: 0.6;
 }
 
 .session-delete-button {
@@ -25,7 +26,7 @@
 
 .session-active {
     border: 2px solid var(--shadow-color);
-
+    opacity: 1;
 }
 
 #add-session {
@@ -35,7 +36,7 @@
     padding: 10px;
     margin-bottom: 25px;
     margin-left: 3%;
-    border: 1px solid var(--secondary);
+    border: 1px solid var(--accent);
 }
 
 #sessions-section {

@@ -76,3 +76,7 @@
 #color-formula-inputs-container > div{
     display: none
 }
+
+.resizable-input{
+    border: none!important;
+}

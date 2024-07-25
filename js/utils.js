@@ -131,10 +131,19 @@ function colorObjectToRGBA(obj) {
 }
 
 function convertRGBAStrToObj(rgbaStr) {
-    const rgbaArr = rgbaStr.match(/\d+/g).map(Number);
-    if (rgbaArr[3] == undefined) rgbaArr[3] = 1
-    return { r: rgbaArr[0], g: rgbaArr[1], b: rgbaArr[2], a: rgbaArr[3] };
+    let rgbaArr = rgbaStr.replaceAll(' ', '').split(',')
+    let r = rgbaArr[0].split("(")[1]
+    let g = rgbaArr[1]
+    if (rgbaArr.length == 4) {
+        b = rgbaArr[2]
+        a = rgbaArr[3].replace(")", "")
+    } else {
+        b = rgbaArr[2].replace(")", "")
+        a = 1
+    }
+    return { r, g, b, a }
 }
+
 
 function rotateArray90Degrees(matrix, clockwise = true) {
     const rows = matrix.length;

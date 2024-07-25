@@ -56,8 +56,11 @@ guideCellBorderColor.value = borderColor
 for (let i = 0; i < menus.length; i++) {
     let currentMenuName = menus[i].children[1].textContent
     menuSegmentLocations.push(i * controlWidth)
-    menuNav.innerHTML += `<div class="menu-nav-items" data-shortcutkey="${menus[i].children[1].dataset.shortcutkey}" >${currentMenuName.toUpperCase()}
-      <kbd class="shortcut-info" style="display: ${menus[i].children[1].dataset.shortcutkey == undefined ? "none" : "initial"}">ctrl+${menus[i].children[1].dataset.shortcutkey}</kbd>
+    let shortcutKey = menus[i].children[1].dataset.shortcutkey 
+    menuNav.innerHTML += `<div class="menu-nav-items" data-shortcutkey="${shortcutKey}" >${currentMenuName.toUpperCase()}
+      <kbd class="shortcut-info" style="display: ${shortcutKey ?  "initial" : "none"}" >
+                 ${shortcutKey ? 'ctrl + ' + shortcutKey : "None"} 
+      </kbd>
     </div>`
 }
 

@@ -4,8 +4,7 @@
     height: 5vh;
     border-radius: 30px;
     background: white;
-    -webkit-box-shadow: 0 1px gray;
-    box-shadow: 0 0 1px gray;
+    border: 1px solid var(--primary);
     text-overflow: ellipsis;
     margin-left: 5%;
     display: flex;
