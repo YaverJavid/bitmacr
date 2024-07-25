@@ -2,6 +2,7 @@
 
 ### 2024-008[21-Jul-2024]
 
+- Replaced Shadow With Border
 - Added Blur Options
 
 ### 2024-007[18-Jul-2024]
