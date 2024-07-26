@@ -299,6 +299,7 @@
      border: none;
      border: 1px solid var(--primary);
      background: var(--secondary);
+     color: var(--primary);
 
  }
 
@@ -672,7 +673,7 @@
 
  .active-shape,
  .active-cmode {
-     border: 1px solid var(--primary);
+     border: 1px solid black;
  }
 
  .shape-settings {
@@ -688,7 +689,7 @@
 
  #selection-shower {
      position: absolute;
-     border: 0px solid black;
+    
  }
 
 

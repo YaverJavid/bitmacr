@@ -59,13 +59,14 @@ for (let i = 0; i < menus.length; i++) {
     let shortcutKey = menus[i].children[1].dataset.shortcutkey 
     menuNav.innerHTML += `<div class="menu-nav-items" data-shortcutkey="${shortcutKey}" >${currentMenuName.toUpperCase()}
       <kbd class="shortcut-info" style="display: ${shortcutKey ?  "initial" : "none"}" >
-                 ${shortcutKey ? 'ctrl + ' + shortcutKey : "None"} 
+                 ${shortcutKey ? 'ctrl+' + shortcutKey : "NONE"} 
       </kbd>
     </div>`
 }
 
 function redirectMenuViewTo(location) {
     bottomControls.scrollLeft = location
+    
 }
 
 function gotoTab(tabName, scollIntoView = false) {
@@ -78,7 +79,7 @@ for (let i = 0; i < menuNav.children.length; i++) {
         redirectMenuViewTo(i * controlWidth)
     })
     if (bottomControls.children[i].children[1].dataset.type == "hidden-tab") {
-        menuNav.children[i].style.display = "none"
+       menuNav.children[i].style.display = "none"
     }
     if (bottomControls.children[i].children[1].dataset.tabname) {
         tabLocations[bottomControls.children[i].children[1].dataset.tabname] = i

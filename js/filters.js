@@ -171,7 +171,7 @@ function gaussianBlur(pixels, width, height, blurRadius) {
             const averagedBlue = Math.round(blueSum / weightSum);
             const rgbaString = pixels[pack(x, y)];
             const rgbaValues = convertRGBAStrToObj(rgbaString)
-            console.log(rgbaValues, rgbaString);
+        
             const blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${rgbaValues.a})`;
             blurredPixels[y * width + x] = blurredPixel;
 
