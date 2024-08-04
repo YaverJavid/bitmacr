@@ -21,6 +21,7 @@ function setTheme(accent, primary, secondary, iconsInverted = false) {
     borderColor = "#" + getPrimaryColor().slice(1)
     changeCellBorderColor(borderColor)
     handleIconInvertion(iconsInverted)
+    adstrip.style.color = iconsInverted ? "#ffffff" : "#000000"
 }
 
 borderColor = "#" + getPrimaryColor().slice(1)
@@ -53,7 +54,8 @@ let themes = [
     new Theme("#FEE1E1", "#000000", "#ffffff", "Red Theme"),
     new Theme("#00000000", "#ffffff", "#000000", "Frost", true),
     new Theme("#000000", "#ffffff", "#000000", "Obsidian", true),
-    new Theme("#333333", "#ffffff", "#333333", "Greyish"),
+    new Theme("#000000", "#ffffff", "#313131", "Gray", true),
+    new Theme("#313131", "#ffffff", "#000000", "Gray 2", true),
     new Theme("#E3FF55", "#000000", "#ffffff", "[M] Syn For Awards"),
 ]
 

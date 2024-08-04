@@ -39,17 +39,17 @@
             </div>
             <marquee id="adstrip">
             </marquee>
-            <div id="paint-zone-container">
-                <div id="paint-zone"></div>
-            </div>
-            <div id="info-container">
-                <div id="info">
-                    <span id="info-size"></span>
-                    <span id="info-fill-rule">fill rule off,</span>
-                    <span id="line-info-shower">y:0,x:0,</span>
-                    <span id="frame-count-top">frames:0,</span>
+                <div id="paint-zone-container">
+                    <div id="paint-zone"></div>
                 </div>
-            </div>
+                <div id="info-container">
+                    <div id="info">
+                        <span id="info-size"></span>
+                        <span id="info-fill-rule">fill rule off,</span>
+                        <span id="line-info-shower">y:0,x:0,</span>
+                        <span id="frame-count-top">frames:0,</span>
+                    </div>
+                </div>
             <div id="main-selectors-container">
                 <div id="shapes-selector" class="h-selector">
                     <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png">
@@ -57,11 +57,13 @@
                     <img data-value="zoom" data-cursor="zoom-in" src="icons/paint-mode/zoom.png">
                     <img data-value="rect" data-cursor="crosshair" src="icons/paint-mode/rectangle-filled.png">
                     <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png">
-                    <img data-value="selecting" data-cursor="crosshair" id="copy-selector" src="icons/paint-mode/copy.png">
+                    <img data-value="selecting" data-cursor="crosshair" id="copy-selector"
+                        src="icons/paint-mode/copy.png">
                     <img data-value="paste" data-cursor="crosshair" src="icons/paint-mode/paste.png">
-                    <img data-value="line" data-cursor="auto"  src="icons/paint-mode/line.png">
+                    <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png">
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png">
-                    <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png" style="margin-right: 5px">
+                    <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png"
+                        style="margin-right: 5px">
                 </div>
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
@@ -596,7 +598,7 @@
                             <br>
                             <h3 data-tabname="blur-settings" data-type="hidden-tab">Blur Settings</h3>
                             <h4>Motion Blur</h4>
-                           
+
                             <label for="motion-blur-direction">Blur Direction : </label>
                             <select id="motion-blur-direction">
                                 <option value="horizontal">Horizontal</option>
@@ -616,7 +618,7 @@
                             <label for="box-blur-radius">Box Blur Radius : </label>
                             <input type="range" id="box-blur-radius" value="1" max="15" min="1">
                             <span id="box-blur-radius-shower">(1)</span>
-                            
+
                         </div>
                         <div>
                             <br>
