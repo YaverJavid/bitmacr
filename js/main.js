@@ -34,7 +34,7 @@ id("version").textContent = VERSION
 let cellWidth
 let cellHeight
 let prevSelectedColor
-let buffer = new Stack()
+let buffer = new Stack(1024)
 let borderColor = getPrimaryColor().slice(1)
 let cellBorderWidth = 1
 // hex should be lowercase
@@ -156,13 +156,14 @@ function addCanvas(argRows, argCols, clearStack = true) {
     let HTML = ' <div id="selection-shower"></div>'
     let i = 0
     let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
-
     while (i < rows * cols) {
-        HTML += `<div class="cell" style="width:${elemWidth }vw;height:${elemWidth}vw"></div>`
+        HTML += `<div class="cell"></div>`
         i++
     }
     paintZone.style.height = elemWidth * rows + "vw"
     paintZone.innerHTML = HTML
+    paintZone.style.gridTemplateRows = `repeat(${rows}, 1fr)`
+    paintZone.style.gridTemplateColumns = `repeat(${cols}, 1fr)`
     if (typeof sessions !== 'undefined') sessions[currentSession].updateCanvasSize()
     rowsShower.innerHTML = `(${rows})`
     colsShower.innerHTML = `(${cols})`
