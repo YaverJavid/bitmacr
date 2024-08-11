@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
+    <meta name="description"
+        content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
     <title>Pixmacr - A pixel art maker by Yaver & Zanoor</title>
     <link rel="icon" type="favicon" href="others/logo.ico">
     <link rel="stylesheet" href="css/style.css">
@@ -39,17 +40,17 @@
             </div>
             <marquee id="adstrip">
             </marquee>
-                <div id="paint-zone-container">
-                    <div id="paint-zone"></div>
+            <div id="paint-zone-container">
+                <div id="paint-zone"></div>
+            </div>
+            <div id="info-container">
+                <div id="info">
+                    <span id="info-size"></span>
+                    <span id="info-fill-rule">fill rule off,</span>
+                    <span id="line-info-shower">y:0,x:0,</span>
+                    <span id="frame-count-top">frames:0,</span>
                 </div>
-                <div id="info-container">
-                    <div id="info">
-                        <span id="info-size"></span>
-                        <span id="info-fill-rule">fill rule off,</span>
-                        <span id="line-info-shower">y:0,x:0,</span>
-                        <span id="frame-count-top">frames:0,</span>
-                    </div>
-                </div>
+            </div>
             <div id="main-selectors-container">
                 <div id="shapes-selector" class="h-selector">
                     <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png">
@@ -476,9 +477,33 @@
                             <div class="shape-settings" data-settingname="paste">
                                 <h3>Paste</h3>
                                 <img class="selection-image-shower image">
-                                <br> <br>
-                                <label for="paste-transparent-cell-effect">Transparent Cells Have No Effect : </label>
-                                <input type="checkbox" id="paste-transparent-cell-effect" checked>
+                                <br>
+                                <br>
+                                <label for="blend-mode-selector">Blend Mode : </label>
+                                <select id="blend-mode-selector">
+                                    <option value="overlay">Overlay</option>
+                                    <option value="replace">Replace</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="multiply">Multiply</option>
+                                    <option value="screen">Screen</option>
+                                    <option value="darken">Darken</option>
+                                    <option value="lighten">Lighten</option>
+                                    <option value="difference">Difference</option>
+                                    <option value="exclusion">Exclusion</option>
+                                    <option value="hue">Hue</option>
+                                    <option value="saturation">Saturation</option>
+                                    <option value="color">Color</option>
+                                    <option value="luminosity">Luminosity</option>
+                                    <option value="softLight">Soft Light</option>
+                                    <option value="hardLight">Hard Light</option>
+                                    <option value="pinLight">Pin Light</option>
+                                    <option value="linearBurn">Linear Burn</option>
+                                    <option value="linearDodge">Linear Dodge (Add)</option>
+                                    <option value="vividLight">Vivid Light</option>
+                                    <option value="subtract">Subtract</option>
+                                    <option value="divide">Divide</option>
+                                    <option value="contrast">Contrast</option>
+                                </select>
                                 <br>
                                 <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
                             </div>
@@ -615,11 +640,11 @@
                             <span id="gaussian-blur-radius-shower">(1)</span>
                             <br>
                             <label for="gaussian-blur-alpha-process">Alpha Process : </label>
-                           <select id="gaussian-blur-alpha-process">
-                            <option value="loose-alpha">Loose Alpha</option>
-                            <option value="mix">Mix</option>
-                            <option value="preserve-alpha">Preserve Pixel Alpha</option>
-                           </select>
+                            <select id="gaussian-blur-alpha-process">
+                                <option value="loose-alpha">Loose Alpha</option>
+                                <option value="mix">Mix</option>
+                                <option value="preserve-alpha">Preserve Pixel Alpha</option>
+                            </select>
                             <hr>
                             <h4>Box Blur</h4>
                             <label for="box-blur-radius">Box Blur Radius : </label>
@@ -1137,6 +1162,7 @@
     <script src="js/color-formula.js"></script>
     <script src="js/formula-methods.js"></script>
     <script src="js/custom-script-manager.js"></script>
+    <script src="js/lib.blend.js"></script>
     <script>
         // Post script
         endProcess()

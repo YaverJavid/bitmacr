@@ -166,7 +166,6 @@ function copy(zoom = false) {
     }
     return { failed: false }
 }
-
 function paste(xb, yb, data2d, paint2d) {
     if (!data2d) return
     let h = data2d.length
@@ -179,13 +178,9 @@ function paste(xb, yb, data2d, paint2d) {
         for (let x = xt; x < xb; x++) {
             if (paint2d[y]) {
                 if (paint2d[y][x]) {
-                    if (pasteTransparentCellEffect.checked) {
-                        if (array[j] != "#00000000") {
-                            setCellColor(paint2d[y][x], array[j])
-                        }
-                    } else {
-                        setCellColor(paint2d[y][x], array[j])
-                    }
+                    let bottomColor =  convertRGBAStrToObj(buffer.getItem()[pack(x, y)])       
+                    let topColor = hexToRgbaObject(array[j])
+                    setCellColor(paint2d[y][x], colorObjectToRGBA(blendColors(topColor, bottomColor, id("blend-mode-selector").value)))
                 }
             }
             j++
