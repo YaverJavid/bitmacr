@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="Pixmacr is a advanced mobile and desktop pixel art editor.">
+    <meta name="description" content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
     <title>Pixmacr - A pixel art maker by Yaver & Zanoor</title>
     <link rel="icon" type="favicon" href="others/logo.ico">
     <link rel="stylesheet" href="css/style.css">
@@ -613,6 +613,13 @@
                             <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
                             <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
                             <span id="gaussian-blur-radius-shower">(1)</span>
+                            <br>
+                            <label for="gaussian-blur-alpha-process">Alpha Process : </label>
+                           <select id="gaussian-blur-alpha-process">
+                            <option value="loose-alpha">Loose Alpha</option>
+                            <option value="mix">Mix</option>
+                            <option value="preserve-alpha">Preserve Pixel Alpha</option>
+                           </select>
                             <hr>
                             <h4>Box Blur</h4>
                             <label for="box-blur-radius">Box Blur Radius : </label>
@@ -766,6 +773,18 @@
                             <br>
                             <br>
                             <input type="button" value="Paste" id="paste-into-custom-script-textarea">
+                            <hr>
+                            <br>
+                            <label for="code-snippet-catagory">Code Snippet Catagory : </label>
+                            <select id="code-snippet-catagory"></select>
+                            <br>
+                            <label for="code-snippet">Snippet : </label>
+                            <select id="code-snippet">
+
+                            </select>
+                            <br>
+                            <input type="button" value="Inset Code" id="insert-code-snippet">
+                            <hr>
                             <br>
                             <input type="button" value="Execute" id="execute-custom-script">
                             <br>

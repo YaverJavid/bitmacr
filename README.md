@@ -1,4 +1,11 @@
-## Changelog
+# Changelog
+
+## (SYN APPS)
+
+### 2024-009[21-Jul-2024]
+
+- Added support for codde snippets in custom script
+- Added more blur settings
 
 ### 2024-008[21-Jul-2024]
 
@@ -14,7 +21,7 @@
 - Added maximum possible canvas size customisation (in preferences)
 - Bug Fix - No more wrong canvas sizes in confirm box
 
-##### 2024-006.x1 -> [24-Jun-2024]
+#### 2024-006.x1 -> [24-Jun-2024]
 
 - Added a way to select browser type manualy in preferences
 - Bug fixes

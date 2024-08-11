@@ -141,7 +141,7 @@ function convertRGBAStrToObj(rgbaStr) {
         b = rgbaArr[2].replace(")", "")
         a = 1
     }
-    return { r, g, b, a }
+    return { r : +r, g: +g, b : +b, a }
 }
 
 

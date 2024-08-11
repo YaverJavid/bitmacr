@@ -23,7 +23,6 @@ function setupNumInputWithButtons(minusButton, plusButton, input, minusCount = 1
     }
     plusButton.onclick = () => {
         if (input.value == "") input.value = "0"
-
         input.value = parseFloat(input.value) + plusCount
         plusAct()
     }

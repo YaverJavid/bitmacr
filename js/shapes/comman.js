@@ -235,24 +235,6 @@ for (let i = 0; i < shapesElems.length; i++) {
     }
 }
 
-
-
-
-paintZone.addEventListener('mousedown', (event) => {
-    if (["none", "stroke"].includes(paintModeSelector.value)) return
-    const x = event.clientX;
-    const y = event.clientY;
-    const currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-    startingCoords.gridX = Math.floor(currentCellIndex / cols);
-    startingCoords.gridY = currentCellIndex % cols
-    startingCoords.x = x
-    startingCoords.y = y
-    if (paintModeSelector.value == "line-stroke") isStartOfLineStroke = true
-})
-
-
-
-
 function drawNaturalFilledCircle(centerX, centerY, radius, array2D) {
     const rows = array2D.length;
     const cols = array2D[0].length;

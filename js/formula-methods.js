@@ -41,5 +41,13 @@ function drawWrapper(func, ...args){
     let paintCells2d = [];
     for (let i = 0; i < paintCells.length; i++) paintCells2d.push(paintCells[i]);    
     paintCells2d = toPaintData2D(paintCells2d);
-    return func(paintCells2d, ...args)
+    let returnee = func(paintCells2d, ...args)
+    recordPaintData()
+    return returnee
+}
+
+function loop(limit, body) {
+    for (let i = 0; i < limit; i++) {
+        body(i)
+    }
 }

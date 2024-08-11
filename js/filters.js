@@ -128,17 +128,19 @@ id("apply-custom-filter").onclick = () => {
     })
 }
 
-
 function gaussianBlur(pixels, width, height, blurRadius) {
     const blurredPixels = new Array(pixels.length);
+    const alphaProcess = id('gaussian-blur-alpha-process').value;
+
+    // Loop through every pixel
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             let redSum = 0;
             let greenSum = 0;
             let blueSum = 0;
             let weightSum = 0;
-            const kernelSize = blurRadius * 2 + 1;
-            
+            let alphaSum = 0; // Used only if alpha processing mode is 'mix'
+
             // Loop through neighboring pixels within kernel radius
             for (let dy = -blurRadius; dy <= blurRadius; dy++) {
                 for (let dx = -blurRadius; dx <= blurRadius; dx++) {
@@ -157,28 +159,40 @@ function gaussianBlur(pixels, width, height, blurRadius) {
 
                     const index = clampedY * width + clampedX;
                     const rgbaString = pixels[index];
-                    const rgbaValues = convertRGBAStrToObj(rgbaString)
+                    const rgbaValues = convertRGBAStrToObj(rgbaString);
 
-                    // Extract and accumulate color and alpha values with weights
-                    redSum += parseInt(rgbaValues.r) * weight;
-                    greenSum += parseInt(rgbaValues.g) * weight;
-                    blueSum += parseInt(rgbaValues.b) * weight;
+                    // Accumulate color values and weight
+                    redSum += rgbaValues.r * weight;
+                    greenSum += rgbaValues.g * weight;
+                    blueSum += rgbaValues.b * weight;
                     weightSum += weight;
+                    alphaSum += rgbaValues.a * weight;
                 }
             }
+            // Calculate the average color values
             const averagedRed = Math.round(redSum / weightSum);
             const averagedGreen = Math.round(greenSum / weightSum);
             const averagedBlue = Math.round(blueSum / weightSum);
-            const rgbaString = pixels[pack(x, y)];
-            const rgbaValues = convertRGBAStrToObj(rgbaString)
-        
-            const blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${rgbaValues.a})`;
-            blurredPixels[y * width + x] = blurredPixel;
+            // Determine the alpha value
+            let alpha;
+            if (alphaProcess === 'preserve-alpha') {
 
+                alpha = convertRGBAStrToObj(pixels[pack(x, y)]).a
+            } else if (alphaProcess === 'loose-alpha') {
+                alpha = 1;
+            } else if (alphaProcess === 'mix') {
+                alpha = alphaSum / weightSum;
+            }
+
+            // Construct the blurred pixel and store it
+            const blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${alpha})`;
+            blurredPixels[y * width + x] = blurredPixel;
         }
     }
-    return blurredPixels
+
+    return blurredPixels;
 }
+
 
 function boxBlur(pixels, width, height, blurRadius) {
     const blurredPixels = new Array(pixels.length);
