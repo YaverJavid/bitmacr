@@ -86,11 +86,10 @@ paintZone.addEventListener('touchmove', (event) => {
                 break
             case "paste":
                 if (!selectedPart) return
-                paintZonePosition = paintZone.getBoundingClientRect()
-                correctedX = x - paintZonePosition.x - pasteOffset
-                correctedY = y - paintZonePosition.y - pasteOffset
-                gridX = Math.floor(correctedX / cw)
-                gridY = Math.floor(correctedY / cw)
+                if (currentCell.classList[0] != "cell") return
+                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                gridY = Math.floor(currentCellIndex / cols)
+                gridX = currentCellIndex % cols
                 paste(
                     gridX + selectedPart.length,
                     gridY + selectedPart[0].length,

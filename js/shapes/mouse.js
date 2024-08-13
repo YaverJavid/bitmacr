@@ -74,11 +74,10 @@ paintZone.addEventListener('mousemove', (event) => {
                 break
             case "paste":
                 if (!selectedPart) return
-                paintZonePosition = paintZone.getBoundingClientRect()
-                correctedX = x - paintZonePosition.x - pasteOffset
-                correctedY = y - paintZonePosition.y - pasteOffset
-                gridX = Math.floor(correctedX / cw)
-                gridY = Math.floor(correctedY / cw)
+                if (currentCell.classList[0] != "cell") return
+                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                gridY = Math.floor(currentCellIndex / cols)
+                gridX = currentCellIndex % cols
                 paste(
                     gridX + selectedPart.length,
                     gridY + selectedPart[0].length,
@@ -91,14 +90,21 @@ paintZone.addEventListener('mousemove', (event) => {
                 break;
             case 'circle':
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
-                if (circleAlgorithm.value == "accurate") {
-                    drawCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d, fillCircle.checked)
-                } else if (circleAlgorithm.value == "natural") {
-                    if (fillCircle.checked) {
-                        drawNaturalFilledCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
-                    } else {
-                        drawNaturalStrokeCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
-                    }
+                if (circleAlgorithm.value == "accurate")
+                    drawCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d, fillCircle.checked)            
+                else if (circleAlgorithm.value == "natural") {
+                    if (fillCircle.checked)
+                        drawNaturalFilledCircle(
+                            startingCoords.gridX - radius,
+                            startingCoords.gridY + radius,
+                            radius, paintCells2d
+                        )
+                    else drawNaturalStrokeCircle(
+                        startingCoords.gridX - radius,
+                        startingCoords.gridY + radius,
+                        radius,
+                        paintCells2d
+                    )
                 }
                 break;
             case "triangle":
@@ -178,7 +184,7 @@ function handleMousePaintEnd(event) {
             for (let i = 0; i < zoomOutButtons.length; i++) {
                 zoomOutButtons[i].style.cursor = "zoom-out"
             }
-        
+
         }
     } else if (paintModeSelector.value == "line") {
         let x = event.clientX;

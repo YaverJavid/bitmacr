@@ -1,12 +1,13 @@
-# Changelog
+# Pixmacr
 
-## (SYN APPS)
+## Change Log
 
 ### 2024-009[21-Jul-2024]
 
 - Added support for codde snippets in custom script
 - Added more blur settings
 - Added mix modes for pasting
+- Fixed bugs regarding paste
 
 ### 2024-008[21-Jul-2024]
 

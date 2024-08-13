@@ -14,6 +14,19 @@ function blendColors(colorTop, colorBottom, mode) {
     let rResult, gResult, bResult, aResult;
 
     switch (mode) {
+        case 'default':
+            if (aTop == 0) {
+                rResult = rBottom;
+                gResult = gBottom;
+                bResult = bBottom;
+                aResult = aBottom;
+            } else {
+                rResult = rTop;
+                gResult = gTop;
+                bResult = bTop;
+                aResult = aTop;
+            }
+            break
         case 'normal':
             rResult = rTop;
             gResult = gTop;
@@ -21,11 +34,11 @@ function blendColors(colorTop, colorBottom, mode) {
             aResult = aTop + aBottom * (1 - aTop / 255);
             break;
         case 'replace':
-                rResult = rTop;
-                gResult = gTop;
-                bResult = bTop;
-                aResult = aTop;
-                break;
+            rResult = rTop;
+            gResult = gTop;
+            bResult = bTop;
+            aResult = aTop;
+            break;
         case 'multiply':
             rResult = rTop * rBottom / 255;
             gResult = gTop * gBottom / 255;
