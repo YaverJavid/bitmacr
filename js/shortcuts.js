@@ -20,8 +20,9 @@ document.addEventListener("keydown", function (event) {
         } else if (event.key == 'i') {
             if (buffer.setPointer(buffer.pointer + 1))
                 applyPaintData(buffer.getItem())
-        } else if (event.key == "L") {
-            saveSessions(sessions)
-        }
+        } else if (event.key == "j") {
+            id("add-image-background-checkbox").checked = !id("add-image-background-checkbox").checked
+            id("add-image-background-checkbox").oninput()
+        } 
     }
 });

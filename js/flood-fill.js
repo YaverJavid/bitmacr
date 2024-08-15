@@ -1,5 +1,3 @@
-
-
 function floodFill(a2d, x, y) {
   const xLength = a2d[0].length;
   const yLength = a2d.length;

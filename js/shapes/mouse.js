@@ -79,8 +79,8 @@ paintZone.addEventListener('mousemove', (event) => {
                 gridY = Math.floor(currentCellIndex / cols)
                 gridX = currentCellIndex % cols
                 paste(
-                    gridX + selectedPart.length,
-                    gridY + selectedPart[0].length,
+                    gridX + selectedPart[0].length,
+                    gridY + selectedPart.length,
                     selectedPart,
                     paintCells2d
                 )

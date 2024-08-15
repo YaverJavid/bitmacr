@@ -9,7 +9,6 @@ id("replace-content-awarely").onclick= ()=>{
 }
 
 function replaceContentAwarely(colorArray, targetColor) {
-    
     function parseRGBA(colorString) {
         const rgbaRegex = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/;
         const rgbRegex = /rgb?\((\d+),\s*(\d+),\s*(\d+)\)/;
