@@ -7,7 +7,7 @@
 - Added support for codde snippets in custom script
 - Added more blur settings
 - Added mix modes for pasting
-- Fixed bugs regarding paste
+- Fixed bugs regarding paste & zoom
 
 ### 2024-008[21-Jul-2024]
 

@@ -11,18 +11,17 @@ document.addEventListener("keydown", function (event) {
                 break
             }
         }
-        if (event.key == 'p') {
-            paintModeSelector.value = paintModeSelector.value != "stroke" ? "stroke" : "none"
-            paintModeInfoShower.textContent = paintModeSelector.value + ","
-        } else if (event.key == 'u') {
+        if (event.key == 'u') {
             if (buffer.setPointer(buffer.pointer - 1))
                 applyPaintData(buffer.getItem())
-        } else if (event.key == 'i') {
+        } else if (event.key == 'r') {
             if (buffer.setPointer(buffer.pointer + 1))
                 applyPaintData(buffer.getItem())
         } else if (event.key == "j") {
             id("add-image-background-checkbox").checked = !id("add-image-background-checkbox").checked
             id("add-image-background-checkbox").oninput()
+        } else if (event.key == "p") {
+           id('color-selector').checked = true
         } 
     }
 });

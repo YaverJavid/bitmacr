@@ -166,7 +166,7 @@ function copy(zoom = false) {
     }
     return { failed: false }
 }
-function paste(xb, yb, data2d, paint2d) {
+function paste(xb, yb, data2d, paint2d, zoomOut = false) {
     if (!data2d) return
     let h = data2d.length
     let w = data2d[0].length
@@ -174,13 +174,15 @@ function paste(xb, yb, data2d, paint2d) {
     let yt = yb - h
     let array = data2d.flat();
     let j = 0
+    let blendingMode = zoomOut ? 'replace' : id("blend-mode-selector").value
     for (let y = yt; y < yb; y++) {
         for (let x = xt; x < xb; x++) {
             if (paint2d[y]) {
                 if (paint2d[y][x]) {
                     let bottomColor =  convertRGBAStrToObj(buffer.getItem()[pack(x, y)])       
-                    let topColor = hexToRgbaObject(array[j])
-                    setCellColor(paint2d[y][x], colorObjectToRGBA(blendColors(topColor, bottomColor, id("blend-mode-selector").value)))
+                    let topColor = zoomOut ? convertRGBAStrToObj(array[j]) : hexToRgbaObject(array[j]) 
+                    let finalColor = colorObjectToRGBA(blendColors(topColor, bottomColor, blendingMode))
+                    setCellColor(paint2d[y][x], finalColor)
                 }
             }
             j++
@@ -395,7 +397,7 @@ function zoomOut() {
     }
     zoomedIn = false
     id("top-zoom-out").style.border= "0px solid var(--primary)"
-    let partToPaste = toPaintData2D(buffer.getItem().slice(), zoomedPart.length, zoomedPart[0].length)
+    let partToPaste = toPaintData2D(buffer.getItem().slice())
     originalSnapshot = JSON.parse(originalSnapshot)
     let fullBuffer = new Stack(64)
     fullBuffer.data = originalSnapshot.data
@@ -409,7 +411,7 @@ function zoomOut() {
         paintCells2d.push(paintCells[i])
     }
     paintCells2d = toPaintData2D(paintCells2d, fullRows, fullCols)
-    paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d)
+    paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d, true)
     recordPaintData()
     sessions[currentSession].buffer = buffer
     for (let i = 0; i < zoomOutButtons.length; i++) {
