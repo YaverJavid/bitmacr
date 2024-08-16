@@ -21,7 +21,8 @@ document.addEventListener("keydown", function (event) {
             id("add-image-background-checkbox").checked = !id("add-image-background-checkbox").checked
             id("add-image-background-checkbox").oninput()
         } else if (event.key == "p") {
-           id('color-selector').checked = true
+            id('select-color').checked = !id('select-color').checked
+            id('select-color').oninput()
         } 
     }
 });

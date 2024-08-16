@@ -11,7 +11,6 @@ const fp = console.log
 
 const avgc = (r,g,b) => (r+g+b)/3
 
-// TODO
  function y(pid){
    return pid % rows
  }
@@ -30,6 +29,11 @@ function fc(i) {
 
 function undo(){
     if (buffer.setPointer(buffer.pointer - 1))
+        applyPaintData(buffer.getItem())
+}
+
+function redo(){
+    if (buffer.setPointer(buffer.pointer + 1))
         applyPaintData(buffer.getItem())
 }
 

@@ -27,7 +27,6 @@ colorToReplaceWithSelector.addEventListener("change", () => {
 })
 
 const VERSION = "v.2024.009"
-
 id("version").textContent = VERSION
 
 
@@ -295,7 +294,7 @@ redo.addEventListener("click", () => {
 // Color Copier Manager
 let colorSelectionInProgress = false
 for (let colorCopierCheckbox in colorCopierCheckboxes) {
-    colorCopierCheckboxes[colorCopierCheckbox].addEventListener("input", function() {
+    colorCopierCheckboxes[colorCopierCheckbox].oninput = function() {
         if (!this.checked) {
             changeCellBorderColor(borderColor)
             colorSelectionInProgress = false
@@ -305,7 +304,7 @@ for (let colorCopierCheckbox in colorCopierCheckboxes) {
         for (let colorCopierCheckbox in colorCopierCheckboxes) colorCopierCheckboxes[colorCopierCheckbox].checked = false
         this.checked = true
         changeCellBorderColor("red")
-    })
+    }
 }
 
 

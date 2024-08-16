@@ -1,8 +1,10 @@
 let snippetData = {
     Misc : {
         'Undo' : 'undo()',
+        'Redo': 'redo()',
         'Record Paint Data' : 'recordPaintData()',
-        'Click On Cell':'fc(pack(x, y))'
+        'Click On Cell':'fc(pack(x, y))',
+
     },
     Filters: {
         'Invert': 'id("filter-invert").onclick()',

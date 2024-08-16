@@ -8,6 +8,7 @@
 - Added more blur settings
 - Added mix modes for pasting
 - Fixed bugs regarding paste & zoom
+- CTRL p for piking the color from cell
 
 ### 2024-008[21-Jul-2024]
 
