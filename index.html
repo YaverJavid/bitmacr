@@ -31,11 +31,11 @@
 
             <div class="controls" id="top-control-container">
                 <input type="button" id="undo" value="UNDO">
-                <input type="button" class="zoom-out" id="top-zoom-out" value="⇱">
-                <input type="button" id="export-button" value="SAVE&darr;">
-                <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;">
-                <input type="button" value="+F" onclick="addFrame()">
-                <input type="button" value="&#x21bb;" id="top-reload">
+                <input type="button" class="zoom-out" id="top-zoom-out" value="⇱" title="Zoom Out">
+                <input type="button" id="export-button" value="SAVE&darr;" title="Export With Love">
+                <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;" title="Force Save Sessions">
+                <input type="button" value="+F" onclick="addFrame()" title="Add Frame">
+                <input type="button" value="&#x21bb;" id="top-reload" title="Reload">
                 <input type="button" id="redo" value="REDO">
             </div>
             <marquee id="adstrip">
@@ -53,24 +53,24 @@
             </div>
             <div id="main-selectors-container">
                 <div id="shapes-selector" class="h-selector">
-                    <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png">
-                    <img data-value="line-stroke" data-cursor="auto" src="icons/paint-mode/stroke.png">
-                    <img data-value="zoom" data-cursor="zoom-in" src="icons/paint-mode/zoom.png">
-                    <img data-value="rect" data-cursor="crosshair" src="icons/paint-mode/rectangle-filled.png">
-                    <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png">
+                    <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png" title="None">
+                    <img data-value="line-stroke" data-cursor="auto" src="icons/paint-mode/stroke.png" title="Pen">
+                    <img data-value="zoom" data-cursor="zoom-in" src="icons/paint-mode/zoom.png" title="Zoom">
+                    <img data-value="rect" data-cursor="crosshair" src="icons/paint-mode/rectangle-filled.png" title="Rectangle">
+                    <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png" title="Circle">
                     <img data-value="selecting" data-cursor="crosshair" id="copy-selector"
-                        src="icons/paint-mode/copy.png">
-                    <img data-value="paste" data-cursor="crosshair" src="icons/paint-mode/paste.png">
-                    <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png">
-                    <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png">
+                        src="icons/paint-mode/copy.png" title="Select">
+                    <img data-value="paste" data-cursor="crosshair" src="icons/paint-mode/paste.png"  title="Paste">
+                    <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png"  title="Line">
+                    <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
                     <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png"
-                        style="margin-right: 5px">
+                        style="margin-right: 5px" title="Sphere">
                 </div>
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
                     <img data-value="cell" src="icons/fill-mode/cell.png">
-                    <!--<img data-value="row" src="icons/fill-mode/row.png">
-                        <img data-value="col" src="icons/fill-mode/col.png">-->
+                    <!-- <img data-value="row" src="icons/fill-mode/row.png">
+                        <img data-value="col" src="icons/fill-mode/col.png"> -->
                     <img data-value="fill" src="icons/fill-mode/fill.png">
                 </div>
             </div>
@@ -452,6 +452,8 @@
                                 <input type="button" value="Apply Selected Data" id="apply-selected-data">
                                 <br>
                                 <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
+                                <br>
+                                <input type="button"  value="Select All" title="Select All The Canvas" id="select-all">
                             </div>
                             <div class="shape-settings" data-settingname="circle">
                                 <h3>Circle</h3> <br>
@@ -601,7 +603,7 @@
                             <br>
                             <input type="button" value="Blur Settings" onclick="gotoTab('blur-settings')">
                             <br>
-                            <br>
+                            <hr>
                             <h4>Custom Filter</h4>
                             <br>
                             <label for="custom-filter-r">R = </label>

@@ -421,3 +421,14 @@ function zoomOut() {
 }
 
 
+id("select-all").onclick = ()=>{
+    selectedPart = buffer.getItem().slice()
+    selectedPart.forEach((e, i)=>{
+        selectedPart[i] = rgbaToHex(e)
+    })
+    selectedPart = toPaintData2D(selectedPart)
+    for (let i = 0; i < selectionImageShowers.length; i++) {
+        selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
+        selectionImageShowers[i].style.border = "1px solid black";
+    }
+}

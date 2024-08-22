@@ -50,7 +50,7 @@ let rows = 10,
     cols = 10
 let menuSegmentLocations = []
 
-guideCellBorderColor.value = borderColor
+guideCellBorderColor.value = "#" + borderColor
 
 for (let i = 0; i < menus.length; i++) {
     let currentMenuName = menus[i].children[1].textContent

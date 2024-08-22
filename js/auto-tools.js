@@ -1,58 +1,3 @@
-function toPixelArtDimensions(ctx, canvas, threshold) {
-    let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let d = imgd.data;
-    let minVerticalColorChunkSize = Infinity;
-    let currentVerticalColorChunkSize = 0;
-    let lastColor = undefined;
-
-    for (let hl = 0; hl < canvas.height; hl++) {
-        for (let i = 0; i < canvas.width * 4; i += 4) {
-            let index = i + (hl * canvas.width * 4);
-            let r = d[index];
-            let g = d[index + 1];
-            let b = d[index + 2];
-            let a = d[index + 3];
-            let c = new RGB(r, g, b);
-
-            if (lastColor) {
-                if (c.isEqual(lastColor)) {
-                    currentVerticalColorChunkSize++;
-                } else {
-                    if (minVerticalColorChunkSize > currentVerticalColorChunkSize) {
-                        minVerticalColorChunkSize = currentVerticalColorChunkSize;
-                    }
-                    currentVerticalColorChunkSize = 1;
-                }
-            } else {
-                currentVerticalColorChunkSize++;
-            }
-
-            lastColor = c;
-        }
-    }
-
-    if (minVerticalColorChunkSize > currentVerticalColorChunkSize) {
-        minVerticalColorChunkSize = currentVerticalColorChunkSize;
-    }
-
-    let height = Math.floor(canvas.height / minVerticalColorChunkSize);
-    let width = Math.floor(canvas.width / minVerticalColorChunkSize);
-
-    return { height, width };
-}
-
-class RGB {
-    constructor(r, g, b) {
-        this.r = r;
-        this.b = b;
-        this.g = g;
-    }
-    isEqual(rgb) {
-        return this.r === rgb.r && this.g === rgb.g && this.b === rgb.b
-    }
-}
-
-
 id("image-pixelart-to-pixel").addEventListener("input", function (event) {
     let fr = new FileReader();
     fr.onload = function () {
@@ -64,13 +9,19 @@ id("image-pixelart-to-pixel").addEventListener("input", function (event) {
             let ctx = canvas.getContext("2d")
             ctx.imageSmoothingEnabled = false
             ctx.drawImage(img, 0, 0)
-            let dimensions = toPixelArtDimensions(ctx, canvas, parseInt(id("auto-size-detection-threshold").value))
-            if (dimensions.width > (MAX_CANVAS_DIMENSION + 20) || dimensions.height > (MAX_CANVAS_DIMENSION + 20)) {
-                customAlert(`Dimension Greater Than 100! (${dimensions.height}:${dimensions.width})`)
+            let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);      
+            let pixelSize = findShortestStreak(imgd)
+            let ph = Math.floor(img.height/pixelSize)
+            let pw = Math.floor(img.width/pixelSize)
+            let th = parseInt(id("auto-size-detection-threshold").value)
+            
+            if (pw > (MAX_CANVAS_DIMENSION + 20) || ph > (MAX_CANVAS_DIMENSION + 20)) {
+                customAlert(`Dimension Greater Than Supported! (${pw}:${ph})`)
                 return
             }
-            let data = imageToPixeArtData(img, dimensions.width, dimensions.height)
-            addCanvas(dimensions.height, dimensions.width)
+
+            let data = imageToPixeArtData(img, pw, ph)
+            addCanvas(ph, pw)
             applyPaintData(data)
             buffer.clearStack()
             recordPaintData()
@@ -87,4 +38,81 @@ id("image-pixelart-to-pixel").addEventListener("input", function (event) {
 
 id("auto-size-detection-threshold").oninput = () => {
     id("auto-size-detection-threshold-shower").innerHTML = `(${id("auto-size-detection-threshold").value})`
+}
+
+function findShortestStreak(imageData) {
+    const { data, width, height } = imageData;
+    
+    // Helper function to convert pixel data to a 2D array of colors
+    function getColorMatrix() {
+        const matrix = [];
+        for (let y = 0; y < height; y++) {
+            const row = [];
+            for (let x = 0; x < width; x++) {
+                const index = (y * width + x) * 4;
+                row.push([
+                    data[index],     // Red
+                    data[index + 1], // Green
+                    data[index + 2], // Blue
+                    data[index + 3]  // Alpha
+                ]);
+            }
+            matrix.push(row);
+        }
+        return matrix;
+    }
+
+    // Helper function to find the shortest streak in a line of colors
+    function getShortestStreak(line) {
+        let minStreak = Infinity;
+        let currentColor = line[0];
+        let currentStreak = 1;
+
+        for (let i = 1; i < line.length; i++) {
+            if (line[i][0] === currentColor[0] &&
+                line[i][1] === currentColor[1] &&
+                line[i][2] === currentColor[2] &&
+                line[i][3] === currentColor[3]) {
+                currentStreak++;
+            } else {
+                if (currentStreak > 1 && currentStreak < minStreak) {
+                    minStreak = currentStreak;
+                }
+                currentColor = line[i];
+                currentStreak = 1;
+            }
+        }
+
+        // Check the last streak
+        if (currentStreak > 1 && currentStreak < minStreak) {
+            minStreak = currentStreak;
+        }
+
+        return minStreak === Infinity ? 0 : minStreak;
+    }
+
+    const matrix = getColorMatrix();
+    let overallMinStreak = Infinity;
+
+    // Check rows
+    for (let i = 0; i < height; i++) {
+        const rowStreak = getShortestStreak(matrix[i]);
+        if (rowStreak < overallMinStreak) {
+            overallMinStreak = rowStreak;
+        }
+    }
+
+    // Check columns
+    for (let j = 0; j < width; j++) {
+        let column = [];
+        for (let i = 0; i < height; i++) {
+            column.push(matrix[i][j]);
+        }
+        const colStreak = getShortestStreak(column);
+        if (colStreak < overallMinStreak) {
+            overallMinStreak = colStreak;
+        }
+    }
+
+    return overallMinStreak === Infinity ? 0 : overallMinStreak;
 }

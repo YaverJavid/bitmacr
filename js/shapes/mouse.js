@@ -158,11 +158,11 @@ function handleMousePaintEnd(event) {
     if (paintModeSelector.value == "selecting") {
         if (!selectionCoords) return;
         handleSelectionShowerVisibility("0", "0", "0", "0", "0");
-        copy();
         for (let i = 0; i < selectionImageShowers.length; i++) {
             selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
             selectionImageShowers[i].style.border = "1px solid black";
         }
+        copy();
     } else if (paintModeSelector.value == "zoom") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")
