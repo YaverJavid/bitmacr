@@ -10,6 +10,7 @@
 - Fixed bugs regarding paste & zoom
 - CTRL p for piking the color from cell
 - Select all added
+- Some tool tips too
 
 ### 2024-008[21-Jul-2024]
 
