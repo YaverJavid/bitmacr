@@ -843,10 +843,6 @@
         padding: 0 76px;
         align-items: center;
     }
-    
-    #logo-sessions-container > img{
-        margin: 0;
-    }
     #sessions-section {
         width: 80%;
     }
