@@ -10,8 +10,7 @@ id("image-pixelart-to-pixel").addEventListener("input", function (event) {
             ctx.imageSmoothingEnabled = false
             ctx.drawImage(img, 0, 0)
             let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);      
-            let pixelSize = findShortestStreak(imgd)
-            console.log(pixelSize, img.height,img.height/pixelSize);
+            let pixelSize = findShortestStreak(imgd) 
             
             let ph = Math.round(img.height/pixelSize) 
             let pw = Math.round(img.width/pixelSize) 
@@ -116,5 +115,5 @@ function findShortestStreak(imageData) {
         }
     }
 
-    return overallMinStreak === Infinity ? 0 : overallMinStreak;
+    return overallMinStreak === Infinity ? 0 : (overallMinStreak + 1)
 }
