@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="description"
         content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
-    <title>Pixmacr - A pixel art maker by Yaver & Zanoor</title>
+    <title>Pixmacr - A pixel art maker by Yaver Javid</title>
     <link rel="icon" type="favicon" href="others/logo.ico">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sessions.css">
@@ -21,19 +21,22 @@
 </head>
 
 <body>
-    <img src="icons/logo/lettering.png" width=125 id="top-logo">
-    <div id="sessions-section">
-        <img id="add-session" src="icons/close.svg" class="icon">
-        <div id="sessions-container"> </div>
+    <br>
+    <div id="logo-sessions-container">
+        <div id="sessions-section">
+            <img id="add-session" src="icons/close.svg" class="icon">
+            <div id="sessions-container"> </div>
+        </div>
+        <img src="icons/logo/lettering.png" width=125 id="top-logo">
     </div>
     <div id="main-container">
         <div id="left">
-
             <div class="controls" id="top-control-container">
                 <input type="button" id="undo" value="UNDO">
                 <input type="button" class="zoom-out" id="top-zoom-out" value="⇱" title="Zoom Out">
                 <input type="button" id="export-button" value="SAVE&darr;" title="Export With Love">
-                <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;" title="Force Save Sessions">
+                <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;"
+                    title="Force Save Sessions">
                 <input type="button" value="+F" onclick="addFrame()" title="Add Frame">
                 <input type="button" value="&#x21bb;" id="top-reload" title="Reload">
                 <input type="button" id="redo" value="REDO">
@@ -53,15 +56,17 @@
             </div>
             <div id="main-selectors-container">
                 <div id="shapes-selector" class="h-selector">
-                    <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png" title="None">
+                    <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png"
+                        title="None">
                     <img data-value="line-stroke" data-cursor="auto" src="icons/paint-mode/stroke.png" title="Pen">
                     <img data-value="zoom" data-cursor="zoom-in" src="icons/paint-mode/zoom.png" title="Zoom">
-                    <img data-value="rect" data-cursor="crosshair" src="icons/paint-mode/rectangle-filled.png" title="Rectangle">
+                    <img data-value="rect" data-cursor="auto" src="icons/paint-mode/rectangle-filled.png"
+                        title="Rectangle">
                     <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png" title="Circle">
                     <img data-value="selecting" data-cursor="crosshair" id="copy-selector"
                         src="icons/paint-mode/copy.png" title="Select">
-                    <img data-value="paste" data-cursor="crosshair" src="icons/paint-mode/paste.png"  title="Paste">
-                    <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png"  title="Line">
+                    <img data-value="paste" data-cursor="auto" src="icons/paint-mode/paste.png" title="Paste">
+                    <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png" title="Line">
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
                     <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png"
                         style="margin-right: 5px" title="Sphere">
@@ -90,14 +95,16 @@
                             <br>
 
                             <div id="color-m-selector" class="h-selector">
-                                <img src='icons/color-mode/normal.png' alt='cm' data-value="normal"
-                                    class="active-cmode">
-                                <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette">
-                                <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser">
-                                <img src='icons/color-mode/formula.png' alt='cm' data-value="formula">
-                                <img src='icons/color-mode/random.png' alt='cm' data-value="random">
-                                <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl">
-                                <img src='icons/color-mode/css.png' alt='cm' data-value="css-color">
+                                <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode"
+                                    title="Normal">
+                                <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette" title="Pallette">
+                                <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser" title="Eraser">
+                                <img src='icons/color-mode/formula.png' alt='cm' data-value="formula"
+                                    title="Color Formula">
+                                <img src='icons/color-mode/random.png' alt='cm' data-value="random" title="Random">
+                                <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl" title="HSL">
+                                <img src='icons/color-mode/css.png' alt='cm' data-value="css-color"
+                                    title="CSS Color String">
                             </div>
                             <br>
                             <br>
@@ -453,7 +460,7 @@
                                 <br>
                                 <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
                                 <br>
-                                <input type="button"  value="Select All" title="Select All The Canvas" id="select-all">
+                                <input type="button" value="Select All" title="Select All The Canvas" id="select-all">
                             </div>
                             <div class="shape-settings" data-settingname="circle">
                                 <h3>Circle</h3> <br>

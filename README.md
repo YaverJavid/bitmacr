@@ -11,6 +11,8 @@
 - CTRL p for piking the color from cell
 - Select all added
 - Some tool tips too
+- Logo now appears in right in widescreen
+- Fixed some cursor desgin
 
 ### 2024-008[21-Jul-2024]
 

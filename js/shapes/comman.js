@@ -396,7 +396,7 @@ function zoomOut() {
         return
     }
     zoomedIn = false
-    id("top-zoom-out").style.border= "0px solid var(--primary)"
+    id("top-zoom-out").style.border= "1px solid var(--primary)"
     let partToPaste = toPaintData2D(buffer.getItem().slice())
     originalSnapshot = JSON.parse(originalSnapshot)
     let fullBuffer = new Stack(64)
