@@ -175,17 +175,17 @@ function gaussianBlur(pixels, width, height, blurRadius) {
             const averagedBlue = Math.round(blueSum / weightSum);
             // Determine the alpha value
             let alpha;
-            if (alphaProcess === 'preserve-alpha') {
-
+            if (alphaProcess == 'preserve-alpha') {
                 alpha = convertRGBAStrToObj(pixels[pack(x, y)]).a
-            } else if (alphaProcess === 'loose-alpha') {
+            } else if (alphaProcess == 'loose-alpha') {
                 alpha = 1;
-            } else if (alphaProcess === 'mix') {
+            } else if (alphaProcess == 'mix') {
                 alpha = alphaSum / weightSum;
             }
 
             // Construct the blurred pixel and store it
-            const blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${alpha})`;
+            let blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${alpha})`;
+            if(alpha == 0) blurredPixel = "rgba(0, 0, 0, 0)"
             blurredPixels[y * width + x] = blurredPixel;
         }
     }

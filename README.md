@@ -8,11 +8,12 @@
 - Added more blur settings
 - Added mix modes for pasting
 - Fixed bugs regarding paste & zoom
-- CTRL p for piking the color from cell
+- [CTRL + p] for picking the color from cell
 - Select all added
 - Some tool tips too
 - Logo now appears in right in widescreen
 - Fixed some cursor desgin
+- Fixed gaussian ghost colors bug
 
 ### 2024-008[21-Jul-2024]
 
