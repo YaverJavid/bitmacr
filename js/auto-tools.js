@@ -11,8 +11,10 @@ id("image-pixelart-to-pixel").addEventListener("input", function (event) {
             ctx.drawImage(img, 0, 0)
             let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);      
             let pixelSize = findShortestStreak(imgd)
-            let ph = Math.floor(img.height/pixelSize)
-            let pw = Math.floor(img.width/pixelSize)
+            console.log(pixelSize, img.height,img.height/pixelSize);
+            
+            let ph = Math.round(img.height/pixelSize) 
+            let pw = Math.round(img.width/pixelSize) 
             let th = parseInt(id("auto-size-detection-threshold").value)
             
             if (pw > (MAX_CANVAS_DIMENSION + 20) || ph > (MAX_CANVAS_DIMENSION + 20)) {

@@ -809,7 +809,9 @@
  #logo-sessions-container{
     display: flex;
     flex-direction: column-reverse;
-    align-items: center;
+}
+#top-logo{
+    align-self: center;
 }
  @media(min-width:600px) {
      body{
