@@ -24,7 +24,7 @@
      padding: 0;
      text-align: center;
      background: var(--secondary);
-      background-size: 100%; 
+      background-size: fit; 
      /* image-rendering */
    
  }
@@ -815,7 +815,7 @@
 }
  @media(min-width:600px) {
      body{
-        background-size: 20%; 
+        background-size: 100%;
      }
      #right,
      #left {

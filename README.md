@@ -2,6 +2,13 @@
 
 ## Change Log
 
+### 2024-010[26-Jul-2024]
+
+- Added Paste On Click
+- Added Extra Click Modes Tab
+- There Added Onclick Col, Row, Paste
+- Added Invert Intra-Channel Control
+
 ### 2024-009[21-Jul-2024]
 
 - Added support for codde snippets in custom script

@@ -55,9 +55,9 @@ guideCellBorderColor.value = "#" + borderColor
 for (let i = 0; i < menus.length; i++) {
     let currentMenuName = menus[i].children[1].textContent
     menuSegmentLocations.push(i * controlWidth)
-    let shortcutKey = menus[i].children[1].dataset.shortcutkey 
+    let shortcutKey = menus[i].children[1].dataset.shortcutkey
     menuNav.innerHTML += `<div class="menu-nav-items" data-shortcutkey="${shortcutKey}" >${currentMenuName.toUpperCase()}
-      <kbd class="shortcut-info" style="display: ${shortcutKey ?  "initial" : "none"}" >
+      <kbd class="shortcut-info" style="display: ${shortcutKey ? "initial" : "none"}" >
                  ${shortcutKey ? 'ctrl+' + shortcutKey : "NONE"} 
       </kbd>
     </div>`
@@ -65,7 +65,7 @@ for (let i = 0; i < menus.length; i++) {
 
 function redirectMenuViewTo(location) {
     bottomControls.scrollLeft = location
-    
+
 }
 
 function gotoTab(tabName, scollIntoView = false) {
@@ -78,7 +78,7 @@ for (let i = 0; i < menuNav.children.length; i++) {
         redirectMenuViewTo(i * controlWidth)
     })
     if (bottomControls.children[i].children[1].dataset.type == "hidden-tab") {
-       menuNav.children[i].style.display = "none"
+        menuNav.children[i].style.display = "none"
     }
     if (bottomControls.children[i].children[1].dataset.tabname) {
         tabLocations[bottomControls.children[i].children[1].dataset.tabname] = i
@@ -177,59 +177,88 @@ function addCanvas(argRows, argCols, clearStack = true) {
     }
     canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
     for (let i = 0; i < paintCells.length; i++) {
-        paintCells[i].onclick = function() {
+        paintCells[i].onclick = function () {
             lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
             if (colorSelectionInProgress) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
                 let selectedColor = fullColor.slice(0, 7)
                 changeCellBorderColor(borderColor)
-                if (colorCopierCheckboxes.selectColorForFind.checked) {
+                if (clickManagerCheckboxes.selectColorForFind.checked) {
                     colorToBeReplacedSelector.value = selectedColor
                     targetColor = selectedColor
-                    colorCopierCheckboxes.selectColorForFind.checked = false
-                } else if (colorCopierCheckboxes.colorSelectCheckbox.checked) {
+                    clickManagerCheckboxes.selectColorForFind.checked = false
+                } else if (clickManagerCheckboxes.colorSelectCheckbox.checked) {
                     setCurrentColor(selectedColor)
-                    colorCopierCheckboxes.colorSelectCheckbox.checked = false
-                } else if (colorCopierCheckboxes.selectColorForReplacer.checked) {
+                    clickManagerCheckboxes.colorSelectCheckbox.checked = false
+                } else if (clickManagerCheckboxes.selectColorForReplacer.checked) {
                     colorToReplaceWithSelector.value = selectedColor
                     replacementColor = selectedColor
-                    colorCopierCheckboxes.selectColorForReplacer.checked = false
-                } else if (colorCopierCheckboxes.copyColorFromCellCheckbox.checked) {
+                    clickManagerCheckboxes.selectColorForReplacer.checked = false
+                } else if (clickManagerCheckboxes.pasteOnClick.checked) {
+                    let y = Math.floor(i / cols)
+                    let x = i % cols
+                    if (!selectedPart) return
+                    let paintCells2d = []
+                    for (let i = 0; i < paintCells.length; i++) paintCells2d.push(paintCells[i])
+                    paintCells2d = toPaintData2D(paintCells2d);
+                    paste(
+                        x + selectedPart[0].length,
+                        y + selectedPart.length,
+                        selectedPart,
+                        paintCells2d
+                    )
+                    recordPaintData()
+                } else if (clickManagerCheckboxes.copyColorFromCellCheckbox.checked) {
                     copyTextToClipboard(selectedColor);
                     copiedColorShower.innerHTML = `If Color Wasn't Copied, Copy Manually: <span class="color">${selectedColor}</span> <span style="user-select:none; color: ${selectedColor}; background: ${selectedColor}; border: 0.5px solid var(-secondary)" >!!!!</span>`
-                    colorCopierCheckboxes.copyColorFromCellCheckbox.checked = false
-                } else if (colorCopierCheckboxes.selectHueFromCell.checked) {
-                    colorCopierCheckboxes.selectHueFromCell.checked = false
+                    clickManagerCheckboxes.copyColorFromCellCheckbox.checked = false
+                } else if (clickManagerCheckboxes.selectHueFromCell.checked) {
+                    clickManagerCheckboxes.selectHueFromCell.checked = false
                     hueAngle.value = getHSLFromHex(selectedColor).hue
                     hue = parseFloat(hueAngle.value)
                     updateHueShower()
                     updateHueColorShower()
 
-                } else if (colorCopierCheckboxes.selectLightingFromCell.checked) {
+                } else if (clickManagerCheckboxes.selectLightingFromCell.checked) {
                     // LIGHTING
-                    colorCopierCheckboxes.selectLightingFromCell.checked = false
+                    clickManagerCheckboxes.selectLightingFromCell.checked = false
                     lightingSlider.value = getHSLFromHex(selectedColor).lightness * 100
                     updateHueColorShower()
 
                     lightingShower.innerHTML = `(${lightingSlider.value}%)`
-                } else if (colorCopierCheckboxes.selectSaturationFromCell.checked) {
+                } else if (clickManagerCheckboxes.selectSaturationFromCell.checked) {
                     // SATURATION
-                    colorCopierCheckboxes.selectSaturationFromCell.checked = false
+                    clickManagerCheckboxes.selectSaturationFromCell.checked = false
                     saturationSlider.value = getHSLFromHex(selectedColor).saturation * 100
                     saturationShower.innerHTML = `(${saturationSlider.value}%)`
                     updateHueColorShower()
 
-                } else if (colorCopierCheckboxes.selectForOnlyFillIf.checked) {
+                } else if (clickManagerCheckboxes.selectForOnlyFillIf.checked) {
                     if (fillOnlyThisColor.value)
                         fillOnlyThisColor.value += "||"
                     fillOnlyThisColor.value += selectedColor
-                    colorCopierCheckboxes.selectForOnlyFillIf.checked = false
-                } else if (colorCopierCheckboxes.selectColorForPaletteCreator.checked) {
+                    clickManagerCheckboxes.selectForOnlyFillIf.checked = false
+                } else if (clickManagerCheckboxes.selectColorForPaletteCreator.checked) {
                     paletteCreatorPalette.selected.style.background = selectedColor
-                    colorCopierCheckboxes.selectColorForPaletteCreator.checked = false
+                    clickManagerCheckboxes.selectColorForPaletteCreator.checked = false
+                } else if (clickManagerCheckboxes.onclickFillCol.checked) {
+                    let colToPaint = i % cols
+                    let newData = toPaintData2D(buffer.getItem().slice())
+                    for (let i = 0; i < newData.length; i++) newData[i][colToPaint] = getCurrentSelectedColor()
+                    applyPaintData(newData.flat(), false)
+                } else if (clickManagerCheckboxes.onclickFillRow.checked) {
+                    let rowToPaint = Math.floor(i / cols);
+                    let newData = toPaintData2D(buffer.getItem().slice())
+                    let rowArray = []
+                    for (let i = 0; i < cols; i++) rowArray.push(getCurrentSelectedColor())
+                    newData[rowToPaint] = rowArray
+                    applyPaintData(newData.flat(), false)
                 }
-                // recordPaintData()
+                recordPaintData()
                 colorSelectionInProgress = false
+                colorSelectionInProgress = clickManagerCheckboxes.pasteOnClick.checked ||
+                    clickManagerCheckboxes.onclickFillRow.checked ||
+                    clickManagerCheckboxes.onclickFillCol.checked
             } else if (clickModeSelector.value == "row") {
                 let rowToPaint = Math.floor(i / cols);
                 let newData = toPaintData2D(buffer.getItem().slice())
@@ -263,7 +292,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
 
 }
 
-colorSelector.addEventListener("input", function() {
+colorSelector.addEventListener("input", function () {
     setCurrentColor(this.value)
 })
 
@@ -293,15 +322,15 @@ redo.addEventListener("click", () => {
 
 // Color Copier Manager
 let colorSelectionInProgress = false
-for (let colorCopierCheckbox in colorCopierCheckboxes) {
-    colorCopierCheckboxes[colorCopierCheckbox].oninput = function() {
+for (let colorCopierCheckbox in clickManagerCheckboxes) {
+    clickManagerCheckboxes[colorCopierCheckbox].oninput = function () {
         if (!this.checked) {
             changeCellBorderColor(borderColor)
             colorSelectionInProgress = false
             return
         }
         colorSelectionInProgress = true
-        for (let colorCopierCheckbox in colorCopierCheckboxes) colorCopierCheckboxes[colorCopierCheckbox].checked = false
+        for (let colorCopierCheckbox in clickManagerCheckboxes) clickManagerCheckboxes[colorCopierCheckbox].checked = false
         this.checked = true
         changeCellBorderColor("red")
     }
@@ -310,7 +339,7 @@ for (let colorCopierCheckbox in colorCopierCheckboxes) {
 
 // END
 
-guideCellBorderColor.addEventListener("input", function() {
+guideCellBorderColor.addEventListener("input", function () {
     borderColor = this.value
     for (var i = 0; i < paintCells.length; i++) {
         paintCells[i].style.borderColor = borderColor
@@ -494,7 +523,7 @@ function updateCopyTargetString() {
             string += `q${i} ,`
         i++
     }
-    copyTargetsShower.innerHTML = `(${string.slice(0,-2)})`
+    copyTargetsShower.innerHTML = `(${string.slice(0, -2)})`
 }
 
 updateCopyTargetString()
@@ -566,28 +595,28 @@ for (let i = 0; i < defaultPalletteColors.length; i++) {
 }
 
 // input text color hex ...
-id("color-selector-hex").addEventListener("input", function() {
+id("color-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
         setCurrentColor(this.value)
         colorSelector.value = this.value
     }
 })
 
-id("color-to-be-replaced-selector-hex").addEventListener("input", function() {
+id("color-to-be-replaced-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
         colorToBeReplacedSelector.value = this.value
         targetColor = this.value
     }
 })
 
-id("color-to-replace-with-selector-hex").addEventListener("input", function() {
+id("color-to-replace-with-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
         colorToReplaceWithSelector.value = this.value
         replacementColor = this.value
     }
 })
 
-id("guide-cell-border-selector-hex").addEventListener("input", function() {
+id("guide-cell-border-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
         guideCellBorderColor.value = this.value
         borderColor = this.value
@@ -595,7 +624,7 @@ id("guide-cell-border-selector-hex").addEventListener("input", function() {
     }
 })
 
-id("export-cell-border-selector-hex").addEventListener("input", function() {
+id("export-cell-border-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
         cellBorderColorSelector.value = this.value
     }
@@ -732,6 +761,6 @@ setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-re
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
 
 
-id("top-reload").onclick = ()=>{
+id("top-reload").onclick = () => {
     window.location.reload()
 }

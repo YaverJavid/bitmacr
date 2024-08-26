@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="description"
         content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
     <title>Pixmacr - A pixel art maker by Yaver Javid</title>
@@ -93,7 +94,6 @@
                             <br>
                             <h3 data-shortcutkey="s">General</h3>
                             <br>
-
                             <div id="color-m-selector" class="h-selector">
                                 <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode"
                                     title="Normal">
@@ -235,10 +235,12 @@
                             <input type="checkbox" id="guide-cell-border2" checked>
                             <input type="button" class="left-flat" value="Guide Options"
                                 onclick="gotoTab('guide-options', true)">
-
                             <br>
                             <input type="button" value="Canvas Manipulation"
                                 onclick="gotoTab('canvas-manipulation', true)">
+                            <br>
+                            <input type="button" onclick="gotoTab('extra-click-modes', true)" value="Extra Click Modes">
+                            <kbd>Ctrl+x</kbd>
                             <br>
                             <input type="button" value="Trace Tools" onclick="gotoTab('tracing-tools', true)">
                             <br>
@@ -253,7 +255,6 @@
                             </details>
                         </div>
                         <div>
-
                             <br>
                             <h3 data-tabname="canvas-manipulation" data-type="hidden-tab">Canvas Manipulation</h3><br>
                             <input type="button" id="shift-up" value="Shift Up"> <br>
@@ -353,7 +354,8 @@
                         <div>
                             <br>
                             <h3 data-tabname="pixel-data-from-image-settings" data-type="hidden-tab">Pixel Data From
-                                Image Settings</h3> <br>
+                                Image Settings</h3>
+                            <br>
                             <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled :
                             </label>
                             <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
@@ -595,7 +597,9 @@
                         <div>
                             <br>
                             <h3 data-shortcutkey="o">Filters</h3> <br>
-                            <input type="button" value="Invert" id="filter-invert">
+                            <input type="button" value="Invert" id="filter-invert" class="right-flat">
+                            <input type="button" value="..." id="invert-settings" class="left-flat"
+                                onclick="gotoTab('invert-settings')">
                             <input type="button" value="Sepia" id="filter-sepia">
                             <input type="button" value="Grayscale" id="filter-grayscale">
                             <input type="button" value="Solorize" id="filter-solorize">
@@ -661,6 +665,39 @@
                             <input type="range" id="box-blur-radius" value="1" max="15" min="1">
                             <span id="box-blur-radius-shower">(1)</span>
 
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="invert-settings" data-type="hidden-tab">Invert
+                                Settings</h3>
+                            <br>
+                            <label for="invert-r-channel">Invert <span
+                                    style="color: red;text-shadow: 1px 1px 2px black">Red</span> Channel : </label>
+                            <input type="checkbox" id="invert-r-channel" checked>
+                            <br>
+                            <label for="invert-g-channel">Invert <span
+                                    style="color: green;text-shadow: 1px 1px 2px black">Green</span> Channel : </label>
+                            <input type="checkbox" id="invert-g-channel" checked>
+                            <br>
+                            <label for="invert-b-channel">Invert <span
+                                    style="color: blue;text-shadow: 1px 1px 2px black">Blue</span> Channel : </label>
+                            <input type="checkbox" id="invert-b-channel" checked>
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-tabname="extra-click-modes" data-shortcutkey="x" data-type="hidden-tab">Extra Click
+                                Modes</h3>
+                            <br>
+                            <label for="onclick-fill-row">On click fill row : </label>
+                            <input type="checkbox" id="onclick-fill-row">
+                            <br>
+                            <label for="onclick-fill-col">On click fill col : </label>
+                            <input type="checkbox" id="onclick-fill-col">
+                            <br>
+                            <label for="paste-onclick-checkbox">Paste On Click : </label>
+                            <input type="checkbox" id="paste-onclick-checkbox">
+                            <br>
+                            <kbd>(ctrl+x)</kbd>
                         </div>
                         <div>
                             <br>
@@ -788,7 +825,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="anim">Animation</h3> <br>
+                            <h3 data-tabname="anim" data-shortcutkey="a">Animation</h3> <br>
                             <input type="button" value="Options" onclick="gotoTab('anim-options')">
                             <br>
                             <input type="button" value="Add Frame" id="add-frame">

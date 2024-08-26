@@ -179,8 +179,8 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
         for (let x = xt; x < xb; x++) {
             if (paint2d[y]) {
                 if (paint2d[y][x]) {
-                    let bottomColor =  convertRGBAStrToObj(buffer.getItem()[pack(x, y)])       
-                    let topColor = zoomOut ? convertRGBAStrToObj(array[j]) : hexToRgbaObject(array[j]) 
+                    let bottomColor = convertRGBAStrToObj(buffer.getItem()[pack(x, y)])
+                    let topColor = zoomOut ? convertRGBAStrToObj(array[j]) : hexToRgbaObject(array[j])
                     let finalColor = colorObjectToRGBA(blendColors(topColor, bottomColor, blendingMode))
                     setCellColor(paint2d[y][x], finalColor)
                 }
@@ -228,7 +228,7 @@ for (let i = 0; i < shapesElems.length; i++) {
             gotoTab("shape-tools")
         }
         if (!wasSettingActivated) shapeSettings[0].classList.add(ACTIVE_SHAPE_SETTING_CLASSNAME)
-        
+
     }
 }
 
@@ -374,7 +374,7 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
     let linesize = size
     while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
-          setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
+            setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
         }
         bly--
         linesize -= perColDY
@@ -396,7 +396,7 @@ function zoomOut() {
         return
     }
     zoomedIn = false
-    id("top-zoom-out").style.border= "1px solid var(--primary)"
+    id("top-zoom-out").style.border = "1px solid var(--primary)"
     let partToPaste = toPaintData2D(buffer.getItem().slice())
     originalSnapshot = JSON.parse(originalSnapshot)
     let fullBuffer = new Stack(64)
@@ -421,9 +421,9 @@ function zoomOut() {
 }
 
 
-id("select-all").onclick = ()=>{
+id("select-all").onclick = () => {
     selectedPart = buffer.getItem().slice()
-    selectedPart.forEach((e, i)=>{
+    selectedPart.forEach((e, i) => {
         selectedPart[i] = rgbaToHex(e)
     })
     selectedPart = toPaintData2D(selectedPart)

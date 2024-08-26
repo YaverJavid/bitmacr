@@ -15,10 +15,14 @@ function filterCanvas(filterFunction, ...args) {
 
 id("filter-invert").onclick = () => {
     filterCanvas((pixel, pid) => {
+        let rflag = id("invert-b-channel").checked
+        let gflag = id("invert-g-channel").checked
+        let bflag = id("invert-b-channel").checked
+        let r = rflag ? (255 - pixel.r) : pixel.r
+        let g = gflag ? (255 - pixel.g) : pixel.g
+        let b = bflag ? (255 - pixel.b) : pixel.b
         return {
-            r: 255 - pixel.r,
-            g: 255 - pixel.g,
-            b: 255 - pixel.b,
+            r, g, b,
             a: pixel.a
         };
     })
@@ -185,7 +189,7 @@ function gaussianBlur(pixels, width, height, blurRadius) {
 
             // Construct the blurred pixel and store it
             let blurredPixel = `rgba(${averagedRed}, ${averagedGreen}, ${averagedBlue}, ${alpha})`;
-            if(alpha == 0) blurredPixel = "rgba(0, 0, 0, 0)"
+            if (alpha == 0) blurredPixel = "rgba(0, 0, 0, 0)"
             blurredPixels[y * width + x] = blurredPixel;
         }
     }
