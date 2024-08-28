@@ -59,5 +59,3 @@ function download(buf, filename, type) {
     anchor.download = filename;
     anchor.click();
 };
-
-

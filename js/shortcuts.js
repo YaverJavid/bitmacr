@@ -1,8 +1,14 @@
+var mousePosition = {x:0, y:0};
+document.addEventListener('mousemove', function(mouseMoveEvent){
+  mousePosition.x = mouseMoveEvent.pageX;
+  mousePosition.y = mouseMoveEvent.pageY;
+}, false);
+
 document.addEventListener("keydown", function (event) {
     if (event.ctrlKey) {
         event.preventDefault()
         for (let i = 0; i < menuNav.children.length; i++) {
-            if (menuNav.children[i].dataset.shortcutkey == undefined) continue
+            if (menuNav.children[i].dataset.shortcutkey == 'undefined') continue
             if (event.key == menuNav.children[i].dataset.shortcutkey) {
                 redirectMenuViewTo(menuSegmentLocations[i])
                 if (!menuNav.children[i].dataset.type) {
@@ -14,7 +20,7 @@ document.addEventListener("keydown", function (event) {
         if (event.key == 'u') {
             if (buffer.setPointer(buffer.pointer - 1))
                 applyPaintData(buffer.getItem())
-        } else if (event.key == 'r') {
+        } else if (event.key == 'i') {
             if (buffer.setPointer(buffer.pointer + 1))
                 applyPaintData(buffer.getItem())
         } else if (event.key == "j") {
@@ -23,6 +29,10 @@ document.addEventListener("keydown", function (event) {
         } else if (event.key == "p") {
             id('select-color').checked = !id('select-color').checked
             id('select-color').oninput()
-        } 
+        }
     }
 });
+
+
+
+// tdcoqxfghz

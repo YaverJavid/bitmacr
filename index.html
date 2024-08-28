@@ -240,7 +240,7 @@
                                 onclick="gotoTab('canvas-manipulation', true)">
                             <br>
                             <input type="button" onclick="gotoTab('extra-click-modes', true)" value="Extra Click Modes">
-                            <kbd>Ctrl+x</kbd>
+                            <kbd>ctrl+x</kbd>
                             <br>
                             <input type="button" value="Trace Tools" onclick="gotoTab('tracing-tools', true)">
                             <br>
@@ -285,7 +285,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="t">Basic Tools</h3>
+                            <h3 data-shortcutkey="b">Basic Tools</h3>
                             <h4>Fill Rule</h4>
                             <label for="only-fill-transaprent">Fill <input value="If" type="button"
                                     id="flip-fill-only-if-type"> Color Is </label>
@@ -378,7 +378,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey='d' data-type="hidden-tab" data-tabname="color-history">Color History
+                            <h3 data-type="hidden-tab" data-tabname="color-history">Color History
                             </h3> <br>
                             <input type="button" value="Extract Colours" id="extract-pallette">
                             <input type="button" value="Delete All Colors" id="delete-non-default-pallette">
@@ -389,7 +389,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="shape-tools">Shape Tools</h3> <br>
+                            <h3 data-tabname="shape-tools" data-shortcutkey="1">Shape Tools</h3> <br>
                             <div class="shape-settings">
                                 <img src="icons/banners/no-settings-present.png" alt="NO SETTINGS PRESENT"
                                     style="width: 70%">
@@ -540,7 +540,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="c" data-type="hidden-tab" data-tabname="copy_options">Copy Options
+                            <h3 data-type="hidden-tab" data-tabname="copy_options">Copy Options
                             </h3><br>
                             <label for="guide-checkbox2">Quadrant Guides: </label>
                             <input type="checkbox" name="guide-checkbox2" id="guide-checkbox2">
@@ -577,7 +577,7 @@
 
                         <div id="drawings-section">
                             <br>
-                            <h3 data-shortcutkey="q">Saved Drawings</h3>
+                            <h3>Saved Drawings</h3>
                             <br>
                             <input type="text" placeholder="Enter Drawing Name" id="drawing-name" class="right-flat">
                             <input type="button" value="×" class="left-flat" onclick="drawingName.value=''">
@@ -596,7 +596,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="o">Filters</h3> <br>
+                            <h3 data-shortcutkey="f">Filters</h3> <br>
                             <input type="button" value="Invert" id="filter-invert" class="right-flat">
                             <input type="button" value="..." id="invert-settings" class="left-flat"
                                 onclick="gotoTab('invert-settings')">
@@ -701,7 +701,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="f">Replace Tools</h3><br>
+                            <h3 data-shortcutkey="r">Replace Tools</h3><br>
                             <label for="color-selector">Find : </label>
                             <input value="#FF0000" type="color" id="color-to-be-replaced-selector">
                             Or <input class="hex-input" type="text" id="color-to-be-replaced-selector-hex"
@@ -725,7 +725,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="g" data-type="hidden-tab" data-tabname="guide-options">Guide Options
+                            <h3 data-type="hidden-tab" data-tabname="guide-options">Guide Options
                             </h3> <br>
                             <label for="guide-checkbox">Quadrant Guides: </label>
                             <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
@@ -874,7 +874,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="z">Settings</h3> <br>
+                            <h3 cutdata-shortkey="z">Settings</h3> <br>
                             <input type="button" value="Preferences" onclick="gotoTab('preferences')">
                             <input type="button" value="Layout" onclick="gotoTab('layout')">
                             <input type="button" value="Themes" onclick="gotoTab('themes')"> <br>
@@ -896,7 +896,10 @@
                             <br>
                             <br>
                             <img src="others/logo.ico" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0"
-                                ondblclick="gotoTab('dev')" class="image"><br>
+                                ondblclick="gotoTab('dev')" class="image">
+                            <br>
+                            <a href="shortcuts/index.html">Shortcuts Cheatsheet</a>
+                            <br>
                             <span>Pixmacr @ <span id="version"></span> (<a href="README.md">What's New?</a>)</span>
                         </div>
                         <div>
@@ -1216,4 +1219,4 @@
     </script>
 </body>
 
-</html>
+</html>-

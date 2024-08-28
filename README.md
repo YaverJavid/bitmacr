@@ -8,6 +8,8 @@
 - Added Extra Click Modes Tab
 - There Added Onclick Col, Row, Paste
 - Added Invert Intra-Channel Control
+- Added New Shortcuts
+- Added Shortcuts Cheatsheet
 
 ### 2024-009[21-Jul-2024]
 
