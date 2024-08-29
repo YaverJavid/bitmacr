@@ -175,6 +175,7 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
     let array = data2d.flat();
     let j = 0
     let blendingMode = zoomOut ? 'replace' : id("blend-mode-selector").value
+    let ignoreTransparentCells = id('ignore-transparent-cells').checked
     for (let y = yt; y < yb; y++) {
         for (let x = xt; x < xb; x++) {
             if (paint2d[y]) {
@@ -182,6 +183,7 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
                     let bottomColor = convertRGBAStrToObj(buffer.getItem()[pack(x, y)])
                     let topColor = zoomOut ? convertRGBAStrToObj(array[j]) : hexToRgbaObject(array[j])
                     let finalColor = colorObjectToRGBA(blendColors(topColor, bottomColor, blendingMode))
+                    if(ignoreTransparentCells && topColor.a == 0) finalColor = bottomColor
                     setCellColor(paint2d[y][x], finalColor)
                 }
             }
@@ -361,11 +363,7 @@ for (let i = 0; i < rotateCopiedDataButtons.length; i++) {
             return
         }
         selectedPart = rotateArray90Degrees(selectedPart, false)
-        selectionSize.textContent = `(w:${selectedPart[0].length},h:${selectedPart.length})`
-        for (let i = 0; i < selectionImageShowers.length; i++) {
-            selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null)
-            selectionImageShowers[i].style.border = "1px solid black"
-        }
+        updateSelectionUI()
     }
 }
 
@@ -420,6 +418,14 @@ function zoomOut() {
 
 }
 
+function updateSelectionUI() {
+    for (let i = 0; i < selectionImageShowers.length; i++) {
+        selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
+        selectionImageShowers[i].style.border = "1px solid black";
+    }
+    id("selection-size").textContent = `(h:${selectedPart.length},w:${selectedPart[0].length})`
+}
+
 
 id("select-all").onclick = () => {
     selectedPart = buffer.getItem().slice()
@@ -427,8 +433,32 @@ id("select-all").onclick = () => {
         selectedPart[i] = rgbaToHex(e)
     })
     selectedPart = toPaintData2D(selectedPart)
-    for (let i = 0; i < selectionImageShowers.length; i++) {
-        selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
-        selectionImageShowers[i].style.border = "1px solid black";
+    updateSelectionUI()
+}
+
+function checkAllElementsEqual(array, value) {
+    for (let i = 0; i < array.length; i++) if (array[i] !== value) return false;
+    return true;
+}
+
+function shrink(matrix) {
+    let isAlreadyShrinked = !(checkAllElementsEqual(matrix[0], "#00000000") ||
+        checkAllElementsEqual(matrix[matrix.length - 1], "#00000000") ||
+        checkAllElementsEqual(matrix.map(row => row[0]), "#00000000") ||
+        checkAllElementsEqual(matrix.map(row => row[row.length - 1]), "#00000000"))
+    if (isAlreadyShrinked) return matrix;
+    if (checkAllElementsEqual(matrix[0], "#00000000")) matrix.shift();
+    if (checkAllElementsEqual(matrix[matrix.length - 1], "#00000000")) matrix.pop();
+    if (checkAllElementsEqual(matrix.map(row => row[0]), "#00000000")) matrix = matrix.map(row => row.slice(1));
+    if (checkAllElementsEqual(matrix.map(row => row[row.length - 1]), "#00000000")) matrix = matrix.map(row => row.slice(0, -1));
+    return shrink(matrix);
+}
+
+id('shrink-selection').onclick = () => {
+    if (!selectedPart) {
+        customAlert("No Data Selected")
+        return
     }
+    selectedPart = shrink(selectedPart)
+    updateSelectionUI()
 }

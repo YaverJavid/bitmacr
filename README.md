@@ -2,6 +2,11 @@
 
 ## Change Log
 
+### 2024-011[29-Jul-2024]
+
+- Added shrink selection data button
+- Added Ignore Transparent Cells For Pasting
+
 ### 2024-010[26-Jul-2024]
 
 - Added Paste On Click

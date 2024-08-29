@@ -68,7 +68,7 @@ paintZone.addEventListener('mousemove', (event) => {
                 selectionCoords = {
                     ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
                     xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
-                    ybr: Math.min(gridY, rows),
+                    ybr: Math.min(gridY, rows + 1),
                     xbr: Math.min(gridX, cols)
                 }
                 break

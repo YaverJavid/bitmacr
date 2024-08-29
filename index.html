@@ -457,12 +457,16 @@
                                 <img class="selection-image-shower image">
                                 <br>
                                 <span id="selection-size"></span>
-                                <br> <br>
+                                <br>
+                                <hr>
+                                <br>
                                 <input type="button" value="Apply Selected Data" id="apply-selected-data">
-                                <br>
-                                <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
-                                <br>
                                 <input type="button" value="Select All" title="Select All The Canvas" id="select-all">
+                                <br>
+                                <hr>
+                                <h4>Selection Manipulation</h4>
+                                <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
+                                <input type="button" value="Shrink" id="shrink-selection">
                             </div>
                             <div class="shape-settings" data-settingname="circle">
                                 <h3>Circle</h3> <br>
@@ -489,6 +493,9 @@
                                 <h3>Paste</h3>
                                 <img class="selection-image-shower image">
                                 <br>
+                                <br>
+                                <label for="ignore-transparent-cells">Ignore Transparent Cells : </label>
+                                <input type="checkbox" id="ignore-transparent-cells">
                                 <br>
                                 <label for="blend-mode-selector">Blend Mode : </label>
                                 <select id="blend-mode-selector">
