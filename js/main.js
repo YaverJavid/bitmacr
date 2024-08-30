@@ -44,7 +44,7 @@ let pallateColors = document.getElementsByClassName("pallate-color")
 let currentSelectedColor = undefined
 const B_COLOR = "pix_color"
 const rotateClockwise = document.getElementById("rotate-clockwise-button")
-setCurrentColor(localStorageREF[B_COLOR] || "#334470")
+setPaletteCurrentColor(localStorageREF[B_COLOR] || "#334470")
 let chooseColorRandomly = false
 let rows = 10,
     cols = 10
@@ -188,8 +188,11 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     targetColor = selectedColor
                     clickManagerCheckboxes.selectColorForFind.checked = false
                 } else if (clickManagerCheckboxes.colorSelectCheckbox.checked) {
-                    setCurrentColor(selectedColor)
+                    setPaletteCurrentColor(selectedColor)
                     clickManagerCheckboxes.colorSelectCheckbox.checked = false
+                } else if (clickManagerCheckboxes.selectHitsSpecificColor.checked) {
+                    id("hits-specific-color").value = fullColor
+                    clickManagerCheckboxes.selectHitsSpecificColor.checked = false
                 } else if (clickManagerCheckboxes.selectColorForReplacer.checked) {
                     colorToReplaceWithSelector.value = selectedColor
                     replacementColor = selectedColor
@@ -213,18 +216,17 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     copiedColorShower.innerHTML = `If Color Wasn't Copied, Copy Manually: <span class="color">${selectedColor}</span> <span style="user-select:none; color: ${selectedColor}; background: ${selectedColor}; border: 0.5px solid var(-secondary)" >!!!!</span>`
                     clickManagerCheckboxes.copyColorFromCellCheckbox.checked = false
                 } else if (clickManagerCheckboxes.selectHueFromCell.checked) {
+                    // HUE
                     clickManagerCheckboxes.selectHueFromCell.checked = false
                     hueAngle.value = getHSLFromHex(selectedColor).hue
                     hue = parseFloat(hueAngle.value)
                     updateHueShower()
                     updateHueColorShower()
-
                 } else if (clickManagerCheckboxes.selectLightingFromCell.checked) {
                     // LIGHTING
                     clickManagerCheckboxes.selectLightingFromCell.checked = false
                     lightingSlider.value = getHSLFromHex(selectedColor).lightness * 100
                     updateHueColorShower()
-
                     lightingShower.innerHTML = `(${lightingSlider.value}%)`
                 } else if (clickManagerCheckboxes.selectSaturationFromCell.checked) {
                     // SATURATION
@@ -232,52 +234,25 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     saturationSlider.value = getHSLFromHex(selectedColor).saturation * 100
                     saturationShower.innerHTML = `(${saturationSlider.value}%)`
                     updateHueColorShower()
-
                 } else if (clickManagerCheckboxes.selectForOnlyFillIf.checked) {
-                    if (fillOnlyThisColor.value)
-                        fillOnlyThisColor.value += "||"
+                    if (fillOnlyThisColor.value) fillOnlyThisColor.value += "||"
                     fillOnlyThisColor.value += selectedColor
                     clickManagerCheckboxes.selectForOnlyFillIf.checked = false
                 } else if (clickManagerCheckboxes.selectColorForPaletteCreator.checked) {
                     paletteCreatorPalette.selected.style.background = selectedColor
                     clickManagerCheckboxes.selectColorForPaletteCreator.checked = false
-                } else if (clickManagerCheckboxes.onclickFillCol.checked) {
-                    let colToPaint = i % cols
-                    let newData = toPaintData2D(buffer.getItem().slice())
-                    for (let i = 0; i < newData.length; i++) newData[i][colToPaint] = getCurrentSelectedColor()
-                    applyPaintData(newData.flat(), false)
-                } else if (clickManagerCheckboxes.onclickFillRow.checked) {
-                    let rowToPaint = Math.floor(i / cols);
-                    let newData = toPaintData2D(buffer.getItem().slice())
-                    let rowArray = []
-                    for (let i = 0; i < cols; i++) rowArray.push(getCurrentSelectedColor())
-                    newData[rowToPaint] = rowArray
-                    applyPaintData(newData.flat(), false)
                 }
-                recordPaintData()
+                else if (clickManagerCheckboxes.onclickFillCol.checked) fillCol(i % cols, Math.floor(i / cols))
+                else if (clickManagerCheckboxes.onclickFillRow.checked) fillRow(Math.floor(i / cols), i % cols)
                 colorSelectionInProgress = false
                 colorSelectionInProgress = clickManagerCheckboxes.pasteOnClick.checked ||
                     clickManagerCheckboxes.onclickFillRow.checked ||
                     clickManagerCheckboxes.onclickFillCol.checked
-            } else if (clickModeSelector.value == "row") {
-                let rowToPaint = Math.floor(i / cols);
-                let newData = toPaintData2D(buffer.getItem().slice())
-                let rowArray = []
-                for (let i = 0; i < cols; i++) rowArray.push(getCurrentSelectedColor())
-                newData[rowToPaint] = rowArray
-                applyPaintData(newData.flat(), false)
-                recordPaintData()
-            } else if (clickModeSelector.value == "col") {
-                let colToPaint = i % cols
-                let newData = toPaintData2D(buffer.getItem().slice())
-                for (let i = 0; i < newData.length; i++) newData[i][colToPaint] = getCurrentSelectedColor()
-                applyPaintData(newData.flat(), false)
                 recordPaintData()
             } else if (clickModeSelector.value == "fill") {
                 applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
                 recordPaintData()
-            }
-            else {
+            } else {
                 setCellColor(this, getCurrentSelectedColor())
                 recordPaintData()
             }
@@ -292,12 +267,51 @@ function addCanvas(argRows, argCols, clearStack = true) {
 
 }
 
+function fillRowCellsInRange(y, start, end, step, centerColor) {
+    let mode = id("stop-col-row-fill-propogation-if").value
+    let stopperColor = mode == 'hits-specific-color' ? id('hits-specific-color').value : 'NONE'
+    for (let x = start; x != end; x += step) {
+        let cell = paintCells[pack(x, y)];
+        let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
+        if (stopperColor == currentColor) return
+        if (mode == "color-changes" && currentColor != centerColor) return
+        setCellColor(cell, getCurrentSelectedColor());
+    }
+}
+
+function fillColCellsInRange(x, start, end, step, centerColor) {
+    let mode = id("stop-col-row-fill-propogation-if").value
+    let stopperColor = mode == 'hits-specific-color' ? id('hits-specific-color').value : 'NONE'
+    for (let y = start; y != end; y += step) {
+        let cell = paintCells[pack(x, y)];
+        let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
+        if (stopperColor == currentColor) return
+        if (mode == "color-changes" && currentColor != centerColor) return
+        setCellColor(cell, getCurrentSelectedColor());
+    }
+}
+
+function fillRow(y, pivot) {
+    let centerColor = rgbaToHex(window.getComputedStyle(paintCells[pack(pivot, y)]).getPropertyValue('background-color'));
+    fillRowCellsInRange(y, pivot, cols, 1, centerColor);
+    fillRowCellsInRange(y, pivot - 1, -1, -1, centerColor);
+}
+
+
+function fillCol(x, pivot) {
+    console.log(pivot);
+    
+    let centerColor = rgbaToHex(window.getComputedStyle(paintCells[pack(x, pivot)]).getPropertyValue('background-color'));
+    fillColCellsInRange(x, pivot, rows, 1, centerColor)
+    fillColCellsInRange(x, pivot - 1, -1, -1, centerColor)
+}
+
 colorSelector.addEventListener("input", function () {
-    setCurrentColor(this.value)
+    setPaletteCurrentColor(this.value)
 })
 
 
-function setCurrentColor(color) {
+function setPaletteCurrentColor(color) {
     currentSelectedColor = color
     colorSelector.value = color
     if (!usedColors.includes(color.toLowerCase())) {
@@ -579,7 +593,7 @@ document.getElementById("extract-pallette").addEventListener("click", () => {
 })
 
 function selectPalletteColor(palletteElem, color) {
-    setCurrentColor(color)
+    setPaletteCurrentColor(color)
     palletteElem.style.borderTopWidth = "5px"
 }
 
@@ -597,7 +611,7 @@ for (let i = 0; i < defaultPalletteColors.length; i++) {
 // input text color hex ...
 id("color-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
-        setCurrentColor(this.value)
+        setPaletteCurrentColor(this.value)
         colorSelector.value = this.value
     }
 })

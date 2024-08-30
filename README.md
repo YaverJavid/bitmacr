@@ -6,6 +6,8 @@
 
 - Added shrink selection data button
 - Added Ignore Transparent Cells For Pasting
+- Added Fill Col and Row Settings
+- In Desktop Now Fixed Size Rectangle and Circle Features Are Fully Working
 
 ### 2024-010[26-Jul-2024]
 

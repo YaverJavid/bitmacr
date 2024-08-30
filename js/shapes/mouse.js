@@ -90,23 +90,26 @@ paintZone.addEventListener('mousemove', (event) => {
                 break;
             case 'circle':
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
-                if (circleAlgorithm.value == "accurate")
-                    drawCircle(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d, fillCircle.checked)            
-                else if (circleAlgorithm.value == "natural") {
-                    if (fillCircle.checked)
-                        drawNaturalFilledCircle(
-                            startingCoords.gridX - radius,
-                            startingCoords.gridY + radius,
-                            radius, paintCells2d
-                        )
-                    else drawNaturalStrokeCircle(
-                        startingCoords.gridX - radius,
-                        startingCoords.gridY + radius,
-                        radius,
-                        paintCells2d
-                    )
-                }
-                break;
+                    let circleX, circleY
+                    if (fixedRadius.checked) {
+    
+                        currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                        circleX = Math.floor(currentCellIndex / cols);
+                        circleY = currentCellIndex % cols
+                    } else {
+                        circleX = startingCoords.gridX - radius
+                        circleY = startingCoords.gridY + radius
+                    }
+                    if (circleAlgorithm.value == "accurate") {
+                        drawCircle(circleX, circleY, radius, paintCells2d, fillCircle.checked)
+                    } else if (circleAlgorithm.value == "natural") {
+                        if (fillCircle.checked) {
+                            drawNaturalFilledCircle(circleX, circleY, radius, paintCells2d)
+                        } else {
+                            drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
+                        }
+                    }
+                    break;
             case "triangle":
                 currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
                 let tx = Math.floor(currentCellIndex / cols);
@@ -117,13 +120,22 @@ paintZone.addEventListener('mousemove', (event) => {
                 drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
                 break;
             case 'rect':
-                drawRectangle(
-                    startingCoords.gridY,
-                    startingCoords.gridX,
-                    fixedRectSize.checked ? parseInt(fixedRectWidth.value) : dx,
-                    fixedRectSize.checked ? parseInt(fixedRectHeight.value) : dy,
-                    paintCells2d,
-                    fillRect.checked)
+                if (fixedRectSize.checked) {
+                    currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                    gridX = Math.floor(currentCellIndex / cols);
+                    gridY = currentCellIndex % cols
+                    drawRectangle(gridY, gridX, parseInt(fixedRectWidth.value), parseInt(fixedRectHeight.value), paintCells2d, fillRect.checked)
+                } else {
+                    drawRectangle(
+                        startingCoords.gridY,
+                        startingCoords.gridX,
+                        fixedRectSize.checked ? parseInt(fixedRectWidth.value) : dx,
+                        fixedRectSize.checked ? parseInt(fixedRectHeight.value) : dy,
+                        paintCells2d,
+                        fillRect.checked
+                    )
+
+                }
                 break;
             case 'line':
                 if (currentCell.classList[0] != "cell") return
@@ -159,10 +171,7 @@ function handleMousePaintEnd(event) {
         if (!selectionCoords) return;
         handleSelectionShowerVisibility("0", "0", "0", "0", "0");
         copy();
-        for (let i = 0; i < selectionImageShowers.length; i++) {
-            selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
-            selectionImageShowers[i].style.border = "1px solid black";
-        }
+        updateSelectionUI()
     } else if (paintModeSelector.value == "zoom") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")

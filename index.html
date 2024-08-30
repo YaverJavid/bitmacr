@@ -114,7 +114,7 @@
                                     <input value="#556677" type="color" name="color-selector" id="color-selector">
                                     Or <input class="hex-input" type="text" id="color-selector-hex"
                                         placeholder="Enter Hex..." maxlength="7"> <br>
-                                    <label for="select-color">Select Color From Cell : </label>
+                                    <label for="select-color">Pick Color From The Pixel : </label>
                                     <input type="checkbox" name="select-color" id="select-color">
                                 </div>
                                 <div data-csname="formula">
@@ -695,12 +695,32 @@
                             <h3 data-tabname="extra-click-modes" data-shortcutkey="x" data-type="hidden-tab">Extra Click
                                 Modes</h3>
                             <br>
-                            <label for="onclick-fill-row">On click fill row : </label>
+                            <label for="onclick-fill-row">Fill Row (&harr;) On Click : </label>
                             <input type="checkbox" id="onclick-fill-row">
                             <br>
-                            <label for="onclick-fill-col">On click fill col : </label>
+                            <label for="onclick-fill-col">Fill Col (&#8597;) On Click : </label>
                             <input type="checkbox" id="onclick-fill-col">
                             <br>
+                            <hr>
+                            <details>
+                                <summary>Fill Coloumn And Row Settings</summary>
+                                <h4>Fill Coloumn And Row Settings</h4>
+                                <label for="stop-col-row-fill-propogation-if">Stop Propogation If : </label>
+                                <select id="stop-col-row-fill-propogation-if">
+                                    <option value="never">Never</option>
+                                    <option value="color-changes">Color Changes</option>
+                                    <option value="hits-specific-color">On Hitting This Color</option>
+                                </select>
+                                <br>
+                                <label for="hits-specific-color">This Color : </label>
+                                <input type="text" id="hits-specific-color" class="hex-input" placeholder="Enter Hex..."
+                                    value="#000000">
+                                <br>
+                                <label for="select-hits-specific-color">Select Color From A Cell : </label>
+                                <input type="checkbox" id="select-hits-specific-color">
+                                <br>
+                            </details>
+                            <hr>
                             <label for="paste-onclick-checkbox">Paste On Click : </label>
                             <input type="checkbox" id="paste-onclick-checkbox">
                             <br>

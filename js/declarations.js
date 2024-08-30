@@ -86,6 +86,7 @@ const paintCells = document.getElementsByClassName("cell"),
         pasteOnClick: id("paste-onclick-checkbox"),
         onclickFillCol: id("onclick-fill-col"),
         onclickFillRow: id("onclick-fill-row"),
+        selectHitsSpecificColor: id("select-hits-specific-color")
     },
     autoSave = id("auto-save"),
     addNewSessionOnOpening = id("add-new-session-on-opening"),

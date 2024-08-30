@@ -183,7 +183,7 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
                     let bottomColor = convertRGBAStrToObj(buffer.getItem()[pack(x, y)])
                     let topColor = zoomOut ? convertRGBAStrToObj(array[j]) : hexToRgbaObject(array[j])
                     let finalColor = colorObjectToRGBA(blendColors(topColor, bottomColor, blendingMode))
-                    if(ignoreTransparentCells && topColor.a == 0) finalColor = bottomColor
+                    if (ignoreTransparentCells && topColor.a == 0) finalColor = bottomColor
                     setCellColor(paint2d[y][x], finalColor)
                 }
             }
@@ -441,16 +441,18 @@ function checkAllElementsEqual(array, value) {
     return true;
 }
 
-function shrink(matrix) {
-    let isAlreadyShrinked = !(checkAllElementsEqual(matrix[0], "#00000000") ||
-        checkAllElementsEqual(matrix[matrix.length - 1], "#00000000") ||
-        checkAllElementsEqual(matrix.map(row => row[0]), "#00000000") ||
-        checkAllElementsEqual(matrix.map(row => row[row.length - 1]), "#00000000"))
-    if (isAlreadyShrinked) return matrix;
-    if (checkAllElementsEqual(matrix[0], "#00000000")) matrix.shift();
-    if (checkAllElementsEqual(matrix[matrix.length - 1], "#00000000")) matrix.pop();
-    if (checkAllElementsEqual(matrix.map(row => row[0]), "#00000000")) matrix = matrix.map(row => row.slice(1));
-    if (checkAllElementsEqual(matrix.map(row => row[row.length - 1]), "#00000000")) matrix = matrix.map(row => row.slice(0, -1));
+function shrink(matrix, color = "#00000000") {
+    let toPopTop = checkAllElementsEqual(matrix[0], color)
+    let toPopBottom = checkAllElementsEqual(matrix[matrix.length - 1], color)
+    let toPopLeft = checkAllElementsEqual(matrix.map(row => row[0]), color)
+    let toPopRight = checkAllElementsEqual(matrix.map(row => row[row.length - 1]), color)
+
+    if (!(toPopBottom || toPopTop || toPopLeft || toPopRight)) return matrix;
+
+    if (toPopTop) matrix.shift();
+    if (toPopBottom) matrix.pop();
+    if (toPopLeft) matrix = matrix.map(row => row.slice(1));
+    if (toPopRight) matrix = matrix.map(row => row.slice(0, -1));
     return shrink(matrix);
 }
 
