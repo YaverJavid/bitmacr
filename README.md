@@ -280,7 +280,7 @@
 - Removed Top Image Completely
 - Removed All Previous Theme And Added These Themes :
 
-```
+```plaintext
 Light Theme
 Violet Theme
 Pink Theme
@@ -342,6 +342,7 @@ Yellow Theme
 - Hue Addition To Spheres
 - Changed the apprerence uploader buttons
 - Border showing status will now be saved between sessions
+- Removed Gray Theme And Set Gray 2 As Gray Theme
 
 ### 7.0.n
 
@@ -351,20 +352,20 @@ Yellow Theme
 - Updated some structure
 - Fixed bugs about paint mode shortcut.
 - 7.0.1 : Updated UI
-- * Added Color Mode Selector
-- * Removed `random-tools` tab, added all its features to other tabs
-- * Fixed Bugs
-- * Updated Icon
-- * Updated Apk
-- * Added link to download app
-- * updated service worker
+-- Added Color Mode Selector
+-- Removed `random-tools` tab, added all its features to other tabs
+- Fixed Bugs
+- Updated Icon
+- Updated Apk
+- Added link to download app
+- updated service worker
 - 7.0.2 : Added support for drawing line.
-- * Removed watermark option from 'export-settings'
-- * Added a preview option on saved drawings (preview uses export settings for borders)
-- * Added line support in paint mode.
-- * Changed the algorithm for export, now images will have no fine unexpected black lines(BUG17), if allah wills!
-- * Added a way to access previous major versions of the same app, it has its own tab.
-- * Soloved some bugs.
+- Removed watermark option from 'export-settings'
+- Added a preview option on saved drawings (preview uses export settings for borders)
+- Added line support in paint mode.
+- Changed the algorithm for export, now images will have no fine unexpected black lines(BUG17), if allah wills!
+- Added a way to access previous major versions of the same app, it has its own tab.
+- Soloved some bugs.
 - 7.0.3: Bug Fixes
 
 ### 6.6.n
@@ -397,7 +398,7 @@ Yellow Theme
 - Added Color Pallates Section
 - Added New Themes :
 
- ```
+ ```plaintext
 Dark Lime
 Blue Gold
 Red Yellow
