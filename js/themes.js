@@ -56,6 +56,7 @@ let themes = [
     new Theme("#000000", "#ffffff", "#000000", "Obsidian", true),
     new Theme("#313131", "#ffffff", "#000000", "Gray", true),
     new Theme("#E3FF55", "#000000", "#ffffff", "[M] Syn For Awards"),
+    new Theme("#17190b", "#ebff6c", "#17190b", "Lemon", true)
 ]
 
 
@@ -75,7 +76,7 @@ for (let i = 0; i < themeSelectors.length; i++) {
     })
 }
 
-document.getElementById("theme-hue").addEventListener("input", function() {
+document.getElementById("theme-hue").addEventListener("input", function () {
     setTheme(rgbToHex(cssToRGBAOrRgb(`hsla(${this.value}, 100%, 93%, 1)`)), "#000000", "#ffffff")
 })
 

@@ -8,6 +8,7 @@
 - Added Ignore Transparent Cells For Pasting
 - Added Fill Col and Row Settings
 - In Desktop Now Fixed Size Rectangle and Circle Features Are Fully Working
+- Removed Gray Theme And Set Gray 2 As Gray Theme And Added The New Theme Lemon
 
 ### 2024-010[26-Jul-2024]
 
@@ -342,7 +343,6 @@ Yellow Theme
 - Hue Addition To Spheres
 - Changed the apprerence uploader buttons
 - Border showing status will now be saved between sessions
-- Removed Gray Theme And Set Gray 2 As Gray Theme
 
 ### 7.0.n
 
