@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="description"
         content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
     <title>Pixmacr - A pixel art maker by Yaver Javid</title>
@@ -22,6 +22,77 @@
 </head>
 
 <body>
+    <dialog id="blurSettings">
+        <div class="close-container">
+            <h3>Blur Settings</h3>
+            <input type="button" value="CLOSE">
+        </div>
+        <h4>Motion Blur</h4>
+        <label for="motion-blur-direction">Blur Direction : </label>
+        <select id="motion-blur-direction">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+        </select>
+        <br>
+        <label for="motion-blur-radius">Motion Blur Radius : </label>
+        <input type="range" id="motion-blur-radius" value="1" max="15" min="1">
+        <span id="motion-blur-radius-shower">(1)</span>
+        <hr>
+        <h4>Guassian Blur</h4>
+        <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
+        <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
+        <span id="gaussian-blur-radius-shower">(1)</span>
+        <br>
+        <label for="gaussian-blur-alpha-process">Alpha Process : </label>
+        <select id="gaussian-blur-alpha-process">
+            <option value="loose-alpha">Loose Alpha</option>
+            <option value="mix">Mix</option>
+            <option value="preserve-alpha">Preserve Pixel Alpha</option>
+        </select>
+        <hr>
+        <h4>Box Blur</h4>
+        <label for="box-blur-radius">Box Blur Radius : </label>
+        <input type="range" id="box-blur-radius" value="1" max="15" min="1">
+        <span id="box-blur-radius-shower">(1)</span>
+    </dialog>
+
+    <dialog id="guideSettings">
+        <div class="close-container">
+            <h3>Blur Settings</h3>
+            <input type="button" value="CLOSE">
+        </div>
+        <label for="guide-checkbox">Quadrant Guides: </label>
+        <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
+        <br>
+        <label for="border-checkbox">Show Cell Border: </label>
+        <input type="checkbox" name="border-checkbox" id="border-checkbox" checked>
+        <br>
+        <label for="guide-cell-border-color">Cell Border Color: </label>
+        <input type="color" id="guide-cell-border-color" value="#ffffff">
+        Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex" placeholder="Enter Hex..."
+            maxlength="7">
+    </dialog>
+
+<dialog id="invertSettings">
+    <div class="close-container">
+        <h3>Invert Settings</h3>
+        <input type="button" value="CLOSE">
+    </div>
+    <br>
+    <label for="invert-r-channel">Invert <span
+            style="color: red;text-shadow: 1px 1px 2px black">Red</span> Channel : </label>
+    <input type="checkbox" id="invert-r-channel" checked>
+    <br>
+    <label for="invert-g-channel">Invert <span
+            style="color: green;text-shadow: 1px 1px 2px black">Green</span> Channel : </label>
+    <input type="checkbox" id="invert-g-channel" checked>
+    <br>
+    <label for="invert-b-channel">Invert <span
+            style="color: blue;text-shadow: 1px 1px 2px black">Blue</span> Channel : </label>
+    <input type="checkbox" id="invert-b-channel" checked>
+</dialog>
+
+    <!--dialogs end-->
     <br>
     <div id="logo-sessions-container">
         <div id="sessions-section">
@@ -234,7 +305,7 @@
                             <label for="guide-cell-border2">Cell Border : </label>
                             <input type="checkbox" id="guide-cell-border2" checked>
                             <input type="button" class="left-flat" value="Guide Options"
-                                onclick="gotoTab('guide-options', true)">
+                                onclick="guideSettings.showModal()">
                             <br>
                             <input type="button" value="Canvas Manipulation"
                                 onclick="gotoTab('canvas-manipulation', true)">
@@ -606,7 +677,7 @@
                             <h3 data-shortcutkey="f">Filters</h3> <br>
                             <input type="button" value="Invert" id="filter-invert" class="right-flat">
                             <input type="button" value="..." id="invert-settings" class="left-flat"
-                                onclick="gotoTab('invert-settings')">
+                                onclick="invertSettings.showModal()">
                             <input type="button" value="Sepia" id="filter-sepia">
                             <input type="button" value="Grayscale" id="filter-grayscale">
                             <input type="button" value="Solorize" id="filter-solorize">
@@ -619,7 +690,7 @@
                             <input type="button" value="Box Blur" id="filter-box-blur">
                             <input type="button" value="Motion Blur" id="filter-motion-blur">
                             <br>
-                            <input type="button" value="Blur Settings" onclick="gotoTab('blur-settings')">
+                            <input type="button" value="Blur Settings" onclick="blurSettings.showModal()">
                             <br>
                             <hr>
                             <h4>Custom Filter</h4>
@@ -639,56 +710,6 @@
                                 &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b`
                                 are their original values for each pixel.
                             </span>
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-tabname="blur-settings" data-type="hidden-tab">Blur Settings</h3>
-                            <h4>Motion Blur</h4>
-
-                            <label for="motion-blur-direction">Blur Direction : </label>
-                            <select id="motion-blur-direction">
-                                <option value="horizontal">Horizontal</option>
-                                <option value="vertical">Vertical</option>
-                            </select>
-                            <br>
-                            <label for="motion-blur-radius">Motion Blur Radius : </label>
-                            <input type="range" id="motion-blur-radius" value="1" max="15" min="1">
-                            <span id="motion-blur-radius-shower">(1)</span>
-                            <hr>
-                            <h4>Guassian Blur</h4>
-                            <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
-                            <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
-                            <span id="gaussian-blur-radius-shower">(1)</span>
-                            <br>
-                            <label for="gaussian-blur-alpha-process">Alpha Process : </label>
-                            <select id="gaussian-blur-alpha-process">
-                                <option value="loose-alpha">Loose Alpha</option>
-                                <option value="mix">Mix</option>
-                                <option value="preserve-alpha">Preserve Pixel Alpha</option>
-                            </select>
-                            <hr>
-                            <h4>Box Blur</h4>
-                            <label for="box-blur-radius">Box Blur Radius : </label>
-                            <input type="range" id="box-blur-radius" value="1" max="15" min="1">
-                            <span id="box-blur-radius-shower">(1)</span>
-
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-tabname="invert-settings" data-type="hidden-tab">Invert
-                                Settings</h3>
-                            <br>
-                            <label for="invert-r-channel">Invert <span
-                                    style="color: red;text-shadow: 1px 1px 2px black">Red</span> Channel : </label>
-                            <input type="checkbox" id="invert-r-channel" checked>
-                            <br>
-                            <label for="invert-g-channel">Invert <span
-                                    style="color: green;text-shadow: 1px 1px 2px black">Green</span> Channel : </label>
-                            <input type="checkbox" id="invert-g-channel" checked>
-                            <br>
-                            <label for="invert-b-channel">Invert <span
-                                    style="color: blue;text-shadow: 1px 1px 2px black">Blue</span> Channel : </label>
-                            <input type="checkbox" id="invert-b-channel" checked>
                         </div>
                         <div>
                             <br>
@@ -749,21 +770,6 @@
                             <br> <input type="button" value="Replace" id="replace-button"> <br>
                             <input type="button" id="replace-content-awarely"
                                 value="Replace Content Awarely (no th support)">
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-type="hidden-tab" data-tabname="guide-options">Guide Options
-                            </h3> <br>
-                            <label for="guide-checkbox">Quadrant Guides: </label>
-                            <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
-                            <br>
-                            <label for="border-checkbox">Show Cell Border: </label>
-                            <input type="checkbox" name="border-checkbox" id="border-checkbox" checked>
-                            <br>
-                            <label for="guide-cell-border-color">Cell Border Color: </label>
-                            <input type="color" id="guide-cell-border-color" value="#ffffff">
-                            Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex"
-                                placeholder="Enter Hex..." maxlength="7">
                         </div>
                         <div>
                             <br>
@@ -1240,6 +1246,7 @@
     <script src="js/formula-methods.js"></script>
     <script src="js/custom-script-manager.js"></script>
     <script src="js/lib.blend.js"></script>
+    <script src="js/dialogs.js"></script>
     <script>
         // Post script
         endProcess()

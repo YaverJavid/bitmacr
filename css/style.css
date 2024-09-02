@@ -873,3 +873,27 @@
  #top-reload{
     display: none;
 }
+
+dialog{
+    background: var(--secondary);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 24px;
+}
+
+
+
+.close-container{
+    display: flex;
+    justify-content: space-between;
+    padding:0 16px ;
+    margin-top: 16px;
+}
+
+.close-container h3{
+     margin:  0;
+}
+
+.close-container input{
+   margin-bottom: 0;
+}

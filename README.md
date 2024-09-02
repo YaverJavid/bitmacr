@@ -2,6 +2,10 @@
 
 ## Change Log
 
+### 2024-012[02-Sep-2024]
+
+- Replaced Some Tab With Dialog
+
 ### 2024-011[29-Jul-2024]
 
 - Added shrink selection data button
