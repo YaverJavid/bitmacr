@@ -10,7 +10,7 @@
     <meta name="description"
         content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
     <title>Pixmacr - A pixel art maker by Yaver Javid</title>
-    <link rel="icon" type="favicon" href="others/logo.ico">
+    <link rel="icon" href="others/logo.ico" type="favicon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sessions.css">
     <link rel="stylesheet" href="css/palettes.css">
@@ -22,12 +22,11 @@
 </head>
 
 <body>
-    <dialog id="blurSettings">
+    <dialog id="motionBlurSettings">
         <div class="close-container">
-            <h3>Blur Settings</h3>
+            <h3>Motion Blur</h3>
             <input type="button" value="CLOSE">
-        </div>
-        <h4>Motion Blur</h4>
+        </div><br>
         <label for="motion-blur-direction">Blur Direction : </label>
         <select id="motion-blur-direction">
             <option value="horizontal">Horizontal</option>
@@ -37,8 +36,13 @@
         <label for="motion-blur-radius">Motion Blur Radius : </label>
         <input type="range" id="motion-blur-radius" value="1" max="15" min="1">
         <span id="motion-blur-radius-shower">(1)</span>
-        <hr>
-        <h4>Guassian Blur</h4>
+    </dialog>
+    <dialog id="gaussianBlurSettings">
+        <div class="close-container">
+            <h3>Guassian Blur</h3>
+            <input type="button" value="CLOSE">
+        </div>
+       <br>
         <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
         <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
         <span id="gaussian-blur-radius-shower">(1)</span>
@@ -49,18 +53,21 @@
             <option value="mix">Mix</option>
             <option value="preserve-alpha">Preserve Pixel Alpha</option>
         </select>
-        <hr>
-        <h4>Box Blur</h4>
+    </dialog>
+    <dialog id="boxBlurSettings">
+        <div class="close-container">
+            <h3>Box Blur</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
         <label for="box-blur-radius">Box Blur Radius : </label>
         <input type="range" id="box-blur-radius" value="1" max="15" min="1">
         <span id="box-blur-radius-shower">(1)</span>
     </dialog>
-
     <dialog id="guideSettings">
         <div class="close-container">
-            <h3>Blur Settings</h3>
+            <h3>Guide Options</h3>
             <input type="button" value="CLOSE">
-        </div>
+        </div> <br>
         <label for="guide-checkbox">Quadrant Guides: </label>
         <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
         <br>
@@ -73,25 +80,97 @@
             maxlength="7">
     </dialog>
 
-<dialog id="invertSettings">
-    <div class="close-container">
-        <h3>Invert Settings</h3>
-        <input type="button" value="CLOSE">
-    </div>
-    <br>
-    <label for="invert-r-channel">Invert <span
-            style="color: red;text-shadow: 1px 1px 2px black">Red</span> Channel : </label>
-    <input type="checkbox" id="invert-r-channel" checked>
-    <br>
-    <label for="invert-g-channel">Invert <span
-            style="color: green;text-shadow: 1px 1px 2px black">Green</span> Channel : </label>
-    <input type="checkbox" id="invert-g-channel" checked>
-    <br>
-    <label for="invert-b-channel">Invert <span
-            style="color: blue;text-shadow: 1px 1px 2px black">Blue</span> Channel : </label>
-    <input type="checkbox" id="invert-b-channel" checked>
-</dialog>
+    <dialog id="invertSettings">
+        <div class="close-container">
+            <h3>Invert Settings</h3>
+            <input type="button" value="CLOSE">
+        </div>
+        <br>
+        <label for="invert-r-channel">Invert <span style="color: red;text-shadow: 1px 1px 2px black">Red</span> Channel
+            : </label>
+        <input type="checkbox" id="invert-r-channel" checked>
+        <br>
+        <label for="invert-g-channel">Invert <span style="color: green;text-shadow: 1px 1px 2px black">Green</span>
+            Channel : </label>
+        <input type="checkbox" id="invert-g-channel" checked>
+        <br>
+        <label for="invert-b-channel">Invert <span style="color: blue;text-shadow: 1px 1px 2px black">Blue</span>
+            Channel : </label>
+        <input type="checkbox" id="invert-b-channel" checked>
+        <br>
+        <label for="invert-b-channel">Invert Alpha Channel : </label>
+        <input type="checkbox" id="invert-a-channel">
+    </dialog>
+    <dialog id="simplifySolorsSettings">
+        <div class="close-container">
+            <h3>Simplify Colors Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
+        <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
+        <span id="simplify-colors-threshold-shower">(100)</span>
+        <br>
+        <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
+        </div>
+    </dialog>
 
+    <dialog id="variationSettings">
+        <div class="close-container">
+            <h3>Variation Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="color-variation-th-slider">Threshold : </label>
+        <input type="range" id="color-variation-th-slider" max="15" min="1" value="2">
+        <span id="color-variation-th-shower">(2)</span>
+    </dialog>
+    <dialog id="fillAlternateSettings">
+        <div class="close-container">
+            <h3>Fill Alternate Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="fill-gap">Fill Gap : </label>
+        <input type="number" id="fill-gap" value="1"> <br>
+        <label for="fill-count">Fill Count : </label>
+        <input type="button" id="minus-fill-count">
+        <input type="number" value="1" id="fill-count">
+        <input type="button" id="plus-fill-count">
+
+    </dialog>
+    <dialog id="autoPixelDataFromImageSettings">
+        <div class="close-container">
+            <h3>Auto Size Detection Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="auto-size-detection-threshold">Threshold : </label>
+        <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0">
+        <span id="auto-size-detection-threshold-shower">(0)</span>
+    </dialog>
+    <dialog id="pixelDataFromImageSettings">
+        <div class="close-container">
+            <h3>Pixel Data From Image Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled :
+        </label>
+        <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
+        <label for="flexible-dimension">Flexible Dimension : </label>
+        <select id="flexible-dimension">
+            <option value="none">None(Strech)</option>
+            <option value="width">Width</option>
+            <option value="height">Height</option>
+            <option value="lesser">Whichever Is Lesser</option>
+            <option value="greater">Whichever Is Greater</option>
+
+        </select>
+    </dialog>
+    <dialog id="drawingPreview">
+        <div class="close-container">
+            <h3>Drawing Preview</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
+        <img width="0" height="0">
+    </dialog>
     <!--dialogs end-->
     <br>
     <div id="logo-sessions-container">
@@ -135,8 +214,8 @@
                     <img data-value="rect" data-cursor="auto" src="icons/paint-mode/rectangle-filled.png"
                         title="Rectangle">
                     <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png" title="Circle">
-                    <img data-value="selecting" data-cursor="crosshair" id="copy-selector"
-                        src="icons/paint-mode/copy.png" title="Select">
+                    <img data-value="selecting" data-cursor="auto" id="copy-selector" src="icons/paint-mode/copy.png"
+                        title="Select">
                     <img data-value="paste" data-cursor="auto" src="icons/paint-mode/paste.png" title="Paste">
                     <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png" title="Line">
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
@@ -374,17 +453,17 @@
                             <hr><br>
                             <label for="slight-variations-checkbox">Slight Variations In Color : </label>
                             <input type="checkbox" id="slight-variations-checkbox">
-                            <input type="button" value=". . ." onclick="gotoTab('variation-settings')"
+                            <input type="button" value=". . ." onclick="variationSettings.showModal()"
                                 class="left-flat">
                             <br>
                             <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()"
                                 class="right-flat">
                             <input type="button" value=". . ." class="left-flat"
-                                onclick="gotoTab('simplify-colors-options')">
+                                onclick="simplifySolorsSettings.showModal()">
                             <br>
                             <label for="fill-alternate">Fill Alternate : </label>
                             <input type="checkbox" id="fill-alternate" class=" left-flat">
-                            <input type="button" onclick="gotoTab('fill-alternate-settings', true)" value=". . ."
+                            <input type="button" onclick="fillAlternateSettings.showModal()" value=". . ."
                                 class="left-flat">
                             <br>
                             <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
@@ -393,8 +472,7 @@
                                 Add Pixel Data From Image (Auto Size Detection)
                             </label>
                             <br>
-                            <input type="button" value=". . ."
-                                onclick="gotoTab('auto-pixel-data-from-image-settings', true)"
+                            <input type="button" value=". . ." onclick="autoPixelDataFromImageSettings.showModal()"
                                 style="border-radius: 0 0 50vw 50vw">
                             <br>
                             <label for="image-to-pixel" class="file-label">
@@ -402,7 +480,7 @@
                                 Add Pixel Data From Image
                             </label>
                             <br>
-                            <input type="button" value=". . ." onclick="gotoTab('pixel-data-from-image-settings', true)"
+                            <input type="button" value=". . ." onclick="pixelDataFromImageSettings.showModal()"
                                 style="border-radius: 0 0 50vw 50vw">
                             <br>
                             <label for="raw-data-fp" class="file-label">
@@ -412,40 +490,6 @@
                             <label for="copy-color-from-cell-checkbox">Copy Color From Cell : </label>
                             <input type="checkbox" id="copy-color-from-cell-checkbox"><br>
                             <span id="copied-color-shower"></span><br>
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-tabname="auto-pixel-data-from-image-settings" data-type="hidden-tab">Auto Size
-                                Detection Settings</h3>
-                            <br>
-                            <label for="auto-size-detection-threshold">Threshold : </label>
-                            <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0">
-                            <span id="auto-size-detection-threshold-shower">(0)</span>
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-tabname="pixel-data-from-image-settings" data-type="hidden-tab">Pixel Data From
-                                Image Settings</h3>
-                            <br>
-                            <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled :
-                            </label>
-                            <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
-                            <label for="flexible-dimension">Flexible Dimension : </label>
-                            <select id="flexible-dimension">
-                                <option value="none">None(Strech)</option>
-                                <option value="width">Width</option>
-                                <option value="height">Height</option>
-                                <option value="lesser">Whichever Is Lesser</option>
-                                <option value="greater">Whichever Is Greater</option>
-
-                            </select>
-                        </div>
-
-                        <div><br>
-                            <h3 data-type="hidden-tab" data-tabname="variation-settings">Variation Settings</h3> <br>
-                            <label for="color-variation-th-slider">Threshold : </label>
-                            <input type="range" id="color-variation-th-slider" max="15" min="1" value="2">
-                            <span id="color-variation-th-shower">(2)</span>
                         </div>
                         <div>
                             <br>
@@ -681,20 +725,21 @@
                             <input type="button" value="Sepia" id="filter-sepia">
                             <input type="button" value="Grayscale" id="filter-grayscale">
                             <input type="button" value="Solorize" id="filter-solorize">
-                            <input type="button" value="Duotone" id="filter-duotone">
+                            <input type="button" value="Black And White" id="filter-bnw">
                             <input type="button" value="Add Noise" id="shift-colors-button">
+                            <input type="button" value="Remove Ghost Colors" id="filter-remove-ghost-colors">
                             <br>
                             <hr>
                             <h4>Blur</h4>
-                            <input type="button" value="Guassian Blur" id="filter-gaussian-blur">
-                            <input type="button" value="Box Blur" id="filter-box-blur">
-                            <input type="button" value="Motion Blur" id="filter-motion-blur">
-                            <br>
-                            <input type="button" value="Blur Settings" onclick="blurSettings.showModal()">
+                            <input type="button" value="Guassian Blur" id="filter-gaussian-blur" class="right-flat">
+                            <input type="button" value="..." class="left-flat" onclick="gaussianBlurSettings.showModal()">
+                            <input type="button" value="Box Blur" id="filter-box-blur" class="right-flat">
+                            <input type="button" value="..." class="left-flat" onclick="boxBlurSettings.showModal()">
+                            <input type="button" value="Motion Blur" id="filter-motion-blur" class="right-flat">
+                            <input type="button" value="..." class="left-flat" onclick="motionBlurSettings.showModal()">
                             <br>
                             <hr>
                             <h4>Custom Filter</h4>
-                            <br>
                             <label for="custom-filter-r">R = </label>
                             <input type="text" id="custom-filter-r">
                             <br>
@@ -795,7 +840,7 @@
                                 <option value="selected-part">Selected Part</option>
                             </select>
                             <br>
-                            <input type="button" value="Drawing Preview" onclick="gotoTab('drawing_preview')">
+                            <input type="button" value="Drawing Preview" onclick="drawingPreview.showModal()">
                             <hr>
                             <h4>PNG</h4>
                             <label for="cell-border-width-slider">Cell Border: </label>
@@ -979,29 +1024,6 @@
                             </div>
                             <br>
                         </div>
-
-                        <div id="drawing-checker-section">
-                            <br>
-                            <h3 data-type="hidden-tab" data-tabname="drawing_preview">Drawing Preview</h3>
-                            <br>
-                            <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
-                            <img width="0" height="0">
-                        </div>
-
-                        <div>
-                            <br>
-                            <h3 data-type="hidden-tab" data-tabname="fill-alternate-settings">Fill Alternate Settings
-                            </h3>
-                            <br>
-                            <label for="fill-gap">Fill Gap : </label>
-                            <input type="number" id="fill-gap" value="1"> <br>
-
-                            <label for="fill-count">Fill Count : </label>
-                            <input type="button" id="minus-fill-count">
-                            <input type="number" value="1" id="fill-count">
-                            <input type="button" id="plus-fill-count">
-
-                        </div>
                         <div>
                             <br>
                             <h3 data-type="hidden-tab" data-tabname="previous_versions">Previous Versions</h3> <br>
@@ -1055,18 +1077,6 @@
                                 <option value="DESKTOP.OTHER">Other (Desktop)</option>
                             </select>
                             <input type="button" value="Auto" class="left-flat" id="reset-browser-type">
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-type="hidden-tab" data-tabname="simplify-colors-options">Simplify Colors Settings
-                            </h3>
-                            <br>
-                            <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
-                            <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
-                            <span id="simplify-colors-threshold-shower">(100)</span>
-                            <br>
-                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
-
                         </div>
                         <div>
                             <br>

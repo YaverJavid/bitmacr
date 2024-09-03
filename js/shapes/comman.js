@@ -24,12 +24,8 @@ function drawCircle(centerX, centerY, radius, grid, filled = false, floored = fa
 
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[i].length; j++) {
-
             const distance = Math.sqrt((i - centerX) ** 2 + (j - centerY) ** 2);
-
-
             if (distance <= radius) {
-
                 if (filled || Math.abs(distance - radius) < 1) {
                     setCellColor(grid[i][j], getCurrentSelectedColor());
                 }

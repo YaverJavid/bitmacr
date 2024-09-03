@@ -18,13 +18,12 @@ id("filter-invert").onclick = () => {
         let rflag = id("invert-b-channel").checked
         let gflag = id("invert-g-channel").checked
         let bflag = id("invert-b-channel").checked
+        let aflag = id("invert-a-channel").checked
         let r = rflag ? (255 - pixel.r) : pixel.r
         let g = gflag ? (255 - pixel.g) : pixel.g
         let b = bflag ? (255 - pixel.b) : pixel.b
-        return {
-            r, g, b,
-            a: pixel.a
-        };
+        let a = aflag ? (1 - pixel.a) : pixel.a
+        return { r, g, b, a };
     })
 }
 
@@ -58,6 +57,10 @@ id("filter-solorize").onclick = () => {
     })
 }
 
+id("filter-remove-ghost-colors").onclick = () => {
+    filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
+}
+
 id("shift-colors-button").onclick = () => {
     filterCanvas((pixel, pid) => {
         if (pixel.a == 0) return pixel
@@ -70,7 +73,7 @@ id("shift-colors-button").onclick = () => {
     })
 }
 
-id("filter-duotone").onclick = () => {
+id("filter-bnw").onclick = () => {
     filterCanvas((pixel, pid) => {
         let r = pixel.r
         let g = pixel.g

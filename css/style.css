@@ -888,6 +888,7 @@ dialog{
     justify-content: space-between;
     padding:0 16px ;
     margin-top: 16px;
+    gap: 16px;
 }
 
 .close-container h3{
@@ -896,4 +897,9 @@ dialog{
 
 .close-container input{
    margin-bottom: 0;
+}
+
+dialog::backdrop{
+    background-color: var(--secondary);
+    opacity: 60%;
 }

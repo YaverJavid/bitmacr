@@ -4,7 +4,8 @@
 
 ### 2024-012[02-Sep-2024]
 
-- Replaced Some Tab With Dialog
+- Replaced Some Tabs With Dialogs
+- Added And Changed Some Filters
 
 ### 2024-011[29-Jul-2024]
 

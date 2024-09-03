@@ -40,9 +40,11 @@ paintZone.addEventListener('mousemove', (event) => {
         event.preventDefault();
         const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
         const cw = parseFloat(paintZoneWidth) / cols;
-        let dx = Math.ceil(Math.abs(startingCoords.x - x) / cw);
-        let dy = Math.ceil(Math.abs(startingCoords.y - y) / cw);
+        let dx = -1 * Math.ceil((startingCoords.x - x) / cw) + 1;
+        let dy = Math.ceil((startingCoords.y - y) / cw);
 
+        if(dx < 1) dx = 1
+        if(dy < 1) dy = 1
         let gridY, gridX, currentCellIndex;
         let radius = dx;
 
@@ -92,7 +94,6 @@ paintZone.addEventListener('mousemove', (event) => {
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
                     let circleX, circleY
                     if (fixedRadius.checked) {
-    
                         currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
                         circleX = Math.floor(currentCellIndex / cols);
                         circleY = currentCellIndex % cols

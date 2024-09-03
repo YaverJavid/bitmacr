@@ -27,6 +27,7 @@ id("refresh-drawing-checker").onclick = () => {
     )
     img.style.border = "1px solid var(--secondary)"
     drawingCheckerSection.removeChild(drawingCheckerSection.lastChild)
+    img.classList.add('image')
     drawingCheckerSection.appendChild(img)
 }
 
