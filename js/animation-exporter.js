@@ -59,3 +59,34 @@ function download(buf, filename, type) {
     anchor.download = filename;
     anchor.click();
 };
+
+function toSprite(...frames){
+    let spriteWidth = 0
+    let spriteHeight = 0
+    for (let i = 0; i < frames.length; i++){
+        spriteWidth += frames[i].width
+        spriteHeight = Math.max(spriteHeight, frames[i].height)
+    }
+    let canvas = document.createElement('canvas')
+    canvas.width = spriteWidth
+    canvas.height = spriteHeight
+    let ctx = canvas.getContext("2d")
+    let widthPointer = 0
+    for (let i = 0; i < frames.length; i++){
+        ctx.drawImage(frames[i], widthPointer, 0)
+        widthPointer += frames[i].width
+    }
+    return canvas.toDataURL()
+}
+
+id("export-sprite").onclick = ()=>{
+    let frames = []
+    for (let i = 0; i < framesContainer.children.length; i++) {
+        const frame = framesContainer.children[i].children[0]
+        const img = new Image(frame.naturalWidth, frame.naturalHeight)
+        img.src = frame.src
+        frames.push(img)
+    }
+    let sprite = toSprite(...frames)
+    downloadImage(sprite)
+}

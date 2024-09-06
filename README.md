@@ -6,6 +6,8 @@
 
 - Replaced Some Tabs With Dialogs
 - Added And Changed Some Filters
+- Added Sharpning Filter
+- Added Sprite Exportation
 
 ### 2024-011[29-Jul-2024]
 

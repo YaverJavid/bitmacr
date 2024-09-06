@@ -42,7 +42,7 @@
             <h3>Guassian Blur</h3>
             <input type="button" value="CLOSE">
         </div>
-       <br>
+        <br>
         <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
         <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
         <span id="gaussian-blur-radius-shower">(1)</span>
@@ -170,6 +170,17 @@
         </div><br>
         <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
         <img width="0" height="0">
+    </dialog>
+    <dialog id="removeGhostColorsSettings">
+        <div class="close-container">
+            <h3>Help : Remove Ghost Colors</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+    <p style="max-width: 600px;">
+        This feature cleans up your image by removing any hidden color data from fully transparent pixels.
+        When you click the button, it scans the image and ensures that any pixel that is completely transparent (alpha
+        value of 0) is also set to black (red, green, and blue values all set to 0).
+    </p>
     </dialog>
     <!--dialogs end-->
     <br>
@@ -727,16 +738,21 @@
                             <input type="button" value="Solorize" id="filter-solorize">
                             <input type="button" value="Black And White" id="filter-bnw">
                             <input type="button" value="Add Noise" id="shift-colors-button">
-                            <input type="button" value="Remove Ghost Colors" id="filter-remove-ghost-colors">
+                            <input type="button" value="Remove Ghost Colors" id="filter-remove-ghost-colors"
+                                class="right-flat">
+                            <input type="button" value="?" class="left-flat"
+                                onclick="removeGhostColorsSettings.showModal()">
                             <br>
                             <hr>
-                            <h4>Blur</h4>
+                            <h4>Blurring & Sharpening</h4>
                             <input type="button" value="Guassian Blur" id="filter-gaussian-blur" class="right-flat">
-                            <input type="button" value="..." class="left-flat" onclick="gaussianBlurSettings.showModal()">
+                            <input type="button" value="..." class="left-flat"
+                                onclick="gaussianBlurSettings.showModal()">
                             <input type="button" value="Box Blur" id="filter-box-blur" class="right-flat">
                             <input type="button" value="..." class="left-flat" onclick="boxBlurSettings.showModal()">
                             <input type="button" value="Motion Blur" id="filter-motion-blur" class="right-flat">
                             <input type="button" value="..." class="left-flat" onclick="motionBlurSettings.showModal()">
+                            <input type="button" value="Sharpen" id="filter-sharpen">
                             <br>
                             <hr>
                             <h4>Custom Filter</h4>
@@ -912,6 +928,7 @@
                             <input type="number" id="global-frame-delay" placeholder="Time Per Frame(ms)">
                             <br>
                             <input type="button" value="Export GIF" id="export-gif">
+                            <input type="button" value="Export Sprite" id="export-sprite">
                             <br>
                             <div id="frames"></div>
                         </div>

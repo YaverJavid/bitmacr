@@ -57,17 +57,16 @@ id("filter-solorize").onclick = () => {
     })
 }
 
-id("filter-remove-ghost-colors").onclick = () => {
-    filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
-}
+id("filter-remove-ghost-colors").onclick = () => filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
+
 
 id("shift-colors-button").onclick = () => {
     filterCanvas((pixel, pid) => {
         if (pixel.a == 0) return pixel
         return {
-            r: Math.min(255, pixel.r + (Math.round(Math.random() * 50) - 25)),
-            g: Math.min(255, pixel.g + (Math.round(Math.random() * 50) - 25)),
-            b: Math.min(255, pixel.b + (Math.round(Math.random() * 50) - 25)),
+            r: Math.min(255, pixel.r + (Math.round(Math.random() * 25))),
+            g: Math.min(255, pixel.g + (Math.round(Math.random() * 25))),
+            b: Math.min(255, pixel.b + (Math.round(Math.random() * 25))),
             a: pixel.a
         };
     })
@@ -241,6 +240,51 @@ function boxBlur(pixels, width, height, blurRadius) {
     return blurredPixels;
 }
 
+function sharpen(pixels, width, height) {
+    const sharpenedPixels = new Array(pixels.length);
+    const kernel = [
+        [0, -1, 0],
+        [-1, 5, -1],
+        [0, -1, 0]
+    ];
+    const kernelSize = 3;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let redSum = 0;
+            let greenSum = 0;
+            let blueSum = 0;
+
+            for (let dy = 0; dy < kernelSize; dy++) {
+                for (let dx = 0; dx < kernelSize; dx++) {
+                    const neighborX = x + dx - 1;
+                    const neighborY = y + dy - 1;
+
+                    const clampedX = Math.max(0, Math.min(neighborX, width - 1));
+                    const clampedY = Math.max(0, Math.min(neighborY, height - 1));
+
+                    const index = clampedY * width + clampedX;
+                    const rgbaString = pixels[index];
+                    const rgbaValues = convertRGBAStrToObj(rgbaString);
+
+                    const kernelValue = kernel[dy][dx];
+                    redSum += kernelValue * parseInt(rgbaValues.r);
+                    greenSum += kernelValue * parseInt(rgbaValues.g);
+                    blueSum += kernelValue * parseInt(rgbaValues.b);
+                }
+            }
+
+            const clampedRed = Math.max(0, Math.min(255, redSum));
+            const clampedGreen = Math.max(0, Math.min(255, greenSum));
+            const clampedBlue = Math.max(0, Math.min(255, blueSum));
+            const sharpenedPixel = `rgb(${clampedRed}, ${clampedGreen}, ${clampedBlue})`;
+            sharpenedPixels[y * width + x] = sharpenedPixel;
+        }
+    }
+
+    return sharpenedPixels;
+}
+
 function motionBlur(pixels, width, height, blurRadius, direction = 'horizontal') {
     const blurredPixels = new Array(pixels.length);
     const kernelSize = blurRadius * 2 + 1; // Total kernel elements
@@ -298,7 +342,6 @@ function calculateMotionBlurWeights(blurRadius, kernelSize, direction) {
     return weights;
 }
 
-
 id("filter-box-blur").onclick = () => {
     let blurredData = boxBlur(buffer.getItem().slice(), cols, rows, id("box-blur-radius").value)
     applyPaintData(blurredData)
@@ -312,6 +355,11 @@ id("filter-gaussian-blur").onclick = () => {
 id("filter-motion-blur").onclick = () => {
     let blurredData = motionBlur(buffer.getItem().slice(), cols, rows, parseInt(id("motion-blur-radius").value), id("motion-blur-direction").value)
     applyPaintData(blurredData)
+    recordPaintData()
+}
+id("filter-sharpen").onclick = () => {
+    let filteredData = sharpen(buffer.getItem().slice(), cols, rows)
+    applyPaintData(filteredData)
     recordPaintData()
 }
 
