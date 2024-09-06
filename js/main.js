@@ -267,43 +267,45 @@ function addCanvas(argRows, argCols, clearStack = true) {
 
 }
 
-function fillRowCellsInRange(y, start, end, step, centerColor) {
+function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {
     let mode = id("stop-col-row-fill-propogation-if").value
     let stopperColor = mode == 'hits-specific-color' ? id('hits-specific-color').value : 'NONE'
+    let flow = id("flow-col-row-filling").checked
     for (let x = start; x != end; x += step) {
         let cell = paintCells[pack(x, y)];
         let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
         if (stopperColor == currentColor) return
         if (mode == "color-changes" && currentColor != centerColor) return
-        setCellColor(cell, getCurrentSelectedColor());
+        if(flow && mainCall) fillCol(x, y, false)
+        else setCellColor(cell, getCurrentSelectedColor());
     }
 }
 
-function fillColCellsInRange(x, start, end, step, centerColor) {
+function fillColCellsInRange(x, start, end, step, centerColor, mainCall) {
     let mode = id("stop-col-row-fill-propogation-if").value
     let stopperColor = mode == 'hits-specific-color' ? id('hits-specific-color').value : 'NONE'
+    let flow = id("flow-col-row-filling").checked
     for (let y = start; y != end; y += step) {
         let cell = paintCells[pack(x, y)];
         let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
         if (stopperColor == currentColor) return
         if (mode == "color-changes" && currentColor != centerColor) return
-        setCellColor(cell, getCurrentSelectedColor());
+        if(flow && mainCall) fillRow(y, x, false)
+        else setCellColor(cell, getCurrentSelectedColor());
     }
 }
 
-function fillRow(y, pivot) {
+function fillRow(y, pivot, mainCall = true) {
     let centerColor = rgbaToHex(window.getComputedStyle(paintCells[pack(pivot, y)]).getPropertyValue('background-color'));
-    fillRowCellsInRange(y, pivot, cols, 1, centerColor);
-    fillRowCellsInRange(y, pivot - 1, -1, -1, centerColor);
+    fillRowCellsInRange(y, pivot, cols, 1, centerColor, mainCall);
+    fillRowCellsInRange(y, pivot - 1, -1, -1, centerColor, mainCall);
 }
 
 
-function fillCol(x, pivot) {
-    console.log(pivot);
-    
+function fillCol(x, pivot, mainCall = true) {
     let centerColor = rgbaToHex(window.getComputedStyle(paintCells[pack(x, pivot)]).getPropertyValue('background-color'));
-    fillColCellsInRange(x, pivot, rows, 1, centerColor)
-    fillColCellsInRange(x, pivot - 1, -1, -1, centerColor)
+    fillColCellsInRange(x, pivot, rows, 1, centerColor, mainCall)
+    fillColCellsInRange(x, pivot - 1, -1, -1, centerColor, mainCall)
 }
 
 colorSelector.addEventListener("input", function () {
