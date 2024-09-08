@@ -30,7 +30,7 @@ paintZone.addEventListener('mousemove', (event) => {
         let paintCells2d = [];
         if (paintModeSelector.value != "line-stroke") {
             for (let i = 0; i < paintCells.length; i++) {
-                paintCells[i].style.background = buffer.getItem()[i];
+                paintCells[i].style.backgroundColor = buffer.getItem()[i];
             }
         }
         for (let i = 0; i < paintCells.length; i++) {

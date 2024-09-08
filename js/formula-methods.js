@@ -16,7 +16,7 @@ const avgc = (r,g,b) => (r+g+b)/3
  }
 
 function x(pid){
-     return pid/cols
+     return Math.floor(pid/cols)
 }
 
 function $(id) {

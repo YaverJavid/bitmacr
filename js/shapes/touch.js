@@ -43,7 +43,7 @@ paintZone.addEventListener('touchmove', (event) => {
         let paintCells2d = []
         if (paintModeSelector.value != "line-stroke") {
             for (let i = 0; i < paintCells.length; i++) {
-                paintCells[i].style.background = buffer.getItem()[i]
+                paintCells[i].style.backgroundColor = buffer.getItem()[i]
             }
         }
         for (let i = 0; i < paintCells.length; i++) {
@@ -223,7 +223,7 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
     let linesize = size
     while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
-            pixels[bly][blx + dx].style.background = getCurrentSelectedColor()
+            pixels[bly][blx + dx].style.backgroundColor = getCurrentSelectedColor()
         }
         bly--
         linesize -= perColDY

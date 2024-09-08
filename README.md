@@ -8,7 +8,8 @@
 - Added And Changed Some Filters
 - Added Sharpning Filter
 - Added Sprite Exportation
-- Added Flow Attribute For Coloumn & Row Filling 
+- Added Flow Attribute For Coloumn & Row Filling
+- Added lighting tools
 
 ### 2024-011[29-Jul-2024]
 

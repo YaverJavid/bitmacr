@@ -329,6 +329,60 @@ function motionBlur(pixels, width, height, blurRadius, direction = 'horizontal')
     return blurredPixels;
 }
 
+function bokehBlur(pixels, width, height, blurRadius) {
+    const blurredPixels = new Array(pixels.length);
+    const kernel = createCircularKernel(blurRadius);
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let redSum = 0, greenSum = 0, blueSum = 0, weightSum = 0;
+
+            for (let dy = -blurRadius; dy <= blurRadius; dy++) {
+                for (let dx = -blurRadius; dx <= blurRadius; dx++) {
+                    if (kernel[dy + blurRadius][dx + blurRadius] === 0) continue;
+
+                    const neighborX = Math.max(0, Math.min(x + dx, width - 1));
+                    const neighborY = Math.max(0, Math.min(y + dy, height - 1));
+                    const index = neighborY * width + neighborX;
+                    const rgbaString = pixels[index];
+                    const rgbaValues = convertRGBAStrToObj(rgbaString);
+
+                    const weight = kernel[dy + blurRadius][dx + blurRadius];
+                    redSum += weight * rgbaValues.r;
+                    greenSum += weight * rgbaValues.g;
+                    blueSum += weight * rgbaValues.b;
+                    weightSum += weight;
+                }
+            }
+
+            const clampedRed = Math.max(0, Math.min(255, redSum / weightSum));
+            const clampedGreen = Math.max(0, Math.min(255, greenSum / weightSum));
+            const clampedBlue = Math.max(0, Math.min(255, blueSum / weightSum));
+            blurredPixels[y * width + x] = `rgb(${clampedRed}, ${clampedGreen}, ${clampedBlue})`;
+        }
+    }
+
+    return blurredPixels;
+}
+
+function createCircularKernel(radius) {
+    const size = radius * 2 + 1;
+    const kernel = Array.from({ length: size }, () => Array(size).fill(0));
+    const center = radius;
+
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            const distance = Math.sqrt((x - center) ** 2 + (y - center) ** 2);
+            if (distance <= radius) {
+                kernel[y][x] = 1;
+            }
+        }
+    }
+
+    return kernel;
+}
+
+
 // Helper function to calculate motion blur weights (optional)
 function calculateMotionBlurWeights(blurRadius, kernelSize, direction) {
     const weights = new Array(kernelSize);
@@ -359,6 +413,12 @@ id("filter-motion-blur").onclick = () => {
 }
 id("filter-sharpen").onclick = () => {
     let filteredData = sharpen(buffer.getItem().slice(), cols, rows)
+    applyPaintData(filteredData)
+    recordPaintData()
+}
+
+id("filter-denoise").onclick = () => {
+    let filteredData = bokehBlur(buffer.getItem().slice(), cols, rows, parseInt(id("motion-blur-radius").value), id("motion-blur-direction").value)
     applyPaintData(filteredData)
     recordPaintData()
 }

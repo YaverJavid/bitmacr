@@ -102,8 +102,10 @@ function getCurrentSelectedColor(preview = false) {
         color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value));
     else if (colorMods == "palette")
         color = rgbToHex(window.getComputedStyle(paletteCS.selected).getPropertyValue("background"))
+    else if (colorMods == "lighting"){
+        return id("lighting-object-type").value
+    }
     else if (colorMods == "formula") {
-
         if (colorFormulaTypeSelector.value == "hsl") {
             let hue = evalFormula(id("cf-hsl-hue").value, colorFormulaVars)
             let saturation = evalFormula(id("cf-hsl-saturation").value, colorFormulaVars)
@@ -241,6 +243,17 @@ onlyFillIfColorIsCheckbox.oninput = () => {
 }
 
 function fillCell(cellElem, color) {
+    if(['@bulb', '@barrier', '@none'].includes(color)){
+        cellElem.lightingObjectType = color
+        cellElem.style.backgroundSize = "100% 100%"
+        if(lightingObjectsHidden) return
+        let iconPath
+        if(color == '@bulb') iconPath = "url(icons/lighting/bulb.png)"
+        else if(color == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
+        else if(color == '@none') iconPath = "none"
+        cellElem.style.backgroundImage = iconPath     
+        return
+    }
     let currentColor = rgbaToHex(window.getComputedStyle(cellElem).getPropertyValue('background-color'))
     let fillOnlyIfColorsAre = fillOnlyThisColor.value.split("||")
     let flipFillOnlyIf = flipFillOnlyIfType.value == "If"
@@ -258,7 +271,7 @@ function fillCell(cellElem, color) {
                 return
         }
     }
-    cellElem.style.background = color
+    cellElem.style.backgroundColor = color
     if (id("add-frame-after-every-color-change").checked) addFrame()
 }
 
@@ -277,7 +290,7 @@ flipFillOnlyIfType.onclick = () => {
 }
 
 onlyFillMatchingThreshold.oninput = () => {
-    id("only-fill-matching-threshold-shower").textContent = onlyFillMatchingThreshold.value == 0 ? "(Exact Match)" : `(${onlyFillMatchingThreshold.value})`
+    id("only-fill-matching-threshold-shower").textContent =  `(${onlyFillMatchingThreshold.value})`
 }
 
 setupNumInputWithButtons(id("minus-fill-count"), id("plus-fill-count"), fillCount, 1, 1, false)

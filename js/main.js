@@ -135,7 +135,7 @@ function applyPaintData(data, simpleFill = true) {
     // simpleFill : IF IT IS UNDO OR REDO WE WANT TO DO A SIMPLE FILL
     if (simpleFill) {
         for (var i = 0; i < paintCells.length; i++) {
-            paintCells[i].style.background = data[i]
+            paintCells[i].style.backgroundColor = data[i]
         }
         return
     }

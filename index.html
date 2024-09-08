@@ -176,11 +176,24 @@
             <h3>Help : Remove Ghost Colors</h3>
             <input type="button" value="CLOSE">
         </div><br>
-    <p style="max-width: 600px;">
-        This feature cleans up your image by removing any hidden color data from fully transparent pixels.
-        When you click the button, it scans the image and ensures that any pixel that is completely transparent (alpha
-        value of 0) is also set to black (red, green, and blue values all set to 0).
-    </p>
+        <p style="max-width: 600px;">
+            This feature cleans up your image by removing any hidden color data from fully transparent pixels.
+            When you click the button, it scans the image and ensures that any pixel that is completely transparent
+            (alpha
+            value of 0) is also set to black (red, green, and blue values all set to 0).
+        </p>
+    </dialog>
+    <dialog id="lightingSettings">
+        <div class="close-container">
+            <h3>Lighting Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="light-intensity">Intensity : </label>
+        <input type="number"  id="light-intensity" value="3" placeholder="Watt(s)">
+        <!-- <br>
+        <label for="light-color">Color : </label>
+        <input type="color" id="light-color"> -->
+        <hr>
     </dialog>
     <!--dialogs end-->
     <br>
@@ -266,6 +279,8 @@
                                 <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl" title="HSL">
                                 <img src='icons/color-mode/css.png' alt='cm' data-value="css-color"
                                     title="CSS Color String">
+                                <img src='icons/color-mode/bulb.png' alt='cm' data-value="lighting"
+                                    title="Lighting Tools">
                             </div>
                             <br>
                             <br>
@@ -277,6 +292,20 @@
                                         placeholder="Enter Hex..." maxlength="7"> <br>
                                     <label for="select-color">Pick Color From The Pixel : </label>
                                     <input type="checkbox" name="select-color" id="select-color">
+                                </div>
+                                <div data-csname="lighting">
+                                    <label for="lighting-object-type">Lighting Object Type : </label>
+                                    <select id="lighting-object-type">
+                                        <option value="@bulb">Bulb</option>
+                                        <option value="@barrier">Barrier</option>
+                                        <option value="@none">Eraser</option>
+                                    </select>
+                                    <br>
+                                    <input type="button" value="Clear All Objects" id="clear-all-lighting-objects">
+                                    <input type="button" value="Hide Objects" id="hide-lighting-objects">
+                                    <br>
+                                    <input type="button" value="Apply Light" id="apply-light" class="right-flat">
+                                    <input type="button" value="..." class="left-flat" onclick="lightingSettings.showModal()">
                                 </div>
                                 <div data-csname="formula">
                                     <div id="vars-section">
@@ -460,17 +489,12 @@
                             <br>
                             <label for="only-fill-matching-threshold">Threshold : </label>
                             <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
-                            <span id="only-fill-matching-threshold-shower">(Exact Match)</span>
+                            <span id="only-fill-matching-threshold-shower">(0)</span>
                             <hr><br>
                             <label for="slight-variations-checkbox">Slight Variations In Color : </label>
                             <input type="checkbox" id="slight-variations-checkbox">
                             <input type="button" value=". . ." onclick="variationSettings.showModal()"
                                 class="left-flat">
-                            <br>
-                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()"
-                                class="right-flat">
-                            <input type="button" value=". . ." class="left-flat"
-                                onclick="simplifySolorsSettings.showModal()">
                             <br>
                             <label for="fill-alternate">Fill Alternate : </label>
                             <input type="checkbox" id="fill-alternate" class=" left-flat">
@@ -736,12 +760,20 @@
                             <input type="button" value="Sepia" id="filter-sepia">
                             <input type="button" value="Grayscale" id="filter-grayscale">
                             <input type="button" value="Solorize" id="filter-solorize">
+                            <br>
+                            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()"
+                                class="right-flat">
+
+                            <input type="button" value="..." class="left-flat"
+                                onclick="simplifySolorsSettings.showModal()">
                             <input type="button" value="Black And White" id="filter-bnw">
                             <input type="button" value="Add Noise" id="shift-colors-button">
+                            <br>
                             <input type="button" value="Remove Ghost Colors" id="filter-remove-ghost-colors"
                                 class="right-flat">
                             <input type="button" value="?" class="left-flat"
                                 onclick="removeGhostColorsSettings.showModal()">
+                            <input type="button" value="Denoise" id="filter-denoise">
                             <br>
                             <hr>
                             <h4>Blurring & Sharpening</h4>
@@ -1276,6 +1308,7 @@
     <script src="js/custom-script-manager.js"></script>
     <script src="js/lib.blend.js"></script>
     <script src="js/dialogs.js"></script>
+    <script src="js/lighting.js"></script>
     <script>
         // Post script
         endProcess()
