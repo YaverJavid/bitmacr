@@ -101,7 +101,7 @@
         <label for="invert-b-channel">Invert Alpha Channel : </label>
         <input type="checkbox" id="invert-a-channel">
     </dialog>
-    <dialog id="simplifySolorsSettings">
+    <dialog id="simplifyColorsSettings">
         <div class="close-container">
             <h3>Simplify Colors Settings</h3>
             <input type="button" value="CLOSE">
@@ -189,10 +189,19 @@
             <input type="button" value="CLOSE">
         </div><br>
         <label for="light-intensity">Intensity : </label>
-        <input type="number"  id="light-intensity" value="3" placeholder="Watt(s)">
+        <input type="number"  id="light-intensity" value="5" placeholder="Enter Ideally 0-10">
         <!-- <br>
         <label for="light-color">Color : </label>
         <input type="color" id="light-color"> -->
+        <br>
+        <label for="light-law">Light Law : </label>
+        <select id="light-law">
+            <option value="inverse">Inverse</option>
+            <option value="inverse-square">Inverse Square</option>
+        </select>
+        <br>
+        <label for="auto-ghost-color-elimination-post-lighting">Auto Apply Ghost Color Filter : </label>
+        <input type="checkbox" id="auto-ghost-color-elimination-post-lighting" checked>
         <hr>
     </dialog>
     <!--dialogs end-->
@@ -765,15 +774,13 @@
                                 class="right-flat">
 
                             <input type="button" value="..." class="left-flat"
-                                onclick="simplifySolorsSettings.showModal()">
+                                onclick="simplifyColorsSettings.showModal()">
                             <input type="button" value="Black And White" id="filter-bnw">
                             <input type="button" value="Add Noise" id="shift-colors-button">
-                            <br>
                             <input type="button" value="Remove Ghost Colors" id="filter-remove-ghost-colors"
                                 class="right-flat">
                             <input type="button" value="?" class="left-flat"
                                 onclick="removeGhostColorsSettings.showModal()">
-                            <input type="button" value="Denoise" id="filter-denoise">
                             <br>
                             <hr>
                             <h4>Blurring & Sharpening</h4>
@@ -797,10 +804,13 @@
                             <label for="custom-filter-b">B = </label>
                             <input type="text" id="custom-filter-b">
                             <br>
+                            <label for="custom-filter-a">A = </label>
+                            <input type="text" id="custom-filter-a">
+                            <br>
                             <input type="button" value="Apply Filter" id="apply-custom-filter">
                             <br>
                             <span>
-                                &#9432; Add formula which you want your r, g, b's to be replaced with. `r`, `g` & `b`
+                                &#9432; Add formula which you want your r, g, b, a's to be replaced with. `r`, `g` `b` & `a`
                                 are their original values for each pixel.
                             </span>
                         </div>

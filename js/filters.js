@@ -118,9 +118,11 @@ id("apply-custom-filter").onclick = () => {
     let rExpr = id("custom-filter-r").value
     let gExpr = id("custom-filter-g").value
     let bExpr = id("custom-filter-b").value
+    let aExpr = id("custom-filter-a").value
     rExpr = rExpr === "" ? "r" : rExpr
     gExpr = gExpr === "" ? "g" : gExpr
     bExpr = bExpr === "" ? "b" : bExpr
+    aExpr = aExpr === "" ? "a" : aExpr
 
     filterCanvas((p, pid) => {
         with (p) {
@@ -128,7 +130,7 @@ id("apply-custom-filter").onclick = () => {
                 r: eval(rExpr),
                 g: eval(gExpr),
                 b: eval(bExpr),
-                a
+                a: eval(aExpr)
             }
         }
     })
@@ -329,41 +331,7 @@ function motionBlur(pixels, width, height, blurRadius, direction = 'horizontal')
     return blurredPixels;
 }
 
-function bokehBlur(pixels, width, height, blurRadius) {
-    const blurredPixels = new Array(pixels.length);
-    const kernel = createCircularKernel(blurRadius);
 
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            let redSum = 0, greenSum = 0, blueSum = 0, weightSum = 0;
-
-            for (let dy = -blurRadius; dy <= blurRadius; dy++) {
-                for (let dx = -blurRadius; dx <= blurRadius; dx++) {
-                    if (kernel[dy + blurRadius][dx + blurRadius] === 0) continue;
-
-                    const neighborX = Math.max(0, Math.min(x + dx, width - 1));
-                    const neighborY = Math.max(0, Math.min(y + dy, height - 1));
-                    const index = neighborY * width + neighborX;
-                    const rgbaString = pixels[index];
-                    const rgbaValues = convertRGBAStrToObj(rgbaString);
-
-                    const weight = kernel[dy + blurRadius][dx + blurRadius];
-                    redSum += weight * rgbaValues.r;
-                    greenSum += weight * rgbaValues.g;
-                    blueSum += weight * rgbaValues.b;
-                    weightSum += weight;
-                }
-            }
-
-            const clampedRed = Math.max(0, Math.min(255, redSum / weightSum));
-            const clampedGreen = Math.max(0, Math.min(255, greenSum / weightSum));
-            const clampedBlue = Math.max(0, Math.min(255, blueSum / weightSum));
-            blurredPixels[y * width + x] = `rgb(${clampedRed}, ${clampedGreen}, ${clampedBlue})`;
-        }
-    }
-
-    return blurredPixels;
-}
 
 function createCircularKernel(radius) {
     const size = radius * 2 + 1;
@@ -413,12 +381,6 @@ id("filter-motion-blur").onclick = () => {
 }
 id("filter-sharpen").onclick = () => {
     let filteredData = sharpen(buffer.getItem().slice(), cols, rows)
-    applyPaintData(filteredData)
-    recordPaintData()
-}
-
-id("filter-denoise").onclick = () => {
-    let filteredData = bokehBlur(buffer.getItem().slice(), cols, rows, parseInt(id("motion-blur-radius").value), id("motion-blur-direction").value)
     applyPaintData(filteredData)
     recordPaintData()
 }

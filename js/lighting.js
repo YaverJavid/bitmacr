@@ -7,12 +7,13 @@ id("clear-all-lighting-objects").onclick = () => {
 }
 
 function createBrightnessMap(x, y) {
+    let lightLaw = id('light-law').value
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             paintCells[pack(i, j)].lightingFactor = paintCells[pack(i, j)].lightingFactor || 0
             if (isShadowed(paintCells, x, y, i, j)) continue
             const distance = Math.sqrt((i - x) ** 2 + (j - y) ** 2);
-            const intensity = (1 / (distance)) * 3;
+            const intensity = (lightLaw == 'inverse' ? (1 / (distance)) : (1 / (distance ** 2))) * id("light-intensity").value
             paintCells[pack(i, j)].lightingFactor += Math.min(intensity, 1)
         }
     }
@@ -40,6 +41,8 @@ id("apply-light").onclick = () => {
         }
     }
     applyBrightnessMap()
+    if(id("auto-ghost-color-elimination-post-lighting").checked)
+        filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
 }
 
 function increaseBrightness(rgba, influence) {
