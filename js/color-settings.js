@@ -215,6 +215,12 @@ var skips = 0
 var fillCounts = 1
 
 function setCellColor(cellElem, color) {
+    if(id("dithering-mode").checked) {
+        let row = y(cellElem.index)
+        let col = x(cellElem.index)
+        if(row % 2 && col % 2) return
+        if(row % 2 == 0 && col % 2 == 0) return      
+    }
     if (fillAlternate.checked && skips > 0) {
         skips--;
         return;

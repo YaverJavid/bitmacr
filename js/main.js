@@ -177,6 +177,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
     }
     canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
     for (let i = 0; i < paintCells.length; i++) {
+        paintCells[i].index = i
         paintCells[i].onclick = function () {
             lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
             if (colorSelectionInProgress) {

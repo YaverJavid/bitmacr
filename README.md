@@ -10,6 +10,8 @@
 - Added Fliping Tool For Selected Part
 - Color Formula Support For Desktop Version
 - Color Formula Variables Now Stack
+- Added Dithering Mode
+- Optimizations
 
 ### 2024-012[02-Sep-2024]
 
