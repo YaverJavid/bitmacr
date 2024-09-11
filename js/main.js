@@ -132,6 +132,8 @@ function recordPaintData() {
 }
 
 function applyPaintData(data, simpleFill = true) {
+    console.log(data);
+    
     // simpleFill : IF IT IS UNDO OR REDO WE WANT TO DO A SIMPLE FILL
     if (simpleFill) {
         for (var i = 0; i < paintCells.length; i++) {
@@ -639,7 +641,7 @@ function imageToPixeArtData(img, w, h) {
         const row = [];
         for (let x = 0; x < w; x++) {
             let i = (y * w + x) * 4;
-            row.push(rgbaToHex(`rgba(${pixels[i]}, ${pixels[i + 1]}, ${pixels[i + 2]}, ${pixels[i + 3]})`))
+            row.push(rgbToHex(`rgb(${pixels[i]}, ${pixels[i + 1]}, ${pixels[i + 2]})`))
         }
         pixelArtArray.push(row);
     }

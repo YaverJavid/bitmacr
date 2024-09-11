@@ -53,7 +53,7 @@ paintZone.addEventListener('touchmove', (event) => {
     let dx = Math.ceil(Math.abs(startingCoords.x - x) / cw)
     let dy = Math.ceil(Math.abs(startingCoords.y - y) / cw)
     let currentCell = document.elementFromPoint(x, y);
-    let currentGridY, gridX, currentCellIndex = currentCell.index
+    let currentGridY, currentGridX, currentCellIndex = currentCell.index
     let radius = dx
     event.preventDefault()
     switch (paintModeSelector.value) {
@@ -65,13 +65,13 @@ paintZone.addEventListener('touchmove', (event) => {
             correctedStartingX = startingCoords.x - paintZonePosition.x
             correctedX = x - paintZonePosition.x
             correctedY = y - paintZonePosition.y
-            gridX = Math.floor(correctedX / cw)
+            currentGridX = Math.floor(correctedX / cw)
             currentGridY = Math.floor(correctedY / cw)
 
             handleSelectionShowerVisibility(
                 // 1 is border width of self
                 (currentGridY - startingCoords.gridX) * cw - 1 + "px",
-                (gridX - startingCoords.gridY) * cw - 1 + "px",
+                (currentGridX - startingCoords.gridY) * cw - 1 + "px",
                 (correctedStartingY - (correctedStartingY % cw)) + "px",
                 (correctedStartingX - (correctedStartingX % cw)) + "px",
                 "1px"
@@ -80,16 +80,16 @@ paintZone.addEventListener('touchmove', (event) => {
                 ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
                 xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
                 ybr: Math.min(currentGridY, rows),
-                xbr: Math.min(gridX, cols)
+                xbr: Math.min(currentGridX, cols)
             }
             break
         case "paste":
             if (!selectedPart) return
             if (currentCell.classList[0] != "cell") return
             currentGridY = Math.floor(currentCellIndex / cols)
-            gridX = currentCellIndex % cols
+            currentGridX = currentCellIndex % cols
             paste(
-                gridX + selectedPart[0].length,
+                currentGridX + selectedPart[0].length,
                 currentGridY + selectedPart.length,
                 selectedPart,
                 paintCells2d
@@ -140,20 +140,20 @@ paintZone.addEventListener('touchmove', (event) => {
         case 'line':
             if (currentCell.classList[0] != "cell") return
             currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-            gridX = Math.floor(currentCellIndex / cols);
+            currentGridX = Math.floor(currentCellIndex / cols);
             currentGridY = currentCellIndex % cols
-            drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, gridX)
+            drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
-            gridX = Math.floor(currentCellIndex / cols)
+            currentGridX = Math.floor(currentCellIndex / cols)
             currentGridY = currentCellIndex % cols
             if (isStartOfLineStroke)
-                drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, gridX)
+                drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
             else
-                drawLine(paintCells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, gridX)
+                drawLine(paintCells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX)
             isStartOfLineStroke = false
-            lastLineStrokeEndingCoords.gridX = gridX
+            lastLineStrokeEndingCoords.gridX = currentGridX
             lastLineStrokeEndingCoords.gridY = currentGridY
             break
     }
