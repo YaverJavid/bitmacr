@@ -12,14 +12,7 @@ const COLOR_FORMULA_UI_SEPARATOR = "•"
 const ACTIVE_CF_INPUT_TOKEN = "active-cf-input"
 const colorFormulaInputsContainer = id("color-formula-inputs-container")
 
-resizableInputs.forEach(input => {
-    input.addEventListener('input', resizeInput)
-    resizeInput.call(input);
-});
 
-function resizeInput() {
-    this.style.width = this.value.length + "ch";
-}
 
 function getVarElem() {
     const varElem = document.createElement("div")

@@ -2,14 +2,8 @@ function blendColors(colorTop, colorBottom, mode) {
     // Extract RGBA values from the color objects
     const { r: rTop, g: gTop, b: bTop, a: aTop } = colorTop;
     const { r: rBottom, g: gBottom, b: bBottom, a: aBottom } = colorBottom;
-
-    // Normalize alpha values
-    const aTopNormalized = aTop / 255;
-    const aBottomNormalized = aBottom / 255;
-
     // Function to clamp values between 0 and 255
     const clamp = (value) => Math.round(Math.max(0, Math.min(255, value)));
-
     // Blending calculations
     let rResult, gResult, bResult, aResult;
 

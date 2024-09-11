@@ -11,6 +11,7 @@
 
 #vars {
     display: flex;
+    flex-direction: column;
     gap: 1vw;
     flex-shrink: 0;
 
@@ -18,15 +19,15 @@
 
 .var {
     background: var(--secondary);
-    display: flex;
+    display: flex; 
     border-radius: 45px;
-    padding: 1vw;
-    gap: 1vw;
+    padding: 6px;
+    gap: 6px;
     align-items: center;
     justify-items: center;
     border: 1px solid var(--primary);
-    height: 25px;
-    flex-shrink: 0
+ 
+    flex-shrink: 0;
 }
 
 .var * {
@@ -40,13 +41,19 @@
 }
 
 .var input {
-    text-decoration: underline;
     padding-top: 0;
     padding-bottom: 0;
     border-radius: 0;
     background: transparent !important;
     box-shadow: none !important;
-    color: var(--primary)
+    color: var(--primary);
+    width: 24px
+}
+
+.var input[type=button]{
+background: red;
+text-decoration: underline; 
+border: none;
 }
 
 
@@ -55,9 +62,9 @@
     border-radius: 100px;
     background: white;
     border: 1px solid black;
-    width: 25px;
+    width: 25px!important;
     transform: rotate(45deg);
-    padding: 1vw;
+    padding: 6px;
 }
 
 #color-formula-inputs-container div input {
@@ -78,5 +85,5 @@
 }
 
 .resizable-input{
-    border: none!important;
+    width: 12px;
 }

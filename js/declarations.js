@@ -1,6 +1,6 @@
 /*
    NOTICE
-   ONLY UNIVERSALLY REQUIRED DECLARATIONS ARE DEFINATELY HERE
+   ONLY SOME DECLARATIONS HERE
 */
 
 const paintCells = document.getElementsByClassName("cell"),

@@ -22,9 +22,11 @@ function createBrightnessMap(x, y) {
 
 
 function applyBrightnessMap() {
+    let {r, g, b} = hexToRgbObject(id("light-color").value)
+    let lightColor = `rgba(${r}, ${g}, ${b}, ${id("light-color-opacity").value})`
     for (let i = 0; i < paintCells.length; i++) {
         const cell = paintCells[i]
-        let color = increaseBrightness(buffer.getItem()[i], Math.min(cell.lightingFactor, 1))
+        let color = mixlight(lightColor, buffer.getItem()[i], Math.min(cell.lightingFactor, 1))
         cell.lightingFactor = 0
         if (color) setCellColor(cell, color)
     }
@@ -44,24 +46,6 @@ id("apply-light").onclick = () => {
     if(id("auto-ghost-color-elimination-post-lighting").checked)
         filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
 }
-
-function increaseBrightness(rgba, influence) {
-    if (!influence) return
-    const rgbaValues = convertRGBAStrToObj(rgba)
-    let { r, g, b, a } = rgbaValues;
-
-    // Ensure influence is between 0 and 1
-    influence = Math.max(0, Math.min(1, influence));
-
-    // Calculate new RGB values based on influence
-    r = Math.min(255, r + (255 - r) * influence);
-    g = Math.min(255, g + (255 - g) * influence);
-    b = Math.min(255, b + (255 - b) * influence);
-
-    // Return the new RGBA color string
-    return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${a})`;
-}
-
 
 function isShadowed(array, lx, ly, xc, yc) {
     const dx = Math.abs(xc - lx);
@@ -108,4 +92,20 @@ id("hide-lighting-objects").onclick = () => {
             cell.style.backgroundImage = "none"
         }
     }
+}
+
+function mixlight(lightColor, color, intensity) {
+    lightColor = convertRGBAStrToObj(lightColor)
+    color = convertRGBAStrToObj(color)
+    // Blend each color component
+    const r = Math.round(lightColor.r * intensity + color.r * (1 - intensity));
+    const g = Math.round(lightColor.g * intensity + color.g * (1 - intensity));
+    const b = Math.round(lightColor.b * intensity + color.b * (1 - intensity));
+    const a = lightColor.a * intensity + color.a * (1 - intensity);
+    
+    return `rgba(${r}, ${g}, ${b}, ${a})`
+}
+
+id("light-color-opacity").oninput = ()=>{
+    id('light-color-opacity-shower').textContent = `(${id("light-color-opacity").value})`
 }

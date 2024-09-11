@@ -2,6 +2,15 @@
 
 ## Change Log
 
+### 2024-013[11-Sep-2024]
+
+- Added Threshold Support For Replace Content Awarely
+- Zoom Interface Improvements
+- Optimised And Upgraded Sphere
+- Added Fliping Tool For Selected Part
+- Color Formula Support For Desktop Version
+- Color Formula Variables Now Stack
+
 ### 2024-012[02-Sep-2024]
 
 - Replaced Some Tabs With Dialogs

@@ -141,7 +141,7 @@ function convertRGBAStrToObj(rgbaStr) {
         b = rgbaArr[2].replace(")", "")
         a = 1
     }
-    return { r : +r, g: +g, b : +b, a }
+    return { r: +r, g: +g, b: +b, a }
 }
 
 
@@ -217,7 +217,6 @@ function brightenHexColor(hexColor, threshold) {
     let red = parseInt(hexColor.slice(1, 3), 16);
     let green = parseInt(hexColor.slice(3, 5), 16);
     let blue = parseInt(hexColor.slice(5, 7), 16);
-    let brightness = (red * 299 + green * 587 + blue * 114) / 1000;
     let newRed = Math.round((red + (255 - red) * threshold));
     let newGreen = Math.round((green + (255 - green) * threshold));
     let newBlue = Math.round((blue + (255 - blue) * threshold));
@@ -344,4 +343,15 @@ function getHSLFromHex(hex) {
 async function runScriptAsync(script) {
     const asyncScript = `(async () => { ${script} })()`;
     return await eval(asyncScript);
+}
+
+function areRGBAObjsEqual(a, b, th = 0) {
+    let dr = Math.abs(a.r - b.r),
+        dg = Math.abs(a.g - b.g),
+        db = Math.abs(a.b - b.b)
+    return dr <= th && dg <= th  && db <= th  && a.a == b.a
+}
+
+function isInBounds(x, y, xLength, yLength) {
+    return (x >= 0) && (x < xLength) && (y >= 0) && (y < yLength);
 }

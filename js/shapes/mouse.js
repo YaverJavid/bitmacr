@@ -42,15 +42,15 @@ paintZone.addEventListener('mousemove', (event) => {
         const cw = parseFloat(paintZoneWidth) / cols;
         let dx = -1 * Math.ceil((startingCoords.x - x) / cw) + 1;
         let dy = Math.ceil((startingCoords.y - y) / cw);
-
-        if(dx < 1) dx = 1
-        if(dy < 1) dy = 1
-        let gridY, gridX, currentCellIndex;
+        if (dx < 1) dx = 1
+        if (dy < 1) dy = 1
+        let gridY, gridX, cellIndex;
         let radius = dx;
 
         switch (paintModeSelector.value) {
             case "zoom":
             case "selecting":
+                if (paintModeSelector.value == "zoom" && zoomedIn) break
                 paintZonePosition = paintZone.getBoundingClientRect()
                 correctedStartingY = startingCoords.y - paintZonePosition.y
                 correctedStartingX = startingCoords.x - paintZonePosition.x
@@ -77,79 +77,68 @@ paintZone.addEventListener('mousemove', (event) => {
             case "paste":
                 if (!selectedPart) return
                 if (currentCell.classList[0] != "cell") return
-                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                gridY = Math.floor(currentCellIndex / cols)
-                gridX = currentCellIndex % cols
-                paste(
-                    gridX + selectedPart[0].length,
-                    gridY + selectedPart.length,
-                    selectedPart,
-                    paintCells2d
-                )
+                cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                let py = Math.floor(cellIndex / cols) + selectedPart.length
+                let px = (cellIndex % cols) + selectedPart[0].length
+                paste(px, py, selectedPart, paintCells2d)
                 break;
             case "eq-triangle":
                 drawEquilateralTriangle(startingCoords.gridX, startingCoords.gridY, 6, paintCells2d)
                 break;
             case 'circle':
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
-                    let circleX, circleY
-                    if (fixedRadius.checked) {
-                        currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                        circleX = Math.floor(currentCellIndex / cols);
-                        circleY = currentCellIndex % cols
-                    } else {
-                        circleX = startingCoords.gridX - radius
-                        circleY = startingCoords.gridY + radius
-                    }
-                    if (circleAlgorithm.value == "accurate") {
-                        drawCircle(circleX, circleY, radius, paintCells2d, fillCircle.checked)
-                    } else if (circleAlgorithm.value == "natural") {
-                        if (fillCircle.checked) {
-                            drawNaturalFilledCircle(circleX, circleY, radius, paintCells2d)
-                        } else {
-                            drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
-                        }
-                    }
-                    break;
+                let circleX, circleY
+                if (fixedRadius.checked) {
+                    cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                    circleX = Math.floor(cellIndex / cols);
+                    circleY = cellIndex % cols
+                } else {
+                    circleX = startingCoords.gridX - radius
+                    circleY = startingCoords.gridY + radius
+                }
+                if (circleAlgorithm.value == "accurate") {
+                    drawCircle(circleX, circleY, radius, paintCells2d, fillCircle.checked)
+                } else if (circleAlgorithm.value == "natural") {
+                    if (fillCircle.checked) drawNaturalFilledCircle(circleX, circleY, radius, paintCells2d)
+                    else drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
+                }
+                break;
             case "triangle":
-                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                let tx = Math.floor(currentCellIndex / cols);
-                let ty = currentCellIndex % cols
+                cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                let ty = cellIndex % cols
                 drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
                 break;
             case 'sphere':
                 drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
                 break;
             case 'rect':
+                let bx, by, h, w
                 if (fixedRectSize.checked) {
-                    currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                    gridX = Math.floor(currentCellIndex / cols);
-                    gridY = currentCellIndex % cols
-                    drawRectangle(gridY, gridX, parseInt(fixedRectWidth.value), parseInt(fixedRectHeight.value), paintCells2d, fillRect.checked)
+                    cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                    bx = cellIndex % cols
+                    by = Math.floor(cellIndex / cols);
+                    w = parseInt(fixedRectWidth.value)
+                    h = parseInt(fixedRectHeight.value)
                 } else {
-                    drawRectangle(
-                        startingCoords.gridY,
-                        startingCoords.gridX,
-                        fixedRectSize.checked ? parseInt(fixedRectWidth.value) : dx,
-                        fixedRectSize.checked ? parseInt(fixedRectHeight.value) : dy,
-                        paintCells2d,
-                        fillRect.checked
-                    )
-
+                    bx = startingCoords.gridY
+                    by = startingCoords.gridX
+                    w = dx
+                    h = dy
                 }
-                break;
+                drawRectangle(bx, by, w, h, paintCells2d, fillRect.checked)
+                break
             case 'line':
                 if (currentCell.classList[0] != "cell") return
-                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                gridX = Math.floor(currentCellIndex / cols);
-                gridY = currentCellIndex % cols
+                cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                gridX = Math.floor(cellIndex / cols);
+                gridY = cellIndex % cols
                 drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, gridY, gridX)
                 break
             case 'line-stroke':
                 if (currentCell.classList[0] != "cell") return
-                currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                gridX = Math.floor(currentCellIndex / cols)
-                gridY = currentCellIndex % cols
+                cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                gridX = Math.floor(cellIndex / cols)
+                gridY = cellIndex % cols
                 if (isStartOfLineStroke)
                     drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, gridY, gridX)
                 else
@@ -176,10 +165,7 @@ function handleMousePaintEnd(event) {
     } else if (paintModeSelector.value == "zoom") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")
-        if (zoomedIn) {
-            customAlert("Already Zoomed In... Try Zooming Out First...")
-            return
-        }
+        if (zoomedIn) return
         zoomOriginY = selectionCoords.ybr
         zoomOriginX = selectionCoords.xbr
         fullCols = cols

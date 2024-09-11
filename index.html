@@ -190,9 +190,14 @@
         </div><br>
         <label for="light-intensity">Intensity : </label>
         <input type="number"  id="light-intensity" value="5" placeholder="Enter Ideally 0-10">
-        <!-- <br>
-        <label for="light-color">Color : </label>
-        <input type="color" id="light-color"> -->
+        <br>
+        <label for="light-color">Light Color : </label>
+        <input type="color" id="light-color" value="#ffffff">
+        <br>
+        <br>
+        <label for="light-color-opacity">Light Color Opacity : </label>
+        <input id="light-color-opacity" type="range" max="1" min="0" step="0.1" value="1">
+        <span id="light-color-opacity-shower">(1)</span>
         <br>
         <label for="light-law">Light Law : </label>
         <select id="light-law">
@@ -243,7 +248,7 @@
                     <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png"
                         title="None">
                     <img data-value="line-stroke" data-cursor="auto" src="icons/paint-mode/stroke.png" title="Pen">
-                    <img data-value="zoom" data-cursor="zoom-in" src="icons/paint-mode/zoom.png" title="Zoom">
+                    <img data-value="zoom" data-cursor="auto" src="icons/paint-mode/zoom.png" title="Zoom">
                     <img data-value="rect" data-cursor="auto" src="icons/paint-mode/rectangle-filled.png"
                         title="Rectangle">
                     <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png" title="Circle">
@@ -258,8 +263,6 @@
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
                     <img data-value="cell" src="icons/fill-mode/cell.png">
-                    <!-- <img data-value="row" src="icons/fill-mode/row.png">
-                        <img data-value="col" src="icons/fill-mode/col.png"> -->
                     <img data-value="fill" src="icons/fill-mode/fill.png">
                 </div>
             </div>
@@ -271,7 +274,6 @@
                 </div>
                 <br>
                 <div id="controls-container">
-
                     <div class="controls" id="bottom-control-container">
                         <div>
                             <br>
@@ -325,17 +327,17 @@
                                     <br>
                                     <label for="color-formula-type">Input Type : </label>
                                     <select id="color-formula-type">
-                                        <option value="hsl">HSL</option>
                                         <option value="rgb">RGB</option>
+                                        <option value="hsl">HSL</option>
                                     </select>
                                     <div id="color-formula-inputs-container">
-                                        <div data-cfinputname="hsl" class="active-cf-input">
-                                            hsl(<input type="text" id="cf-hsl-hue">, <input type="text"
-                                                id="cf-hsl-saturation">, <input type="text" id="cf-hsl-lightness">)
+                                        <div data-cfinputname="hsl">
+                                            HSL(<input type="text" id="cf-hsl-hue" class="small-input">, <input type="text"
+                                                id="cf-hsl-saturation" class="small-input">, <input type="text" id="cf-hsl-lightness" class="small-input">)
                                         </div>
-                                        <div data-cfinputname="rgb">
-                                            rgb(<input type="text" id="cf-rgb-r">,<input type="text"
-                                                id="cf-rgb-g">,<input type="text" id="cf-rgb-b">)
+                                        <div data-cfinputname="rgb" class="active-cf-input">
+                                            RGB(<input type="text" id="cf-rgb-r" class="small-input">, <input type="text"
+                                                id="cf-rgb-g" class="small-input">,<input type="text" id="cf-rgb-b" class="small-input">)
                                         </div>
                                     </div>
                                     <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
@@ -455,7 +457,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab">Canvas Manipulation</h3><br>
+                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas Manipulation</h3><br>
                             <input type="button" id="shift-up" value="Shift Up"> <br>
                             <input type="button" id="shift-right" value="Shift Right" style="margin-right: 0.7lh">
                             <input type="button" id="shift-left" value="Shift Left"> <br>
@@ -625,6 +627,8 @@
                                 <hr>
                                 <h4>Selection Manipulation</h4>
                                 <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
+                                <input type="button" value="Flip Vertically &#8597;" id="flip-selection-vertically">
+                                <input type="button" value="Flip Horizontally &harr;" id="flip-selection-horizontally">
                                 <input type="button" value="Shrink" id="shrink-selection">
                             </div>
                             <div class="shape-settings" data-settingname="circle">
@@ -646,7 +650,6 @@
                                 <input type="number" id="fixed-radius-value" placeholder="Enter Fixed Radius Value..."
                                     value="5">
                                 <input type="button" id="p-f-radius">
-
                             </div>
                             <div class="shape-settings" data-settingname="paste">
                                 <h3>Paste</h3>
@@ -874,7 +877,7 @@
                             <span id="threshold-shower">(0)</span>
                             <br> <input type="button" value="Replace" id="replace-button"> <br>
                             <input type="button" id="replace-content-awarely"
-                                value="Replace Content Awarely (no th support)">
+                                value="Replace Content Awarely">
                         </div>
                         <div>
                             <br>
@@ -1325,4 +1328,4 @@
     </script>
 </body>
 
-</html>-
+</html>

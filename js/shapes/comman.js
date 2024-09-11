@@ -21,7 +21,6 @@ const connectLastLineLocation = document.getElementById("connect-last-line-locat
 const lineLastCoords = {}
 
 function drawCircle(centerX, centerY, radius, grid, filled = false, floored = false) {
-
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[i].length; j++) {
             const distance = Math.sqrt((i - centerX) ** 2 + (j - centerY) ** 2);
@@ -34,69 +33,36 @@ function drawCircle(centerX, centerY, radius, grid, filled = false, floored = fa
     }
 }
 
+function drawSphere(cx, cy, r, grid) {
+    let filled = true;
+    // Calculate bounding box coordinates
+    let minX = Math.max(0, cx - r);
+    let maxX = Math.min(grid.length - 1, cx + r);
+    let minY = Math.max(0, cy - r);
+    let maxY = Math.min(grid[0].length - 1, cy + r);
 
-
-function drawSphere(centerX, centerY, radius, grid) {
-    let filled = true
-
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
-
-            const distance = Math.sqrt((i - centerX) ** 2 + (j - centerY) ** 2);
-
-
-            if (distance <= radius) {
-
-                if (filled || Math.abs(distance - radius) < 1) {
-                    setCellColor(grid[i][j], brightenHexColor(getCurrentSelectedColor(), radius / distance - 0.95))
+    // Iterate within the bounding box
+    for (let x = minX; x <= maxX; x++) {
+        for (let y = minY; y <= maxY; y++) {
+            const distance = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+            if (distance <= r) {
+                if (filled || Math.abs((distance) - r) < 1) {
+                    let color = brightenHexColor(getCurrentSelectedColor(), (1 - (distance / r)).toFixed(2))
+                    setCellColor(grid[x][y], color);
                 }
             }
         }
     }
 }
 
-function rawSphereV2(centerX, centerY, radius, grid) {
-    let filled = true
-
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
-
-            const distance = Math.sqrt((i - centerX) ** 2 + (j - centerY) ** 2);
-
-
-            if (distance <= radius) {
-
-                if (filled || Math.abs(distance - radius) < 1) {
-                    setCellColor(grid[i][j], brightenHexColor(getCurrentSelectedColor(), 0))
-                }
-            }
-        }
-    }
-}
 
 function drawRectangle(x, y, w, h, plane, filled) {
-    y += 1
+    y++
     for (let i = (y - h); i < y; i++) {
         for (let j = x; j < (x + w); j++) {
             try {
                 if (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1))
                     setCellColor(plane[i][j], getCurrentSelectedColor())
-            } catch {
-
-            }
-        }
-    }
-}
-
-function drawDottedRectange(x, y, w, h, plane, filled = true) {
-    y += 1
-    l = 0
-    for (vari = (y - h); i < y; i++) {
-        for (let j = x; j < (x + w); j++) {
-            try {
-                if (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1))
-                    l++;
-                if (l % 2 == 0) setCellColor(plane[i][j], getCurrentSelectedColor())
             } catch {
 
             }
@@ -141,8 +107,6 @@ function copy(zoom = false) {
         ybr = selectionCoords.ybr,
         xbr = selectionCoords.xbr,
         array = toPaintData2D(buffer.getItem().slice()),
-        arrH = cols,
-        arrW = rows,
         result = [],
         w = xbr - xtl,
         h = ybr - ytl
@@ -209,7 +173,6 @@ function removeActiveHintFromShapeElems() {
 for (let i = 0; i < shapesElems.length; i++) {
     shapesElems[i].onclick = () => {
         removeActiveHintFromShapeElems()
-        //mouseClickSound.play()
         shapesElems[i].classList.add(ACTIVE_SHAPE_CLASS)
         paintModeSelector.value = shapesElems[i].dataset.value
         paintZone.style.cursor = shapesElems[i].dataset.cursor
@@ -222,95 +185,68 @@ for (let i = 0; i < shapesElems.length; i++) {
                 break
             }
         }
-        shapesElems[i].ondblclick = () => {
-            gotoTab("shape-tools")
-        }
+        shapesElems[i].ondblclick = () => gotoTab("shape-tools")
         if (!wasSettingActivated) shapeSettings[0].classList.add(ACTIVE_SHAPE_SETTING_CLASSNAME)
-
     }
 }
 
-function drawNaturalFilledCircle(centerX, centerY, radius, array2D) {
-    const rows = array2D.length;
-    const cols = array2D[0].length;
-    let x = radius;
+function drawNaturalFilledCircle(cx, cy, r, matrix) {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    let x = r;
     let y = 0;
     let radiusError = 1 - x;
     while (x >= y) {
-        for (let i = centerX - x; i <= centerX + x; i++) {
+        for (let i = cx - x; i <= cx + x; i++) {
             if (i >= 0 && i < rows) {
-                if (centerY + y >= 0 && centerY + y < cols) {
-                    setCellColor(array2D[i][centerY + y], getCurrentSelectedColor())
-                }
-                if (centerY - y >= 0 && centerY - y < cols) {
-                    setCellColor(array2D[i][centerY - y], getCurrentSelectedColor())
-                }
+                if (cy + y >= 0 && cy + y < cols) setCellColor(matrix[i][cy + y], getCurrentSelectedColor())
+                if (cy - y >= 0 && cy - y < cols) setCellColor(matrix[i][cy - y], getCurrentSelectedColor())
             }
         }
-
-        for (let i = centerX - y; i <= centerX + y; i++) {
+        for (let i = cx - y; i <= cx + y; i++) {
             if (i >= 0 && i < rows) {
-                if (centerY + x >= 0 && centerY + x < cols) {
-                    setCellColor(array2D[i][centerY + x], getCurrentSelectedColor())
-                }
-                if (centerY - x >= 0 && centerY - x < cols) {
-                    setCellColor(array2D[i][centerY - x], getCurrentSelectedColor())
-                }
+                if (cy + x >= 0 && cy + x < cols) setCellColor(matrix[i][cy + x], getCurrentSelectedColor())
+                if (cy - x >= 0 && cy - x < cols) setCellColor(matrix[i][cy - x], getCurrentSelectedColor())
             }
         }
-
-        y++;
-
-        if (radiusError < 0) {
-            radiusError += 2 * y + 1;
-        } else {
-            x--;
+        y++
+        if (radiusError < 0) radiusError += 2 * y + 1;
+        else {
+            x--
             radiusError += 2 * (y - x + 1);
         }
     }
 }
 
 
-function drawNaturalStrokeCircle(centerX, centerY, radius, array2D) {
-    const rows = array2D.length;
-    const cols = array2D[0].length;
-    let x = radius;
+function drawNaturalStrokeCircle(cx, cy, r, matrix) {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    let x = r;
     let y = 0;
-    let radiusError = 1 - x;
-
+    let radiusError = 1 - x
     while (x >= y) {
-        if (centerX + x >= 0 && centerX + x < rows && centerY + y >= 0 && centerY + y < cols) {
-            setCellColor(array2D[centerX + x][centerY + y], getCurrentSelectedColor())
-        }
-        if (centerX + y >= 0 && centerX + y < rows && centerY + x >= 0 && centerY + x < cols) {
-            setCellColor(array2D[centerX + y][centerY + x], getCurrentSelectedColor())
-        }
-        if (centerX - x >= 0 && centerX - x < rows && centerY + y >= 0 && centerY + y < cols) {
-            setCellColor(array2D[centerX - x][centerY + y], getCurrentSelectedColor())
-        }
-        if (centerX - y >= 0 && centerX - y < rows && centerY + x >= 0 && centerY + x < cols) {
-            setCellColor(array2D[centerX - y][centerY + x], getCurrentSelectedColor())
-        }
-        if (centerX - x >= 0 && centerX - x < rows && centerY - y >= 0 && centerY - y < cols) {
-            setCellColor(array2D[centerX - x][centerY - y], getCurrentSelectedColor())
-        }
-        if (centerX - y >= 0 && centerX - y < rows && centerY - x >= 0 && centerY - x < cols) {
-            setCellColor(array2D[centerX - y][centerY - x], getCurrentSelectedColor())
-        }
-        if (centerX + x >= 0 && centerX + x < rows && centerY - y >= 0 && centerY - y < cols) {
-            setCellColor(array2D[centerX + x][centerY - y], getCurrentSelectedColor())
-        }
-        if (centerX + y >= 0 && centerX + y < rows && centerY - x >= 0 && centerY - x < cols) {
-            setCellColor(array2D[centerX + y][centerY - x], getCurrentSelectedColor())
-        }
-
-        y++;
-
-        if (radiusError < 0) {
-            radiusError += 2 * y + 1;
-        } else {
-            x--;
-            radiusError += 2 * (y - x + 1);
+        if (cx + x >= 0 && cx + x < rows && cy + y >= 0 && cy + y < cols)
+            setCellColor(matrix[cx + x][cy + y], getCurrentSelectedColor())
+        if (cx + y >= 0 && cx + y < rows && cy + x >= 0 && cy + x < cols)
+            setCellColor(matrix[cx + y][cy + x], getCurrentSelectedColor())
+        if (cx - x >= 0 && cx - x < rows && cy + y >= 0 && cy + y < cols)
+            setCellColor(matrix[cx - x][cy + y], getCurrentSelectedColor())
+        if (cx - y >= 0 && cx - y < rows && cy + x >= 0 && cy + x < cols)
+            setCellColor(matrix[cx - y][cy + x], getCurrentSelectedColor())
+        if (cx - x >= 0 && cx - x < rows && cy - y >= 0 && cy - y < cols)
+            setCellColor(matrix[cx - x][cy - y], getCurrentSelectedColor())
+        if (cx - y >= 0 && cx - y < rows && cy - x >= 0 && cy - x < cols)
+            setCellColor(matrix[cx - y][cy - x], getCurrentSelectedColor())
+        if (cx + x >= 0 && cx + x < rows && cy - y >= 0 && cy - y < cols)
+            setCellColor(matrix[cx + x][cy - y], getCurrentSelectedColor())
+        if (cx + y >= 0 && cx + y < rows && cy - x >= 0 && cy - x < cols)
+            setCellColor(matrix[cx + y][cy - x], getCurrentSelectedColor())
+        y++
+        if (radiusError < 0) radiusError += 2 * y + 1;
+        else {
+            x--
+            radiusError += 2 * (y - x + 1)
         }
     }
 }
@@ -320,33 +256,6 @@ function hideAllShapeSettings() {
     for (let i = 0; i < shapeSettings.length; i++) {
         if (shapeSettings[i].classList.contains(ACTIVE_SHAPE_SETTING_CLASSNAME))
             shapeSettings[i].classList.remove(ACTIVE_SHAPE_SETTING_CLASSNAME)
-    }
-}
-
-function drawRoundedRectangle(startX, startY, width, height, borderRadius, array2D, fill = false) {
-    const rows = array2D.length;
-    const cols = array2D[0].length;
-
-    const endX = startX + width;
-    const endY = startY + height;
-
-
-    const clampedBorderRadius = Math.max(0, Math.min(borderRadius, 1));
-    const radiusX = clampedBorderRadius * width;
-    const radiusY = clampedBorderRadius * height;
-
-    for (let i = startX; i < endX; i++) {
-        for (let j = startY; j < endY; j++) {
-            if (
-                (i >= startX + radiusX && i < endX - radiusX && j >= startY && j < endY) ||
-                (i >= startX && i < endX && j >= startY + radiusY && j < endY - radiusY) ||
-                (Math.pow((i - startX - radiusX) / radiusX, 2) + Math.pow((j - startY - radiusY) / radiusY, 2) >= 1)
-            ) {
-                if (fill) {
-                    setCellColor(array2D[i][j], getCurrentSelectedColor());
-                }
-            }
-        }
     }
 }
 
@@ -419,7 +328,7 @@ function updateSelectionUI() {
         selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null);
         selectionImageShowers[i].style.border = "1px solid black";
     }
-    id("selection-size").textContent = `(h:${selectedPart.length},w:${selectedPart[0].length})`
+    id("selection-size").textContent = `(h:${selectedPart.length}, w:${selectedPart[0].length})`
 }
 
 
@@ -438,13 +347,12 @@ function checkAllElementsEqual(array, value) {
 }
 
 function shrink(matrix, color = "#00000000") {
+    if (matrix.length == 0) return [["#00000000"]]
     let toPopTop = checkAllElementsEqual(matrix[0], color)
     let toPopBottom = checkAllElementsEqual(matrix[matrix.length - 1], color)
     let toPopLeft = checkAllElementsEqual(matrix.map(row => row[0]), color)
     let toPopRight = checkAllElementsEqual(matrix.map(row => row[row.length - 1]), color)
-
     if (!(toPopBottom || toPopTop || toPopLeft || toPopRight)) return matrix;
-
     if (toPopTop) matrix.shift();
     if (toPopBottom) matrix.pop();
     if (toPopLeft) matrix = matrix.map(row => row.slice(1));
@@ -453,10 +361,19 @@ function shrink(matrix, color = "#00000000") {
 }
 
 id('shrink-selection').onclick = () => {
-    if (!selectedPart) {
-        customAlert("No Data Selected")
-        return
-    }
+    if (!selectedPart) return
     selectedPart = shrink(selectedPart)
+    updateSelectionUI()
+}
+
+id("flip-selection-horizontally").onclick = () => {
+    if (!selectedPart) return
+    for (let i = 0; i < selectedPart.length; i++) selectedPart[i].reverse()
+    updateSelectionUI()
+}
+
+id("flip-selection-vertically").onclick = () => {
+    if (!selectedPart) return
+    selectedPart.reverse()
     updateSelectionUI()
 }

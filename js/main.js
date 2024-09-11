@@ -276,7 +276,7 @@ function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {
         let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
         if (stopperColor == currentColor) return
         if (mode == "color-changes" && currentColor != centerColor) return
-        if(flow && mainCall) fillCol(x, y, false)
+        if (flow && mainCall) fillCol(x, y, false)
         else setCellColor(cell, getCurrentSelectedColor());
     }
 }
@@ -290,7 +290,7 @@ function fillColCellsInRange(x, start, end, step, centerColor, mainCall) {
         let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
         if (stopperColor == currentColor) return
         if (mode == "color-changes" && currentColor != centerColor) return
-        if(flow && mainCall) fillRow(y, x, false)
+        if (flow && mainCall) fillRow(y, x, false)
         else setCellColor(cell, getCurrentSelectedColor());
     }
 }
@@ -544,25 +544,8 @@ function updateCopyTargetString() {
 
 updateCopyTargetString()
 
-
-
-
-replaceButton.onclick = replace
-
-
-function replace(ignore) {
-    for (let i = 0; i < paintCells.length; i++) {
-        let currentColor = rgbToHex(getComputedStyle(paintCells[i]).getPropertyValue("background-color"))
-        if (matchHexColors(targetColor, currentColor, colorMatchThresholdSlider.value))
-            setCellColor(paintCells[i], replaceWithNormalCheckbox.checked ? getCurrentSelectedColor() : replacementColor)
-    }
-    recordPaintData()
-}
-
 function changeCellBorderColor(color) {
-    for (let i = 0; i < paintCells.length; i++) {
-        paintCells[i].style.borderColor = color
-    }
+    for (let i = 0; i < paintCells.length; i++) paintCells[i].style.borderColor = color
 }
 
 colorMatchThresholdSlider.addEventListener("input", () => {
@@ -575,9 +558,7 @@ rotateClockwise.onclick = () => {
     recordPaintData()
 }
 
-
 // Pallette 
-
 function getPaletteHTML(color, defaultPallette = false) {
     let classString = defaultPallette ? "default-pallette" : ""
     return `<div style="background:${color}" onclick="selectPalletteColor(this, '${color}')" class="${classString} pallate-color"></div>`
@@ -600,9 +581,7 @@ function selectPalletteColor(palletteElem, color) {
 }
 
 function removePalletteSelectionHint() {
-    for (let i = 0; i < pallateColors.length; i++) {
-        pallateColors[i].style.borderTopWidth = "1px"
-    }
+    for (let i = 0; i < pallateColors.length; i++) pallateColors[i].style.borderTopWidth = "1px"
 }
 
 
@@ -641,52 +620,29 @@ id("guide-cell-border-selector-hex").addEventListener("input", function () {
 })
 
 id("export-cell-border-selector-hex").addEventListener("input", function () {
-    if (validateHex(this.value)) {
-        cellBorderColorSelector.value = this.value
-    }
+    if (validateHex(this.value)) cellBorderColorSelector.value = this.value
 })
 
 
-function imageToPixeArtData(image, width, height) {
-    // create a new canvas element
+function imageToPixeArtData(img, w, h) {
     const canvas = document.createElement('canvas');
-
-    // set the canvas dimensions to match the desired dimensions
-    canvas.width = width;
-    canvas.height = height;
-
-    // get the canvas context
-    const context = canvas.getContext('2d');
-    context.imageSmoothingEnabled = document.getElementById("image-to-pixel-art-image-smoothening-enabled").checked
-    // draw the image on the canvas
-    context.drawImage(image, 0, 0, width, height);
-
-    // get the pixel data from the canvas
-    const imageData = context.getImageData(0, 0, width, height);
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = id("image-to-pixel-art-image-smoothening-enabled").checked
+    ctx.drawImage(img, 0, 0, w, h);
+    const imageData = ctx.getImageData(0, 0, w, h);
     const pixels = imageData.data;
-
-    // create a 2D array to hold the pixel data with hex color values
-    const pixelArray = [];
-
-    // loop through the pixels and create a 2D array of hex color values
-    for (let y = 0; y < height; y++) {
+    const pixelArtArray = [];
+    for (let y = 0; y < h; y++) {
         const row = [];
-        for (let x = 0; x < width; x++) {
-            const index = (y * width + x) * 4;
-            const r = pixels[index];
-            const g = pixels[index + 1];
-            const b = pixels[index + 2];
-            const a = pixels[index + 3];
-
-            // convert the RGB values to a hex color value
-            const hexColor = ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
-            row.push("#" + hexColor);
+        for (let x = 0; x < w; x++) {
+            let i = (y * w + x) * 4;
+            row.push(rgbaToHex(`rgba(${pixels[i]}, ${pixels[i + 1]}, ${pixels[i + 2]}, ${pixels[i + 3]})`))
         }
-        pixelArray.push(row);
+        pixelArtArray.push(row);
     }
-
-    // return the 2D array of pixel data with hex color values
-    return pixelArray.flat();
+    return pixelArtArray.flat();
 }
 
 
@@ -777,6 +733,4 @@ setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-re
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
 
 
-id("top-reload").onclick = () => {
-    window.location.reload()
-}
+id("top-reload").onclick = () => window.location.reload()

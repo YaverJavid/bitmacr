@@ -61,6 +61,7 @@ paintZone.addEventListener('touchmove', (event) => {
         switch (paintModeSelector.value) {
             case "zoom":
             case "selecting":
+                if(paintModeSelector.value == "zoom" && zoomedIn) break
                 paintZonePosition = paintZone.getBoundingClientRect()
                 correctedStartingY = startingCoords.y - paintZonePosition.y
                 correctedStartingX = startingCoords.x - paintZonePosition.x
@@ -101,7 +102,6 @@ paintZone.addEventListener('touchmove', (event) => {
                 if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
                 let circleX, circleY
                 if (fixedRadius.checked) {
-
                     currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
                     circleX = Math.floor(currentCellIndex / cols);
                     circleY = currentCellIndex % cols
@@ -121,7 +121,6 @@ paintZone.addEventListener('touchmove', (event) => {
                 break;
             case "triangle":
                 currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                let tx = Math.floor(currentCellIndex / cols);
                 let ty = currentCellIndex % cols
                 drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
                 break;
@@ -129,23 +128,21 @@ paintZone.addEventListener('touchmove', (event) => {
                 drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
                 break;
             case 'rect':
+                let bx, by, h, w
                 if (fixedRectSize.checked) {
-                    currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
-                    gridX = Math.floor(currentCellIndex / cols);
-                    gridY = currentCellIndex % cols
-                    drawRectangle(gridY, gridX, parseInt(fixedRectWidth.value), parseInt(fixedRectHeight.value), paintCells2d, fillRect.checked)
+                    cellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+                    bx = cellIndex % cols
+                    by = Math.floor(cellIndex / cols);
+                    w = parseInt(fixedRectWidth.value)
+                    h = parseInt(fixedRectHeight.value)
                 } else {
-                    drawRectangle(
-                        startingCoords.gridY,
-                        startingCoords.gridX,
-                        fixedRectSize.checked ? parseInt(fixedRectWidth.value) : dx,
-                        fixedRectSize.checked ? parseInt(fixedRectHeight.value) : dy,
-                        paintCells2d,
-                        fillRect.checked
-                    )
-
+                    bx = startingCoords.gridY
+                    by = startingCoords.gridX
+                    w = dx
+                    h = dy
                 }
-                break;
+                drawRectangle(bx, by, w, h, paintCells2d, fillRect.checked)
+                break
             case 'line':
                 if (currentCell.classList[0] != "cell") return
                 currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
@@ -187,10 +184,7 @@ paintZone.addEventListener('touchend', (event) => {
     } else if (paintModeSelector.value == "zoom") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")
-        if (zoomedIn){
-            customAlert("Already Zoomed In... Try Zooming Out First...")
-            return
-        }
+        if (zoomedIn) return
         zoomOriginY = selectionCoords.ybr
         zoomOriginX = selectionCoords.xbr
         fullCols = cols

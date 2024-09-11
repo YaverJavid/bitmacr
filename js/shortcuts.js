@@ -25,10 +25,12 @@ document.addEventListener("keydown", function (event) {
         } else if (event.key == "p") {
             id('select-color').checked = !id('select-color').checked
             id('select-color').oninput()
+        } else if (event.key == "d") {
+           endProcess()
         }
     }
 });
 
 
 
-// tdcoqxfghz
+// tcoqxfghz
