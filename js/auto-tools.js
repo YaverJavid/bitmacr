@@ -9,13 +9,13 @@ id("image-pixelart-to-pixel").addEventListener("input", function (event) {
             let ctx = canvas.getContext("2d")
             ctx.imageSmoothingEnabled = false
             ctx.drawImage(img, 0, 0)
-            let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);      
-            let pixelSize = findShortestStreak(imgd) 
-            
-            let ph = Math.round(img.height/pixelSize) 
-            let pw = Math.round(img.width/pixelSize) 
+            let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let pixelSize = getMinContinuousStreak(imgd)
+
+            let ph = Math.round(img.height / pixelSize)
+            let pw = Math.round(img.width / pixelSize)
             let th = parseInt(id("auto-size-detection-threshold").value)
-            
+
             if (pw > (MAX_CANVAS_DIMENSION + 20) || ph > (MAX_CANVAS_DIMENSION + 20)) {
                 customAlert(`Dimension Greater Than Supported! (${pw}:${ph})`)
                 return
@@ -41,79 +41,47 @@ id("auto-size-detection-threshold").oninput = () => {
     id("auto-size-detection-threshold-shower").innerHTML = `(${id("auto-size-detection-threshold").value})`
 }
 
-function findShortestStreak(imageData) {
+function getMinContinuousStreak(imageData) {
     const { data, width, height } = imageData;
-    
-    // Helper function to convert pixel data to a 2D array of colors
-    function getColorMatrix() {
-        const matrix = [];
-        for (let y = 0; y < height; y++) {
-            const row = [];
-            for (let x = 0; x < width; x++) {
-                const index = (y * width + x) * 4;
-                row.push([
-                    data[index],     // Red
-                    data[index + 1], // Green
-                    data[index + 2], // Blue
-                    data[index + 3]  // Alpha
-                ]);
-            }
-            matrix.push(row);
-        }
-        return matrix;
-    }
+    let minStreak = Infinity; // Initialize with Infinity to find the minimum
 
-    // Helper function to find the shortest streak in a line of colors
-    function getShortestStreak(line) {
-        let minStreak = Infinity;
-        let currentColor = line[0];
-        let currentStreak = 1;
+    // Function to get color as a single value
+    const getColor = (r, g, b, a) => (r << 24) | (g << 16) | (b << 8) | a;
 
-        for (let i = 1; i < line.length; i++) {
-            if (line[i][0] === currentColor[0] &&
-                line[i][1] === currentColor[1] &&
-                line[i][2] === currentColor[2] &&
-                line[i][3] === currentColor[3]) {
+    // Iterate over each horizontal line
+    for (let y = 0; y < height; y++) {
+        let currentColor = null;
+        let currentStreak = 0;
+        let localMinStreak = Infinity;
+
+        // Iterate over each pixel in the horizontal line
+        for (let x = 0; x < width; x++) {
+            const index = (y * width + x) * 4;
+            const r = data[index];
+            const g = data[index + 1];
+            const b = data[index + 2];
+            const a = data[index + 3];
+            const color = getColor(r, g, b, a);
+
+            if (color === currentColor) {
                 currentStreak++;
             } else {
-                if (currentStreak > 1 && currentStreak < minStreak) {
-                    minStreak = currentStreak;
+                if (currentStreak > 0) {
+                    localMinStreak = Math.min(localMinStreak, currentStreak);
                 }
-                currentColor = line[i];
+                currentColor = color;
                 currentStreak = 1;
             }
         }
 
-        // Check the last streak
-        if (currentStreak > 1 && currentStreak < minStreak) {
-            minStreak = currentStreak;
+        // Check the last streak in the line
+        if (currentStreak > 0) {
+            localMinStreak = Math.min(localMinStreak, currentStreak);
         }
 
-        return minStreak === Infinity ? 0 : minStreak;
+        // Update the global minimum streak
+        minStreak = Math.min(minStreak, localMinStreak);
     }
 
-    const matrix = getColorMatrix();
-    let overallMinStreak = Infinity;
-
-    // Check rows
-    for (let i = 0; i < height; i++) {
-        const rowStreak = getShortestStreak(matrix[i]);
-        if (rowStreak < overallMinStreak) {
-            overallMinStreak = rowStreak;
-        }
-    }
-
-    // Check columns
-    for (let j = 0; j < width; j++) {
-        let column = [];
-        for (let i = 0; i < height; i++) {
-            column.push(matrix[i][j]);
-        }
-        const colStreak = getShortestStreak(column);
-        if (colStreak < overallMinStreak) {
-            overallMinStreak = colStreak;
-        }
-    }
-
-    return overallMinStreak === Infinity ? 0 : (overallMinStreak + 1)
+    return minStreak === Infinity ? 0 : minStreak; // Return 0 if no streak was found
 }

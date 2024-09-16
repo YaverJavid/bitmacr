@@ -88,5 +88,5 @@ id("export-sprite").onclick = ()=>{
         frames.push(img)
     }
     let sprite = toSprite(...frames)
-    downloadImage(sprite)
+    downloadImage(sprite, `pixmacr-sprite[${frames.length}frames]`)
 }

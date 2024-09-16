@@ -104,8 +104,8 @@ let pasteOffset = 0
 function copy(zoom = false) {
     let xtl = selectionCoords.xtl,
         ytl = selectionCoords.ytl,
-        ybr = selectionCoords.ybr,
-        xbr = selectionCoords.xbr,
+        ybr = selectionCoords.ybr ,
+        xbr = selectionCoords.xbr ,
         array = toPaintData2D(buffer.getItem().slice()),
         result = [],
         w = xbr - xtl,
@@ -308,13 +308,13 @@ function zoomOut() {
     fullBuffer.pointer = originalSnapshot.pointer
     applySelectedPartSilent(toPaintData2D(fullBuffer.getItem(), fullRows, fullCols))
     buffer = fullBuffer
-    let paintCells = document.querySelectorAll(".cell")
-    let paintCells2d = []
-    for (let i = 0; i < paintCells.length; i++) {
-        paintCells2d.push(paintCells[i])
+    let  cells = document.querySelectorAll(".cell")
+    let  cells2d = []
+    for (let i = 0; i <  cells.length; i++) {
+         cells2d.push( cells[i])
     }
-    paintCells2d = toPaintData2D(paintCells2d, fullRows, fullCols)
-    paste(zoomOriginX, zoomOriginY, partToPaste, paintCells2d, true)
+     cells2d = toPaintData2D( cells2d, fullRows, fullCols)
+    paste(zoomOriginX, zoomOriginY, partToPaste,  cells2d, true)
     recordPaintData()
     sessions[currentSession].buffer = buffer
     for (let i = 0; i < zoomOutButtons.length; i++) {

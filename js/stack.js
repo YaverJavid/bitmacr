@@ -1,5 +1,5 @@
 class Stack {
-    constructor(limit = 64) {
+    constructor(limit = 1024) {
         this.data = []
         this.limit = limit
         this.pointer = -1

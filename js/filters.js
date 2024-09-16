@@ -6,7 +6,7 @@ function filterCanvas(filterFunction, ...args) {
     for (let i = 0; i < currentPaintData.length; i++) {
         let colorObj = convertRGBAStrToObj(currentPaintData[i])
         if (colorObj.a === undefined) colorObj.a = 1
-        setCellColor(paintCells[i], colorObjectToRGBA(filterFunction(colorObj, i, ...args)))
+        setCellColor( cells[i], colorObjectToRGBA(filterFunction(colorObj, i, ...args)))
 
     }
     recordPaintData()
@@ -366,22 +366,22 @@ function calculateMotionBlurWeights(blurRadius, kernelSize, direction) {
 
 id("filter-box-blur").onclick = () => {
     let blurredData = boxBlur(buffer.getItem().slice(), cols, rows, id("box-blur-radius").value)
-    applyPaintData(blurredData)
+    applyPaintData(blurredData, false)
     recordPaintData()
 }
 id("filter-gaussian-blur").onclick = () => {
     let blurredData = gaussianBlur(buffer.getItem().slice(), cols, rows, id("gaussian-blur-radius").value)
-    applyPaintData(blurredData)
+    applyPaintData(blurredData, false)
     recordPaintData()
 }
 id("filter-motion-blur").onclick = () => {
     let blurredData = motionBlur(buffer.getItem().slice(), cols, rows, parseInt(id("motion-blur-radius").value), id("motion-blur-direction").value)
-    applyPaintData(blurredData)
+    applyPaintData(blurredData, false)
     recordPaintData()
 }
 id("filter-sharpen").onclick = () => {
     let filteredData = sharpen(buffer.getItem().slice(), cols, rows)
-    applyPaintData(filteredData)
+    applyPaintData(filteredData, false)
     recordPaintData()
 }
 

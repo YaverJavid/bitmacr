@@ -102,7 +102,7 @@ function getCurrentSelectedColor(preview = false) {
         color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value));
     else if (colorMods == "palette")
         color = rgbToHex(window.getComputedStyle(paletteCS.selected).getPropertyValue("background"))
-    else if (colorMods == "lighting"){
+    else if (colorMods == "lighting") {
         return id("lighting-object-type").value
     }
     else if (colorMods == "formula") {
@@ -215,11 +215,15 @@ var skips = 0
 var fillCounts = 1
 
 function setCellColor(cellElem, color) {
-    if(id("dithering-mode").checked) {
+    if (id("dithering-mode").checked) {
         let row = y(cellElem.index)
         let col = x(cellElem.index)
-        if(row % 2 && col % 2) return
-        if(row % 2 == 0 && col % 2 == 0) return      
+        if (rows % 2 == cols % 2) {
+            if (row % 2 && col % 2) return
+            if (row % 2 == 0 && col % 2 == 0) return
+        } else{
+            if (cellElem.index % 2) return
+        }
     }
     if (fillAlternate.checked && skips > 0) {
         skips--;
@@ -249,15 +253,15 @@ onlyFillIfColorIsCheckbox.oninput = () => {
 }
 
 function fillCell(cellElem, color) {
-    if(['@bulb', '@barrier', '@none'].includes(color)){
+    if (['@bulb', '@barrier', '@none'].includes(color)) {
         cellElem.lightingObjectType = color
         cellElem.style.backgroundSize = "100% 100%"
-        if(lightingObjectsHidden) return
+        if (lightingObjectsHidden) return
         let iconPath
-        if(color == '@bulb') iconPath = "url(icons/lighting/bulb.png)"
-        else if(color == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
-        else if(color == '@none') iconPath = "none"
-        cellElem.style.backgroundImage = iconPath     
+        if (color == '@bulb') iconPath = "url(icons/lighting/bulb.png)"
+        else if (color == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
+        else if (color == '@none') iconPath = "none"
+        cellElem.style.backgroundImage = iconPath
         return
     }
     let currentColor = rgbaToHex(window.getComputedStyle(cellElem).getPropertyValue('background-color'))
@@ -278,7 +282,6 @@ function fillCell(cellElem, color) {
         }
     }
     cellElem.style.backgroundColor = color
-    if (id("add-frame-after-every-color-change").checked) addFrame()
 }
 
 function checkIfColorInArray(array, color, th = 100) {
@@ -296,7 +299,7 @@ flipFillOnlyIfType.onclick = () => {
 }
 
 onlyFillMatchingThreshold.oninput = () => {
-    id("only-fill-matching-threshold-shower").textContent =  `(${onlyFillMatchingThreshold.value})`
+    id("only-fill-matching-threshold-shower").textContent = `(${onlyFillMatchingThreshold.value})`
 }
 
 setupNumInputWithButtons(id("minus-fill-count"), id("plus-fill-count"), fillCount, 1, 1, false)

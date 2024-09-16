@@ -13,11 +13,11 @@ paintZone.addEventListener('touchstart', (event) => {
     startingCoords.x = x
     startingCoords.y = y
     if (paintModeSelector.value == "line" && connectLastLineLocation.checked && lineLastCoords != {}) {
-        let paintCells2d = []
-        for (let i = 0; i < paintCells.length; i++)
-            paintCells2d.push(paintCells[i])
-        paintCells2d = toPaintData2D(paintCells2d)
-        drawLine(paintCells2d, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX)
+        let cells2D = []
+        for (let i = 0; i < cells.length; i++)
+            cells2D.push(cells[i])
+        cells2D = toPaintData2D(cells2D)
+        drawLine(cells2D, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX)
         recordPaintData()
     }
     else if (paintModeSelector.value == "line-stroke") isStartOfLineStroke = true
@@ -38,16 +38,16 @@ paintZone.addEventListener('touchmove', (event) => {
     const touch = targetTouches[0];
     const x = touch.clientX
     const y = touch.clientY
-    let paintCells2d = []
+    let cells2d = []
     if (paintModeSelector.value != "line-stroke") {
-        for (let i = 0; i < paintCells.length; i++) {
-            paintCells[i].style.backgroundColor = buffer.getItem()[i]
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].style.backgroundColor = buffer.getItem()[i]
         }
     }
-    for (let i = 0; i < paintCells.length; i++) {
-        paintCells2d.push(paintCells[i])
+    for (let i = 0; i < cells.length; i++) {
+        cells2d.push(cells[i])
     }
-    paintCells2d = toPaintData2D(paintCells2d)
+    cells2d = toPaintData2D(cells2d)
     const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width")
     const cw = (parseFloat(paintZoneWidth) / cols)
     let dx = Math.ceil(Math.abs(startingCoords.x - x) / cw)
@@ -92,7 +92,7 @@ paintZone.addEventListener('touchmove', (event) => {
                 currentGridX + selectedPart[0].length,
                 currentGridY + selectedPart.length,
                 selectedPart,
-                paintCells2d
+                cells2d
             )
             break;
         case 'circle':
@@ -106,21 +106,21 @@ paintZone.addEventListener('touchmove', (event) => {
                 circleY = startingCoords.gridY + radius
             }
             if (circleAlgorithm.value == "accurate") {
-                drawCircle(circleX, circleY, radius, paintCells2d, fillCircle.checked)
+                drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
             } else if (circleAlgorithm.value == "natural") {
                 if (fillCircle.checked) {
-                    drawNaturalFilledCircle(circleX, circleY, radius, paintCells2d)
+                    drawNaturalFilledCircle(circleX, circleY, radius, cells2d)
                 } else {
-                    drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
+                    drawNaturalStrokeCircle(circleX, circleY, radius, cells2d)
                 }
             }
             break;
         case "triangle":
             let ty = currentCellIndex % cols
-            drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
+            drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, cells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
             break;
         case 'sphere':
-            drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
+            drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, cells2d)
             break;
         case 'rect':
             let bx, by, h, w
@@ -135,23 +135,23 @@ paintZone.addEventListener('touchmove', (event) => {
                 w = dx
                 h = dy
             }
-            drawRectangle(bx, by, w, h, paintCells2d, fillRect.checked)
+            drawRectangle(bx, by, w, h, cells2d, fillRect.checked)
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+            currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y))
             currentGridX = Math.floor(currentCellIndex / cols);
             currentGridY = currentCellIndex % cols
-            drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
+            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             currentGridX = Math.floor(currentCellIndex / cols)
             currentGridY = currentCellIndex % cols
             if (isStartOfLineStroke)
-                drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
             else
-                drawLine(paintCells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridX = currentGridX
             lastLineStrokeEndingCoords.gridY = currentGridY
@@ -193,7 +193,7 @@ paintZone.addEventListener('touchend', (event) => {
     else if (paintModeSelector.value == "line") {
         let x = event.changedTouches[event.changedTouches.length - 1].clientX
         let y = event.changedTouches[event.changedTouches.length - 1].clientY
-        currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y))
+        currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y))
         lineLastCoords.x = currentCellIndex % cols
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }

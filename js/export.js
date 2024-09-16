@@ -44,7 +44,7 @@ function exportImage(mini = false) {
         paintData = selectedPart
     }
     let dataUrl = colorDataToImage(paintData, cellBorderWidthSlider.value, cellBorderColorSelector.value, mini, id("export-res").value)
-    downloadImage(dataUrl, 'syn-pixmacr-yj.png')
+    downloadImage(dataUrl, `pixmacr-yj-[${paintData[0].length}_${paintData.length}]`)
 }
 
 function createSVGFromArray(colorArray, pixelSize) {

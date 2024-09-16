@@ -1,8 +1,8 @@
 replaceButton.onclick = ()=> {
-    for (let i = 0; i < paintCells.length; i++) {
-        let currentColor = rgbToHex(getComputedStyle(paintCells[i]).getPropertyValue("background-color"))
+    for (let i = 0; i <  cells.length; i++) {
+        let currentColor = rgbToHex(getComputedStyle( cells[i]).getPropertyValue("background-color"))
         if (matchHexColors(targetColor, currentColor, colorMatchThresholdSlider.value))
-            setCellColor(paintCells[i], replaceWithNormalCheckbox.checked ? getCurrentSelectedColor() : replacementColor)
+            setCellColor( cells[i], replaceWithNormalCheckbox.checked ? getCurrentSelectedColor() : replacementColor)
     }
     recordPaintData()
 }

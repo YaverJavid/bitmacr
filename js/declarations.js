@@ -3,7 +3,7 @@
    ONLY SOME DECLARATIONS HERE
 */
 
-const paintCells = document.getElementsByClassName("cell"),
+const cells = document.getElementsByClassName("cell"),
     cellsSlider = id('cells-slider'),
     paintZone = id('paint-zone'),
     colorSelector = id('color-selector'),

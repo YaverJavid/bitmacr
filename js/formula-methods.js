@@ -8,7 +8,7 @@ const avgc = (r, g, b) => (r + g + b) / 3
 const y = pid => pid % rows
 const x = pid => Math.floor(pid / cols)
 const $ = id => colorFormulaVars[id]
-const fc = i => paintCells[i].onclick()
+const fc = i =>  cells[i].onclick()
 const pack = (x, y) => y * cols + x
 const first = (first, ...others) => first
 
@@ -24,10 +24,10 @@ function redo() {
 
 
 function drawWrapper(func, ...args) {
-    let paintCells2d = [];
-    for (let i = 0; i < paintCells.length; i++) paintCells2d.push(paintCells[i]);
-    paintCells2d = toPaintData2D(paintCells2d);
-    let returnee = func(paintCells2d, ...args)
+    let  cells2d = [];
+    for (let i = 0; i <  cells.length; i++)  cells2d.push( cells[i]);
+     cells2d = toPaintData2D( cells2d);
+    let returnee = func( cells2d, ...args)
     recordPaintData()
     return returnee
 }

@@ -99,8 +99,8 @@ let fillMissCount = 0
 
 function recordPaintData() {
     let data = []
-    for (let i = 0; i < paintCells.length; i++) {
-        data.push(window.getComputedStyle(paintCells[i]).getPropertyValue('background-color'))
+    for (let i = 0; i < cells.length; i++) {
+        data.push(window.getComputedStyle(cells[i]).getPropertyValue('background-color'))
     }
     let canvasData;
     let skipCheck = false
@@ -134,13 +134,13 @@ function recordPaintData() {
 function applyPaintData(data, simpleFill = true) {
     // simpleFill : IF IT IS UNDO OR REDO WE WANT TO DO A SIMPLE FILL
     if (simpleFill) {
-        for (var i = 0; i < paintCells.length; i++) {
-            paintCells[i].style.backgroundColor = data[i]
+        for (var i = 0; i < cells.length; i++) {
+            cells[i].style.backgroundColor = data[i]
         }
         return
     }
-    for (var i = 0; i < paintCells.length; i++) {
-        setCellColor(paintCells[i], data[i])
+    for (var i = 0; i < cells.length; i++) {
+        setCellColor(cells[i], data[i])
     }
 }
 
@@ -176,9 +176,9 @@ function addCanvas(argRows, argCols, clearStack = true) {
         rotateClockwise.disabled = false
     }
     canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
-    for (let i = 0; i < paintCells.length; i++) {
-        paintCells[i].index = i
-        paintCells[i].onclick = function () {
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].index = i
+        cells[i].onclick = function () {
             lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
             if (colorSelectionInProgress) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
@@ -202,14 +202,14 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     let y = Math.floor(i / cols)
                     let x = i % cols
                     if (!selectedPart) return
-                    let paintCells2d = []
-                    for (let i = 0; i < paintCells.length; i++) paintCells2d.push(paintCells[i])
-                    paintCells2d = toPaintData2D(paintCells2d);
+                    let cells2d = []
+                    for (let i = 0; i < cells.length; i++)  cells2d.push(cells[i])
+                    cells2d = toPaintData2D(cells2d);
                     paste(
                         x + selectedPart[0].length,
                         y + selectedPart.length,
                         selectedPart,
-                        paintCells2d
+                        cells2d
                     )
                     recordPaintData()
                 } else if (clickManagerCheckboxes.copyColorFromCellCheckbox.checked) {
@@ -260,12 +260,11 @@ function addCanvas(argRows, argCols, clearStack = true) {
 
 
         }
-        paintCells[i].style.borderColor = borderColor
+        cells[i].style.borderColor = borderColor
     }
     recordPaintData()
-    if (guideCheckbox.checked) addGuides()
     if (!borderCheckbox.checked) removeBorder()
-
+    if (guideCheckbox.checked) addGuides()
 }
 
 function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {
@@ -273,7 +272,7 @@ function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {
     let stopperColor = mode == 'hits-specific-color' ? id('hits-specific-color').value : 'NONE'
     let flow = id("flow-col-row-filling").checked
     for (let x = start; x != end; x += step) {
-        let cell = paintCells[pack(x, y)];
+        let cell = cells[pack(x, y)];
         let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
         if (stopperColor == currentColor) return
         if (mode == "color-changes" && currentColor != centerColor) return
@@ -287,7 +286,7 @@ function fillColCellsInRange(x, start, end, step, centerColor, mainCall) {
     let stopperColor = mode == 'hits-specific-color' ? id('hits-specific-color').value : 'NONE'
     let flow = id("flow-col-row-filling").checked
     for (let y = start; y != end; y += step) {
-        let cell = paintCells[pack(x, y)];
+        let cell = cells[pack(x, y)];
         let currentColor = rgbaToHex(window.getComputedStyle(cell).getPropertyValue('background-color'));
         if (stopperColor == currentColor) return
         if (mode == "color-changes" && currentColor != centerColor) return
@@ -297,14 +296,14 @@ function fillColCellsInRange(x, start, end, step, centerColor, mainCall) {
 }
 
 function fillRow(y, pivot, mainCall = true) {
-    let centerColor = rgbaToHex(window.getComputedStyle(paintCells[pack(pivot, y)]).getPropertyValue('background-color'));
+    let centerColor = rgbaToHex(window.getComputedStyle(cells[pack(pivot, y)]).getPropertyValue('background-color'));
     fillRowCellsInRange(y, pivot, cols, 1, centerColor, mainCall);
     fillRowCellsInRange(y, pivot - 1, -1, -1, centerColor, mainCall);
 }
 
 
 function fillCol(x, pivot, mainCall = true) {
-    let centerColor = rgbaToHex(window.getComputedStyle(paintCells[pack(x, pivot)]).getPropertyValue('background-color'));
+    let centerColor = rgbaToHex(window.getComputedStyle(cells[pack(x, pivot)]).getPropertyValue('background-color'));
     fillColCellsInRange(x, pivot, rows, 1, centerColor, mainCall)
     fillColCellsInRange(x, pivot - 1, -1, -1, centerColor, mainCall)
 }
@@ -358,8 +357,8 @@ for (let colorCopierCheckbox in clickManagerCheckboxes) {
 
 guideCellBorderColor.addEventListener("input", function () {
     borderColor = this.value
-    for (var i = 0; i < paintCells.length; i++) {
-        paintCells[i].style.borderColor = borderColor
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].style.borderColor = borderColor
     }
 })
 
@@ -387,14 +386,14 @@ function updateBorderStatus(borderStatus) {
     guideCellBorder2.checked = borderStatus
     if (borderStatus) {
         localStorageREF.setItem("bitmacr_border", "1")
-
-        for (var i = 0; i < paintCells.length; i++) {
-            paintCells[i].style.borderWidth = '0.5px'
+        for (var i = 0; i < cells.length; i++) {
+            cells[i].style.borderLeftWidth = '1px'
+            cells[i].style.borderTopWidth = '1px'
         }
     } else {
         localStorageREF.setItem("bitmacr_border", "0")
-        for (var i = 0; i < paintCells.length; i++) {
-            paintCells[i].style.borderWidth = '0'
+        for (var i = 0; i < cells.length; i++) {
+            cells[i].style.borderWidth = '0'
         }
     }
     if (guideCheckbox.checked) addGuides()
@@ -403,47 +402,35 @@ function updateBorderStatus(borderStatus) {
 function handleQuadrandGuideClick() {
     guideCheckbox.checked = this.checked
     guideCheckbox2.checked = this.checked
-    if (this.checked) {
-        addGuides()
-    } else {
-        if (borderCheckbox.checked) {
-            for (var i = 0; i < paintCells.length; i++) {
-                paintCells[i].style.border = `0.5px solid ${borderColor}`
-            }
-        } else {
-            for (var i = 0; i < paintCells.length; i++) {
-                paintCells[i].style.border = `0 solid ${borderColor}`
-            }
-        }
-    }
+    this.checked ? addGuides() : updateBorderStatus(borderCheckbox.checked);
 }
 
 
 
 function addGuides() {
     if (cols % 2 == 1) {
-        let paintCells2d = []
-        for (let i = 0; i < paintCells.length; i++)
-            paintCells2d.push(paintCells[i])
-        paintCells2d = toPaintData2D(paintCells2d)
-        for (let i = 0; i < paintCells2d.length; i++) {
-            let middleElementIndex = (paintCells2d[i].length - 1) / 2
-            paintCells2d[i][middleElementIndex].style.borderRight = `1px dashed ${borderColor}`
-            paintCells2d[i][middleElementIndex].style.borderLeft = `1px dashed ${borderColor}`
+        let cells2d = []
+        for (let i = 0; i < cells.length; i++)
+            cells2d.push(cells[i])
+        cells2d = toPaintData2D(cells2d)
+        for (let i = 0; i < cells2d.length; i++) {
+            let middleElementIndex = (cells2d[i].length - 1) / 2
+            cells2d[i][middleElementIndex].style.borderRight = `1px dashed ${borderColor}`
+            cells2d[i][middleElementIndex].style.borderLeft = `1px dashed ${borderColor}`
         }
-        let middlePaintCellsArray = paintCells2d[(paintCells2d.length - 1) / 2]
-        for (let i = 0; i < middlePaintCellsArray.length; i++) {
-            middlePaintCellsArray[i].style.borderTop = `1px dashed ${borderColor}`
-            middlePaintCellsArray[i].style.borderBottom = `1px dashed ${borderColor}`
+        let middleCellsArray = cells2d[(cells2d.length - 1) / 2]
+        for (let i = 0; i < middleCellsArray.length; i++) {
+            middleCellsArray[i].style.borderTop = `1px dashed ${borderColor}`
+            middleCellsArray[i].style.borderBottom = `1px dashed ${borderColor}`
         }
         return
     }
-    for (var i = 0; i < paintCells.length; i += (cols / 2)) {
-        paintCells[i].style.borderLeft = `1px dashed ${borderColor}`
+    for (var i = 0; i < cells.length; i += (cols / 2)) {
+        if (i % cols) cells[i].style.borderLeft = 'thin dotted ' + borderColor
     }
     let j = 0;
-    for (var i = (cols * (cols / 2)); i < paintCells.length; i++) {
-        paintCells[i].style.borderTop = `1px dashed ${borderColor}`
+    for (var i = (cols * (rows / 2)); i < cells.length; i++) {
+        cells[i].style.borderTop = 'thin dotted ' + borderColor
         j++
         if (j == cols) break
     }
@@ -451,15 +438,11 @@ function addGuides() {
 
 
 function removeBorder() {
-    for (var i = 0; i < paintCells.length; i++) {
-        paintCells[i].style.borderWidth = '0'
-    }
+    for (var i = 0; i < cells.length; i++) cells[i].style.borderWidth = '0'
 }
 
 
-cellBorderWidthSlider.addEventListener("input", () => {
-    cellBorderWidthShower.innerHTML = `(${cellBorderWidthSlider.value})`
-})
+cellBorderWidthSlider.oninput = () => cellBorderWidthShower.innerHTML = `(${cellBorderWidthSlider.value})`
 
 function packQuadrants(quadrant1, quadrant2, quadrant3, quadrant4) {
     var packedArray = [];
@@ -546,7 +529,7 @@ function updateCopyTargetString() {
 updateCopyTargetString()
 
 function changeCellBorderColor(color) {
-    for (let i = 0; i < paintCells.length; i++) paintCells[i].style.borderColor = color
+    for (let i = 0; i < cells.length; i++) cells[i].style.borderColor = color
 }
 
 colorMatchThresholdSlider.addEventListener("input", () => {

@@ -18,7 +18,7 @@ traceImageOpacity.oninput = ()=>{
     root.style.setProperty("--trace-image-opacity", traceImageOpacity.value + "%")
 }
 paintZoneOpacity.oninput = ()=>{
-    for (let i = 0; i < paintCells.length; i++) {
-        paintCells[i].style.opacity = paintZoneOpacity.value + "%"
+    for (let i = 0; i <  cells.length; i++) {
+         cells[i].style.opacity = paintZoneOpacity.value + "%"
     }
 }

@@ -98,7 +98,7 @@
             Channel : </label>
         <input type="checkbox" id="invert-b-channel" checked>
         <br>
-        <label for="invert-b-channel">Invert Alpha Channel : </label>
+        <label for="invert-a-channel">Invert Alpha Channel : </label>
         <input type="checkbox" id="invert-a-channel">
     </dialog>
     <dialog id="simplifyColorsSettings">
@@ -189,7 +189,7 @@
             <input type="button" value="CLOSE">
         </div><br>
         <label for="light-intensity">Intensity : </label>
-        <input type="number"  id="light-intensity" value="5" placeholder="Enter Ideally 0-10">
+        <input type="number" id="light-intensity" value="5" placeholder="Enter Ideally 0-10">
         <br>
         <label for="light-color">Light Color : </label>
         <input type="color" id="light-color" value="#ffffff">
@@ -205,11 +205,76 @@
             <option value="inverse-square">Inverse Square</option>
         </select>
         <br>
+        <label for="illuminate-bulb-pixel">Illuminate the Bulb Pixel : </label>
+        <input type="checkbox"  id="illuminate-bulb-pixel" checked>
+        <br>
         <label for="auto-ghost-color-elimination-post-lighting">Auto Apply Ghost Color Filter : </label>
         <input type="checkbox" id="auto-ghost-color-elimination-post-lighting" checked>
         <hr>
     </dialog>
-    <!--dialogs end-->
+    <dialog id="preferences" style="width:400px; max-width: 90wv;">
+        <div class="close-container">
+            <h3>Preferences</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <div class="switch-container">
+            <label for="auto-save">Auto Save Sessions</label>
+            <label class="switch">
+                <input type="checkbox" id="auto-save" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <br>
+        <div class="switch-container">
+            <label for="add-new-session-on-opening">Add New Session On Opening </label>
+            <label class="switch">
+                <input type="checkbox" id="add-new-session-on-opening">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <br>
+        <hr>
+        <h5>Following Settings Require a Reload To Apply: </h5>
+        <label for="max-allowed-canvas-size">Max C. Size (max:250) : </label>
+        <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px" placeholder="(100)">
+        <br>
+        <label for="browser-selector">Browser: </label>
+        <select id="browser-selector" class="right-flat">
+            <option value="IOS.SAFARI">Safari (iOS)</option>
+            <option value="IOS.WV">WebView (iOS)</option>
+            <option value="AOS.WV">WebView (Android)</option>
+            <option value="AOS.CHROME">Chrome (Android)</option>
+            <option value="AOS.FIREFOX">Firefox (Android)</option>
+            <option value="AOS.EDGE">Edge (Android)</option>
+            <option value="AOS.OTHER">Other (Android)</option>
+            <option value="DESKTOP.CHROME">Chrome (Desktop)</option>
+            <option value="DESKTOP.FIREFOX">Firefox (Desktop)</option>
+            <option value="DESKTOP.EDGE">Edge (Desktop)</option>
+            <option value="DESKTOP.SAFARI">Safari (Desktop)</option>
+            <option value="DESKTOP.OTHER">Other (Desktop)</option>
+        </select>
+        <input type="button" value="Auto" class="left-flat" id="reset-browser-type">
+    </dialog>
+    <dialog id="animationOptions">
+        <div class="close-container">
+            <h3>Animation Options</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <h3 data-type="hidden-tab" data-tabname="anim-options">Animation Options</h3>
+        <br>
+        <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
+        <input type="checkbox" id="auto-trace-last-frame">
+        <br>
+        <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
+        <input type="checkbox" id="auto-fallback-to-background" checked>
+        <br>
+        <img src="" id="animation-background-shower" class="image">
+        <br>
+        <br>
+        <br>
+        <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
+    </dialog>
+
     <br>
     <div id="logo-sessions-container">
         <div id="sessions-section">
@@ -316,7 +381,8 @@
                                     <input type="button" value="Hide Objects" id="hide-lighting-objects">
                                     <br>
                                     <input type="button" value="Apply Light" id="apply-light" class="right-flat">
-                                    <input type="button" value="..." class="left-flat" onclick="lightingSettings.showModal()">
+                                    <input type="button" value="..." class="left-flat"
+                                        onclick="lightingSettings.showModal()">
                                 </div>
                                 <div data-csname="formula">
                                     <div id="vars-section">
@@ -332,12 +398,14 @@
                                     </select>
                                     <div id="color-formula-inputs-container">
                                         <div data-cfinputname="hsl">
-                                            HSL(<input type="text" id="cf-hsl-hue" class="small-input">, <input type="text"
-                                                id="cf-hsl-saturation" class="small-input">, <input type="text" id="cf-hsl-lightness" class="small-input">)
+                                            HSL(<input type="text" id="cf-hsl-hue" class="small-input">, <input
+                                                type="text" id="cf-hsl-saturation" class="small-input">, <input
+                                                type="text" id="cf-hsl-lightness" class="small-input">)
                                         </div>
                                         <div data-cfinputname="rgb" class="active-cf-input">
-                                            RGB(<input type="text" id="cf-rgb-r" class="small-input">, <input type="text"
-                                                id="cf-rgb-g" class="small-input">,<input type="text" id="cf-rgb-b" class="small-input">)
+                                            RGB(<input type="text" id="cf-rgb-r" class="small-input">, <input
+                                                type="text" id="cf-rgb-g" class="small-input">,<input type="text"
+                                                id="cf-rgb-b" class="small-input">)
                                         </div>
                                     </div>
                                     <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
@@ -401,9 +469,6 @@
                             <input type="range" step="0.1" max="1" min="0" value="1" id="opacity">
                             <span id="opacity-shower">(1)</span>
                             <br>
-                            <label for="dithering-mode">Dithering Mode : </label>
-                            <input type="checkbox" id="dithering-mode">
-                            <br>
                             <input type="button" id="clear-button" value="Clear All">
                             <input type="button" id="fill-all-button" value="Fill All">
                             <input type="button" id="rotate-clockwise-button" value="Rotate 90&deg;">
@@ -460,7 +525,8 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas Manipulation</h3><br>
+                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas
+                                Manipulation</h3><br>
                             <input type="button" id="shift-up" value="Shift Up"> <br>
                             <input type="button" id="shift-right" value="Shift Right" style="margin-right: 0.7lh">
                             <input type="button" id="shift-left" value="Shift Left"> <br>
@@ -505,6 +571,9 @@
                             <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
                             <span id="only-fill-matching-threshold-shower">(0)</span>
                             <hr><br>
+                            <label for="dithering-mode">Dithering Mode : </label>
+                            <input type="checkbox" id="dithering-mode">
+                            <br>
                             <label for="slight-variations-checkbox">Slight Variations In Color : </label>
                             <input type="checkbox" id="slight-variations-checkbox">
                             <input type="button" value=". . ." onclick="variationSettings.showModal()"
@@ -816,7 +885,8 @@
                             <input type="button" value="Apply Filter" id="apply-custom-filter">
                             <br>
                             <span>
-                                &#9432; Add formula which you want your r, g, b, a's to be replaced with. `r`, `g` `b` & `a`
+                                &#9432; Add formula which you want your r, g, b, a's to be replaced with. `r`, `g` `b` &
+                                `a`
                                 are their original values for each pixel.
                             </span>
                         </div>
@@ -879,8 +949,7 @@
                             <input type="range" min="0" max="225" value="0" id="color-match-threshold-range">
                             <span id="threshold-shower">(0)</span>
                             <br> <input type="button" value="Replace" id="replace-button"> <br>
-                            <input type="button" id="replace-content-awarely"
-                                value="Replace Content Awarely">
+                            <input type="button" id="replace-content-awarely" value="Replace Content Awarely">
                         </div>
                         <div>
                             <br>
@@ -970,7 +1039,7 @@
                         <div>
                             <br>
                             <h3 data-tabname="anim" data-shortcutkey="a">Animation</h3> <br>
-                            <input type="button" value="Options" onclick="gotoTab('anim-options')">
+                            <input type="button" value="Options" onclick="animationOptions.showModal()">
                             <br>
                             <input type="button" value="Add Frame" id="add-frame">
                             <input type="button" value="Delete All Frames" onclick="deleteAllFrames()">
@@ -1019,10 +1088,12 @@
                         </div>
                         <div>
                             <br>
-                            <h3 cutdata-shortkey="z">Settings</h3> <br>
-                            <input type="button" value="Preferences" onclick="gotoTab('preferences')">
+                            <h3 data-shortcutkey="z">Settings</h3> <br>
+                            <input type="button" value="Preferences" onclick="preferences.showModal()">
                             <input type="button" value="Layout" onclick="gotoTab('layout')">
-                            <input type="button" value="Themes" onclick="gotoTab('themes')"> <br>
+                            <input type="button" value="Themes" onclick="gotoTab('themes')">
+                            <input type="button" value="Alert Suppressors" onclick="gotoTab('suppressors')">
+                            <br>
                             <input type="button" value="Previous Versions" onclick="gotoTab('previous_versions')">
                         </div>
                         <div>
@@ -1103,50 +1174,6 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-type="hidden-tab" data-tabname="preferences">Preferences</h3> <br>
-                            <input type="button" value="Alert Suppressors" onclick="gotoTab('suppressors')">
-                            <br>
-                            <div class="switch-container">
-                                <label for="auto-save">Auto Save Sessions</label>
-                                <label class="switch">
-                                    <input type="checkbox" id="auto-save" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <br>
-                            <div class="switch-container">
-                                <label for="add-new-session-on-opening">Add New Session On Opening </label>
-                                <label class="switch">
-                                    <input type="checkbox" id="add-new-session-on-opening">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <br>
-                            <hr>
-                            <h5>Following Settings Require a Reload To Apply: </h5>
-                            <label for="max-allowed-canvas-size">Max C. Size (max:250) : </label>
-                            <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px"
-                                placeholder="(100)">
-                            <br>
-                            <label for="browser-selector">Browser: </label>
-                            <select id="browser-selector" class="right-flat">
-                                <option value="IOS.SAFARI">Safari (iOS)</option>
-                                <option value="IOS.WV">WebView (iOS)</option>
-                                <option value="AOS.WV">WebView (Android)</option>
-                                <option value="AOS.CHROME">Chrome (Android)</option>
-                                <option value="AOS.FIREFOX">Firefox (Android)</option>
-                                <option value="AOS.EDGE">Edge (Android)</option>
-                                <option value="AOS.OTHER">Other (Android)</option>
-                                <option value="DESKTOP.CHROME">Chrome (Desktop)</option>
-                                <option value="DESKTOP.FIREFOX">Firefox (Desktop)</option>
-                                <option value="DESKTOP.EDGE">Edge (Desktop)</option>
-                                <option value="DESKTOP.SAFARI">Safari (Desktop)</option>
-                                <option value="DESKTOP.OTHER">Other (Desktop)</option>
-                            </select>
-                            <input type="button" value="Auto" class="left-flat" id="reset-browser-type">
-                        </div>
-                        <div>
-                            <br>
                             <h3 data-tabname="palette-manager" data-type="hidden-tab">Palette Manager</h3>
                             <hr>
                             <br>
@@ -1175,25 +1202,6 @@
                             <input type="button" id="save-palette" value="Save Palette">
                             <hr><br>
                             <input type="button" value="Delete Selected Palette" onclick="deleteSelectedPalette()">
-                        </div>
-                        <div>
-                            <br>
-                            <h3 data-type="hidden-tab" data-tabname="anim-options">Animation Options</h3>
-                            <br>
-                            <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
-                            <input type="checkbox" id="auto-trace-last-frame" checked>
-                            <br>
-                            <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
-                            <input type="checkbox" id="auto-fallback-to-background" checked>
-                            <br>
-                            <img src="" id="animation-background-shower">
-                            <br>
-                            <input type="button" value="Add Current Canvas As Background "
-                                id="add-canvas-as-background" />
-                            <br>
-                            <label for="add-frame-after-every-color-change">Fill Frame After Every Color Change :
-                            </label>
-                            <input type="checkbox" id="add-frame-after-every-color-change">
                         </div>
                         <div>
                             <br>

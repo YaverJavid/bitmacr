@@ -87,7 +87,7 @@ id("reset-browser-type").onclick = () => {
 function addResizeHandler() {
     if (id("resize-handler-suppressor").checked)
         window.onresize = () => {
-            customConfirm("Resizing window might be causing layout bugs, if so click 'YES' to 'RELOAD'? <br> <h5>To supress this alert go to settings/preferences/suppressors</h5>", () => window.location.reload())
+            customConfirm("Resizing window might be causing layout bugs, if so click 'OK' to 'RELOAD'? <br> <h5>To supress this alert go to settings/preferences/suppressors</h5>", () => window.location.reload())
         }
     else window.onresize = ()=>{}
 }

@@ -2,18 +2,18 @@ paintZone.addEventListener('mousedown', (event) => {
     if (["none", "stroke"].includes(paintModeSelector.value)) return;
     const x = event.clientX;
     const y = event.clientY;
-    const currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y));
+    const currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y));
     startingCoords.gridX = Math.floor(currentCellIndex / cols);
     startingCoords.gridY = currentCellIndex % cols;
     startingCoords.x = x;
     startingCoords.y = y;
 
     if (paintModeSelector.value == "line" && connectLastLineLocation.checked && lineLastCoords != {}) {
-        let paintCells2d = [];
-        for (let i = 0; i < paintCells.length; i++)
-            paintCells2d.push(paintCells[i]);
-        paintCells2d = toPaintData2D(paintCells2d);
-        drawLine(paintCells2d, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX);
+        let cells2d = [];
+        for (let i = 0; i < cells.length; i++)
+            cells2d.push(cells[i]);
+        cells2d = toPaintData2D(cells2d);
+        drawLine(cells2d, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX);
         recordPaintData();
     } else if (paintModeSelector.value == "line-stroke") {
         isStartOfLineStroke = true;
@@ -25,16 +25,16 @@ paintZone.addEventListener('mousemove', (event) => {
     const x = event.clientX;
     const y = event.clientY;
     let currentCell = document.elementFromPoint(x, y);
-    let paintCells2d = [];
+    let cells2d = [];
     if (paintModeSelector.value != "line-stroke") {
-        for (let i = 0; i < paintCells.length; i++) {
-            paintCells[i].style.backgroundColor = buffer.getItem()[i];
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].style.backgroundColor = buffer.getItem()[i];
         }
     }
-    for (let i = 0; i < paintCells.length; i++) {
-        paintCells2d.push(paintCells[i]);
+    for (let i = 0; i < cells.length; i++) {
+        cells2d.push(cells[i]);
     }
-    paintCells2d = toPaintData2D(paintCells2d);
+    cells2d = toPaintData2D(cells2d);
     event.preventDefault();
     const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
     const cw = parseFloat(paintZoneWidth) / cols;
@@ -59,7 +59,7 @@ paintZone.addEventListener('mousemove', (event) => {
                 (currentGridY - startingCoords.gridX) * cw - 1 + "px",
                 (currentGridX - startingCoords.gridY) * cw - 1 + "px",
                 (correctedStartingY - (correctedStartingY % cw)) + "px",
-                (correctedStartingX - (correctedStartingX % cw)) + "px",
+                (correctedStartingX - (correctedStartingX % cw))  + "px",
                 "1px"
             )
             selectionCoords = {
@@ -74,10 +74,10 @@ paintZone.addEventListener('mousemove', (event) => {
             if (currentCell.classList[0] != "cell") return
             let py = Math.floor(cellIndex / cols) + selectedPart.length
             let px = (cellIndex % cols) + selectedPart[0].length
-            paste(px, py, selectedPart, paintCells2d)
+            paste(px, py, selectedPart, cells2d)
             break;
         case "eq-triangle":
-            drawEquilateralTriangle(startingCoords.gridX, startingCoords.gridY, 6, paintCells2d)
+            drawEquilateralTriangle(startingCoords.gridX, startingCoords.gridY, 6, cells2d)
             break;
         case 'circle':
             if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
@@ -90,17 +90,17 @@ paintZone.addEventListener('mousemove', (event) => {
                 circleY = startingCoords.gridY + radius
             }
             if (circleAlgorithm.value == "accurate") {
-                drawCircle(circleX, circleY, radius, paintCells2d, fillCircle.checked)
+                drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
             } else if (circleAlgorithm.value == "natural") {
-                if (fillCircle.checked) drawNaturalFilledCircle(circleX, circleY, radius, paintCells2d)
-                else drawNaturalStrokeCircle(circleX, circleY, radius, paintCells2d)
+                if (fillCircle.checked) drawNaturalFilledCircle(circleX, circleY, radius, cells2d)
+                else drawNaturalStrokeCircle(circleX, circleY, radius, cells2d)
             }
             break;
         case "triangle":
-            drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, paintCells2d, Math.abs(startingCoords.gridY - currentGridY), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
+            drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, cells2d, Math.abs(startingCoords.gridY - currentGridX), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
             break;
         case 'sphere':
-            drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, paintCells2d)
+            drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, cells2d)
             break;
         case 'rect':
             let bx, by, h, w
@@ -115,18 +115,18 @@ paintZone.addEventListener('mousemove', (event) => {
                 w = dx
                 h = dy
             }
-            drawRectangle(bx, by, w, h, paintCells2d, fillRect.checked)
+            drawRectangle(bx, by, w, h, cells2d, fillRect.checked)
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY)
+            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY)
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             if (isStartOfLineStroke)
-                drawLine(paintCells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY)
             else
-                drawLine(paintCells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridY = currentGridY
             lastLineStrokeEndingCoords.gridX = currentGridX
@@ -163,7 +163,7 @@ function handleMousePaintEnd(event) {
     } else if (paintModeSelector.value == "line") {
         let x = event.clientX;
         let y = event.clientY;
-        currentCellIndex = Array.from(paintCells).indexOf(document.elementFromPoint(x, y));
+        currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y));
         lineLastCoords.x = currentCellIndex % cols;
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
