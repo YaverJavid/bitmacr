@@ -47,6 +47,7 @@ paintZone.addEventListener('mousemove', (event) => {
     const currentGridY = Math.floor(cellIndex / cols);
     const currentGridX = cellIndex % cols
     switch (paintModeSelector.value) {
+        case "flip":
         case "zoom":
         case "selecting":
             if (paintModeSelector.value == "zoom" && zoomedIn) break
@@ -59,7 +60,7 @@ paintZone.addEventListener('mousemove', (event) => {
                 (currentGridY - startingCoords.gridX) * cw - 1 + "px",
                 (currentGridX - startingCoords.gridY) * cw - 1 + "px",
                 (correctedStartingY - (correctedStartingY % cw)) + "px",
-                (correctedStartingX - (correctedStartingX % cw))  + "px",
+                (correctedStartingX - (correctedStartingX % cw)) + "px",
                 "1px"
             )
             selectionCoords = {
@@ -83,8 +84,8 @@ paintZone.addEventListener('mousemove', (event) => {
             if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
             let circleX, circleY
             if (fixedRadius.checked) {
-                circleX = currentGridX
-                circleY = currentGridY
+                circleX = currentGridY
+                circleY = currentGridX
             } else {
                 circleX = startingCoords.gridX - radius
                 circleY = startingCoords.gridY + radius
@@ -136,10 +137,9 @@ paintZone.addEventListener('mousemove', (event) => {
 
 function handleMousePaintEnd(event) {
     if (paintModeSelector.value == "selecting") {
-        if (!selectionCoords) return;
-        handleSelectionShowerVisibility("0", "0", "0", "0", "0");
-        copy();
-        updateSelectionUI()
+        if (!selectionCoords) return
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        if (!copy().failed) updateSelectionUI()
     } else if (paintModeSelector.value == "zoom") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")
@@ -148,8 +148,7 @@ function handleMousePaintEnd(event) {
         zoomOriginX = selectionCoords.xbr
         fullCols = cols
         fullRows = rows
-        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
-        if (!copy(zoom = true).failed) {
+        if (!copy('zoom').failed) {
             zoomedIn = true
             originalSnapshot = JSON.stringify(buffer)
             applySelectedPartSilent(zoomedPart)
@@ -159,6 +158,21 @@ function handleMousePaintEnd(event) {
                 zoomOutButtons[i].style.cursor = "zoom-out"
             }
 
+        }
+    }
+    else if (paintModeSelector.value == "flip") {
+        if (!selectionCoords) return
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        let by = selectionCoords.ybr
+        let bx = selectionCoords.xbr
+        if (!copy('flip').failed) {
+            let cells2d = [];
+            for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
+            cells2d = toPaintData2D(cells2d);
+            if(id("flipper-direction").value == "horizontal") for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
+            else partToFlip.reverse()
+            paste(bx, by, partToFlip, cells2d, true)
+            recordPaintData()
         }
     } else if (paintModeSelector.value == "line") {
         let x = event.clientX;

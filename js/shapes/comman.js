@@ -12,7 +12,7 @@ const selectionShower = document.getElementById("selection-shower")
 const shapesElems = document.getElementById("shapes-selector").children
 const ACTIVE_SHAPE_CLASS = "active-shape"
 const SELECTED_CELL_HINT_TOKEN = "selected-cell-hint"
-let selectedPart, zoomedPart, zoomOriginX, zoomOriginY, fullRows, fullCols
+let selectedPart, zoomedPart, partToFlip, zoomOriginX, zoomOriginY, fullRows, fullCols, flipOriginY, flipOriginX
 let originalSnapshot, zoomedIn
 const selectionImageShowers = document.querySelectorAll(".selection-image-shower")
 const selectionSize = document.getElementById("selection-size")
@@ -101,11 +101,11 @@ let isStartOfLineStroke
 let selectionCoords
 let pasteOffset = 0
 
-function copy(zoom = false) {
+function copy(mode = "select") {
     let xtl = selectionCoords.xtl,
         ytl = selectionCoords.ytl,
-        ybr = selectionCoords.ybr ,
-        xbr = selectionCoords.xbr ,
+        ybr = selectionCoords.ybr,
+        xbr = selectionCoords.xbr,
         array = toPaintData2D(buffer.getItem().slice()),
         result = [],
         w = xbr - xtl,
@@ -119,14 +119,15 @@ function copy(zoom = false) {
     }
     selectionCoords = undefined
     if (result.length == 0) return { failed: true }
-    if (zoom) zoomedPart = result
-    else {
+    if (mode == "zoom") zoomedPart = result
+    else if (mode == "flip") partToFlip = result
+    else if (mode == "select") {
         selectedPart = result
         selectionSize.textContent = `(w:${w},h:${h})`
     }
     return { failed: false }
 }
-function paste(xb, yb, data2d, paint2d, zoomOut = false) {
+function paste(xb, yb, data2d, paint2d, replaceBlending = false, zoomOut = false) {
     if (!data2d) return
     let h = data2d.length
     let w = data2d[0].length
@@ -134,7 +135,7 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
     let yt = yb - h
     let array = data2d.flat();
     let j = 0
-    let blendingMode = zoomOut ? 'replace' : id("blend-mode-selector").value
+    let blendingMode = replaceBlending ? 'replace' : id("blend-mode-selector").value
     let ignoreTransparentCells = id('ignore-transparent-cells').checked
     for (let y = yt; y < yb; y++) {
         for (let x = xt; x < xb; x++) {
@@ -289,15 +290,10 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
 
 let zoomOutButtons = document.getElementsByClassName("zoom-out")
 
-for (let i = 0; i < zoomOutButtons.length; i++) {
-    zoomOutButtons[i].onclick = zoomOut
-}
+for (let i = 0; i < zoomOutButtons.length; i++) zoomOutButtons[i].onclick = zoomOut
 
 function zoomOut() {
-    if (!zoomedIn) {
-        customAlert("Already Zoomed Out...")
-        return
-    }
+    if (!zoomedIn) return
     zoomedIn = false
     id("top-zoom-out").style.border = "1px solid var(--primary)"
     let partToPaste = toPaintData2D(buffer.getItem().slice())
@@ -308,13 +304,13 @@ function zoomOut() {
     fullBuffer.pointer = originalSnapshot.pointer
     applySelectedPartSilent(toPaintData2D(fullBuffer.getItem(), fullRows, fullCols))
     buffer = fullBuffer
-    let  cells = document.querySelectorAll(".cell")
-    let  cells2d = []
-    for (let i = 0; i <  cells.length; i++) {
-         cells2d.push( cells[i])
+    let cells = document.querySelectorAll(".cell")
+    let cells2d = []
+    for (let i = 0; i < cells.length; i++) {
+        cells2d.push(cells[i])
     }
-     cells2d = toPaintData2D( cells2d, fullRows, fullCols)
-    paste(zoomOriginX, zoomOriginY, partToPaste,  cells2d, true)
+    cells2d = toPaintData2D(cells2d, fullRows, fullCols)
+    paste(zoomOriginX, zoomOriginY, partToPaste, cells2d, true, 'zoom-out')
     recordPaintData()
     sessions[currentSession].buffer = buffer
     for (let i = 0; i < zoomOutButtons.length; i++) {

@@ -206,7 +206,7 @@
         </select>
         <br>
         <label for="illuminate-bulb-pixel">Illuminate the Bulb Pixel : </label>
-        <input type="checkbox"  id="illuminate-bulb-pixel" checked>
+        <input type="checkbox" id="illuminate-bulb-pixel" checked>
         <br>
         <label for="auto-ghost-color-elimination-post-lighting">Auto Apply Ghost Color Filter : </label>
         <input type="checkbox" id="auto-ghost-color-elimination-post-lighting" checked>
@@ -274,7 +274,38 @@
         <br>
         <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
     </dialog>
-
+    <dialog id="fillingModeSettings">
+        <div class="close-container">
+            <h3>Filling Mode Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="blending-mode">Blending Mode : </label>
+        <select id="blending-mode">
+            <option value="default">Default</option>
+            <option value="overlay">Overlay</option>
+            <option value="replace">Replace</option>
+            <option value="normal">Normal</option>
+            <option value="multiply">Multiply</option>
+            <option value="screen">Screen</option>
+            <option value="darken">Darken</option>
+            <option value="lighten">Lighten</option>
+            <option value="difference">Difference</option>
+            <option value="exclusion">Exclusion</option>
+            <option value="hue">Hue</option>
+            <option value="saturation">Saturation</option>
+            <option value="color">Color</option>
+            <option value="luminosity">Luminosity</option>
+            <option value="softLight">Soft Light</option>
+            <option value="hardLight">Hard Light</option>
+            <option value="pinLight">Pin Light</option>
+            <option value="linearBurn">Linear Burn</option>
+            <option value="linearDodge">Linear Dodge (Add)</option>
+            <option value="vividLight">Vivid Light</option>
+            <option value="subtract">Subtract</option>
+            <option value="divide">Divide</option>
+            <option value="contrast">Contrast</option>
+        </select>
+    </dialog>
     <br>
     <div id="logo-sessions-container">
         <div id="sessions-section">
@@ -324,6 +355,8 @@
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
                     <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png"
                         style="margin-right: 5px" title="Sphere">
+                    <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" style="margin-right: 5px"
+                        title="Sphere">
                 </div>
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
@@ -571,6 +604,14 @@
                             <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
                             <span id="only-fill-matching-threshold-shower">(0)</span>
                             <hr><br>
+                            <label for="filling-mode">Mode : </label>
+                            <select id="filling-mode" class="right-flat">
+                                <option value="replace">Replace (Fast)</option>
+                                <option value="blend">Blend (Slow)</option>
+                            </select>
+                            <input type="button" value="..." class="left-flat"
+                                onclick="fillingModeSettings.showModal()">
+                            <br>
                             <label for="dithering-mode">Dithering Mode : </label>
                             <input type="checkbox" id="dithering-mode">
                             <br>
@@ -630,6 +671,15 @@
                             <div data-settingname="none" class="shape-settings active-shape-setting">
                                 <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED"
                                     style="width: 70%">
+                            </div>
+                            <div class="shape-settings" data-settingname="flip">
+                                <h3>Flipper</h3>
+                                <br>
+                                <label for="flipper-direction">Direction : </label>
+                                <select id="flipper-direction">
+                                    <option value="horizontal">Horizontal</option>
+                                    <option value="vertical">Vertical</option>
+                                </select>
                             </div>
                             <div class="shape-settings" data-settingname="triangle">
                                 <h3>Triangle</h3>
@@ -1220,6 +1270,7 @@
                                 <option value="selecting">Selecting</option>
                                 <option value="paste">Paste</option>
                                 <option value="triangle">Triangle</option>
+                                <option value="flip">Flip</option>
                             </select>
                             <br>
                         </div>

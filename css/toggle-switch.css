@@ -66,3 +66,7 @@ input:checked+.slider:before {
 .update-button:hover {
     background-color: #45a049;
 }
+
+#shape-preview{
+    display: none;
+}

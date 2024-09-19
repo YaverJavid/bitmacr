@@ -74,7 +74,6 @@ id("export-res").oninput = () => {
 }
 
 id("svg-pixel-size").oninput = () => {
-    console.log("3");
     id("svg-pixel-size-shower").textContent = `(${id("svg-pixel-size").value})`
 }
 let shapeAdded = false
@@ -85,6 +84,7 @@ id("add-shape").addEventListener("input", function() {
         reader.readAsDataURL(file)
         reader.onload = (event) => {
             id("shape-preview").src = event.target.result;
+            id("shape-preview").style.display = 'initial'
             shapeAdded = true
         }
 

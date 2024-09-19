@@ -8,20 +8,20 @@ id("clear-all-lighting-objects").onclick = () => {
 
 function createBrightnessMap(x, y) {
     let lightLaw = id('light-law').value
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
+    for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
             cells[pack(i, j)].lightingFactor = cells[pack(i, j)].lightingFactor || 0
             if (isShadowed(cells, x, y, i, j)) continue
             const distance = Math.max(Math.sqrt((i - x) ** 2 + (j - y) ** 2), 1)
             const intensity = (lightLaw == 'inverse' ? (1 / (distance)) : (1 / (distance ** 2))) * id("light-intensity").value
-            if(id('illuminate-bulb-pixel').checked || (!(y == j && x == i))) cells[pack(i, j)].lightingFactor += Math.min(intensity, 1)
+            if(id('illuminate-bulb-pixel').checked || (!(y == j && x == i)))cells[pack(i, j)].lightingFactor += Math.min(intensity, 1)
         }
     }
 }
 
 
 
-function applyBrightnessMap(li) {
+function applyBrightnessMap() {
     let { r, g, b } = hexToRgbObject(id("light-color").value)
     let lightColor = `rgba(${r}, ${g}, ${b}, ${id("light-color-opacity").value})`
     for (let i = 0; i < cells.length; i++) {

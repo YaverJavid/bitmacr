@@ -221,7 +221,7 @@ function setCellColor(cellElem, color) {
         if (rows % 2 == cols % 2) {
             if (row % 2 && col % 2) return
             if (row % 2 == 0 && col % 2 == 0) return
-        } else{
+        } else {
             if (cellElem.index % 2) return
         }
     }
@@ -274,14 +274,14 @@ function fillCell(cellElem, color) {
 
     if (onlyFillIfColorIsCheckbox.checked) {
         if (flipFillOnlyIf) {
-            if (!checkIfColorInArray(fillOnlyIfColorsAre, currentColor, th))
-                return
+            if (!checkIfColorInArray(fillOnlyIfColorsAre, currentColor, th)) return
         } else {
-            if (checkIfColorInArray(fillOnlyIfColorsAre, currentColor, th))
-                return
+            if (checkIfColorInArray(fillOnlyIfColorsAre, currentColor, th)) return
         }
     }
-    cellElem.style.backgroundColor = color
+    let finalColor = color
+    if(id("filling-mode").value == 'blend') finalColor = rgbaObjectToHex(blendColors(hexToRgbaObject(color) ,hexToRgbaObject(currentColor), id('blending-mode').value))
+    cellElem.style.backgroundColor = finalColor
 }
 
 function checkIfColorInArray(array, color, th = 100) {

@@ -144,9 +144,7 @@ id('clear-button').addEventListener("click", () => {
 id('fill-all-button').onclick = fillAll
 
 function fillAll() {
-    for (let i = 0; i <  cells.length; i++) {
-        setCellColor( cells[i], getCurrentSelectedColor())
-    }
+    for (let i = 0; i <  cells.length; i++) setCellColor(cells[i], getCurrentSelectedColor())
     recordPaintData()
 }
 

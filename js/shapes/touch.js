@@ -58,6 +58,7 @@ paintZone.addEventListener('touchmove', (event) => {
     event.preventDefault()
     switch (paintModeSelector.value) {
         case "zoom":
+        case "flip":
         case "selecting":
             if (paintModeSelector.value == "zoom" && zoomedIn) break
             paintZonePosition = paintZone.getBoundingClientRect()
@@ -163,12 +164,7 @@ paintZone.addEventListener('touchend', (event) => {
     if (paintModeSelector.value == "selecting") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")
-        if (!copy().failed) {
-            for (let i = 0; i < selectionImageShowers.length; i++) {
-                selectionImageShowers[i].src = colorDataToImage(selectedPart, 0, null)
-                selectionImageShowers[i].style.border = "1px solid black"
-            }
-        }
+        if (!copy().failed) updateSelectionUI()
     } else if (paintModeSelector.value == "zoom") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")
@@ -177,7 +173,6 @@ paintZone.addEventListener('touchend', (event) => {
         zoomOriginX = selectionCoords.xbr
         fullCols = cols
         fullRows = rows
-        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
         if (!copy(zoom = true).failed) {
             zoomedIn = true
             originalSnapshot = JSON.stringify(buffer)
@@ -188,6 +183,19 @@ paintZone.addEventListener('touchend', (event) => {
                 zoomOutButtons[i].style.cursor = "zoom-out"
             }
 
+        }
+    } else if (paintModeSelector.value == "flip") {
+        if (!selectionCoords) return
+        handleSelectionShowerVisibility("0", "0", "0", "0", "0")
+        let by = selectionCoords.ybr
+        let bx = selectionCoords.xbr
+        if (!copy('flip').failed) {
+            let cells2d = [];
+            for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
+            cells2d = toPaintData2D(cells2d);
+            for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
+            paste(bx, by, partToFlip, cells2d, true)
+            recordPaintData()
         }
     }
     else if (paintModeSelector.value == "line") {

@@ -2,6 +2,12 @@
 
 ## Change Log
 
+### 2024-014[19-Sep-2024]
+
+- Added Mix Mode
+- Added Flipper Tool
+- Opacity Support Image To Pixel Art
+
 ### 2024-013[11-Sep-2024]
 
 - Added Threshold Support For Replace Content Awarely

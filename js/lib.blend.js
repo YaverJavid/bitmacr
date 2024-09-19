@@ -179,7 +179,7 @@ function blendColors(colorTop, colorBottom, mode) {
         r: clamp(rResult),
         g: clamp(gResult),
         b: clamp(bResult),
-        a: aResult
+        a: Math.min(Math.max(aResult, 0), 1)
     };
 }
 

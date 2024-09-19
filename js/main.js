@@ -622,7 +622,7 @@ function imageToPixeArtData(img, w, h) {
         const row = [];
         for (let x = 0; x < w; x++) {
             let i = (y * w + x) * 4;
-            row.push(rgbToHex(`rgb(${pixels[i]}, ${pixels[i + 1]}, ${pixels[i + 2]})`))
+            row.push(rgbaToHex(`rgba(${pixels[i]}, ${pixels[i + 1]}, ${pixels[i + 2]},  ${pixels[i + 3] / 255})`))
         }
         pixelArtArray.push(row);
     }
