@@ -70,14 +70,17 @@ function drawRectangle(x, y, w, h, plane, filled) {
     }
 }
 
-function drawLine(array, x1, y1, x2, y2) {
+function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'square') {
     const dx = Math.abs(x2 - x1);
     const dy = Math.abs(y2 - y1);
     const sx = x1 < x2 ? 1 : -1;
     const sy = y1 < y2 ? 1 : -1;
     let err = dx - dy;
+
+    const halfLw = Math.floor(lw / 2);
+
     while (x1 !== x2 || y1 !== y2) {
-        setCellColor(array[y1][x1], getCurrentSelectedColor());
+        drawThickPoint(array, x1, y1, lw, lineCap);
         const e2 = 2 * err;
         if (e2 > -dy) {
             err -= dy;
@@ -88,9 +91,29 @@ function drawLine(array, x1, y1, x2, y2) {
             y1 += sy;
         }
     }
-    setCellColor(array[y1][x1], getCurrentSelectedColor());
+    drawThickPoint(array, x1, y1, lw, lineCap);
 }
 
+function drawThickPoint(array, x, y, lw, lineCap) {
+    const halfLw = Math.floor(lw / 2);
+
+    for (let i = -halfLw; i <= halfLw; i++) {
+        for (let j = -halfLw; j <= halfLw; j++) {
+            const distance = Math.sqrt(i * i + j * j);
+            if (lineCap === "round" && distance <= halfLw) {
+                setCellColorSafe(array, x + i, y + j, getCurrentSelectedColor());
+            } else if (lineCap === "square") {
+                setCellColorSafe(array, x + i, y + j, getCurrentSelectedColor());
+            }
+        }
+    }
+}
+
+function setCellColorSafe(array, x, y, color) {
+    if (x >= 0 && x < array[0].length && y >= 0 && y < array.length) {
+        setCellColor(array[y][x], color);
+    }
+}
 
 
 let currentCell;
@@ -372,4 +395,12 @@ id("flip-selection-vertically").onclick = () => {
     if (!selectedPart) return
     selectedPart.reverse()
     updateSelectionUI()
+}
+
+id("line-width").oninput = () => {
+    id("line-width-shower").textContent = `(${id("line-width").value})`
+}
+
+id("stroke-line-width").oninput = () => {
+    id("stroke-line-width-shower").textContent = `(${id("stroke-line-width").value})`
 }

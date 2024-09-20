@@ -14,7 +14,7 @@ execBucket("pixmacr_shortcut_info_visible", "0", () => {
 })
 
 
-document.getElementById("shortcut-info-checkbox").addEventListener("change", function() {
+document.getElementById("shortcut-info-checkbox").addEventListener("change", function () {
     changeShortcutInfoVisibility(this.checked ? "initial" : "none")
     setBucketOnCondition("pixmacr_shortcut_info_visible", this.checked, "1", "0")
 })
@@ -35,7 +35,7 @@ execBucket("pixmacr_hide_default_pallette", "1", () => {
     changeDefaultPalletteVisibility("none")
 })
 
-document.getElementById("hide-default-pallette-checkbox").addEventListener("input", function() {
+document.getElementById("hide-default-pallette-checkbox").addEventListener("input", function () {
     changeDefaultPalletteVisibility(this.checked ? "none" : "initial")
     setBucketOnCondition("pixmacr_hide_default_pallette", this.checked, "1", "0")
 })
@@ -49,7 +49,7 @@ execBucket("pixmacr_animate_menu", "0", () => {
     document.getElementById("animate-menu-checkbox").checked = false
 })
 
-document.getElementById("animate-menu-checkbox").addEventListener("input", function() {
+document.getElementById("animate-menu-checkbox").addEventListener("input", function () {
     setBucketOnCondition("pixmacr_animate_menu", this.checked, "1", "0")
     bottomControlsContainer.style.scrollBehavior = this.checked ? "smooth" : "auto"
 })
@@ -70,7 +70,7 @@ execBucket("pixmacr_background_image", "1", () => {
 
 
 
-id("add-image-background-checkbox").oninput = function() {
+id("add-image-background-checkbox").oninput = function () {
     setBucketOnCondition("pixmacr_background_image", id("add-image-background-checkbox").checked, "1", "0")
     document.body.style.backgroundImage = id("add-image-background-checkbox").checked ? "url(icons/wallpapers/default.png)" : "none"
     document.querySelector("marquee").style.color = id("add-image-background-checkbox").checked ? "white" : "var(--primary)"
@@ -109,10 +109,23 @@ const prefFillModeWarning = id("pref-no-fill-mode-warning")
 const B_FILL_MODE_WARNING = "pix_fill_mode_warning"
 setUpLocalStorageBucket(B_FILL_MODE_WARNING, "1")
 
-execBucket(B_FILL_MODE_WARNING, "0", ()=>{
+execBucket(B_FILL_MODE_WARNING, "0", () => {
     prefFillModeWarning.checked = false
 })
 
-prefFillModeWarning.oninput = ()=>{
+prefFillModeWarning.oninput = () => {
     setBucketOnCondition(B_FILL_MODE_WARNING, prefFillModeWarning.checked, "1", "0")
+}
+
+const B_PAINTZONE_ON_RIGHT = 'pix_paintzone_on_right'
+setUpLocalStorageBucket(B_PAINTZONE_ON_RIGHT, '0')
+
+execBucket(B_PAINTZONE_ON_RIGHT, '1', () => {
+    id('main-container').style.flexDirection = 'row-reverse'
+    id("paintzone-on-right").checked = true
+})
+
+id("paintzone-on-right").oninput = () => {
+    id('main-container').style.flexDirection = id("paintzone-on-right").checked ? 'row-reverse' : 'row'
+    setBucketOnCondition(B_PAINTZONE_ON_RIGHT, id("paintzone-on-right").checked, '1', '0')
 }

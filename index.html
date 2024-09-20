@@ -260,8 +260,6 @@
             <h3>Animation Options</h3>
             <input type="button" value="CLOSE">
         </div><br>
-        <h3 data-type="hidden-tab" data-tabname="anim-options">Animation Options</h3>
-        <br>
         <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
         <input type="checkbox" id="auto-trace-last-frame">
         <br>
@@ -694,6 +692,29 @@
                                     <option value="left">Left</option>
                                 </select>
                             </div>
+                            <div class="shape-settings" data-settingname="line-stroke">
+                                <h3>Pen</h3>
+                                <br>
+                                <label for="stroke-line-width">Line Width : </label>
+                                <input type="range" id="stroke-line-width" max="25" min="1" value="1" step="2">
+                                <span id="stroke-line-width-shower">(1)</span>
+                            </div>
+                            <div class="shape-settings" data-settingname="line">
+                                <h3>Line</h3>
+                                <br>
+                                <label for="line-width">Line Width : </label>
+                                <input type="range" id="line-width" max="25" min="1" value="1" step="2">
+                                <span id="line-width-shower">(1)</span>
+                                <br>
+                                <label for="line-cap">Line Cap : </label>
+                                <select id="line-cap">
+                                    <option value="square">Square</option>
+                                    <option value="round">Round</option>
+                                </select>
+                                <br>
+                                <label for="connect-last-line-location">Connect To Last Line : </label>
+                                <input type="checkbox" id="connect-last-line-location">
+                            </div>
                             <div class="shape-settings" data-settingname="zoom">
                                 <h3>Zooming</h3>
                                 <br>
@@ -809,11 +830,6 @@
                                 </select>
                                 <br>
                                 <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
-                            </div>
-                            <div class="shape-settings" data-settingname="line">
-                                <h3>Line</h3> <br>
-                                <label for="connect-last-line-location">Connect To Last Line : </label>
-                                <input type="checkbox" id="connect-last-line-location">
                             </div>
                         </div>
                         <div>
@@ -1181,7 +1197,6 @@
                                 </label>
                             </div>
                             <br>
-
                             <div class="switch-container">
                                 <label for="hide-default-pallette-checkbox">Hide Default Pallette</label>
 
@@ -1191,7 +1206,6 @@
                                 </label>
                             </div>
                             <br>
-
                             <div class="switch-container">
                                 <label for="animate-menu-checkbox">Animate Menu</label>
 
@@ -1201,12 +1215,20 @@
                                 </label>
                             </div>
                             <br>
-
                             <div class="switch-container">
                                 <label for="add-image-background-checkbox">Use Image Background</label>
 
                                 <label class="switch">
                                     <input type="checkbox" id="add-image-background-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <br>
+                            <div class="switch-container">
+                                <label for="paintzone-on-right">Paintzone On Right</label>
+
+                                <label class="switch">
+                                    <input type="checkbox" id="paintzone-on-right">
                                     <span class="slider"></span>
                                 </label>
                             </div>

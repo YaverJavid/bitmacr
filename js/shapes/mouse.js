@@ -120,14 +120,14 @@ paintZone.addEventListener('mousemove', (event) => {
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY)
+            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('line-width').value, id('line-cap').value)
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('stroke-line-width').value)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY, id('stroke-line-width').value)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridY = currentGridY
             lastLineStrokeEndingCoords.gridX = currentGridX

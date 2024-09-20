@@ -2,11 +2,17 @@
 
 ## Change Log
 
+### 2024-015[20-Sep-2024]
+
+- Added Width Option On Pen & Line Tool
+- Added Line Cap Option For Line Tool
+
 ### 2024-014[19-Sep-2024]
 
 - Added Mix Mode
 - Added Flipper Tool
 - Opacity Support Image To Pixel Art
+- Paintzone Could Be Put On Right In Layout Tab
 
 ### 2024-013[11-Sep-2024]
 

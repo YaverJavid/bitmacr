@@ -71,7 +71,7 @@ const cells = document.getElementsByClassName("cell"),
         q1MultiplyTargetCheckbox: id("q1-multiply-target-checkbox"),
         q2MultiplyTargetCheckbox: id("q2-multiply-target-checkbox"),
         q3MultiplyTargetCheckbox: id("q3-multiply-target-checkbox"),
-        q4MultiplyTargetCheckbox: id("q4-multiply-target-checkbox"),
+        q4MultiplyTargetCheckbox: id("q4-multiply-target-checkbox")
     },
     clickManagerCheckboxes = {
         colorSelectCheckbox: id("select-color"),

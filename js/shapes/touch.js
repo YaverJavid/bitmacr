@@ -143,16 +143,16 @@ paintZone.addEventListener('touchmove', (event) => {
             currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y))
             currentGridX = Math.floor(currentCellIndex / cols);
             currentGridY = currentCellIndex % cols
-            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
+            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('line-width').value, id('line-cap').value)
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             currentGridX = Math.floor(currentCellIndex / cols)
             currentGridY = currentCellIndex % cols
             if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridX = currentGridX
             lastLineStrokeEndingCoords.gridY = currentGridY

@@ -6,5 +6,3 @@ for (let i = 0; i < dialogs.length; i++) {
         dialog.close()
     }
 }
-
-
