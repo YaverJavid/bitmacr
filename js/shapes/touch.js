@@ -147,8 +147,8 @@ paintZone.addEventListener('touchmove', (event) => {
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
-            currentGridX = Math.floor(currentCellIndex / cols);
-            currentGridY = currentCellIndex % cols
+            currentGridY = Math.floor(currentCellIndex / cols);
+            currentGridX = currentCellIndex % cols
             drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value, id('curve-origin').value)
             break
         case 'line-stroke':
