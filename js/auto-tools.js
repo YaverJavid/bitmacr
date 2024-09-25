@@ -1,4 +1,4 @@
-id("image-pixelart-to-pixel").addEventListener("input", function (event) {
+id("image-pixelart-to-pixel").addEventListener("input", function () {
     let fr = new FileReader();
     fr.onload = function () {
         let img = new Image();

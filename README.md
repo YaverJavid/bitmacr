@@ -6,6 +6,7 @@
 
 - Added Width Option On Pen & Line Tool
 - Added Line Cap Option For Line Tool
+- Added Curve Tool
 
 ### 2024-014[19-Sep-2024]
 

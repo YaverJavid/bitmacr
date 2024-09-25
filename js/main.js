@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.2024.014"
+const VERSION = "v.2024.015"
 id("version").textContent = VERSION
 
 
@@ -717,4 +717,9 @@ setupNumInputWithButtons(id("minus-rh-count"), id("plus-rh-count"), id("fixed-re
 setupNumInputWithButtons(id("m-f-radius"), id("p-f-radius"), id("fixed-radius-value"), 1, 1, false)
 
 
-id("top-reload").onclick = () => window.location.reload()
+id("top-reload").onclick = () => {
+    customConfirm("Do You Want To Reload?", () => {
+        window.location.reload()
+    })
+}
+id("top-reload").ondblclick = () => window.location.reload()

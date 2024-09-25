@@ -199,7 +199,7 @@
         <input id="light-color-opacity" type="range" max="1" min="0" step="0.1" value="1">
         <span id="light-color-opacity-shower">(1)</span>
         <br>
-        <label for="light-law">Light Law : </label>
+        <label for="light-law">Distance Modal :</label>
         <select id="light-law">
             <option value="inverse">Inverse</option>
             <option value="inverse-square">Inverse Square</option>
@@ -350,11 +350,13 @@
                         title="Select">
                     <img data-value="paste" data-cursor="auto" src="icons/paint-mode/paste.png" title="Paste">
                     <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png" title="Line">
+                    <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" style="margin-right: 5px"
+                        title="Flipper">
+                    <img data-value="curve" data-cursor="auto" src="icons/paint-mode/curve.png"
+                        style="margin-right: 5px" title="Curve Tool">
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
                     <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png"
                         style="margin-right: 5px" title="Sphere">
-                    <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" style="margin-right: 5px"
-                        title="Sphere">
                 </div>
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
@@ -670,6 +672,29 @@
                                 <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED"
                                     style="width: 70%">
                             </div>
+                            <div class="shape-settings" data-settingname="curve">
+                                <h3>Curve Tools</h3>
+                                <br>
+                                <canvas id="curve-visualiser" class="canvas-visualiser"></canvas>
+                                <br>
+                                <label for="curve-origin">Curve Origin : </label>
+                                <input type="range" id="curve-origin" max="1" min="0" value="0.5" step="0.1">
+                                <span id="curve-origin-shower">(0.5)</span>
+                                <br>
+                                <label for="curvature">Curvature : </label>
+                                <input type="range" id="curvature" max="1" min="-1" value="1" step="0.1">
+                                <span id="curvature-shower">(1)</span>
+                                <br>
+                                <label for="curve-line-width">Line Width : </label>
+                                <input type="range" id="curve-line-width" max="25" min="1" value="1" step="2">
+                                <span id="curve-line-width-shower">(1)</span>
+                                <br>
+                                <label for="curve-line-cap">Line Cap : </label>
+                                <select id="curve-line-cap">
+                                    <option value="square">Square</option>
+                                    <option value="round">Round</option>
+                                </select>
+                            </div>
                             <div class="shape-settings" data-settingname="flip">
                                 <h3>Flipper</h3>
                                 <br>
@@ -698,6 +723,12 @@
                                 <label for="stroke-line-width">Line Width : </label>
                                 <input type="range" id="stroke-line-width" max="25" min="1" value="1" step="2">
                                 <span id="stroke-line-width-shower">(1)</span>
+                                <br>
+                                <label for="stroke-line-cap">Line Cap : </label>
+                                <select id="stroke-line-cap">
+                                    <option value="square">Square</option>
+                                    <option value="round">Round</option>
+                                </select>
                             </div>
                             <div class="shape-settings" data-settingname="line">
                                 <h3>Line</h3>
@@ -1293,6 +1324,7 @@
                                 <option value="paste">Paste</option>
                                 <option value="triangle">Triangle</option>
                                 <option value="flip">Flip</option>
+                                <option value="curve">Curve</option>
                             </select>
                             <br>
                         </div>

@@ -140,19 +140,25 @@ paintZone.addEventListener('touchmove', (event) => {
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y))
+            currentCellIndex =document.elementFromPoint(x, y).index
             currentGridX = Math.floor(currentCellIndex / cols);
             currentGridY = currentCellIndex % cols
             drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('line-width').value, id('line-cap').value)
+            break
+        case 'curve':
+            if (currentCell.classList[0] != "cell") return
+            currentGridX = Math.floor(currentCellIndex / cols);
+            currentGridY = currentCellIndex % cols
+            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value, id('curve-origin').value)
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             currentGridX = Math.floor(currentCellIndex / cols)
             currentGridY = currentCellIndex % cols
             if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridX = currentGridX
             lastLineStrokeEndingCoords.gridY = currentGridY
@@ -201,24 +207,9 @@ paintZone.addEventListener('touchend', (event) => {
     else if (paintModeSelector.value == "line") {
         let x = event.changedTouches[event.changedTouches.length - 1].clientX
         let y = event.changedTouches[event.changedTouches.length - 1].clientY
-        currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y))
+        currentCellIndex = document.elementFromPoint(x, y).index
         lineLastCoords.x = currentCellIndex % cols
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
     if (paintModeSelector.value != "none") recordPaintData()
 })
-
-function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
-    if (blx == -1 || bly == -1) return
-    let linesize = size
-    while (linesize > 0) {
-        for (let dx = 0; dx < linesize; dx++) {
-            pixels[bly][blx + dx].style.backgroundColor = getCurrentSelectedColor()
-        }
-        bly--
-        linesize -= perColDY
-        if (options.allOn == "left") blx += perColDY
-        else if (options.allOn == "right") blx
-        else blx += (Math.ceil(perColDY / 2))
-    }
-}

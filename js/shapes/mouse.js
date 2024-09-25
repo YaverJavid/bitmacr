@@ -122,12 +122,16 @@ paintZone.addEventListener('mousemove', (event) => {
             if (currentCell.classList[0] != "cell") return
             drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('line-width').value, id('line-cap').value)
             break
+        case 'curve':
+            if (currentCell.classList[0] != "cell") return
+            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value , id('curve-origin').value)
+            break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('stroke-line-width').value)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('stroke-line-width').value, id("stroke-line-cap").value)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY, id('stroke-line-width').value)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY, id('stroke-line-width').value, id("stroke-line-cap").value)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridY = currentGridY
             lastLineStrokeEndingCoords.gridX = currentGridX
@@ -169,7 +173,7 @@ function handleMousePaintEnd(event) {
             let cells2d = [];
             for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
             cells2d = toPaintData2D(cells2d);
-            if(id("flipper-direction").value == "horizontal") for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
+            if (id("flipper-direction").value == "horizontal") for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
             else partToFlip.reverse()
             paste(bx, by, partToFlip, cells2d, true)
             recordPaintData()

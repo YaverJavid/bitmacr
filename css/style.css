@@ -910,3 +910,9 @@ dialog::backdrop{
     background-color: var(--secondary);
     opacity: 60%;
 }
+
+.canvas-visualiser{
+    width: 50%;
+    border: 1px solid var(--primary);
+    
+}

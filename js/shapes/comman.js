@@ -115,6 +115,31 @@ function setCellColorSafe(array, x, y, color) {
     }
 }
 
+function drawCurve(array, x1, y1, x2, y2, lw = 1, lineCap = 'square', curvature = 0.5, centerPoint = 0.5) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Calculate the center point based on the centerPoint parameter
+    const centerX = x1 + centerPoint * dx;
+    const centerY = y1 + centerPoint * dy;
+
+    // Calculate the control point for the curve
+    const controlX = centerX - curvature * dy / distance * (distance / 2);
+    const controlY = centerY + curvature * dx / distance * (distance / 2);
+
+    // Draw the curve using a quadratic Bézier curve
+    drawQuadraticBezier(array, x1, y1, controlX, controlY, x2, y2, lw, lineCap);
+}
+
+function drawQuadraticBezier(array, x1, y1, cx, cy, x2, y2, lw, lineCap) {
+    const steps = 100; // Number of steps for the curve
+    for (let t = 0; t <= 1; t += 1 / steps) {
+        const x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2;
+        const y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2;
+        drawThickPoint(array, Math.round(x), Math.round(y), lw, lineCap);
+    }
+}
 
 let currentCell;
 
@@ -404,3 +429,72 @@ id("line-width").oninput = () => {
 id("stroke-line-width").oninput = () => {
     id("stroke-line-width-shower").textContent = `(${id("stroke-line-width").value})`
 }
+
+
+id("curve-origin").oninput = () => {
+    id("curve-origin-shower").textContent = `(${id("curve-origin").value})`
+    visualiseCurve();
+}
+
+id("curvature").oninput = () => {
+    id("curvature-shower").textContent = `(${id("curvature").value})`
+    visualiseCurve();
+}
+
+id("curve-line-width").oninput = () => {
+    id("curve-line-width-shower").textContent = `(${id("curve-line-width").value})`
+}
+
+function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
+    if (blx == -1 || bly == -1) return
+    let linesize = size
+    while (linesize > 0) {
+        for (let dx = 0; dx < linesize; dx++) {
+            pixels[bly][blx + dx].style.backgroundColor = getCurrentSelectedColor()
+        }
+        bly--
+        linesize -= perColDY
+        if (options.allOn == "left") blx += perColDY
+        else if (options.allOn == "right") blx
+        else blx += (Math.ceil(perColDY / 2))
+    }
+}
+
+const curveCanvas = id("curve-visualiser")
+const curveCtx = curveCanvas.getContext("2d")
+curveCanvas.width = 400
+curveCanvas.height = curveCanvas.width/2
+
+function visualiseCurve() {
+    curveCtx.fillStyle = 'white'
+    curveCtx.fillRect(0, 0, curveCanvas.width, curveCanvas.height)
+    curveCtx.fillStyle = 'black'
+    const lw = 20
+    const curvature = id("curvature").value
+    const centerPoint = id('curve-origin').value 
+    let x1 = 0, y1 = curveCanvas.height/2, x2 = curveCanvas.width, y2 = curveCanvas.height/2
+    const steps = 100, dx = x2 - x1, dy = y2 - y1;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const centerX = x1 + centerPoint * dx, centerY = y1 + centerPoint * dy;
+    const controlX = centerX - curvature * dy / distance * (distance / 2);
+    const controlY = centerY + curvature * dx / distance * (distance / 2);
+
+    curveCtx.strokeStyle = 'red';
+    curveCtx.lineWidth = 10
+    curveCtx.beginPath();
+    curveCtx.moveTo(controlX, 0)
+    curveCtx.lineTo(controlX, curveCanvas.height)
+    curveCtx.stroke();
+
+    for (let t = 0; t <= 1; t += 1 / steps) {
+        const x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * controlX + t * t * x2;
+        const y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * controlY + t * t * y2;
+        curveCtx.fillStyle = 'black';
+        curveCtx.beginPath();
+        curveCtx.arc(x, y, lw / 2, 0, Math.PI * 2);
+        curveCtx.fill();
+    }
+}
+
+visualiseCurve();
+
