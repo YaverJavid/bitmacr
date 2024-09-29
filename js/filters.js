@@ -6,10 +6,20 @@ function filterCanvas(filterFunction, ...args) {
     for (let i = 0; i < currentPaintData.length; i++) {
         let colorObj = convertRGBAStrToObj(currentPaintData[i])
         if (colorObj.a === undefined) colorObj.a = 1
-        setCellColor( cells[i], colorObjectToRGBA(filterFunction(colorObj, i, ...args)))
+        setCellColor(cells[i], colorObjectToRGBA(filterFunction(colorObj, i, ...args)))
 
     }
     recordPaintData()
+}
+
+id("filter-weak-brighten").onclick = () => {
+    filterCanvas((pixel, pid) => {
+        let r = Math.min(pixel.r + (pixel.b * 0.2), 255)
+        let g = Math.min(pixel.g + (pixel.r * 0.2), 255)
+        let b = Math.min(pixel.b + (pixel.b * 0.2), 255)
+        let a = pixel.a
+        return { r, g, b, a };
+    })
 }
 
 
@@ -40,11 +50,29 @@ id("filter-sepia").onclick = () => {
 }
 
 id("filter-grayscale").onclick = () => {
-    filterCanvas((pixel, pid) => {
-        const average = (pixel.r + pixel.g + pixel.b) / 3;
-        return { r: average, g: average, b: average, a: pixel.a };
-    })
-}
+    switch (id("grayscale-algorithm").value) {
+        case "accurate":
+            filterCanvas((pixel, pid) => {
+                const average = (pixel.r + pixel.g + pixel.b) / 3;
+                return { r: average, g: average, b: average, a: pixel.a };
+            });
+            break;
+        case "natural":
+            filterCanvas((pixel, pid) => {
+                const average = 0.21 * pixel.r + 0.72 * pixel.g + 0.07 * pixel.b;
+                return { r: average, g: average, b: average, a: pixel.a };
+            });
+            break;
+        case "lightness":
+            filterCanvas((pixel, pid) => {
+                const max = Math.max(pixel.r, pixel.g, pixel.b);
+                const min = Math.min(pixel.r, pixel.g, pixel.b);
+                const average = (max + min) / 2;
+                return { r: average, g: average, b: average, a: pixel.a };
+            });
+            break;
+    }
+};
 
 id("filter-solorize").onclick = () => {
     filterCanvas((pixel, pid) => {

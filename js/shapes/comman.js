@@ -63,22 +63,18 @@ function drawRectangle(x, y, w, h, plane, filled) {
             try {
                 if (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1))
                     setCellColor(plane[i][j], getCurrentSelectedColor())
-            } catch {
-
-            }
+            } catch { }
         }
     }
 }
 
-function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'square') {
+let alreadyFilledLinePoints = new Set()
+function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'round') {
     const dx = Math.abs(x2 - x1);
     const dy = Math.abs(y2 - y1);
     const sx = x1 < x2 ? 1 : -1;
     const sy = y1 < y2 ? 1 : -1;
     let err = dx - dy;
-
-    const halfLw = Math.floor(lw / 2);
-
     while (x1 !== x2 || y1 !== y2) {
         drawThickPoint(array, x1, y1, lw, lineCap);
         const e2 = 2 * err;
@@ -96,7 +92,6 @@ function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'square') {
 
 function drawThickPoint(array, x, y, lw, lineCap) {
     const halfLw = Math.floor(lw / 2);
-
     for (let i = -halfLw; i <= halfLw; i++) {
         for (let j = -halfLw; j <= halfLw; j++) {
             const distance = Math.sqrt(i * i + j * j);
@@ -110,34 +105,39 @@ function drawThickPoint(array, x, y, lw, lineCap) {
 }
 
 function setCellColorSafe(array, x, y, color) {
+    // Pack the (x, y) coordinates into a string or number (assuming pack(x, y) returns a string or number)
+    const point = pack(x, y);
+
+    // Check if the point is already processed
+    if (alreadyFilledLinePoints.has(point)) return;
+
+    // Bounds check for x and y
     if (x >= 0 && x < array[0].length && y >= 0 && y < array.length) {
-        setCellColor(array[y][x], color);
+        setCellColor(array[y][x], color); // Set the color of the cell
     }
+
+    // Mark the point as filled
+    alreadyFilledLinePoints.add(point);
 }
 
-function drawCurve(array, x1, y1, x2, y2, lw = 1, lineCap = 'square', curvature = 0.5, centerPoint = 0.5) {
+function drawCurve(array, x1, y1, x2, y2, lw = 1, lineCap = 'square', curvature = 0.5, centerPoint = 0.5, steps = 10) {
     const dx = x2 - x1;
     const dy = y2 - y1;
     const distance = Math.sqrt(dx * dx + dy * dy);
-
-    // Calculate the center point based on the centerPoint parameter
     const centerX = x1 + centerPoint * dx;
     const centerY = y1 + centerPoint * dy;
-
-    // Calculate the control point for the curve
     const controlX = centerX - curvature * dy / distance * (distance / 2);
     const controlY = centerY + curvature * dx / distance * (distance / 2);
-
-    // Draw the curve using a quadratic Bézier curve
-    drawQuadraticBezier(array, x1, y1, controlX, controlY, x2, y2, lw, lineCap);
+    drawQuadraticBezier(array, x1, y1, controlX, controlY, x2, y2, lw, lineCap, steps);
 }
 
-function drawQuadraticBezier(array, x1, y1, cx, cy, x2, y2, lw, lineCap) {
-    const steps = 100; // Number of steps for the curve
+function drawQuadraticBezier(array, x1, y1, cx, cy, x2, y2, lw, lineCap, steps) {
+    let lastLine;
     for (let t = 0; t <= 1; t += 1 / steps) {
-        const x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2;
-        const y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2;
-        drawThickPoint(array, Math.round(x), Math.round(y), lw, lineCap);
+        const x = Math.round((1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2);
+        const y = Math.round((1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2);
+        if (lastLine && !(isNaN(lastLine.x) || isNaN(lastLine.y))) drawLine(array, x, y, lastLine.x, lastLine.y, lw, lineCap);
+        lastLine = { x, y }
     }
 }
 
@@ -161,7 +161,7 @@ function copy(mode = "select") {
     for (let y = ytl; y < ybr; y++) {
         let row = array[y].slice(xtl, xbr)
         row.forEach((v, i, a) => {
-            a[i] = rgbaToHex(a[i])
+            a[i] = rgbaToHex(v)
         })
         result.push(row)
     }
@@ -463,7 +463,7 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
 const curveCanvas = id("curve-visualiser")
 const curveCtx = curveCanvas.getContext("2d")
 curveCanvas.width = 400
-curveCanvas.height = curveCanvas.width/2
+curveCanvas.height = curveCanvas.width / 2
 
 function visualiseCurve() {
     curveCtx.fillStyle = 'white'
@@ -471,8 +471,8 @@ function visualiseCurve() {
     curveCtx.fillStyle = 'black'
     const lw = 20
     const curvature = id("curvature").value
-    const centerPoint = id('curve-origin').value 
-    let x1 = 0, y1 = curveCanvas.height/2, x2 = curveCanvas.width, y2 = curveCanvas.height/2
+    const centerPoint = id('curve-origin').value
+    let x1 = 0, y1 = curveCanvas.height / 2, x2 = curveCanvas.width, y2 = curveCanvas.height / 2
     const steps = 100, dx = x2 - x1, dy = y2 - y1;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const centerX = x1 + centerPoint * dx, centerY = y1 + centerPoint * dy;

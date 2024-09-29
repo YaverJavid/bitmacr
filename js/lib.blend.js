@@ -8,6 +8,12 @@ function blendColors(colorTop, colorBottom, mode) {
     let rResult, gResult, bResult, aResult;
 
     switch (mode) {
+        case 'mix':
+            rResult = rTop * aTop + rBottom * aBottom * (1 - aTop);
+            gResult = gTop * aTop + gBottom * aBottom * (1 - aTop);
+            bResult = bTop * aTop + bBottom * aBottom * (1 - aTop);
+            aResult = aTop + aBottom * (1 - aTop);
+            break
         case 'default':
             if (aTop == 0) {
                 rResult = rBottom;

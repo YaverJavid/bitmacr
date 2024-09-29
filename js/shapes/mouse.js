@@ -121,10 +121,12 @@ paintZone.addEventListener('mousemove', (event) => {
         case 'line':
             if (currentCell.classList[0] != "cell") return
             drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('line-width').value, id('line-cap').value)
+            alreadyFilledLinePoints = new Set()
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
-            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value , id('curve-origin').value)
+            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value , id('curve-origin').value, id("curve-steps").value)
+            alreadyFilledLinePoints = new Set()
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
@@ -185,6 +187,7 @@ function handleMousePaintEnd(event) {
         lineLastCoords.x = currentCellIndex % cols;
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
+    alreadyFilledLinePoints = new Set()
     if (paintModeSelector.value != "none") recordPaintData();
 }
 

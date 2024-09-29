@@ -140,16 +140,18 @@ paintZone.addEventListener('touchmove', (event) => {
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            currentCellIndex =document.elementFromPoint(x, y).index
+            currentCellIndex = document.elementFromPoint(x, y).index
             currentGridX = Math.floor(currentCellIndex / cols);
             currentGridY = currentCellIndex % cols
             drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('line-width').value, id('line-cap').value)
+            alreadyFilledLinePoints = new Set()
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
             currentGridY = Math.floor(currentCellIndex / cols);
             currentGridX = currentCellIndex % cols
-            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value, id('curve-origin').value)
+            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value, id('curve-origin').value, id("curve-steps").value)
+            alreadyFilledLinePoints = new Set()
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
@@ -212,4 +214,5 @@ paintZone.addEventListener('touchend', (event) => {
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
     if (paintModeSelector.value != "none") recordPaintData()
+    alreadyFilledLinePoints = new Set()
 })

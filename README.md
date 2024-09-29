@@ -2,6 +2,11 @@
 
 ## Change Log
 
+### 2024-016[29-Sep-2024]
+
+- Added Steps In Curves, Also Line Breaks Removed In Curves
+- "Mix" Blending Mode Added
+
 ### 2024-015[20-Sep-2024]
 
 - Added Width Option On Pen & Line Tool

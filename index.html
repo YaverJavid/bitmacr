@@ -279,6 +279,7 @@
         </div><br>
         <label for="blending-mode">Blending Mode : </label>
         <select id="blending-mode">
+            <option value="mix">Mix</option>
             <option value="default">Default</option>
             <option value="overlay">Overlay</option>
             <option value="replace">Replace</option>
@@ -302,6 +303,18 @@
             <option value="subtract">Subtract</option>
             <option value="divide">Divide</option>
             <option value="contrast">Contrast</option>
+        </select>
+    </dialog>
+    <dialog id="grayscaleSettings">
+        <div class="close-container">
+            <h3>Grayscale Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="grayscale-algorithm">Algorithm : </label>
+        <select id="grayscale-algorithm">
+            <option value="accurate">Accurate</option>
+            <option value="natural">Natural</option>
+            <option value="lightness">Lightness</option>
         </select>
     </dialog>
     <br>
@@ -691,8 +704,15 @@
                                 <br>
                                 <label for="curve-line-cap">Line Cap : </label>
                                 <select id="curve-line-cap">
-                                    <option value="square">Square</option>
                                     <option value="round">Round</option>
+                                    <option value="square">Square</option>
+                                </select>
+                                <br>
+                                <label for="curve-steps">Steps : </label>
+                                <select id="curve-steps">
+                                    <option value="10">10 (Fast)</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100 (Slow, Accurate)</option>
                                 </select>
                             </div>
                             <div class="shape-settings" data-settingname="flip">
@@ -726,8 +746,8 @@
                                 <br>
                                 <label for="stroke-line-cap">Line Cap : </label>
                                 <select id="stroke-line-cap">
-                                    <option value="square">Square</option>
                                     <option value="round">Round</option>
+                                    <option value="square">Square</option>
                                 </select>
                             </div>
                             <div class="shape-settings" data-settingname="line">
@@ -739,8 +759,8 @@
                                 <br>
                                 <label for="line-cap">Line Cap : </label>
                                 <select id="line-cap">
-                                    <option value="square">Square</option>
                                     <option value="round">Round</option>
+                                    <option value="square">Square</option>
                                 </select>
                                 <br>
                                 <label for="connect-last-line-location">Connect To Last Line : </label>
@@ -836,6 +856,7 @@
                                 <label for="blend-mode-selector">Blend Mode : </label>
                                 <select id="blend-mode-selector">
                                     <option value="default">Default</option>
+                                    <option value="mix">Mix</option>
                                     <option value="overlay">Overlay</option>
                                     <option value="replace">Replace</option>
                                     <option value="normal">Normal</option>
@@ -939,7 +960,8 @@
                             <input type="button" value="..." id="invert-settings" class="left-flat"
                                 onclick="invertSettings.showModal()">
                             <input type="button" value="Sepia" id="filter-sepia">
-                            <input type="button" value="Grayscale" id="filter-grayscale">
+                            <input type="button" value="Grayscale" id="filter-grayscale" class="right-flat">
+                            <input type="button" value="..." class="left-flat" onclick="grayscaleSettings.showModal()">
                             <input type="button" value="Solorize" id="filter-solorize">
                             <br>
                             <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()"
@@ -964,6 +986,10 @@
                             <input type="button" value="Motion Blur" id="filter-motion-blur" class="right-flat">
                             <input type="button" value="..." class="left-flat" onclick="motionBlurSettings.showModal()">
                             <input type="button" value="Sharpen" id="filter-sharpen">
+                            <br>
+                            <hr>
+                            <h4>Brightining</h4>
+                            <input type="button" value="Weak Brighten" id="filter-weak-brighten">
                             <br>
                             <hr>
                             <h4>Custom Filter</h4>
