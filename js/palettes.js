@@ -29,6 +29,7 @@ for (let i = 0; i < palettes.length; i++) {
 }
 
 function addEventListenerOnPallete(palette) {
+    paletteIndex = palette.children.length - 1
     for (let j = 0; j < palette.children.length; j++) {
         if (palette.children[j].classList.contains(SELECTED_PALETTE_COLOR_TOKEN))
             palette.children[j].classList.remove(SELECTED_PALETTE_COLOR_TOKEN)
