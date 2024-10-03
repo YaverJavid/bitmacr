@@ -403,6 +403,8 @@
                                     title="CSS Color String">
                                 <img src='icons/color-mode/bulb.png' alt='cm' data-value="lighting"
                                     title="Lighting Tools">
+                                <img src='icons/color-mode/sequence.png' alt='cm' data-value="sequence"
+                                    title="Color Sequence">
                             </div>
                             <br>
                             <br>
@@ -477,6 +479,17 @@
                                         <option value="color-history">Color History</option>
                                         <option value="selected-palette">Selected Pallette</option>
                                     </select>
+                                </div>
+                                <div data-csname="sequence">
+                                    <label for="sequence-from">Sequence From : </label>
+                                    <select id="sequence-from">
+                                        <option value="selected-palette">Selected Pallette</option>
+                                        <option value="color-history">Color History</option>
+                                    </select>
+                                    <!-- <br>
+                                    <label for="reset-index-on-pallete-change">Reset Index On Palette Change : </label>
+                                    <input type="checkbox"id="reset-index-on-pallete-change">
+                                    <br> -->
                                 </div>
                                 <div data-csname="hsl">
                                     <input type="color" id="hue-color-shower">
@@ -702,11 +715,17 @@
                                 <input type="range" id="curve-line-width" max="25" min="1" value="1" step="2">
                                 <span id="curve-line-width-shower">(1)</span>
                                 <br>
+                                <label for="curve-depth">Curve Depth : </label>
+                                <input type="number" id="curve-depth" placeholder="1-10" value="0">
+                                <br>
                                 <label for="curve-line-cap">Line Cap : </label>
                                 <select id="curve-line-cap">
                                     <option value="round">Round</option>
                                     <option value="square">Square</option>
                                 </select>
+                                <br>
+                                <label for="allow-curve-doubles">Allow Doubles (Slow) : </label>
+                                <input type="checkbox" id="allow-curve-doubles">
                                 <br>
                                 <label for="curve-steps">Steps : </label>
                                 <select id="curve-steps">
@@ -749,6 +768,9 @@
                                     <option value="round">Round</option>
                                     <option value="square">Square</option>
                                 </select>
+                                <br>
+                                <label for="allow-line-stroke-doubles">Allow Doubles (Slow) : </label>
+                                <input type="checkbox" id="allow-line-stroke-doubles">
                             </div>
                             <div class="shape-settings" data-settingname="line">
                                 <h3>Line</h3>
@@ -765,6 +787,9 @@
                                 <br>
                                 <label for="connect-last-line-location">Connect To Last Line : </label>
                                 <input type="checkbox" id="connect-last-line-location">
+                                <br>
+                                <label for="allow-line-doubles">Allow Doubles (Slow) : </label>
+                                <input type="checkbox" id="allow-line-doubles">
                             </div>
                             <div class="shape-settings" data-settingname="zoom">
                                 <h3>Zooming</h3>

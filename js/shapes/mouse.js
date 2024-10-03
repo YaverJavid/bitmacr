@@ -7,7 +7,6 @@ paintZone.addEventListener('mousedown', (event) => {
     startingCoords.gridY = currentCellIndex % cols;
     startingCoords.x = x;
     startingCoords.y = y;
-
     if (paintModeSelector.value == "line" && connectLastLineLocation.checked && lineLastCoords != {}) {
         let cells2d = [];
         for (let i = 0; i < cells.length; i++)
@@ -31,9 +30,7 @@ paintZone.addEventListener('mousemove', (event) => {
             cells[i].style.backgroundColor = buffer.getItem()[i];
         }
     }
-    for (let i = 0; i < cells.length; i++) {
-        cells2d.push(cells[i]);
-    }
+    for (let i = 0; i < cells.length; i++) cells2d.push(cells[i]);
     cells2d = toPaintData2D(cells2d);
     event.preventDefault();
     const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
@@ -57,8 +54,8 @@ paintZone.addEventListener('mousemove', (event) => {
 
             handleSelectionShowerVisibility(
                 // 1 is border width of self
-                (currentGridY - startingCoords.gridX) * cw - 1 + "px",
-                (currentGridX - startingCoords.gridY) * cw - 1 + "px",
+                ((currentGridY - startingCoords.gridX) * cw - 1) + "px",
+                ((currentGridX - startingCoords.gridY) * cw - 1) + "px",
                 (correctedStartingY - (correctedStartingY % cw)) + "px",
                 (correctedStartingX - (correctedStartingX % cw)) + "px",
                 "1px"
@@ -120,20 +117,22 @@ paintZone.addEventListener('mousemove', (event) => {
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('line-width').value, id('line-cap').value)
+            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
             alreadyFilledLinePoints = new Set()
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
-            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value , id('curve-origin').value, id("curve-steps").value)
+            let curvature = Number(id("curvature").value)
+            curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1)
+            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, curvature, id('curve-origin').value, id("curve-steps").value)
             alreadyFilledLinePoints = new Set()
             break
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('stroke-line-width').value, id("stroke-line-cap").value)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY, id('stroke-line-width').value, id("stroke-line-cap").value)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, currentGridX, currentGridY, id('stroke-line-width').value, id("stroke-line-cap").value,)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridY = currentGridY
             lastLineStrokeEndingCoords.gridX = currentGridX

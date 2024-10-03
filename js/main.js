@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.2024.016"
+const VERSION = "v.2024.017"
 id("version").textContent = VERSION
 
 
@@ -310,6 +310,7 @@ function fillCol(x, pivot, mainCall = true) {
 
 colorSelector.addEventListener("input", function () {
     setPaletteCurrentColor(this.value)
+    colorHistorySequenceIndex = 0
 })
 
 

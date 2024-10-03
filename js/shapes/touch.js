@@ -143,14 +143,16 @@ paintZone.addEventListener('touchmove', (event) => {
             currentCellIndex = document.elementFromPoint(x, y).index
             currentGridX = Math.floor(currentCellIndex / cols);
             currentGridY = currentCellIndex % cols
-            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('line-width').value, id('line-cap').value)
+            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
             alreadyFilledLinePoints = new Set()
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
             currentGridY = Math.floor(currentCellIndex / cols);
             currentGridX = currentCellIndex % cols
-            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, id("curvature").value, id('curve-origin').value, id("curve-steps").value)
+            let curvature = Number(id("curvature").value)
+            curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1)
+            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, curvature, id('curve-origin').value, id("curve-steps").value)
             alreadyFilledLinePoints = new Set()
             break
         case 'line-stroke':
@@ -158,9 +160,9 @@ paintZone.addEventListener('touchmove', (event) => {
             currentGridX = Math.floor(currentCellIndex / cols)
             currentGridY = currentCellIndex % cols
             if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value)
+                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
             isStartOfLineStroke = false
             lastLineStrokeEndingCoords.gridX = currentGridX
             lastLineStrokeEndingCoords.gridY = currentGridY

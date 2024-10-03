@@ -309,7 +309,7 @@
  input[type=text],
  input[type=number] {
      padding: 2px 4px;
-     border-radius: 5vh;
+     border-radius: 64px;
      border: none;
      border: 1px solid var(--primary);
      background: var(--secondary);
@@ -598,7 +598,7 @@
  }
 
  input[type=number] {
-     width: 50%;
+     width: 22%;
  }
 
  #css-color-string-shower {
@@ -694,6 +694,7 @@
 
  #selection-shower {
      position: absolute;
+     pointer-events: none;
     
  }
 

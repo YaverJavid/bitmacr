@@ -40,10 +40,11 @@ const opacity = id("opacity")
 const opacityShower = id("opacity-shower")
 let hue = 0
 let prevOpacity = 1
+let paletteSequenceIndex = 0
+let colorHistorySequenceIndex = 0
 
 opacity.oninput = () => {
     opacityShower.textContent = `(${opacity.value})`
-
     customConfirm(`Do You Want To Change Opacity From ${prevOpacity} to ${opacity.value}?`, () => {
         prevOpacity = opacity.value
     }, () => {
@@ -65,9 +66,10 @@ function cssToRGBAOrRgb(color) {
     ).getPropertyValue("background-color")
 }
 
+
 function getCurrentSelectedColor(preview = false) {
-    let colorMods = colorMSelector.value
-    if (colorMods == "random") {
+    let colorMode = colorMSelector.value
+    if (colorMode == "random") {
         switch (randomFrom.value) {
             case "all":
                 color = rgbToHex(getRandColor())
@@ -86,7 +88,7 @@ function getCurrentSelectedColor(preview = false) {
         }
 
     }
-    else if (colorMods == "hsl") {
+    else if (colorMode == "hsl") {
         let currentHue;
         if (!preview) hue += parseFloat(hueSpeedSlider.value)
         let decimalPart = hue - Math.floor(hue)
@@ -96,16 +98,15 @@ function getCurrentSelectedColor(preview = false) {
         if (!preview) updateHueColorShower()
         color = hslToHex(`hsl(${currentHue},${saturationSlider.value}%,${lightingSlider.value}%)`)
     }
-    else if (colorMods == "eraser")
+    else if (colorMode == "eraser")
         color = '#00000000'
-    else if (colorMods == "css-color")
+    else if (colorMode == "css-color")
         color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value));
-    else if (colorMods == "palette")
-        color = rgbToHex(window.getComputedStyle(paletteCS.selected).getPropertyValue("background"))
-    else if (colorMods == "lighting") {
+    else if (colorMode == "palette")
+        color = rgbToHex(savedPalettes[paletteSelector.value][paletteIndex])
+    else if (colorMode == "lighting")
         return id("lighting-object-type").value
-    }
-    else if (colorMods == "formula") {
+    else if (colorMode == "formula") {
         if (colorFormulaTypeSelector.value == "hsl") {
             let hue = evalFormula(id("cf-hsl-hue").value, colorFormulaVars)
             let saturation = evalFormula(id("cf-hsl-saturation").value, colorFormulaVars)
@@ -150,12 +151,26 @@ function getCurrentSelectedColor(preview = false) {
                     break
             }
             if (colorFormulaVars[name] > maxPossibleValue) colorFormulaVars[name] = baseValue
-            if (colorFormulaVars[name] < minPossibleValue) colorFormulaVars[name] = baseValue
+            if (colorFormulaVars[name] < minPossibleValue) colorFormu
+            laVars[name] = baseValue
             elem.children[4].value = colorFormulaVars[name]
             elem.children[4].style.width = elem.children[4].value.length + "ch";
         })
     }
-    else
+    else if (colorMode == "sequence") {
+        let sequenceMode = id("sequence-from").value
+        if (sequenceMode == "selected-palette") {
+            paletteSequenceIndex = (paletteSequenceIndex + 1) % savedPalettes[paletteSelector.value].length
+            color = rgbToHex(savedPalettes[paletteSelector.value][paletteSequenceIndex])
+        } else {
+            colorHistorySequenceIndex = (colorHistorySequenceIndex + 1) % usedColors.length
+            if (usedColors.length == 0) {
+                customAlert("No Color Present In Color History!")
+                color = "#000000"
+            }
+            color = usedColors[colorHistorySequenceIndex]
+        }
+    } else
         color = currentSelectedColor
     let opacityHex = Math.round(opacity.value * 255).toString(16).padStart(2, '0')
     if (color.length != 9) color += opacityHex
@@ -280,7 +295,7 @@ function fillCell(cellElem, color) {
         }
     }
     let finalColor = color
-    if(id("filling-mode").value == 'blend') finalColor = rgbaObjectToHex(blendColors(hexToRgbaObject(color) ,hexToRgbaObject(currentColor), id('blending-mode').value))
+    if (id("filling-mode").value == 'blend') finalColor = rgbaObjectToHex(blendColors(hexToRgbaObject(color), hexToRgbaObject(currentColor), id('blending-mode').value))
     cellElem.style.backgroundColor = finalColor
 }
 

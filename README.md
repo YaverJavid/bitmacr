@@ -2,10 +2,18 @@
 
 ## Change Log
 
+### 2024-017[29-Sep-2024]
+
+- Added Depth In Curves
+- Added Color Sequence Color Type
+- Fixed Selection Bug
+- Other Minor Improvements
+
 ### 2024-016[29-Sep-2024]
 
 - Added Steps In Curves, Also Line Breaks Removed In Curves
 - "Mix" Blending Mode Added
+- Other Minor Improvements
 
 ### 2024-015[20-Sep-2024]
 

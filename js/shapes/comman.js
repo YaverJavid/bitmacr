@@ -69,14 +69,14 @@ function drawRectangle(x, y, w, h, plane, filled) {
 }
 
 let alreadyFilledLinePoints = new Set()
-function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'round') {
+function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'round', allowDoubles = false) {
     const dx = Math.abs(x2 - x1);
     const dy = Math.abs(y2 - y1);
     const sx = x1 < x2 ? 1 : -1;
     const sy = y1 < y2 ? 1 : -1;
     let err = dx - dy;
     while (x1 !== x2 || y1 !== y2) {
-        drawThickPoint(array, x1, y1, lw, lineCap);
+        drawThickPoint(array, x1, y1, lw, lineCap, allowDoubles);
         const e2 = 2 * err;
         if (e2 > -dy) {
             err -= dy;
@@ -87,40 +87,34 @@ function drawLine(array, x1, y1, x2, y2, lw = 1, lineCap = 'round') {
             y1 += sy;
         }
     }
-    drawThickPoint(array, x1, y1, lw, lineCap);
+    drawThickPoint(array, x1, y1, lw, lineCap, allowDoubles);
 }
 
-function drawThickPoint(array, x, y, lw, lineCap) {
+function drawThickPoint(array, x, y, lw, lineCap, allowDoubles) {
     const halfLw = Math.floor(lw / 2);
     for (let i = -halfLw; i <= halfLw; i++) {
         for (let j = -halfLw; j <= halfLw; j++) {
             const distance = Math.sqrt(i * i + j * j);
             if (lineCap === "round" && distance <= halfLw) {
-                setCellColorSafe(array, x + i, y + j, getCurrentSelectedColor());
+                setCellColorSafe(array, x + i, y + j, allowDoubles);
             } else if (lineCap === "square") {
-                setCellColorSafe(array, x + i, y + j, getCurrentSelectedColor());
+                setCellColorSafe(array, x + i, y + j, allowDoubles);
             }
         }
     }
 }
 
-function setCellColorSafe(array, x, y, color) {
-    // Pack the (x, y) coordinates into a string or number (assuming pack(x, y) returns a string or number)
+function setCellColorSafe(array, x, y, allowDoubles) {
     const point = pack(x, y);
-
-    // Check if the point is already processed
-    if (alreadyFilledLinePoints.has(point)) return;
-
-    // Bounds check for x and y
+    if (alreadyFilledLinePoints.has(point) && (!allowDoubles)) return;
     if (x >= 0 && x < array[0].length && y >= 0 && y < array.length) {
-        setCellColor(array[y][x], color); // Set the color of the cell
+        setCellColor(array[y][x], getCurrentSelectedColor());
     }
-
-    // Mark the point as filled
     alreadyFilledLinePoints.add(point);
 }
 
 function drawCurve(array, x1, y1, x2, y2, lw = 1, lineCap = 'square', curvature = 0.5, centerPoint = 0.5, steps = 10) {
+    let allowDoubles = id("allow-curve-doubles").checked
     const dx = x2 - x1;
     const dy = y2 - y1;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -128,15 +122,15 @@ function drawCurve(array, x1, y1, x2, y2, lw = 1, lineCap = 'square', curvature 
     const centerY = y1 + centerPoint * dy;
     const controlX = centerX - curvature * dy / distance * (distance / 2);
     const controlY = centerY + curvature * dx / distance * (distance / 2);
-    drawQuadraticBezier(array, x1, y1, controlX, controlY, x2, y2, lw, lineCap, steps);
+    drawQuadraticBezier(array, x1, y1, controlX, controlY, x2, y2, lw, lineCap, steps, allowDoubles);
 }
 
-function drawQuadraticBezier(array, x1, y1, cx, cy, x2, y2, lw, lineCap, steps) {
+function drawQuadraticBezier(array, x1, y1, cx, cy, x2, y2, lw, lineCap, steps, allowDoubles) {
     let lastLine;
     for (let t = 0; t <= 1; t += 1 / steps) {
         const x = Math.round((1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2);
         const y = Math.round((1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2);
-        if (lastLine && !(isNaN(lastLine.x) || isNaN(lastLine.y))) drawLine(array, x, y, lastLine.x, lastLine.y, lw, lineCap);
+        if (lastLine && !(isNaN(lastLine.x) || isNaN(lastLine.y))) drawLine(array, x, y, lastLine.x, lastLine.y, lw, lineCap, allowDoubles);
         lastLine = { x, y }
     }
 }
@@ -444,13 +438,14 @@ id("curvature").oninput = () => {
 id("curve-line-width").oninput = () => {
     id("curve-line-width-shower").textContent = `(${id("curve-line-width").value})`
 }
+id("curve-depth").oninput = visualiseCurve
 
 function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
     if (blx == -1 || bly == -1) return
     let linesize = size
     while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
-            pixels[bly][blx + dx].style.backgroundColor = getCurrentSelectedColor()
+           setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
         }
         bly--
         linesize -= perColDY
@@ -463,38 +458,55 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
 const curveCanvas = id("curve-visualiser")
 const curveCtx = curveCanvas.getContext("2d")
 curveCanvas.width = 400
-curveCanvas.height = curveCanvas.width / 2
+curveCanvas.height = curveCanvas.width
+curveCtx.lineWidth = 10
+curveCtx.lineCap = 'round'
 
 function visualiseCurve() {
-    curveCtx.fillStyle = 'white'
-    curveCtx.fillRect(0, 0, curveCanvas.width, curveCanvas.height)
-    curveCtx.fillStyle = 'black'
-    const lw = 20
-    const curvature = id("curvature").value
-    const centerPoint = id('curve-origin').value
-    let x1 = 0, y1 = curveCanvas.height / 2, x2 = curveCanvas.width, y2 = curveCanvas.height / 2
-    const steps = 100, dx = x2 - x1, dy = y2 - y1;
+    curveCtx.fillStyle = 'white';
+    curveCtx.fillRect(0, 0, curveCanvas.width, curveCanvas.height);
+    curveCtx.fillStyle = 'black';
+    
+    let curvature = Number(id("curvature").value);
+    curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1);
+    
+    const centerPoint = Number(id('curve-origin').value);
+    let x1 = 0, y1 = curveCanvas.height / 2;
+    let x2 = curveCanvas.width, y2 = curveCanvas.height / 2;
+    
+    const steps = 100;
+    const dx = x2 - x1, dy = y2 - y1;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const centerX = x1 + centerPoint * dx, centerY = y1 + centerPoint * dy;
+    
     const controlX = centerX - curvature * dy / distance * (distance / 2);
     const controlY = centerY + curvature * dx / distance * (distance / 2);
-
-    curveCtx.strokeStyle = 'red';
-    curveCtx.lineWidth = 10
-    curveCtx.beginPath();
-    curveCtx.moveTo(controlX, 0)
-    curveCtx.lineTo(controlX, curveCanvas.height)
-    curveCtx.stroke();
-
+    
+    let firstPoint = true; 
+    curveCtx.strokeStyle = 'black';
+    
     for (let t = 0; t <= 1; t += 1 / steps) {
         const x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * controlX + t * t * x2;
         const y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * controlY + t * t * y2;
-        curveCtx.fillStyle = 'black';
-        curveCtx.beginPath();
-        curveCtx.arc(x, y, lw / 2, 0, Math.PI * 2);
-        curveCtx.fill();
+        
+        if (firstPoint) {
+            curveCtx.beginPath();
+            curveCtx.moveTo(x, y);
+            firstPoint = false;
+        } else {
+            curveCtx.lineTo(x, y);
+        }
     }
+    curveCtx.stroke();
+    curveCtx.closePath();
+    curveCtx.beginPath();
+    curveCtx.strokeStyle = 'red';
+    curveCtx.moveTo(controlX, (curveCanvas.height / 2) - 50);
+    curveCtx.lineTo(controlX, (curveCanvas.height / 2) + 50);
+    curveCtx.stroke();
+    curveCtx.closePath();
 }
+
 
 visualiseCurve();
 

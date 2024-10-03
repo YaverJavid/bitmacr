@@ -9,7 +9,7 @@ const PALETTE_LIMIT = 128
 setUpLocalStorageBucket(B_SAVED_PALETTES, '{"Flowing Water":["lightblue", "deeppink"]}')
 
 let savedPalettes = JSON.parse(getBucketVal(B_SAVED_PALETTES))
-
+let paletteIndex = 0
 let savedPaletteKeys = Object.keys(savedPalettes)
 for (let i = 0; i < savedPaletteKeys.length; i++) {
    if("." == savedPaletteKeys[i][0]) delete savedPalettes[savedPaletteKeys[i]]
@@ -37,6 +37,7 @@ function addEventListenerOnPallete(palette) {
         palette.selected = palette.children[palette.children.length - 1]
         palette.selected.classList.add(SELECTED_PALETTE_COLOR_TOKEN)
         palette.children[i].onclick = () => {
+            paletteIndex = i   
             for (let j = 0; j < palette.children.length; j++) {
                 if (palette.children[j].classList.contains(SELECTED_PALETTE_COLOR_TOKEN))
                     palette.children[j].classList.remove(SELECTED_PALETTE_COLOR_TOKEN)
@@ -104,6 +105,7 @@ document.getElementById("save-palette").onclick = () => {
 
 paletteSelector.oninput = () => {
     updatePaletteSelector()
+    paletteSequenceIndex = 0
 }
 
 function updatePaletteSelector() {

@@ -47,7 +47,7 @@
     background: transparent !important;
     box-shadow: none !important;
     color: var(--primary);
-    width: 24px
+    width: 64px
 }
 
 .var input[type=button]{
