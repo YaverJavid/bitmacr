@@ -103,7 +103,7 @@ function getCurrentSelectedColor(preview = false) {
     else if (colorMode == "css-color")
         color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value));
     else if (colorMode == "palette")
-        color = rgbToHex(savedPalettes[paletteSelector.value][paletteIndex])
+        color = rgbToHex(cssToRGBAOrRgb(savedPalettes[paletteSelector.value][paletteIndex]))
     else if (colorMode == "lighting")
         return id("lighting-object-type").value
     else if (colorMode == "formula") {

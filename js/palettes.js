@@ -6,10 +6,83 @@ const PName = id("p-name")
 const paletteSelector = id("palette-selector")
 const paletteCS = id("palette-cs")
 const PALETTE_LIMIT = 128
-setUpLocalStorageBucket(B_SAVED_PALETTES, '{"Flowing Water":["lightblue", "deeppink"]}')
+const DEFAULT_PALETTES = `{
+  "Flowing Water": [
+    "rgba(173, 216, 230, 1)",
+    "rgba(255, 20, 147, 1)",
+    "rgba(0, 255, 255, 1)",
+    "rgba(255, 127, 80, 1)",
+    "rgba(230, 230, 250, 1)",
+    "rgba(152, 255, 152, 1)"
+  ],
+  "Sunset Glow": [
+    "rgba(255, 94, 77, 1)",
+    "rgba(255, 223, 0, 1)",
+    "rgba(255, 182, 193, 1)",
+    "rgba(153, 50, 204, 1)",
+    "rgba(139, 0, 0, 1)"
+  ],
+  "Forest Hues": [
+    "rgba(34, 139, 34, 1)",
+    "rgba(173, 223, 173, 1)",
+    "rgba(139, 69, 19, 1)",
+    "rgba(135, 206, 235, 1)",
+    "rgba(218, 165, 32, 1)"
+  ],
+  "Ocean Breeze": [
+    "rgba(0, 105, 148, 1)",
+    "rgba(72, 209, 204, 1)",
+    "rgba(135, 206, 250, 1)",
+    "rgba(70, 130, 180, 1)",
+    "rgba(176, 224, 230, 1)"
+  ],
+  "Autumn Leaves": [
+    "rgba(255, 69, 0, 1)",
+    "rgba(255, 140, 0, 1)",
+    "rgba(255, 215, 0, 1)",
+    "rgba(210, 105, 30, 1)",
+    "rgba(139, 69, 19, 1)"
+  ],
+  "Spring Blossom": [
+    "rgba(255, 192, 203, 1)",
+    "rgba(255, 182, 193, 1)",
+    "rgba(255, 105, 180, 1)",
+    "rgba(255, 20, 147, 1)",
+    "rgba(219, 112, 147, 1)"
+  ],
+  "Winter Chill": [
+    "rgba(176, 224, 230, 1)",
+    "rgba(173, 216, 230, 1)",
+    "rgba(135, 206, 250, 1)",
+    "rgba(0, 191, 255, 1)",
+    "rgba(70, 130, 180, 1)"
+  ],
+  "Desert Sunset": [
+    "rgba(255, 160, 122, 1)",
+    "rgba(255, 127, 80, 1)",
+    "rgba(255, 99, 71, 1)",
+    "rgba(255, 69, 0, 1)",
+    "rgba(255, 140, 0, 1)"
+  ],
+  "Tropical Paradise": [
+    "rgba(0, 255, 127, 1)",
+    "rgba(60, 179, 113, 1)",
+    "rgba(32, 178, 170, 1)",
+    "rgba(0, 206, 209, 1)",
+    "rgba(72, 209, 204, 1)"
+  ],
+  "Vintage Vibes": [
+    "rgba(205, 133, 63, 1)",
+    "rgba(210, 180, 140, 1)",
+    "rgba(244, 164, 96, 1)",
+    "rgba(222, 184, 135, 1)",
+    "rgba(188, 143, 143, 1)"
+  ]
+}`
+setUpLocalStorageBucket(B_SAVED_PALETTES, DEFAULT_PALETTES)
 
 let savedPalettes = JSON.parse(getBucketVal(B_SAVED_PALETTES))
-let paletteIndex = 0
+
 let savedPaletteKeys = Object.keys(savedPalettes)
 for (let i = 0; i < savedPaletteKeys.length; i++) {
    if("." == savedPaletteKeys[i][0]) delete savedPalettes[savedPaletteKeys[i]]
@@ -27,9 +100,9 @@ for (let i = 0; i < palettes.length; i++) {
     if (palettes[i].dataset.onlyShow != "true")
         addEventListenerOnPallete(palettes[i])
 }
+let paletteIndex = 0
 
 function addEventListenerOnPallete(palette) {
-    paletteIndex = palette.children.length - 1
     for (let j = 0; j < palette.children.length; j++) {
         if (palette.children[j].classList.contains(SELECTED_PALETTE_COLOR_TOKEN))
             palette.children[j].classList.remove(SELECTED_PALETTE_COLOR_TOKEN)
@@ -118,6 +191,7 @@ function updatePaletteSelector() {
         paletteCS.appendChild(colorElem)
     }
     addEventListenerOnPallete(paletteCS)
+    paletteIndex = paletteCS.children.length - 1   
 }
 
 function deleteSelectedPalette() {
