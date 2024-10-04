@@ -36,10 +36,10 @@
  }
 
  * {
-     font-family: "Pixelify Sans", sans-serif;
+     /* font-family: "Pixelify Sans", sans-serif; */
      user-select: none;
       /* line-height: 2;  */
-     /* font-family: 'Paytone One', sans-serif; */
+     font-family: 'Paytone One', sans-serif;
 
 
  }
