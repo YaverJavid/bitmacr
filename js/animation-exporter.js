@@ -1,8 +1,13 @@
+// import {
+//     GIFEncoder,
+//     quantize,
+//     applyPalette
+// } from 'https://unpkg.com/gifenc@1.0.3';
 import {
     GIFEncoder,
     quantize,
     applyPalette
-} from 'https://unpkg.com/gifenc@1.0.3';
+} from './externallibs/gifenc.js';
 
 
 const globalFrameDelaySelector = document.getElementById("global-frame-delay")

@@ -9,6 +9,7 @@
 - Fixed Selection Bug
 - Other Minor Improvements
 - Added 10 Default Palattes
+- Changed Logo
 
 ### 2024-016[29-Sep-2024]
 
