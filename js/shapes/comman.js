@@ -183,8 +183,9 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
             if (paint2d[y]) {
                 if (paint2d[y][x]) {
                     color = zoomOut ? rgbaToHex(array[j]) : array[j]
-                    if (ignoreTransparentCells && color == "#00000000") color = buffer.getItem()[pack(x, y)]
-                    setCellColor(paint2d[y][x], color)
+                    if (!(ignoreTransparentCells && color == "#00000000")) {
+                        setCellColor(paint2d[y][x], color)
+                    }
                 }
             }
             j++
