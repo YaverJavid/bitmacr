@@ -12,6 +12,7 @@
 - Changed Logo
 - Filling mode can Now be Changed On Top Bar
 - Resize Handler Is Now Removed
+- Paste Blending Modes Removed
 
 ### 2024-016[29-Sep-2024]
 
