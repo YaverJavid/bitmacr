@@ -3,6 +3,7 @@
    ONLY SOME DECLARATIONS HERE
 */
 
+let controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
 const cells = document.getElementsByClassName("cell"),
     cellsSlider = id('cells-slider'),
     paintZone = id('paint-zone'),
@@ -23,7 +24,6 @@ const cells = document.getElementsByClassName("cell"),
     thresholdShower = id("threshold-shower"),
     colorMatchThresholdSlider = id("color-match-threshold-range"),
     root = document.querySelector(":root"),
-    controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width")),
     bottomControls = id("bottom-control-container"),
     menuNav = id("menu-nav"),
     menus = bottomControls.children,

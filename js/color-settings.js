@@ -386,3 +386,30 @@ for (let i = 0; i < cmodes.length; i++) {
         refreshColorMode()
     }
 }
+
+id("top-filling-mode").onclick = () => {
+    if (id("filling-mode").value == 'blend') {
+        id("filling-mode").value = 'replace'
+    } else {
+        id("filling-mode").value = 'blend'
+    }
+    updateFillingModeUI()
+}
+
+function updateFillingModeUI() {
+    if (id("filling-mode").value == 'blend') {
+        id("top-filling-mode").src = "../icons/misc/blend.png"
+        id("top-filling-mode").title = `Blending With "${id('blending-mode').value.toUpperCase()}" Mode`
+    } else {
+        id("top-filling-mode").src = "../icons/misc/replacing.png"
+        id("top-filling-mode").title = "Replacing"
+    }
+}
+
+id('filling-mode').onclick = () => {
+    updateFillingModeUI()
+}
+
+id("blending-mode").onclick = () => {
+    updateFillingModeUI()
+}

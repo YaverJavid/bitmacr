@@ -176,7 +176,7 @@ function handleMousePaintEnd(event) {
             cells2d = toPaintData2D(cells2d);
             if (id("flipper-direction").value == "horizontal") for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
             else partToFlip.reverse()
-            paste(bx, by, partToFlip, cells2d, true)
+            paste(bx, by, partToFlip, cells2d)
             recordPaintData()
         }
     } else if (paintModeSelector.value == "line") {

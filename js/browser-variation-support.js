@@ -1,14 +1,4 @@
 const B_BROWSER_TYPE = "browser-type"
-const B_RESIZE_HANDLER = "resize-handler"
-
-setUpLocalStorageBucket(B_RESIZE_HANDLER, "0")
-execBucket(B_RESIZE_HANDLER, "1", () => {
-    id("resize-handler-suppressor").checked = true
-})
-
-id("resize-handler-suppressor").oninput = ()=>{
-    setBucketVal(B_RESIZE_HANDLER, id("resize-handler-suppressor").checked ? "1" : "0")
-}
 
 
 function getAutoBrowserType() {
@@ -62,11 +52,9 @@ function applyBrowserVariation(browserType) {
             }
             break;
         case "DESKTOP.CHROME":
-            addResizeHandler()
             id("top-reload").style.display = "initial"
             break
         case "DESKTOP.EDGE":
-            addResizeHandler()
             id("top-reload").style.display = "initial"
             break
         default:
@@ -82,12 +70,4 @@ id("browser-selector").oninput = () => {
 id("reset-browser-type").onclick = () => {
     id("browser-selector").value = getAutoBrowserType()
     setBucketVal(B_BROWSER_TYPE, id("browser-selector").value)
-}
-
-function addResizeHandler() {
-    if (id("resize-handler-suppressor").checked)
-        window.onresize = () => {
-            customConfirm("Resizing window might be causing layout bugs, if so click 'OK' to 'RELOAD'? <br> <h5>To supress this alert go to settings/alert-suppressors</h5>", () => window.location.reload())
-        }
-    else window.onresize = ()=>{}
 }

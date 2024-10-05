@@ -204,7 +204,7 @@ paintZone.addEventListener('touchend', (event) => {
             for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
             cells2d = toPaintData2D(cells2d);
             for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
-            paste(bx, by, partToFlip, cells2d, true)
+            paste(bx, by, partToFlip, cells2d)
             recordPaintData()
         }
     }

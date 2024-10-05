@@ -169,7 +169,7 @@ function copy(mode = "select") {
     }
     return { failed: false }
 }
-function paste(xb, yb, data2d, paint2d, replaceBlending = false, zoomOut = false) {
+function paste(xb, yb, data2d, paint2d, zoomOut = false) {
     if (!data2d) return
     let h = data2d.length
     let w = data2d[0].length
@@ -177,17 +177,14 @@ function paste(xb, yb, data2d, paint2d, replaceBlending = false, zoomOut = false
     let yt = yb - h
     let array = data2d.flat();
     let j = 0
-    let blendingMode = replaceBlending ? 'replace' : id("blend-mode-selector").value
     let ignoreTransparentCells = id('ignore-transparent-cells').checked
     for (let y = yt; y < yb; y++) {
         for (let x = xt; x < xb; x++) {
             if (paint2d[y]) {
                 if (paint2d[y][x]) {
-                    let bottomColor = convertRGBAStrToObj(buffer.getItem()[pack(x, y)])
-                    let topColor = zoomOut ? convertRGBAStrToObj(array[j]) : hexToRgbaObject(array[j])
-                    let finalColor = colorObjectToRGBA(blendColors(topColor, bottomColor, blendingMode))
-                    if (ignoreTransparentCells && topColor.a == 0) finalColor = bottomColor
-                    setCellColor(paint2d[y][x], finalColor)
+                    color = zoomOut ? rgbaToHex(array[j]) : array[j]
+                    if (ignoreTransparentCells && color == "#00000000") color = buffer.getItem()[pack(x, y)]
+                    setCellColor(paint2d[y][x], color)
                 }
             }
             j++
@@ -352,7 +349,7 @@ function zoomOut() {
         cells2d.push(cells[i])
     }
     cells2d = toPaintData2D(cells2d, fullRows, fullCols)
-    paste(zoomOriginX, zoomOriginY, partToPaste, cells2d, true, 'zoom-out')
+    paste(zoomOriginX, zoomOriginY, partToPaste, cells2d, 'zoom-out')
     recordPaintData()
     sessions[currentSession].buffer = buffer
     for (let i = 0; i < zoomOutButtons.length; i++) {
@@ -445,7 +442,7 @@ function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options =
     let linesize = size
     while (linesize > 0) {
         for (let dx = 0; dx < linesize; dx++) {
-           setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
+            setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
         }
         bly--
         linesize -= perColDY
@@ -466,29 +463,29 @@ function visualiseCurve() {
     curveCtx.fillStyle = 'white';
     curveCtx.fillRect(0, 0, curveCanvas.width, curveCanvas.height);
     curveCtx.fillStyle = 'black';
-    
+
     let curvature = Number(id("curvature").value);
     curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1);
-    
+
     const centerPoint = Number(id('curve-origin').value);
     let x1 = 0, y1 = curveCanvas.height / 2;
     let x2 = curveCanvas.width, y2 = curveCanvas.height / 2;
-    
+
     const steps = 100;
     const dx = x2 - x1, dy = y2 - y1;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const centerX = x1 + centerPoint * dx, centerY = y1 + centerPoint * dy;
-    
+
     const controlX = centerX - curvature * dy / distance * (distance / 2);
     const controlY = centerY + curvature * dx / distance * (distance / 2);
-    
-    let firstPoint = true; 
+
+    let firstPoint = true;
     curveCtx.strokeStyle = 'black';
-    
+
     for (let t = 0; t <= 1; t += 1 / steps) {
         const x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * controlX + t * t * x2;
         const y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * controlY + t * t * y2;
-        
+
         if (firstPoint) {
             curveCtx.beginPath();
             curveCtx.moveTo(x, y);

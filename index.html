@@ -335,6 +335,7 @@
                     title="Force Save Sessions">
                 <input type="button" value="+F" onclick="addFrame()" title="Add Frame">
                 <input type="button" value="&#x21bb;" id="top-reload" title="Reload">
+                <img src="icons/misc/replacing.png" alt="Blend Mode" class="generic-icon" title="Replacing" id="top-filling-mode">
                 <input type="button" id="redo" value="REDO">
             </div>
             <marquee id="adstrip">
@@ -876,35 +877,7 @@
                                 <br>
                                 <br>
                                 <label for="ignore-transparent-cells">Ignore Transparent Cells : </label>
-                                <input type="checkbox" id="ignore-transparent-cells">
-                                <br>
-                                <label for="blend-mode-selector">Blend Mode : </label>
-                                <select id="blend-mode-selector">
-                                    <option value="default">Default</option>
-                                    <option value="mix">Mix</option>
-                                    <option value="overlay">Overlay</option>
-                                    <option value="replace">Replace</option>
-                                    <option value="normal">Normal</option>
-                                    <option value="multiply">Multiply</option>
-                                    <option value="screen">Screen</option>
-                                    <option value="darken">Darken</option>
-                                    <option value="lighten">Lighten</option>
-                                    <option value="difference">Difference</option>
-                                    <option value="exclusion">Exclusion</option>
-                                    <option value="hue">Hue</option>
-                                    <option value="saturation">Saturation</option>
-                                    <option value="color">Color</option>
-                                    <option value="luminosity">Luminosity</option>
-                                    <option value="softLight">Soft Light</option>
-                                    <option value="hardLight">Hard Light</option>
-                                    <option value="pinLight">Pin Light</option>
-                                    <option value="linearBurn">Linear Burn</option>
-                                    <option value="linearDodge">Linear Dodge (Add)</option>
-                                    <option value="vividLight">Vivid Light</option>
-                                    <option value="subtract">Subtract</option>
-                                    <option value="divide">Divide</option>
-                                    <option value="contrast">Contrast</option>
-                                </select>
+                                <input type="checkbox" id="ignore-transparent-cells" checked>
                                 <br>
                                 <input type="button" value="Rotate 90&deg;" class="rotate-copied-data">
                             </div>
@@ -1396,14 +1369,6 @@
                             <h3 data-type="hidden-tab" data-tabname="suppressors">Alert Suppressors</h3>
                             <br>
                             <h5>Following Settings Require a Reload To Apply: </h5>
-                            <br>
-                            <div class="switch-container">
-                                <label for="resize-handler-suppressor">Turn Resize Handler On</label>
-                                <label class="switch">
-                                    <input type="checkbox" id="resize-handler-suppressor">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
                             <br>
                             <div class="switch-container">
                                 <label for="pref-no-fill-mode-warning">Warn About Fill Mode</label>

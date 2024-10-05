@@ -4,3 +4,4 @@ electron.js
 forge.config.js
 package.json
 package-lock.json
+js/updater-notifier.js

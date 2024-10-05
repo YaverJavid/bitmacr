@@ -10,6 +10,7 @@
 - Other Minor Improvements
 - Added 10 Default Palattes
 - Changed Logo
+- Filling mode can Now be Changed On Top Bar
 
 ### 2024-016[29-Sep-2024]
 

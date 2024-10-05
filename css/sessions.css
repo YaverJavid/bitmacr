@@ -18,16 +18,22 @@
     border: 2px dotted var(--primary);
     backdrop-filter: var(--frostblur);
     opacity: 0.6;
+    cursor: pointer;
 }
 
 .session-delete-button {
     width: 20%;
     margin: 0;
+    cursor: pointer;
 }
 
 .session-active {
     border: 2px solid var(--primary);
     opacity: 1;
+    cursor: not-allowed;
+}
+.session-active > .session-delete-button{
+    cursor: not-allowed;
 }
 
 #add-session {
@@ -38,6 +44,7 @@
     margin-bottom: 25px;
     margin-left: 3%;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 #sessions-section {

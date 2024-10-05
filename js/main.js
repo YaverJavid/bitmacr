@@ -65,17 +65,18 @@ for (let i = 0; i < menus.length; i++) {
 
 function redirectMenuViewTo(location) {
     bottomControls.scrollLeft = location
-
 }
-
+let currentTabIndex = 0
 function gotoTab(tabName, scollIntoView = false) {
     if (scollIntoView) bottomControls.scrollIntoView()
     redirectMenuViewTo(tabLocations[tabName] * controlWidth)
+    currentTabIndex = tabLocations[tabName]
 }
 
 for (let i = 0; i < menuNav.children.length; i++) {
     menuNav.children[i].addEventListener("click", () => {
         redirectMenuViewTo(i * controlWidth)
+        currentTabIndex = i
     })
     if (bottomControls.children[i].children[1].dataset.type == "hidden-tab") {
         menuNav.children[i].style.display = "none"
@@ -92,6 +93,13 @@ function firstLevelArrayCompare(arr1, arr2) {
         if (arr1[i] != arr2[i]) return false
     }
     return true
+}
+
+window.onresize = () => {
+    controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
+    redirectMenuViewTo(currentTabIndex * controlWidth)
+    addCanvas(rows, cols, false)
+    undo()
 }
 
 
@@ -263,7 +271,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
         cells[i].style.borderColor = borderColor
     }
     recordPaintData()
-    if (!borderCheckbox.checked) removeBorder()
+    updateBorderStatus(borderCheckbox.checked)
     if (guideCheckbox.checked) addGuides()
 }
 
