@@ -95,13 +95,6 @@ function firstLevelArrayCompare(arr1, arr2) {
     return true
 }
 
-window.onresize = () => {
-    controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
-    redirectMenuViewTo(currentTabIndex * controlWidth)
-    addCanvas(rows, cols, false)
-    undo()
-}
-
 
 let fillMissCount = 0
 

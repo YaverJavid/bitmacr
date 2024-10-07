@@ -6,7 +6,7 @@ document.addEventListener("keydown", function (event) {
         for (let i = 0; i < menuNav.children.length; i++) {
             if (menuNav.children[i].dataset.shortcutkey == 'undefined') continue
             if (event.key == menuNav.children[i].dataset.shortcutkey) {
-                redirectMenuViewTo(menuSegmentLocations[i])
+                redirectMenuViewTo(i * controlWidth)
                 if (!menuNav.children[i].dataset.type) {
                     menuNav.children[i].scrollIntoView()
                 }

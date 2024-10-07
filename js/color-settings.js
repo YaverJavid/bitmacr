@@ -39,18 +39,22 @@ const randomFrom = id("random-from")
 const opacity = id("opacity")
 const opacityShower = id("opacity-shower")
 let hue = 0
-let prevOpacity = 1
+
 let paletteSequenceIndex = 0
 let colorHistorySequenceIndex = 0
+// let prevOpacity = 1
+// opacity.oninput = () => {
+//     opacityShower.textContent = `(${opacity.value})`
+//     customConfirm(`Do You Want To Change Opacity From ${prevOpacity} to ${opacity.value}?`, () => {
+//         prevOpacity = opacity.value
+//     }, () => {
+//         opacity.value = prevOpacity
+//         opacityShower.textContent = `(${prevOpacity})`
+//     })
+// }
 
 opacity.oninput = () => {
     opacityShower.textContent = `(${opacity.value})`
-    customConfirm(`Do You Want To Change Opacity From ${prevOpacity} to ${opacity.value}?`, () => {
-        prevOpacity = opacity.value
-    }, () => {
-        opacity.value = prevOpacity
-        opacityShower.textContent = `(${prevOpacity})`
-    })
 }
 
 function updateHueShower() {
@@ -398,10 +402,10 @@ id("top-filling-mode").onclick = () => {
 
 function updateFillingModeUI() {
     if (id("filling-mode").value == 'blend') {
-        id("top-filling-mode").src = "../icons/misc/blend.png"
+        setIcon(id("top-filling-mode"), "misc/blend.png")
         id("top-filling-mode").title = `Blending With "${id('blending-mode').value.toUpperCase()}" Mode`
     } else {
-        id("top-filling-mode").src = "../icons/misc/replacing.png"
+        setIcon(id("top-filling-mode"), "misc/replacing.png")
         id("top-filling-mode").title = "Replacing"
     }
 }
@@ -413,3 +417,5 @@ id('filling-mode').onclick = () => {
 id("blending-mode").onclick = () => {
     updateFillingModeUI()
 }
+
+console.log(__dirname);

@@ -58,7 +58,7 @@ function applyBrowserVariation(browserType) {
             id("top-reload").style.display = "initial"
             break
         default:
-            // Tab to edit
+        // Tab to edit
     }
 }
 applyBrowserVariation(BROWSER_TYPE)
@@ -70,4 +70,15 @@ id("browser-selector").oninput = () => {
 id("reset-browser-type").onclick = () => {
     id("browser-selector").value = getAutoBrowserType()
     setBucketVal(B_BROWSER_TYPE, id("browser-selector").value)
+}
+
+if (BROWSER_TYPE.includes("DESKTOP")) {
+    window.onresize = () => {
+        controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
+        redirectMenuViewTo(currentTabIndex * controlWidth)
+        addCanvas(rows, cols, false)
+        undo()
+        buffer.deleteRight()
+    }
+
 }
