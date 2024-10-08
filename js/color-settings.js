@@ -155,10 +155,8 @@ function getCurrentSelectedColor(preview = false) {
                     break
             }
             if (colorFormulaVars[name] > maxPossibleValue) colorFormulaVars[name] = baseValue
-            if (colorFormulaVars[name] < minPossibleValue) colorFormu
-            Vars[name] = baseValue
+            if (colorFormulaVars[name] < minPossibleValue) colorFormulaVars[name] = baseValue
             elem.children[4].value = colorFormulaVars[name]
-            elem.children[4].style.width = elem.children[4].value.length + "ch";
         })
     }
     else if (colorMode == "sequence") {
@@ -417,5 +415,3 @@ id('filling-mode').onclick = () => {
 id("blending-mode").onclick = () => {
     updateFillingModeUI()
 }
-
-console.log(__dirname);

@@ -80,5 +80,6 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
         undo()
         buffer.deleteRight()
     }
-
+} else {
+    id('undo').value = '<<<'
 }

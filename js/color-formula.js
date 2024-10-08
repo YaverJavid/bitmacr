@@ -39,12 +39,6 @@ function getVarElem() {
 
 id("add-var").onclick = () => {
     id("vars").prepend(getVarElem())
-    var resizableInputs = document.querySelectorAll('.resizable-input'); // get the input element
-
-    resizableInputs.forEach(input => {
-        input.addEventListener('input', resizeInput)
-        resizeInput.call(input);
-    });
     colorFormulaVars["v"] = 0
 }
 
