@@ -231,65 +231,60 @@ for (let i = 0; i < shapesElems.length; i++) {
     }
 }
 
-function drawNaturalFilledCircle(cx, cy, r, matrix) {
+function drawNaturalCircle(cx, cy, r, matrix, filled = true) {
     const rows = matrix.length;
     const cols = matrix[0].length;
     let x = r;
     let y = 0;
     let radiusError = 1 - x;
-    while (x >= y) {
-        for (let i = cx - x; i <= cx + x; i++) {
-            if (i >= 0 && i < rows) {
-                if (cy + y >= 0 && cy + y < cols) setCellColor(matrix[i][cy + y], getCurrentSelectedColor())
-                if (cy - y >= 0 && cy - y < cols) setCellColor(matrix[i][cy - y], getCurrentSelectedColor())
+    if (filled) {
+        while (x >= y) {
+            for (let i = cx - x; i <= cx + x; i++) {
+                if (i >= 0 && i < rows) {
+                    if (cy + y >= 0 && cy + y < cols) setCellColor(matrix[i][cy + y], getCurrentSelectedColor())
+                    if (cy - y >= 0 && cy - y < cols) setCellColor(matrix[i][cy - y], getCurrentSelectedColor())
+                }
+            }
+            for (let i = cx - y; i <= cx + y; i++) {
+                if (i >= 0 && i < rows) {
+                    if (cy + x >= 0 && cy + x < cols) setCellColor(matrix[i][cy + x], getCurrentSelectedColor())
+                    if (cy - x >= 0 && cy - x < cols) setCellColor(matrix[i][cy - x], getCurrentSelectedColor())
+                }
+            }
+            y++
+            if (radiusError < 0) radiusError += 2 * y + 1;
+            else {
+                x--
+                radiusError += 2 * (y - x + 1);
             }
         }
-        for (let i = cx - y; i <= cx + y; i++) {
-            if (i >= 0 && i < rows) {
-                if (cy + x >= 0 && cy + x < cols) setCellColor(matrix[i][cy + x], getCurrentSelectedColor())
-                if (cy - x >= 0 && cy - x < cols) setCellColor(matrix[i][cy - x], getCurrentSelectedColor())
+    } else {
+        while (x >= y) {
+            if (cx + x >= 0 && cx + x < rows && cy + y >= 0 && cy + y < cols)
+                setCellColor(matrix[cx + x][cy + y], getCurrentSelectedColor())
+            if (cx + y >= 0 && cx + y < rows && cy + x >= 0 && cy + x < cols)
+                setCellColor(matrix[cx + y][cy + x], getCurrentSelectedColor())
+            if (cx - x >= 0 && cx - x < rows && cy + y >= 0 && cy + y < cols)
+                setCellColor(matrix[cx - x][cy + y], getCurrentSelectedColor())
+            if (cx - y >= 0 && cx - y < rows && cy + x >= 0 && cy + x < cols)
+                setCellColor(matrix[cx - y][cy + x], getCurrentSelectedColor())
+            if (cx - x >= 0 && cx - x < rows && cy - y >= 0 && cy - y < cols)
+                setCellColor(matrix[cx - x][cy - y], getCurrentSelectedColor())
+            if (cx - y >= 0 && cx - y < rows && cy - x >= 0 && cy - x < cols)
+                setCellColor(matrix[cx - y][cy - x], getCurrentSelectedColor())
+            if (cx + x >= 0 && cx + x < rows && cy - y >= 0 && cy - y < cols)
+                setCellColor(matrix[cx + x][cy - y], getCurrentSelectedColor())
+            if (cx + y >= 0 && cx + y < rows && cy - x >= 0 && cy - x < cols)
+                setCellColor(matrix[cx + y][cy - x], getCurrentSelectedColor())
+            y++
+            if (radiusError < 0) radiusError += 2 * y + 1;
+            else {
+                x--
+                radiusError += 2 * (y - x + 1)
             }
         }
-        y++
-        if (radiusError < 0) radiusError += 2 * y + 1;
-        else {
-            x--
-            radiusError += 2 * (y - x + 1);
-        }
     }
-}
 
-
-function drawNaturalStrokeCircle(cx, cy, r, matrix) {
-    const rows = matrix.length;
-    const cols = matrix[0].length;
-    let x = r;
-    let y = 0;
-    let radiusError = 1 - x
-    while (x >= y) {
-        if (cx + x >= 0 && cx + x < rows && cy + y >= 0 && cy + y < cols)
-            setCellColor(matrix[cx + x][cy + y], getCurrentSelectedColor())
-        if (cx + y >= 0 && cx + y < rows && cy + x >= 0 && cy + x < cols)
-            setCellColor(matrix[cx + y][cy + x], getCurrentSelectedColor())
-        if (cx - x >= 0 && cx - x < rows && cy + y >= 0 && cy + y < cols)
-            setCellColor(matrix[cx - x][cy + y], getCurrentSelectedColor())
-        if (cx - y >= 0 && cx - y < rows && cy + x >= 0 && cy + x < cols)
-            setCellColor(matrix[cx - y][cy + x], getCurrentSelectedColor())
-        if (cx - x >= 0 && cx - x < rows && cy - y >= 0 && cy - y < cols)
-            setCellColor(matrix[cx - x][cy - y], getCurrentSelectedColor())
-        if (cx - y >= 0 && cx - y < rows && cy - x >= 0 && cy - x < cols)
-            setCellColor(matrix[cx - y][cy - x], getCurrentSelectedColor())
-        if (cx + x >= 0 && cx + x < rows && cy - y >= 0 && cy - y < cols)
-            setCellColor(matrix[cx + x][cy - y], getCurrentSelectedColor())
-        if (cx + y >= 0 && cx + y < rows && cy - x >= 0 && cy - x < cols)
-            setCellColor(matrix[cx + y][cy - x], getCurrentSelectedColor())
-        y++
-        if (radiusError < 0) radiusError += 2 * y + 1;
-        else {
-            x--
-            radiusError += 2 * (y - x + 1)
-        }
-    }
 }
 
 

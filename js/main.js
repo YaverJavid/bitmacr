@@ -145,7 +145,6 @@ function applyPaintData(data, simpleFill = true) {
     }
 }
 
-
 function addCanvas(argRows, argCols, clearStack = true) {
     rows = argRows
     cols = argCols
@@ -181,85 +180,90 @@ function addCanvas(argRows, argCols, clearStack = true) {
         cells[i].index = i
         cells[i].onclick = function () {
             lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
-            if (colorSelectionInProgress) {
+            if (openCheckbox) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
                 let selectedColor = fullColor.slice(0, 7)
-                changeCellBorderColor(borderColor)
-                if (clickManagerCheckboxes.selectColorForFind.checked) {
-                    colorToBeReplacedSelector.value = selectedColor
-                    targetColor = selectedColor
-                    clickManagerCheckboxes.selectColorForFind.checked = false
-                } else if (clickManagerCheckboxes.colorSelectCheckbox.checked) {
-                    setPaletteCurrentColor(selectedColor)
-                    clickManagerCheckboxes.colorSelectCheckbox.checked = false
-                } else if (clickManagerCheckboxes.selectHitsSpecificColor.checked) {
-                    id("hits-specific-color").value = fullColor
-                    clickManagerCheckboxes.selectHitsSpecificColor.checked = false
-                } else if (clickManagerCheckboxes.selectColorForReplacer.checked) {
-                    colorToReplaceWithSelector.value = selectedColor
-                    replacementColor = selectedColor
-                    clickManagerCheckboxes.selectColorForReplacer.checked = false
-                } else if (clickManagerCheckboxes.pasteOnClick.checked) {
-                    let y = Math.floor(i / cols)
-                    let x = i % cols
-                    if (!selectedPart) return
-                    let cells2d = []
-                    for (let i = 0; i < cells.length; i++)  cells2d.push(cells[i])
-                    cells2d = toPaintData2D(cells2d);
-                    paste(
-                        x + selectedPart[0].length,
-                        y + selectedPart.length,
-                        selectedPart,
-                        cells2d
-                    )
-                    recordPaintData()
-                } else if (clickManagerCheckboxes.copyColorFromCellCheckbox.checked) {
-                    copyTextToClipboard(selectedColor);
-                    copiedColorShower.innerHTML = `If Color Wasn't Copied, Copy Manually: <span class="color">${selectedColor}</span> <span style="user-select:none; color: ${selectedColor}; background: ${selectedColor}; border: 0.5px solid var(-secondary)" >!!!!</span>`
-                    clickManagerCheckboxes.copyColorFromCellCheckbox.checked = false
-                } else if (clickManagerCheckboxes.selectHueFromCell.checked) {
-                    // HUE
-                    clickManagerCheckboxes.selectHueFromCell.checked = false
-                    hueAngle.value = getHSLFromHex(selectedColor).hue
-                    hue = parseFloat(hueAngle.value)
-                    updateHueShower()
-                    updateHueColorShower()
-                } else if (clickManagerCheckboxes.selectLightingFromCell.checked) {
-                    // LIGHTING
-                    clickManagerCheckboxes.selectLightingFromCell.checked = false
-                    lightingSlider.value = getHSLFromHex(selectedColor).lightness * 100
-                    updateHueColorShower()
-                    lightingShower.innerHTML = `(${lightingSlider.value}%)`
-                } else if (clickManagerCheckboxes.selectSaturationFromCell.checked) {
-                    // SATURATION
-                    clickManagerCheckboxes.selectSaturationFromCell.checked = false
-                    saturationSlider.value = getHSLFromHex(selectedColor).saturation * 100
-                    saturationShower.innerHTML = `(${saturationSlider.value}%)`
-                    updateHueColorShower()
-                } else if (clickManagerCheckboxes.selectForOnlyFillIf.checked) {
-                    if (fillOnlyThisColor.value) fillOnlyThisColor.value += "||"
-                    fillOnlyThisColor.value += selectedColor
-                    clickManagerCheckboxes.selectForOnlyFillIf.checked = false
-                } else if (clickManagerCheckboxes.selectColorForPaletteCreator.checked) {
-                    paletteCreatorPalette.selected.style.background = selectedColor
-                    clickManagerCheckboxes.selectColorForPaletteCreator.checked = false
+                let _openCheckbox = openCheckbox
+                id(openCheckbox).checked = false
+                openCheckbox = undefined
+                switch (_openCheckbox) {
+                    case 'select-color':
+                        setPaletteCurrentColor(selectedColor)
+                        break
+                    case 'select-color-for-find':
+                        colorToBeReplacedSelector.value = selectedColor
+                        targetColor = selectedColor
+                        break
+                    case 'select-color-for-replacer':
+                        colorToReplaceWithSelector.value = selectedColor
+                        replacementColor = selectedColor
+                        break
+                    case 'copy-color-from-cell-checkbox':
+                        copyTextToClipboard(selectedColor);
+                        copiedColorShower.innerHTML = `If Color Wasn't Copied, Copy Manually: <span class="color">${selectedColor}</span> <span style="user-select:none; color: ${selectedColor}; background: ${selectedColor}; border: 0.5px solid var(-secondary)" >!!!!</span>`
+                        break
+                    case 'select-hue-from-cell':
+                        hueAngle.value = getHSLFromHex(selectedColor).hue
+                        hue = parseFloat(hueAngle.value)
+                        updateHueShower()
+                        updateHueColorShower()
+                        break
+                    case 'select-saturation-cell':
+                        saturationSlider.value = getHSLFromHex(selectedColor).saturation * 100
+                        saturationShower.innerHTML = `(${saturationSlider.value}%)`
+                        updateHueColorShower()
+                        break
+                    case 'select-lighting-cell':
+                        lightingSlider.value = getHSLFromHex(selectedColor).lightness * 100
+                        updateHueColorShower()
+                        lightingShower.innerHTML = `(${lightingSlider.value}%)`
+                        break
+                    case 'select-for-only-fill-if':
+                        if (fillOnlyThisColor.value) fillOnlyThisColor.value += "||"
+                        fillOnlyThisColor.value += selectedColor
+                        break
+                    case 'select-color-for-palette-creator':
+                        paletteCreatorPalette.selected.style.background = selectedColor
+                        break
+                    case 'paste-onclick-checkbox':
+                        openCheckbox = _openCheckbox
+                        id(_openCheckbox).checked = true
+                        let y = Math.floor(i / cols)
+                        let x = i % cols
+                        if (!selectedPart) return
+                        let cells2d = []
+                        for (let i = 0; i < cells.length; i++)  cells2d.push(cells[i])
+                        cells2d = toPaintData2D(cells2d);
+                        paste(
+                            x + selectedPart[0].length,
+                            y + selectedPart.length,
+                            selectedPart,
+                            cells2d
+                        )
+                        recordPaintData()
+                        break
+                    case 'onclick-fill-col':
+                        openCheckbox = _openCheckbox
+                        id(_openCheckbox).checked = true
+                        fillCol(i % cols, Math.floor(i / cols))
+                        break
+                    case 'onclick-fill-row':
+                        openCheckbox = _openCheckbox
+                        id(_openCheckbox).checked = true
+                        fillRow(Math.floor(i / cols), i % cols)
+                        break
+                    case 'select-hits-specific-color':
+                        id("hits-specific-color").value = fullColor
+                        break
                 }
-                else if (clickManagerCheckboxes.onclickFillCol.checked) fillCol(i % cols, Math.floor(i / cols))
-                else if (clickManagerCheckboxes.onclickFillRow.checked) fillRow(Math.floor(i / cols), i % cols)
-                colorSelectionInProgress = false
-                colorSelectionInProgress = clickManagerCheckboxes.pasteOnClick.checked ||
-                    clickManagerCheckboxes.onclickFillRow.checked ||
-                    clickManagerCheckboxes.onclickFillCol.checked
                 recordPaintData()
-            } else if (clickModeSelector.value == "fill") {
+            } else if (clickModeSelector.value == "fill" && colorMSelector.value != 'lighting') {
                 applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
                 recordPaintData()
             } else {
                 setCellColor(this, getCurrentSelectedColor())
                 recordPaintData()
             }
-
-
         }
         cells[i].style.borderColor = borderColor
     }
@@ -339,18 +343,15 @@ redo.addEventListener("click", () => {
 
 
 // Color Copier Manager
-let colorSelectionInProgress = false
+let openCheckbox
 for (let colorCopierCheckbox in clickManagerCheckboxes) {
     clickManagerCheckboxes[colorCopierCheckbox].oninput = function () {
         if (!this.checked) {
-            changeCellBorderColor(borderColor)
-            colorSelectionInProgress = false
+            openCheckbox = undefined
             return
         }
-        colorSelectionInProgress = true
-        for (let colorCopierCheckbox in clickManagerCheckboxes) clickManagerCheckboxes[colorCopierCheckbox].checked = false
-        this.checked = true
-        changeCellBorderColor("red")
+        if (openCheckbox) id(openCheckbox).checked = false
+        openCheckbox = this.id
     }
 }
 

@@ -61,18 +61,13 @@ paintZone.addEventListener('touchmove', (event) => {
         case "flip":
         case "selecting":
             if (paintModeSelector.value == "zoom" && zoomedIn) break
-            paintZonePosition = paintZone.getBoundingClientRect()
-            correctedStartingY = startingCoords.y - paintZonePosition.y
-            correctedStartingX = startingCoords.x - paintZonePosition.x
-            correctedX = x - paintZonePosition.x
-            correctedY = y - paintZonePosition.y
-            currentGridX = Math.floor(correctedX / cw)
-            currentGridY = Math.floor(correctedY / cw)
-
+            let paintZonePosition = paintZone.getBoundingClientRect()
+            let correctedStartingY = startingCoords.y - paintZonePosition.y
+            let correctedStartingX = startingCoords.x - paintZonePosition.x
             handleSelectionShowerVisibility(
                 // 1 is border width of self
-                (currentGridY - startingCoords.gridX) * cw - 1 + "px",
-                (currentGridX - startingCoords.gridY) * cw - 1 + "px",
+                ((currentGridY - startingCoords.gridX + 1) * cw - 1) + "px",
+                ((currentGridX - startingCoords.gridY + 1) * cw - 1) + "px",
                 (correctedStartingY - (correctedStartingY % cw)) + "px",
                 (correctedStartingX - (correctedStartingX % cw)) + "px",
                 "1px"
@@ -80,8 +75,8 @@ paintZone.addEventListener('touchmove', (event) => {
             selectionCoords = {
                 ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
                 xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
-                ybr: Math.min(currentGridY, rows),
-                xbr: Math.min(currentGridX, cols)
+                ybr: Math.min(currentGridY + 1, rows),
+                xbr: Math.min(currentGridX + 1, cols)
             }
             break
         case "paste":
@@ -109,11 +104,7 @@ paintZone.addEventListener('touchmove', (event) => {
             if (circleAlgorithm.value == "accurate") {
                 drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
             } else if (circleAlgorithm.value == "natural") {
-                if (fillCircle.checked) {
-                    drawNaturalFilledCircle(circleX, circleY, radius, cells2d)
-                } else {
-                    drawNaturalStrokeCircle(circleX, circleY, radius, cells2d)
-                }
+                drawNaturalCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
             }
             break;
         case "triangle":

@@ -54,8 +54,8 @@ paintZone.addEventListener('mousemove', (event) => {
 
             handleSelectionShowerVisibility(
                 // 1 is border width of self
-                ((currentGridY - startingCoords.gridX) * cw - 1) + "px",
-                ((currentGridX - startingCoords.gridY) * cw - 1) + "px",
+                ((currentGridY - startingCoords.gridX + 1) * cw - 1) + "px",
+                ((currentGridX - startingCoords.gridY + 1) * cw - 1) + "px",
                 (correctedStartingY - (correctedStartingY % cw)) + "px",
                 (correctedStartingX - (correctedStartingX % cw)) + "px",
                 "1px"
@@ -63,8 +63,8 @@ paintZone.addEventListener('mousemove', (event) => {
             selectionCoords = {
                 ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
                 xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
-                ybr: Math.min(currentGridY, rows + 1),
-                xbr: Math.min(currentGridX, cols)
+                ybr: Math.min(currentGridY + 1, rows),
+                xbr: Math.min(currentGridX + 1, cols)
             }
             break
         case "paste":
@@ -73,33 +73,25 @@ paintZone.addEventListener('mousemove', (event) => {
             let py = Math.floor(cellIndex / cols) + selectedPart.length
             let px = (cellIndex % cols) + selectedPart[0].length
             paste(px, py, selectedPart, cells2d)
-            break;
+            break
         case "eq-triangle":
             drawEquilateralTriangle(startingCoords.gridX, startingCoords.gridY, 6, cells2d)
-            break;
+            break
         case 'circle':
             if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
-            let circleX, circleY
-            if (fixedRadius.checked) {
-                circleX = currentGridY
-                circleY = currentGridX
-            } else {
-                circleX = startingCoords.gridX - radius
-                circleY = startingCoords.gridY + radius
-            }
-            if (circleAlgorithm.value == "accurate") {
+            let circleX = fixedRadius.checked ? currentGridY : (startingCoords.gridX - radius)
+            let circleY = fixedRadius.checked ? currentGridX : (startingCoords.gridY + radius)
+            if (circleAlgorithm.value == "accurate")
                 drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
-            } else if (circleAlgorithm.value == "natural") {
-                if (fillCircle.checked) drawNaturalFilledCircle(circleX, circleY, radius, cells2d)
-                else drawNaturalStrokeCircle(circleX, circleY, radius, cells2d)
-            }
-            break;
+            else if (circleAlgorithm.value == "natural")
+                drawNaturalCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
+            break
         case "triangle":
             drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, cells2d, Math.abs(startingCoords.gridY - currentGridX), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
-            break;
+            break
         case 'sphere':
             drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, cells2d)
-            break;
+            break
         case 'rect':
             let bx, by, h, w
             if (fixedRectSize.checked) {

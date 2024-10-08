@@ -666,6 +666,7 @@
      max-height: 50px;
      display: block;
      background: white;
+     border: 1px solid black;
      padding: 5px;
      margin-top: 0 !important;
      margin-left: 10px;
@@ -680,7 +681,7 @@
 
  .active-shape,
  .active-cmode {
-     border: 1px solid black;
+     border: 3px solid black!important;
  }
 
  .shape-settings {
@@ -929,7 +930,8 @@
      height: 1lh;
      cursor: pointer;
      background-color: var(--primary);
-     border: 1px solid var(--secondary);
+     border: 1px solid black;
+     background-color: #ffffff;
      margin: 0;
      padding: 0 4px!important;
  }
