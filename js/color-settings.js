@@ -156,7 +156,7 @@ function getCurrentSelectedColor(preview = false) {
             }
             if (colorFormulaVars[name] > maxPossibleValue) colorFormulaVars[name] = baseValue
             if (colorFormulaVars[name] < minPossibleValue) colorFormu
-            laVars[name] = baseValue
+            Vars[name] = baseValue
             elem.children[4].value = colorFormulaVars[name]
             elem.children[4].style.width = elem.children[4].value.length + "ch";
         })
