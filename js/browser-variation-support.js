@@ -76,10 +76,11 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
     window.onresize = () => {
         controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
         redirectMenuViewTo(currentTabIndex * controlWidth)
-        addCanvas(rows, cols, false)
-        undo()
-        buffer.deleteRight()
+        let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
+        paintZone.style.height = elemWidth * rows + "vw"
     }
 } else {
-    id('undo').value = '<<<'
+    id('undo').value = '↰'
+    id('redo').value = '↱'
+    id('export-button').value = '&darr;'
 }

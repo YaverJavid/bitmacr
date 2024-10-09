@@ -154,11 +154,11 @@ function addCanvas(argRows, argCols, clearStack = true) {
     paintZone.innerHTML = ""
     let HTML = ' <div id="selection-shower"></div>'
     let i = 0
-    let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
     while (i < rows * cols) {
         HTML += `<div class="cell"></div>`
         i++
     }
+    let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
     paintZone.style.height = elemWidth * rows + "vw"
     paintZone.innerHTML = HTML
     paintZone.style.gridTemplateRows = `repeat(${rows}, 1fr)`

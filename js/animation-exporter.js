@@ -1,8 +1,3 @@
-// import {
-//     GIFEncoder,
-//     quantize,
-//     applyPalette
-// } from 'https://unpkg.com/gifenc@1.0.3';
 import {
     GIFEncoder,
     quantize,
