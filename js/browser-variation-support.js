@@ -80,7 +80,6 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
         paintZone.style.height = elemWidth * rows + "vw"
     }
 } else {
-    id('undo').value = '↰'
-    id('redo').value = '↱'
-    id('export-button').value = '&darr;'
+    id('undo').value = '⇐'
+    id('redo').value = '⇒'
 }
