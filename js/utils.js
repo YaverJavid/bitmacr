@@ -243,40 +243,39 @@ function rgbaToHex(rgbaColor) {
     return hex;
 }
 
+const toHex = (x) => {
+    const hex = Math.round(x * 255).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+}
+const hue2rgb = (p, q, t) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+};
 
 function hslToHex(hsl) {
-    const [hue, saturation, lightness] = hsl
+    const [h, s, l] = hsl
         .match(/[\d.]+/g)
         .map((x) => parseFloat(x));
+    return hslValToHex(h, s, l)
+}
 
-    const h = hue / 360;
-    const s = saturation / 100;
-    const l = lightness / 100;
-
+function hslValToHex(h, s, l) {
+    h /= 360;
+    s /= 100;
+    l /= 100;
     let r, g, b;
-    if (s === 0) {
-        r = g = b = l;
-    } else {
-        const hue2rgb = (p, q, t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-        };
+    if (!s) r = g = b = l;
+    else {
         const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
         const p = 2 * l - q;
         r = hue2rgb(p, q, h + 1 / 3);
         g = hue2rgb(p, q, h);
         b = hue2rgb(p, q, h - 1 / 3);
     }
-
-    const toHex = (x) => {
-        const hex = Math.round(x * 255).toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-    };
-
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
@@ -349,7 +348,7 @@ function areRGBAObjsEqual(a, b, th = 0) {
     let dr = Math.abs(a.r - b.r),
         dg = Math.abs(a.g - b.g),
         db = Math.abs(a.b - b.b)
-    return dr <= th && dg <= th  && db <= th  && a.a == b.a
+    return dr <= th && dg <= th && db <= th && a.a == b.a
 }
 
 function isInBounds(x, y, xLength, yLength) {

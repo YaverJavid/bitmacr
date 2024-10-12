@@ -27,10 +27,12 @@ document.addEventListener("keydown", function (event) {
             id('select-color').oninput()
         } else if (event.key == "d") {
            endProcess()
+        } else if(event.key == "q"){
+            alreadyFilledLinePoints = new Set()
         }
     }
 });
 
 
 
-// tcoqxfghz
+// tcoqgh

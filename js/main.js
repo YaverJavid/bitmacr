@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.2024.017"
+const VERSION = "v.2024.018"
 id("version").textContent = VERSION
 
 
@@ -135,7 +135,7 @@ function recordPaintData() {
 function applyPaintData(data, simpleFill = true) {
     // simpleFill : IF IT IS UNDO OR REDO WE WANT TO DO A SIMPLE FILL
     if (simpleFill) {
-        for (var i = 0; i < cells.length; i++) {
+        for (var i = 0; i < cells.length; i++) { 
             cells[i].style.backgroundColor = data[i]
         }
         return
@@ -144,6 +144,8 @@ function applyPaintData(data, simpleFill = true) {
         setCellColor(cells[i], data[i])
     }
 }
+
+let cells2d
 
 function addCanvas(argRows, argCols, clearStack = true) {
     rows = argRows
@@ -270,6 +272,9 @@ function addCanvas(argRows, argCols, clearStack = true) {
     recordPaintData()
     updateBorderStatus(borderCheckbox.checked)
     if (guideCheckbox.checked) addGuides()
+    cells2d = []
+    for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
+    cells2d = toPaintData2D(cells2d);
 }
 
 function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {

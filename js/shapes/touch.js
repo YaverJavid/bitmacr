@@ -24,6 +24,7 @@ paintZone.addEventListener('touchstart', (event) => {
 })
 
 const paintZoneHeight = window.getComputedStyle(paintZone).getPropertyValue("height")
+
 paintZone.addEventListener('touchmove', (event) => {
     if (wasLastTouchStart) {
         wasLastTouchStart = false
@@ -33,133 +34,30 @@ paintZone.addEventListener('touchmove', (event) => {
             return
         }
     }
+    event.preventDefault();
     if (event.touches.length != 1 || paintModeSelector.value == "none") return
     const { targetTouches } = event;
     const touch = targetTouches[0];
     const x = touch.clientX
     const y = touch.clientY
-    let cells2d = []
-    if (paintModeSelector.value != "line-stroke") {
-        for (let i = 0; i < cells.length; i++) {
-            cells[i].style.backgroundColor = buffer.getItem()[i]
-        }
-    }
-    for (let i = 0; i < cells.length; i++) {
-        cells2d.push(cells[i])
-    }
-    cells2d = toPaintData2D(cells2d)
-    const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width")
-    const cw = (parseFloat(paintZoneWidth) / cols)
-    let dx = Math.ceil(Math.abs(startingCoords.x - x) / cw)
-    let dy = Math.ceil(Math.abs(startingCoords.y - y) / cw)
+
     let currentCell = document.elementFromPoint(x, y);
-    let currentGridY, currentGridX, currentCellIndex = currentCell.index
-    let radius = dx
-    event.preventDefault()
-    switch (paintModeSelector.value) {
-        case "zoom":
-        case "flip":
-        case "selecting":
-            if (paintModeSelector.value == "zoom" && zoomedIn) break
-            let paintZonePosition = paintZone.getBoundingClientRect()
-            let correctedStartingY = startingCoords.y - paintZonePosition.y
-            let correctedStartingX = startingCoords.x - paintZonePosition.x
-            handleSelectionShowerVisibility(
-                // 1 is border width of self
-                ((currentGridY - startingCoords.gridX + 1) * cw - 1) + "px",
-                ((currentGridX - startingCoords.gridY + 1) * cw - 1) + "px",
-                (correctedStartingY - (correctedStartingY % cw)) + "px",
-                (correctedStartingX - (correctedStartingX % cw)) + "px",
-                "1px"
-            )
-            selectionCoords = {
-                ytl: Math.min(Math.max(startingCoords.gridX, 0), rows),
-                xtl: Math.min(Math.max(startingCoords.gridY, 0), cols),
-                ybr: Math.min(currentGridY + 1, rows),
-                xbr: Math.min(currentGridX + 1, cols)
-            }
-            break
-        case "paste":
-            if (!selectedPart) return
-            if (currentCell.classList[0] != "cell") return
-            currentGridY = Math.floor(currentCellIndex / cols)
-            currentGridX = currentCellIndex % cols
-            paste(
-                currentGridX + selectedPart[0].length,
-                currentGridY + selectedPart.length,
-                selectedPart,
-                cells2d
-            )
-            break;
-        case 'circle':
-            if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
-            let circleX, circleY
-            if (fixedRadius.checked) {
-                circleX = Math.floor(currentCellIndex / cols);
-                circleY = currentCellIndex % cols
-            } else {
-                circleX = startingCoords.gridX - radius
-                circleY = startingCoords.gridY + radius
-            }
-            if (circleAlgorithm.value == "accurate") {
-                drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
-            } else if (circleAlgorithm.value == "natural") {
-                drawNaturalCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
-            }
-            break;
-        case "triangle":
-            let ty = currentCellIndex % cols
-            drawEquilateralTriangle(startingCoords.gridY, startingCoords.gridX, cells2d, Math.abs(startingCoords.gridY - ty), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
-            break;
-        case 'sphere':
-            drawSphere(startingCoords.gridX - radius, startingCoords.gridY + radius, radius, cells2d)
-            break;
-        case 'rect':
-            let bx, by, h, w
-            if (fixedRectSize.checked) {
-                bx = currentCellIndex % cols
-                by = Math.floor(currentCellIndex / cols);
-                w = parseInt(fixedRectWidth.value)
-                h = parseInt(fixedRectHeight.value)
-            } else {
-                bx = startingCoords.gridY
-                by = startingCoords.gridX
-                w = dx
-                h = dy
-            }
-            drawRectangle(bx, by, w, h, cells2d, fillRect.checked)
-            break
-        case 'line':
-            if (currentCell.classList[0] != "cell") return
-            currentCellIndex = document.elementFromPoint(x, y).index
-            currentGridX = Math.floor(currentCellIndex / cols);
-            currentGridY = currentCellIndex % cols
-            drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
-            alreadyFilledLinePoints = new Set()
-            break
-        case 'curve':
-            if (currentCell.classList[0] != "cell") return
-            currentGridY = Math.floor(currentCellIndex / cols);
-            currentGridX = currentCellIndex % cols
-            let curvature = Number(id("curvature").value)
-            curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1)
-            drawCurve(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridX, currentGridY, id('curve-line-width').value, id('curve-line-cap').value, curvature, id('curve-origin').value, id("curve-steps").value)
-            alreadyFilledLinePoints = new Set()
-            break
-        case 'line-stroke':
-            if (currentCell.classList[0] != "cell") return
-            currentGridX = Math.floor(currentCellIndex / cols)
-            currentGridY = currentCellIndex % cols
-            if (isStartOfLineStroke)
-                drawLine(cells2d, startingCoords.gridY, startingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
-            else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridY, lastLineStrokeEndingCoords.gridX, currentGridY, currentGridX, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
-            isStartOfLineStroke = false
-            lastLineStrokeEndingCoords.gridX = currentGridX
-            lastLineStrokeEndingCoords.gridY = currentGridY
-            break
-    }
+    let cellIndex = currentCell.index
+    const currentGridY = Math.floor(cellIndex / cols);
+    const currentGridX = cellIndex % cols
+
+    if (paintModeSelector.value != "line-stroke") refillCanvas()
+
+    const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
+    const cw = parseFloat(paintZoneWidth) / cols
+    let dx = -1 * Math.ceil((startingCoords.x - x) / cw) + 1
+    let dy = Math.ceil((startingCoords.y - y) / cw)
+    if (dx < 1) dx = 1
+    if (dy < 1) dy = 1
+
+    draw(currentGridX, currentGridY, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY, dx, dy, currentCel, cwl)
 });
+
 
 paintZone.addEventListener('touchend', (event) => {
     if (paintModeSelector.value == "selecting") {

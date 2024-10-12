@@ -169,6 +169,7 @@ function copy(mode = "select") {
     }
     return { failed: false }
 }
+
 function paste(xb, yb, data2d, paint2d, zoomOut = false) {
     if (!data2d) return
     let h = data2d.length
@@ -503,3 +504,157 @@ function visualiseCurve() {
 
 visualiseCurve();
 
+function drawGradient(matrix, xb, yb, n, x, startColor, endColor, type = 'linear', angle = 0) {
+    function hexToRgb(hex) {
+        const bigint = parseInt(hex.slice(1), 16);
+        return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+    }
+
+    function rgbToHex(r, g, b) {
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+    }
+
+    const [r1, g1, b1] = hexToRgb(startColor);
+    const [r2, g2, b2] = hexToRgb(endColor);
+    const rStep = r2 - r1;
+    const gStep = g2 - g1;
+    const bStep = b2 - b1;
+    const opacityTail = Math.round(id('gradient-opacity').value * 255).toString(16).padStart(2, '0').toUpperCase();
+    if (type === 'linear') {
+        const radAngle = (angle * Math.PI) / 180;
+        const cosA = Math.cos(radAngle);
+        const sinA = Math.sin(radAngle);
+
+        const halfWidth = x / 2;
+        const halfHeight = n / 2;
+
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < x; j++) {
+                const translatedX = j - halfWidth;
+                const translatedY = i - halfHeight;
+                const projection = translatedX * cosA + translatedY * sinA;
+                const normalizedStep = (projection + halfWidth) / x;
+                const step = Math.min(Math.max(normalizedStep, 0), 1);
+                let r = Math.round(r1 + rStep * step);
+                let g = Math.round(g1 + gStep * step);
+                let b = Math.round(b1 + bStep * step);
+                setCellColor(matrix[yb - i][j + xb], rgbToHex(r, g, b) + opacityTail);
+            }
+        }
+    }
+    if (type === 'radial') {
+        const centerX = Math.floor(x / 2);
+        const centerY = Math.floor(n / 2);
+        const maxRadius = Math.sqrt(centerX * centerX + centerY * centerY);
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < x; j++) {
+                const distX = j - centerX;
+                const distY = i - centerY;
+                const distance = Math.sqrt(distX * distX + distY * distY);
+                const step = Math.min(distance / maxRadius, 1)
+                let r = Math.round(r1 + rStep * step);
+                let g = Math.round(g1 + gStep * step);
+                let b = Math.round(b1 + bStep * step);
+                setCellColor(matrix[yb - i][j + xb], rgbToHex(r, g, b) + opacityTail);
+            }
+        }
+    }
+}
+
+id('linear-gradient-angle').oninput = () => id('linear-gradient-angle-shower').innerHTML = `(${id('linear-gradient-angle').value}&deg)`
+id('gradient-opacity').oninput = () => id('gradient-opacity-shower').innerHTML = `(${id('gradient-opacity').value})`
+
+function draw(gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw) {
+    let radius = dx
+    switch (paintModeSelector.value) {
+        case "flip":
+        case "zoom":
+        case "selecting":
+            if (paintModeSelector.value == "zoom" && zoomedIn) break
+            let paintZonePosition = paintZone.getBoundingClientRect()
+            let correctedStartingY = sy - paintZonePosition.y
+            let correctedStartingX = sx - paintZonePosition.x
+
+            handleSelectionShowerVisibility(
+                // 1 is border width of self
+                ((gy - sgx + 1) * cw - 1) + "px",
+                ((gx - sgy + 1) * cw - 1) + "px",
+                (correctedStartingY - (correctedStartingY % cw)) + "px",
+                (correctedStartingX - (correctedStartingX % cw)) + "px",
+                "1px"
+            )
+            selectionCoords = {
+                ytl: Math.min(Math.max(sgx, 0), rows),
+                xtl: Math.min(Math.max(sgy, 0), cols),
+                ybr: Math.min(gy + 1, rows),
+                xbr: Math.min(gx + 1, cols)
+            }
+            break
+        case "paste":
+            if (!selectedPart) return
+            if (currentCell.classList[0] != "cell") return
+            let py = gy + selectedPart.length
+            let px = gx + selectedPart[0].length
+            paste(px, py, selectedPart, cells2d)
+            break
+        case "eq-triangle":
+            drawEquilateralTriangle(sgx, sgy, 6, cells2d)
+            break
+        case 'circle':
+            if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
+            let circleX = fixedRadius.checked ? gy : (sgx - radius)
+            let circleY = fixedRadius.checked ? gx : (sgy + radius)
+            if (circleAlgorithm.value == "accurate")
+                drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
+            else if (circleAlgorithm.value == "natural")
+                drawNaturalCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
+            break
+        case "triangle":
+            drawEquilateralTriangle(sgy, sgx, cells2d, Math.abs(sgy - gx), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
+            break
+        case 'sphere':
+            drawSphere(sgx - radius, sgy + radius, radius, cells2d)
+            break
+        case 'rect':
+            let bx, by, h, w
+            if (fixedRectSize.checked) {
+                bx = gx
+                by = gy
+                w = parseInt(fixedRectWidth.value)
+                h = parseInt(fixedRectHeight.value)
+            } else {
+                bx = sgy
+                by = sgx
+                w = dx
+                h = dy
+            }
+            if (id('square').checked) w = h
+            drawRectangle(bx, by, w, h, cells2d, fillRect.checked)
+            break
+        case 'line':
+            if (currentCell.classList[0] != "cell") return
+            drawLine(cells2d, sgy, sgx, gx, gy, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
+            alreadyFilledLinePoints = new Set()
+            break
+        case 'curve':
+            if (currentCell.classList[0] != "cell") return
+            let curvature = Number(id("curvature").value)
+            curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1)
+            drawCurve(cells2d, sgy, sgx, gx, gy, id('curve-line-width').value, id('curve-line-cap').value, curvature, id('curve-origin').value, id("curve-steps").value)
+            alreadyFilledLinePoints = new Set()
+            break
+        case 'gradient':
+            drawGradient(cells2d, sgy, sgx, dy, dx, id('gradient-start-color').value, id("gradient-end-color").value, id('gradient-type').value, id('linear-gradient-angle').value)
+            break
+        case 'line-stroke':
+            if (currentCell.classList[0] != "cell") return
+            if (isStartOfLineStroke)
+                drawLine(cells2d, sgy, sgx, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
+            else
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
+            isStartOfLineStroke = false
+            lastLineStrokeEndingCoords.gridY = gy
+            lastLineStrokeEndingCoords.gridX = gx
+            break
+    }
+}

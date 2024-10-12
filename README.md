@@ -2,6 +2,12 @@
 
 ## Change Log
 
+### 2024-018[12-Oct-2024]
+
+- Added Gradient Tool
+- Added Square Option In Rectangle
+- Optimizations
+
 ### 2024-017[29-Sep-2024]
 
 - Added Depth In Curves

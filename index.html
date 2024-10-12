@@ -367,6 +367,8 @@
                     <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png" title="Line">
                     <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" style="margin-right: 5px"
                         title="Flipper">
+                    <img data-value="gradient" data-cursor="auto" src="icons/paint-mode/gradient.png"
+                        title="Gradient Tools">
                     <img data-value="curve" data-cursor="auto" src="icons/paint-mode/curve.png"
                         style="margin-right: 5px" title="Curve Tool">
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
@@ -599,10 +601,11 @@
                             <input type="checkbox" id="shift-fill">
                             <hr>
                             <input type="button" id="add-row-top" value="Add Row Top"> <br>
-                            <input type="button" id="add-col-right" value="Add Col Right" style="margin-right: 0.7lh">
+                            <input type="button" id="add-col-left" value="Add Col Left" style="margin-right: 0.7lh">
                             <input type="number" id="add-col-row-count" style="width: 32px; margin-right: 0.7lh"
                                 value="1" placeholder="Count">
-                            <input type="button" id="add-col-left" value="Add Col Left"> <br>
+                            <input type="button" id="add-col-right" value="Add Col Right">
+                            <br>
                             <input type="button" id="add-row-down" value="Add Row Down"> <br>
                             <label for="give-up-undo-state">Give Up Undo State : </label> <input type="checkbox"
                                 id="give-up-undo-state">
@@ -745,6 +748,29 @@
                                     <option value="vertical">Vertical</option>
                                 </select>
                             </div>
+                            <div class="shape-settings" data-settingname="gradient">
+                                <h3>Gradient Tools</h3>
+                                <br>
+                                <label for="gradient-start-color">Start Color : </label>
+                                <input type="color" id="gradient-start-color" value="#000000"> <br> <br>
+                                <label for="gradient-end-color">End Color : </label>
+                                <input type="color" id="gradient-end-color" value="#ffffff">
+                                <br>
+                                <br>
+                                <label for="gradient-type">Type : </label>
+                                <select id="gradient-type">
+                                    <option value="linear">Linear</option>
+                                    <option value="radial">Radial</option>
+                                </select>
+                                <br>
+                                <label for='gradient-opacity'>Opacity : </label>
+                                <input type="range" id="gradient-opacity" value="1" max="1" step="0.1" min="0.1">
+                                <span id="gradient-opacity-shower">(1)</span>
+                                <br>
+                                <label for="linear-gradient-angle">Linear Angle : </label>
+                                <input type="range" id="linear-gradient-angle" min="0" value="0" max="360">
+                                <span id='linear-gradient-angle-shower'>(0&deg;)</span>
+                            </div>
                             <div class="shape-settings" data-settingname="triangle">
                                 <h3>Triangle</h3>
                                 <br>
@@ -802,10 +828,19 @@
                                 <h3>Rectangle</h3>
                                 <br>
                                 <div class="switch-container">
-                                    <label for="shortcut-info-checkbox">Fill Rectangle :</label>
+                                    <label for="fill-rect">Fill Rectangle :</label>
 
                                     <label class="switch">
                                         <input type="checkbox" id="fill-rect" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="switch-container">
+                                    <label for="square">Square :</label>
+
+                                    <label class="switch">
+                                        <input type="checkbox" id="square">
                                         <span class="slider"></span>
                                     </label>
                                 </div>
@@ -1162,14 +1197,21 @@
                             <h3 data-tabname="anim" data-shortcutkey="a">Animation</h3> <br>
                             <input type="button" value="Options" onclick="animationOptions.showModal()">
                             <br>
-                            <input type="button" value="Add Frame" id="add-frame">
-                            <input type="button" value="Delete All Frames" onclick="deleteAllFrames()">
-                            <br> <span id="frame-count">0</span> Frame(s) <br>
-                            <input type="number" id="global-frame-delay" placeholder="Time Per Frame(ms)">
+                            <h4>Export</h4>
+                            <label for="global-frame-delay">Time Per Frame (>35ms) : </label>
+                            <input type="number" id="global-frame-delay" value="50">
+                            <br>
+                            <details><summary>&#9432;</summary> 35ms per frame is the optimal minimum time bound for gifs for compatibility issues. </details>
                             <br>
                             <input type="button" value="Export GIF" id="export-gif">
                             <input type="button" value="Export Sprite" id="export-sprite">
+                            <hr>
+                            <h4>Frames</h4>
+                            <input type="button" value="Add Frame" id="add-frame">
+                            <input type="button" value="Delete All Frames" onclick="deleteAllFrames()">
                             <br>
+                           
+                            <span id="frame-count">0</span> Frame(s) <br>
                             <div id="frames"></div>
                         </div>
                         <div>
@@ -1187,10 +1229,9 @@
                             <br>
                             <label for="code-snippet">Snippet : </label>
                             <select id="code-snippet">
-
                             </select>
                             <br>
-                            <input type="button" value="Inset Code" id="insert-code-snippet">
+                            <input type="button" value="Insert Code" id="insert-code-snippet">
                             <hr>
                             <br>
                             <input type="button" value="Execute" id="execute-custom-script">
@@ -1349,6 +1390,7 @@
                                 <option value="triangle">Triangle</option>
                                 <option value="flip">Flip</option>
                                 <option value="curve">Curve</option>
+                                <option value="gradient">Gradient</option>
                             </select>
                             <br>
                         </div>

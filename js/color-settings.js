@@ -99,8 +99,8 @@ function getCurrentSelectedColor(preview = false) {
         currentHue = (hue % 360) + decimalPart
         if (!preview) hueAngle.value = currentHue
         updateHueShower()
-        if (!preview) updateHueColorShower()
-        color = hslToHex(`hsl(${currentHue},${saturationSlider.value}%,${lightingSlider.value}%)`)
+        if (!preview && parseInt(hueSpeedSlider.value) != 0) updateHueColorShower()
+        color = hslValToHex(currentHue, saturationSlider.value, lightingSlider.value)
     }
     else if (colorMode == "eraser")
         color = '#00000000'
@@ -228,11 +228,11 @@ function slightlyDifferentColor(hexColor, th = 24) {
     const opacity = hexColor.length === 9 ? hexColor.substring(7, 9) : null;
     return opacity ? newHexColor + opacity : newHexColor;
 }
-var skips = 0
-var fillCounts = 1
-
+let skips = 0
+let fillCounts = 1
+let ditheringMode = id("dithering-mode")
 function setCellColor(cellElem, color) {
-    if (id("dithering-mode").checked) {
+    if (ditheringMode.checked) {
         let row = y(cellElem.index)
         let col = x(cellElem.index)
         if (rows % 2 == cols % 2) {
@@ -281,14 +281,14 @@ function fillCell(cellElem, color) {
         cellElem.style.backgroundImage = iconPath
         return
     }
-    let currentColor = rgbaToHex(window.getComputedStyle(cellElem).getPropertyValue('background-color'))
+    //let currentColor = rgbaToHex(window.getComputedStyle(cellElem).getPropertyValue('background-color'))
+    let currentColor = rgbaToHex(buffer.getItem()[cellElem.index])
     let fillOnlyIfColorsAre = fillOnlyThisColor.value.split("||")
     let flipFillOnlyIf = flipFillOnlyIfType.value == "If"
     let th = onlyFillMatchingThreshold.value
     for (let i = 0; i < fillOnlyIfColorsAre.length; i++) {
         fillOnlyIfColorsAre[i] = rgbaToHex(cssToRGBAOrRgb(fillOnlyIfColorsAre[i]))
     }
-
     if (onlyFillIfColorIsCheckbox.checked) {
         if (flipFillOnlyIf) {
             if (!checkIfColorInArray(fillOnlyIfColorsAre, currentColor, th)) return
@@ -298,6 +298,7 @@ function fillCell(cellElem, color) {
     }
     let finalColor = color
     if (id("filling-mode").value == 'blend') finalColor = rgbaObjectToHex(blendColors(hexToRgbaObject(color), hexToRgbaObject(currentColor), id('blending-mode').value))
+    if(finalColor == currentColor) return
     cellElem.style.backgroundColor = finalColor
 }
 

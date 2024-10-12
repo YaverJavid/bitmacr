@@ -29,53 +29,60 @@ addRowDown.onclick = () => {
     }
     addCanvas(parseInt(rows) + count, cols)
     buffer.pointer = pointer
-    applyPaintData(data[buffer.pointer])
+    applyPaintData(data[buffer.pointer], true)
     buffer.data = data
 }
 
 addRowTop.onclick = () => {
     let data = []
     let pointer = buffer.pointer
+    let count = addColRowCount.value == "" ? 1 : parseInt(addColRowCount.value)
     for (let i = 0; i < buffer.data.length; i++) {
         let paintData = buffer.data[i].slice()
-        let newRow = []
-        for (let i = 0; i < cols; i++) newRow.push("rgba(0,0,0,0)")
-        paintData.unshift(...newRow)
+        for (let j = 0; j < count; j++) {
+            let newRow = []
+            for (let i = 0; i < cols; i++) newRow.push("rgba(0,0,0,0)")
+            paintData.unshift(...newRow)
+        }
         data.push(paintData)
     }
-    addCanvas(parseInt(rows) + 1, cols)
+    addCanvas(parseInt(rows) + count, cols)
     buffer.pointer = pointer
-    applyPaintData(data[buffer.pointer])
+    applyPaintData(data[buffer.pointer], true)
     buffer.data = data
 }
 
 addColRight.onclick = () => {
     let data = []
     let pointer = buffer.pointer
+    let count = addColRowCount.value == "" ? 1 : parseInt(addColRowCount.value)
+    let rightPart = []
+    for (let j = 0; j < count; j++) rightPart.push("rgba(0,0,0,0)")
     for (let i = 0; i < buffer.data.length; i++) {
         let paintData = toPaintData2D(buffer.data[i].slice())
-        let newRow = []
-        for (let i = 0; i < paintData.length; i++) paintData[i].unshift("rgba(0,0,0,0)")
+        for (let i = 0; i < paintData.length; i++) paintData[i].push(...rightPart)
         data.push(paintData.flat())
     }
-    addCanvas(rows, parseInt(cols) + 1)
+    addCanvas(rows, parseInt(cols) + count)
     buffer.pointer = pointer
-    applyPaintData(data[buffer.pointer])
+    applyPaintData(data[buffer.pointer], true)
     buffer.data = data
 }
 
 addColLeft.onclick = () => {
     let data = []
     let pointer = buffer.pointer
+    let count = addColRowCount.value == "" ? 1 : parseInt(addColRowCount.value)
+    let rightPart = []
+    for (let j = 0; j < count; j++) rightPart.push("rgba(0,0,0,0)")
     for (let i = 0; i < buffer.data.length; i++) {
         let paintData = toPaintData2D(buffer.data[i].slice())
-        let newRow = []
-        for (let i = 0; i < paintData.length; i++) paintData[i].push("rgba(0,0,0,0)")
+        for (let i = 0; i < paintData.length; i++) paintData[i].unshift(...rightPart)
         data.push(paintData.flat())
     }
-    addCanvas(rows, parseInt(cols) + 1)
+    addCanvas(rows, parseInt(cols) + count)
     buffer.pointer = pointer
-    applyPaintData(data[buffer.pointer])
+    applyPaintData(data[buffer.pointer], true)
     buffer.data = data
 }
 
@@ -136,7 +143,7 @@ id("flip-horizontally").onclick = () => {
 }
 
 id('clear-button').addEventListener("click", () => {
-    for (let i = 0; i <  cells.length; i++)
+    for (let i = 0; i < cells.length; i++)
         setCellColor(cells[i], "#00000000")
     recordPaintData()
 })
@@ -144,7 +151,7 @@ id('clear-button').addEventListener("click", () => {
 id('fill-all-button').onclick = fillAll
 
 function fillAll() {
-    for (let i = 0; i <  cells.length; i++) setCellColor(cells[i], getCurrentSelectedColor())
+    for (let i = 0; i < cells.length; i++) setCellColor(cells[i], getCurrentSelectedColor())
     recordPaintData()
 }
 

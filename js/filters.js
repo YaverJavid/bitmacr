@@ -3,6 +3,7 @@ const simplifyColorsThreshold = id("simplify-colors-threshold")
 
 function filterCanvas(filterFunction, ...args) {
     let currentPaintData = buffer.getItem()
+    pauseBlending()
     for (let i = 0; i < currentPaintData.length; i++) {
         let colorObj = convertRGBAStrToObj(currentPaintData[i])
         if (colorObj.a === undefined) colorObj.a = 1
@@ -10,6 +11,7 @@ function filterCanvas(filterFunction, ...args) {
 
     }
     recordPaintData()
+    resumeBlending()
 }
 
 id("filter-weak-brighten").onclick = () => {
@@ -394,23 +396,31 @@ function calculateMotionBlurWeights(blurRadius, kernelSize, direction) {
 
 id("filter-box-blur").onclick = () => {
     let blurredData = boxBlur(buffer.getItem().slice(), cols, rows, id("box-blur-radius").value)
+    pauseBlending()
     applyPaintData(blurredData, false)
     recordPaintData()
+    resumeBlending()
 }
 id("filter-gaussian-blur").onclick = () => {
     let blurredData = gaussianBlur(buffer.getItem().slice(), cols, rows, id("gaussian-blur-radius").value)
+    pauseBlending()
     applyPaintData(blurredData, false)
     recordPaintData()
+    resumeBlending()
 }
 id("filter-motion-blur").onclick = () => {
     let blurredData = motionBlur(buffer.getItem().slice(), cols, rows, parseInt(id("motion-blur-radius").value), id("motion-blur-direction").value)
+    pauseBlending()
     applyPaintData(blurredData, false)
     recordPaintData()
+    resumeBlending()
 }
 id("filter-sharpen").onclick = () => {
     let filteredData = sharpen(buffer.getItem().slice(), cols, rows)
+    pauseBlending()
     applyPaintData(filteredData, false)
     recordPaintData()
+    resumeBlending()
 }
 
 id("motion-blur-radius").oninput = () => {
@@ -423,3 +433,12 @@ id("box-blur-radius").oninput = () => {
     id("box-blur-radius-shower").innerHTML = `(${id("box-blur-radius").value})`
 }
 
+let fillingMode  
+function pauseBlending() {
+    fillingMode = id('filling-mode').value
+    id('filling-mode').value = 'replace'
+}
+
+function resumeBlending() {
+    id('filling-mode').value = fillingMode
+}

@@ -26,7 +26,7 @@ function getFrameHTML(src) {
                     <img src="icons/down.svg" onclick="moveFrameDown(this)" class="image">
                     <img src="icons/delete.svg" onclick="deleteFrame(this)" class="image">
                     <img src="icons/trace.png" width=50 onclick="addFrameAsTrace(this)" class="image"> 
-                    <input type="number" class="frame-time" placeholder="Enter Time(ms)" />
+                    <input type="number" class="frame-time" placeholder="Enter Time(ms)"/>
                 </div>
             </div>`
 }
