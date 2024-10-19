@@ -50,8 +50,6 @@ let rows = 10,
     cols = 10
 let menuSegmentLocations = []
 
-guideCellBorderColor.value = "#" + borderColor
-
 for (let i = 0; i < menus.length; i++) {
     let currentMenuName = menus[i].children[1].textContent
     menuSegmentLocations.push(i * controlWidth)
@@ -67,8 +65,8 @@ function redirectMenuViewTo(location) {
     bottomControls.scrollLeft = location
 }
 let currentTabIndex = 0
-function gotoTab(tabName, scollIntoView = false) {
-    if (scollIntoView) bottomControls.scrollIntoView()
+function gotoTab(tabName, scrollIntoView = false) {
+    if (scrollIntoView) bottomControls.scrollIntoView()
     redirectMenuViewTo(tabLocations[tabName] * controlWidth)
     currentTabIndex = tabLocations[tabName]
 }
@@ -117,7 +115,7 @@ function recordPaintData() {
                 fillMissCount = 0
                 customConfirm("It seems you've forgotten about the fill rule that you applied, Do you want to remove it?", () => {
                     onlyFillIfColorIsCheckbox.checked = false
-                    id("info-fill-rule").textContent = "fill rule off,"
+                    id("info-fill-rule").textContent = "[FR:OFF],"
                     id("info-fill-rule").style.color = "var(--primary)"
                 })
             } else if (!onlyFillIfColorIsCheckbox.checked) {
@@ -135,7 +133,7 @@ function recordPaintData() {
 function applyPaintData(data, simpleFill = true) {
     // simpleFill : IF IT IS UNDO OR REDO WE WANT TO DO A SIMPLE FILL
     if (simpleFill) {
-        for (var i = 0; i < cells.length; i++) { 
+        for (var i = 0; i < cells.length; i++) {
             cells[i].style.backgroundColor = data[i]
         }
         return
@@ -150,7 +148,7 @@ let cells2d
 function addCanvas(argRows, argCols, clearStack = true) {
     rows = argRows
     cols = argCols
-    id("info-size").textContent = `c${cols}:r${rows},`
+    id("info-size").textContent = `[c${cols}:r${rows}]`
     if (clearStack)
         buffer.clearStack()
     paintZone.innerHTML = ""
@@ -181,7 +179,6 @@ function addCanvas(argRows, argCols, clearStack = true) {
     for (let i = 0; i < cells.length; i++) {
         cells[i].index = i
         cells[i].onclick = function () {
-            lineInfoShower.textContent = `y:${Math.floor(i / cols)},x:${i % cols},`
             if (openCheckbox) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
                 let selectedColor = fullColor.slice(0, 7)
@@ -223,6 +220,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     case 'select-for-only-fill-if':
                         if (fillOnlyThisColor.value) fillOnlyThisColor.value += "||"
                         fillOnlyThisColor.value += selectedColor
+                        createFillRuleArray()
                         break
                     case 'select-color-for-palette-creator':
                         paletteCreatorPalette.selected.style.background = selectedColor
@@ -267,14 +265,12 @@ function addCanvas(argRows, argCols, clearStack = true) {
                 recordPaintData()
             }
         }
-        cells[i].style.borderColor = borderColor
     }
     recordPaintData()
-    updateBorderStatus(borderCheckbox.checked)
-    if (guideCheckbox.checked) addGuides()
     cells2d = []
     for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
     cells2d = toPaintData2D(cells2d);
+    refreshGuides()
 }
 
 function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {
@@ -358,95 +354,6 @@ for (let colorCopierCheckbox in clickManagerCheckboxes) {
         if (openCheckbox) id(openCheckbox).checked = false
         openCheckbox = this.id
     }
-}
-
-
-// END
-
-guideCellBorderColor.addEventListener("input", function () {
-    borderColor = this.value
-    for (var i = 0; i < cells.length; i++) {
-        cells[i].style.borderColor = borderColor
-    }
-})
-
-setUpLocalStorageBucket("bitmacr_border", "1")
-execBucket("bitmacr_border", "0", () => {
-    removeBorder()
-    borderCheckbox.checked = false
-    guideCellBorder2.checked = false
-})
-
-borderCheckbox.addEventListener("input", handleGuideBorderVisibility)
-guideCellBorder2.addEventListener("input", handleGuideBorderVisibility)
-
-guideCheckbox.addEventListener("input", handleQuadrandGuideClick)
-guideCheckbox2.addEventListener("input", handleQuadrandGuideClick)
-
-function handleGuideBorderVisibility() {
-    sessions[currentSession].updateBorderStatus(this.checked)
-    updateBorderStatus(this.checked)
-}
-
-
-function updateBorderStatus(borderStatus) {
-    borderCheckbox.checked = borderStatus
-    guideCellBorder2.checked = borderStatus
-    if (borderStatus) {
-        localStorageREF.setItem("bitmacr_border", "1")
-        for (var i = 0; i < cells.length; i++) {
-            cells[i].style.borderLeftWidth = '1px'
-            cells[i].style.borderTopWidth = '1px'
-        }
-    } else {
-        localStorageREF.setItem("bitmacr_border", "0")
-        for (var i = 0; i < cells.length; i++) {
-            cells[i].style.borderWidth = '0'
-        }
-    }
-    if (guideCheckbox.checked) addGuides()
-}
-
-function handleQuadrandGuideClick() {
-    guideCheckbox.checked = this.checked
-    guideCheckbox2.checked = this.checked
-    this.checked ? addGuides() : updateBorderStatus(borderCheckbox.checked);
-}
-
-
-
-function addGuides() {
-    if (cols % 2 == 1) {
-        let cells2d = []
-        for (let i = 0; i < cells.length; i++)
-            cells2d.push(cells[i])
-        cells2d = toPaintData2D(cells2d)
-        for (let i = 0; i < cells2d.length; i++) {
-            let middleElementIndex = (cells2d[i].length - 1) / 2
-            cells2d[i][middleElementIndex].style.borderRight = `1px dashed ${borderColor}`
-            cells2d[i][middleElementIndex].style.borderLeft = `1px dashed ${borderColor}`
-        }
-        let middleCellsArray = cells2d[(cells2d.length - 1) / 2]
-        for (let i = 0; i < middleCellsArray.length; i++) {
-            middleCellsArray[i].style.borderTop = `1px dashed ${borderColor}`
-            middleCellsArray[i].style.borderBottom = `1px dashed ${borderColor}`
-        }
-        return
-    }
-    for (var i = 0; i < cells.length; i += (cols / 2)) {
-        if (i % cols) cells[i].style.borderLeft = 'thin dotted ' + borderColor
-    }
-    let j = 0;
-    for (var i = (cols * (rows / 2)); i < cells.length; i++) {
-        cells[i].style.borderTop = 'thin dotted ' + borderColor
-        j++
-        if (j == cols) break
-    }
-}
-
-
-function removeBorder() {
-    for (var i = 0; i < cells.length; i++) cells[i].style.borderWidth = '0'
 }
 
 
@@ -603,20 +510,12 @@ id("color-to-replace-with-selector-hex").addEventListener("input", function () {
     }
 })
 
-id("guide-cell-border-selector-hex").addEventListener("input", function () {
-    if (validateHex(this.value)) {
-        guideCellBorderColor.value = this.value
-        borderColor = this.value
-        changeCellBorderColor(this.value)
-    }
-})
-
 id("export-cell-border-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) cellBorderColorSelector.value = this.value
 })
 
 
-function imageToPixeArtData(img, w, h) {
+function imageToPixelArtData(img, w, h) {
     const canvas = document.createElement('canvas');
     canvas.width = w;
     canvas.height = h;
@@ -695,7 +594,7 @@ function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 
     // Put the ImageData onto the canvas
     ctx.putImageData(imageData, 0, 0);
     if (mini) return canvas.toDataURL()
-    // Scale the canvas up to resXres
+    // Scale the canvas up to res X res
     const scaledCanvas = document.createElement('canvas');
     scaledCanvas.width = resW;
     scaledCanvas.height = resH;
@@ -704,7 +603,7 @@ function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 
     scaledCtx.imageSmoothingEnabled = false;
     scaledCtx.drawImage(canvas, 0, 0, resW, resH);
     let cellSize = resH / colors.length
-    // If there is a border, draw it onto the final canva
+    // If there is a border, draw it onto the final canvas
     scaledCtx.lineWidth = borderWidth;
     scaledCtx.strokeStyle = borderColor;
     if (borderWidth > 0) {

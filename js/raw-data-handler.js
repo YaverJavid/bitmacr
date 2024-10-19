@@ -92,7 +92,7 @@ function saveCanvasAsDrawing() {
 
 function saveDrawings() {
     localStorageREF.setItem("drawings", JSON.stringify(drawings))
-    updateNodrawingPresentDiv()
+    updateNoDrawingPresentDiv()
 }
 
 
@@ -134,7 +134,7 @@ function addEventListenersToSavedDrawings() {
                     delete drawings[currentDrawingName]
                     drawingElements[i].style.display = "none"
                     deleteSound.play()
-                    updateNodrawingPresentDiv()
+                    updateNoDrawingPresentDiv()
                 },
                 () => {}, saveDrawings
             )
@@ -218,7 +218,7 @@ document.getElementById("image-to-pixel").addEventListener("input", function() {
                     height = Math.round(cols * (img.height / img.width))
                 }
                 if (width != cols || height != rows) addCanvas(height, width)
-                applyPaintData(imageToPixeArtData(img, width, height))
+                applyPaintData(imageToPixelArtData(img, width, height))
                 recordPaintData()
             })
         };
@@ -227,9 +227,9 @@ document.getElementById("image-to-pixel").addEventListener("input", function() {
 });
 
 
-function updateNodrawingPresentDiv(){
+function updateNoDrawingPresentDiv(){
     if(Object.keys(drawings).length === 0) id("no-drawing-present-div").style.display = "initial"
     else id("no-drawing-present-div").style.display = "none"
 }
 
-updateNodrawingPresentDiv()
+updateNoDrawingPresentDiv()

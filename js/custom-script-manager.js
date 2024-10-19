@@ -36,9 +36,12 @@ let snippetData = {
         'Draw Wrapper' : 'drawWrapper()'
     },
     Variables : {
-        'Coloums' : 'cols',
+        'Columns' : 'cols',
         'Rows' : 'rows'
-    }
+    },
+    // Utilities : {
+    //     'Add All Redo States As Frames' : 'loop(buffer.data.length - buffer.pointer, (_)=>{addFrame();redo()})'
+    // }
 
 }
 

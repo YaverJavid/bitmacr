@@ -561,12 +561,31 @@ function drawGradient(matrix, xb, yb, n, x, startColor, endColor, type = 'linear
     }
 }
 
+id("fill-all-gradient").onclick = () => {
+    drawGradient(cells2d, 0, rows - 1, rows, cols, id('gradient-start-color').value, id("gradient-end-color").value, id('gradient-type').value, id('linear-gradient-angle').value)
+    recordPaintData()
+}
+
 id('linear-gradient-angle').oninput = () => id('linear-gradient-angle-shower').innerHTML = `(${id('linear-gradient-angle').value}&deg)`
 id('gradient-opacity').oninput = () => id('gradient-opacity-shower').innerHTML = `(${id('gradient-opacity').value})`
+const shapeInfoShower = id('shape-info-shower')
+const cursorInfoShower = id('cursor-info')
+let lastRadius
 
-function draw(gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw) {
+function draw(e, gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw, x, y) {
+    cursorInfoShower.textContent = `[x${gx + 1},y${gy + 1}]`
     let radius = dx
     switch (paintModeSelector.value) {
+        case 'line-stroke':
+            if (currentCell.classList[0] != "cell") return
+            if (isStartOfLineStroke)
+                drawLine(cells2d, sgy, sgx, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
+            else
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
+            isStartOfLineStroke = false
+            lastLineStrokeEndingCoords.gridY = gy
+            lastLineStrokeEndingCoords.gridX = gx
+            break
         case "flip":
         case "zoom":
         case "selecting":
@@ -597,24 +616,6 @@ function draw(gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw) {
             let px = gx + selectedPart[0].length
             paste(px, py, selectedPart, cells2d)
             break
-        case "eq-triangle":
-            drawEquilateralTriangle(sgx, sgy, 6, cells2d)
-            break
-        case 'circle':
-            if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
-            let circleX = fixedRadius.checked ? gy : (sgx - radius)
-            let circleY = fixedRadius.checked ? gx : (sgy + radius)
-            if (circleAlgorithm.value == "accurate")
-                drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
-            else if (circleAlgorithm.value == "natural")
-                drawNaturalCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
-            break
-        case "triangle":
-            drawEquilateralTriangle(sgy, sgx, cells2d, Math.abs(sgy - gx), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
-            break
-        case 'sphere':
-            drawSphere(sgx - radius, sgy + radius, radius, cells2d)
-            break
         case 'rect':
             let bx, by, h, w
             if (fixedRectSize.checked) {
@@ -628,13 +629,46 @@ function draw(gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw) {
                 w = dx
                 h = dy
             }
-            if (id('square').checked) w = h
+            if (e.shiftKey) {
+                let distance = Math.round(Math.sqrt((((x - sx) ** 2) + ((y - sy) ** 2))) / cw)
+                h = distance
+                w = distance
+            }
             drawRectangle(bx, by, w, h, cells2d, fillRect.checked)
+            shapeInfoShower.innerHTML = `[h${h}:w${w}]`
+            break
+        case 'circle':
+            if (e.altKey) id('fixed-radius-value').value = radius
+            if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
+            else if (e.shiftKey) radius = lastRadius
+            let circleX = (fixedRadius.checked || e.shiftKey) ? gy : (sgx - radius)
+            let circleY = (fixedRadius.checked || e.shiftKey) ? gx : (sgy + radius)
+            if (circleAlgorithm.value == "accurate")
+                drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
+            else if (circleAlgorithm.value == "natural")
+                drawNaturalCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
+            shapeInfoShower.innerHTML = `[r${radius}]`
+            lastRadius = radius
             break
         case 'line':
             if (currentCell.classList[0] != "cell") return
-            drawLine(cells2d, sgy, sgx, gx, gy, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
+            if (e.shiftKey) {
+                let distance = Math.round(Math.sqrt((((x - sx) ** 2) + ((y - sy) ** 2))) / cw)
+                let angle = Math.round(getAngle(sgy, sgx, gx, gy) / 45) * 45
+                let ec = calculateEndingCoords(sgy, sgx, Math.round(getAngle(sgy, sgx, gx, gy) / 45) * 45, distance)
+                drawLine(cells2d, sgy, sgx, Math.round(ec.x), Math.round(ec.y), id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
+                shapeInfoShower.innerHTML = `[${angle}&deg;]`
+            } else {
+                drawLine(cells2d, sgy, sgx, gx, gy, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
+                shapeInfoShower.innerHTML = `[${Math.round(getAngle(sgy, sgx, gx, gy))}&deg;]`
+            }
             alreadyFilledLinePoints = new Set()
+            break
+        case "triangle":
+            drawEquilateralTriangle(sgy, sgx, cells2d, Math.abs(sgy - gx), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
+            break
+        case 'sphere':
+            drawSphere(sgx - radius, sgy + radius, radius, cells2d)
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
@@ -646,15 +680,20 @@ function draw(gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw) {
         case 'gradient':
             drawGradient(cells2d, sgy, sgx, dy, dx, id('gradient-start-color').value, id("gradient-end-color").value, id('gradient-type').value, id('linear-gradient-angle').value)
             break
-        case 'line-stroke':
-            if (currentCell.classList[0] != "cell") return
-            if (isStartOfLineStroke)
-                drawLine(cells2d, sgy, sgx, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
-            else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
-            isStartOfLineStroke = false
-            lastLineStrokeEndingCoords.gridY = gy
-            lastLineStrokeEndingCoords.gridX = gx
-            break
     }
+}
+
+function calculateEndingCoords(startX, startY, angle, length) {
+    angle = angle * Math.PI / 180;
+    let endX = startX + length * Math.cos(angle);
+    let endY = startY + length * Math.sin(angle);
+    return { x: endX, y: endY };
+}
+
+function getAngle(x1, y1, x2, y2) {
+    const deltaY = y2 - y1;
+    const deltaX = x2 - x1;
+    const angleInRadians = Math.atan2(deltaY, deltaX);
+    const angleInDegrees = angleInRadians * (180 / Math.PI);
+    return angleInDegrees;
 }

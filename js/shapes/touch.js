@@ -55,11 +55,12 @@ paintZone.addEventListener('touchmove', (event) => {
     if (dx < 1) dx = 1
     if (dy < 1) dy = 1
 
-    draw(currentGridX, currentGridY, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY, dx, dy, currentCel, cwl)
+    draw(event, currentGridX, currentGridY, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY, dx, dy, currentCell, cw, x, y)
 });
 
 
 paintZone.addEventListener('touchend', (event) => {
+    shapeInfoShower.textContent = ''
     if (paintModeSelector.value == "selecting") {
         if (!selectionCoords) return
         handleSelectionShowerVisibility("0", "0", "0", "0", "0")

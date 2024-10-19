@@ -3,9 +3,9 @@ class SoundFeedback{
         this.audioPath = audioPath;
         this.vibrate = vibrate
     }
-    play(forcefullyVibrate = this.vibrate){
+    play(forcefullyVibrate = false){
         SoundFeedback.playSound(this.audioPath)
-        if (forcefullyVibrate && navigator.vibrate) navigator.vibrate(200)
+        if (forcefullyVibrate || navigator.vibrate) navigator.vibrate(200)
     }
     static playSound(audioPath) {
         let audio = new Audio(audioPath);

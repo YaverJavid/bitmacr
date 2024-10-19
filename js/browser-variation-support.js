@@ -80,6 +80,6 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
         paintZone.style.height = elemWidth * rows + "vw"
     }
 } else {
-    id('undo').value = '⇐'
-    id('redo').value = '⇒'
+    id('undo').value = '«'
+    id('redo').value = '»'
 }

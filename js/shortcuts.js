@@ -1,5 +1,3 @@
-
-
 document.addEventListener("keydown", function (event) {
     if (event.ctrlKey) {
         event.preventDefault()
@@ -13,10 +11,10 @@ document.addEventListener("keydown", function (event) {
                 break
             }
         }
-        if (event.key == 'u') {
+        if (event.key == 'z') {
             if (buffer.setPointer(buffer.pointer - 1))
                 applyPaintData(buffer.getItem())
-        } else if (event.key == 'i') {
+        } else if (event.key == 'y') {
             if (buffer.setPointer(buffer.pointer + 1))
                 applyPaintData(buffer.getItem())
         } else if (event.key == "j") {
@@ -29,10 +27,8 @@ document.addEventListener("keydown", function (event) {
            endProcess()
         } else if(event.key == "q"){
             alreadyFilledLinePoints = new Set()
+        } else if(event.key == "u"){
+           runComposer()
         }
     }
 });
-
-
-
-// tcoqgh

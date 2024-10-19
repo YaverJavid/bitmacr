@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="description"
-        content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Enviroments. So far it's free to use.">
+        content="Pixmacr is an award winning advanced mobile and desktop pixel art editor. It's the part of SYN Software Environments. So far it's free to use.">
     <title>Pixmacr - A pixel art maker by Yaver Javid</title>
     <link rel="icon" href="others/logo.png" type="favicon">
     <link rel="stylesheet" href="css/style.css">
@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/color-formula.css">
     <link rel="stylesheet" href="css/process.css">
     <link rel="stylesheet" href="css/toggle-switch.css">
+    <link rel="stylesheet" href="css/composer.css">
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
 </head>
@@ -39,11 +40,11 @@
     </dialog>
     <dialog id="gaussianBlurSettings">
         <div class="close-container">
-            <h3>Guassian Blur</h3>
+            <h3>Gaussian Blur</h3>
             <input type="button" value="CLOSE">
         </div>
         <br>
-        <label for="gaussian-blur-radius">Guassian Blur Radius : </label>
+        <label for="gaussian-blur-radius">Gaussian Blur Radius : </label>
         <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
         <span id="gaussian-blur-radius-shower">(1)</span>
         <br>
@@ -63,23 +64,6 @@
         <input type="range" id="box-blur-radius" value="1" max="15" min="1">
         <span id="box-blur-radius-shower">(1)</span>
     </dialog>
-    <dialog id="guideSettings">
-        <div class="close-container">
-            <h3>Guide Options</h3>
-            <input type="button" value="CLOSE">
-        </div> <br>
-        <label for="guide-checkbox">Quadrant Guides: </label>
-        <input type="checkbox" name="guide-checkbox" id="guide-checkbox">
-        <br>
-        <label for="border-checkbox">Show Cell Border: </label>
-        <input type="checkbox" name="border-checkbox" id="border-checkbox" checked>
-        <br>
-        <label for="guide-cell-border-color">Cell Border Color: </label>
-        <input type="color" id="guide-cell-border-color" value="#ffffff">
-        Or <input class="hex-input" type="text" id="guide-cell-border-selector-hex" placeholder="Enter Hex..."
-            maxlength="7">
-    </dialog>
-
     <dialog id="invertSettings">
         <div class="close-container">
             <h3>Invert Settings</h3>
@@ -142,7 +126,7 @@
             <input type="button" value="CLOSE">
         </div><br>
         <label for="auto-size-detection-threshold">Threshold : </label>
-        <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0">
+        <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0" disabled>
         <span id="auto-size-detection-threshold-shower">(0)</span>
     </dialog>
     <dialog id="pixelDataFromImageSettings">
@@ -155,7 +139,7 @@
         <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
         <label for="flexible-dimension">Flexible Dimension : </label>
         <select id="flexible-dimension">
-            <option value="none">None(Strech)</option>
+            <option value="none">None(Stretch)</option>
             <option value="width">Width</option>
             <option value="height">Height</option>
             <option value="lesser">Whichever Is Lesser</option>
@@ -169,7 +153,7 @@
             <input type="button" value="CLOSE">
         </div><br>
         <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
-        <img width="0" height="0">
+        <img width="0" height="0" alt="">
     </dialog>
     <dialog id="removeGhostColorsSettings">
         <div class="close-container">
@@ -266,44 +250,11 @@
         <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
         <input type="checkbox" id="auto-fallback-to-background" checked>
         <br>
-        <img src="" id="animation-background-shower" class="image">
+        <img src="" id="animation-background-shower" class="image" alt="">
         <br>
         <br>
         <br>
         <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
-    </dialog>
-    <dialog id="fillingModeSettings">
-        <div class="close-container">
-            <h3>Filling Mode Settings</h3>
-            <input type="button" value="CLOSE">
-        </div><br>
-        <label for="blending-mode">Blending Mode : </label>
-        <select id="blending-mode">
-            <option value="mix">Mix</option>
-            <option value="default">Default</option>
-            <option value="overlay">Overlay</option>
-            <option value="replace">Replace</option>
-            <option value="normal">Normal</option>
-            <option value="multiply">Multiply</option>
-            <option value="screen">Screen</option>
-            <option value="darken">Darken</option>
-            <option value="lighten">Lighten</option>
-            <option value="difference">Difference</option>
-            <option value="exclusion">Exclusion</option>
-            <option value="hue">Hue</option>
-            <option value="saturation">Saturation</option>
-            <option value="color">Color</option>
-            <option value="luminosity">Luminosity</option>
-            <option value="softLight">Soft Light</option>
-            <option value="hardLight">Hard Light</option>
-            <option value="pinLight">Pin Light</option>
-            <option value="linearBurn">Linear Burn</option>
-            <option value="linearDodge">Linear Dodge (Add)</option>
-            <option value="vividLight">Vivid Light</option>
-            <option value="subtract">Subtract</option>
-            <option value="divide">Divide</option>
-            <option value="contrast">Contrast</option>
-        </select>
     </dialog>
     <dialog id="grayscaleSettings">
         <div class="close-container">
@@ -317,18 +268,28 @@
             <option value="lightness">Lightness</option>
         </select>
     </dialog>
+    <dialog id="brightnessSettings">
+        <div class="close-container">
+            <h3>Brightness Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="brightness-factor">Brightness Factor : </label>
+        <input type="range" id="brightness-factor" min="0.1" max="10" value="2" step="0.1">
+        <span id="brightness-factor-shower">(2)</span>
+    </dialog>
     <br>
     <div id="logo-sessions-container">
         <div id="sessions-section">
-            <img id="add-session" src="icons/close.svg" class="icon">
+            <img id="add-session" src="icons/close.svg" class="icon" alt="CLOSE">
             <div id="sessions-container"> </div>
         </div>
-        <img src="icons/logo/lettering.png" width=125 id="top-logo" style="margin: 0;">
+        <img src="icons/logo/lettering.png" width=125 id="top-logo" style="margin: 0;" alt="PIXMACR">
     </div>
+
     <div id="main-container">
         <div id="left">
             <div class="controls" id="top-control-container">
-                <input type="button" id="undo" value="UNDO">
+                <input type="button" id="undo" value="UNDO" title="Undo : [CTRL+z]">
                 <input type="button" class="zoom-out" id="top-zoom-out" value="⇱" title="Zoom Out">
                 <input type="button" id="export-button" value="SAVE&darr;" title="Export With Love">
                 <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;"
@@ -337,7 +298,7 @@
                 <input type="button" value="&#x21bb;" id="top-reload" title="Reload">
                 <img src="icons/misc/replacing.png" alt="Blend Mode" class="generic-icon" title="Replacing"
                     id="top-filling-mode">
-                <input type="button" id="redo" value="REDO">
+                <input type="button" id="redo" value="REDO" title="Redo : [CTRL+y]">
             </div>
             <marquee id="adstrip">
             </marquee>
@@ -347,9 +308,10 @@
             <div id="info-container">
                 <div id="info">
                     <span id="info-size"></span>
-                    <span id="info-fill-rule">fill rule off,</span>
-                    <span id="line-info-shower">y:0,x:0,</span>
-                    <span id="frame-count-top">frames:0,</span>
+                    <span id="info-fill-rule">[FR:OFF]</span>
+                    <span id="frame-count-top">[FRAMES:0]</span>
+                    <span id="shape-info-shower"></span>
+                    <span id="cursor-info"></span>
                 </div>
             </div>
             <div id="main-selectors-container">
@@ -377,8 +339,8 @@
                 </div>
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
-                    <img data-value="cell" src="icons/fill-mode/cell.png">
-                    <img data-value="fill" src="icons/fill-mode/fill.png">
+                    <img data-value="cell" src="icons/fill-mode/cell.png" title="Fill Cell" alt="C">
+                    <img data-value="fill" src="icons/fill-mode/fill.png" title="Flood Fill" alt="F">
                 </div>
             </div>
             <br>
@@ -563,33 +525,33 @@
                             <label for="h-w-ratio">H/W Ratio : </label>
                             <input type="number" id="h-w-ratio" placeholder="h/w">
                             <br>
-                            <label for="guide-cell-border2">Cell Border : </label>
-                            <input type="checkbox" id="guide-cell-border2" checked>
-                            <input type="button" class="left-flat" value="Guide Options"
-                                onclick="guideSettings.showModal()">
+                            <label for="guide">Cell Border : </label>
+                            <input type="checkbox" id="guide" checked>
                             <br>
-                            <input type="button" value="Canvas Manipulation"
-                                onclick="gotoTab('canvas-manipulation', true)">
-                            <br>
-                            <input type="button" onclick="gotoTab('extra-click-modes', true)" value="Extra Click Modes">
-                            <kbd>ctrl+x</kbd>
-                            <br>
-                            <input type="button" value="Trace Tools" onclick="gotoTab('tracing-tools', true)">
-                            <br>
-                            <input type="button" value="Color History" onclick="gotoTab('color-history', true)">
-                            <br>
+                            <label for="qguides">Quadrant Guides: </label>
+                            <input type="checkbox" id="qguide" checked>
+                            <hr>
+                            <h4>Mirroring</h4>
+                            <label for="mirroring">Mirroring : </label>
+                            <input type="checkbox" id="mirroring"> <br>
+                            <label for="mirroring-type">Mirroring Type : </label>
+                            <select id="mirroring-type">
+                                <option value="horizontal">Horizontal</option>
+                                <option value="vertical">Vertical</option>
+                            </select>
+                            <hr>
+                            <h4>Session Options</h4>
                             <input type="button" value="Force Save Sessions" onclick="saveSessions(sessions)">
                             <input type="button" value="Close All Sessions" onclick="closeAllSessions()">
                             <details>
                                 <summary>&#9432; (Force Save Sessions)</summary>
                                 <p>Hint : Use This To Forcefully Save, Due To The Limitations In Browser Auto Save Might
-                                    Not Work. <kbd>ctrl+L</kbd></p>
+                                    Not Work. </p>
                             </details>
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas
-                                Manipulation</h3><br>
+                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas Manipulation</h3><br>
                             <input type="button" id="shift-up" value="Shift Up"> <br>
                             <input type="button" id="shift-right" value="Shift Right" style="margin-right: 0.7lh">
                             <input type="button" id="shift-left" value="Shift Left"> <br>
@@ -623,7 +585,8 @@
                             <h4>Fill Rule</h4>
                             <label for="only-fill-transaprent">Fill <input value="If" type="button"
                                     id="flip-fill-only-if-type"> Color Is </label>
-                            <input type="button" value="×" class="right-flat" onclick="fillOnlyThisColor.value=''">
+                            <input type="button" value="×" class="right-flat"
+                                onclick="fillOnlyThisColor.value='';fillOnlyIfColorsAre = []">
                             <input type="text" id="fill-only-this-color" class="hex-input left-flat"
                                 placeholder="Any CSS Color"> :
                             <input type="checkbox" id="only-fill-if-color-is" />
@@ -634,15 +597,43 @@
                             <label for="only-fill-matching-threshold">Threshold : </label>
                             <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
                             <span id="only-fill-matching-threshold-shower">(0)</span>
-                            <hr><br>
+                            <hr>
+                            <h4>Blending</h4>
                             <label for="filling-mode">Mode : </label>
-                            <select id="filling-mode" class="right-flat">
+                            <select id="filling-mode">
                                 <option value="replace">Replace (Fast)</option>
                                 <option value="blend">Blend (Slow)</option>
                             </select>
-                            <input type="button" value="..." class="left-flat"
-                                onclick="fillingModeSettings.showModal()">
                             <br>
+                            <label for="blending-mode">Blending Mode : </label>
+                            <select id="blending-mode">
+                                <option value="mix">Mix</option>
+                                <option value="default">Default</option>
+                                <option value="overlay">Overlay</option>
+                                <option value="replace">Replace</option>
+                                <option value="normal">Normal</option>
+                                <option value="multiply">Multiply</option>
+                                <option value="screen">Screen</option>
+                                <option value="darken">Darken</option>
+                                <option value="lighten">Lighten</option>
+                                <option value="difference">Difference</option>
+                                <option value="exclusion">Exclusion</option>
+                                <option value="hue">Hue</option>
+                                <option value="saturation">Saturation</option>
+                                <option value="color">Color</option>
+                                <option value="luminosity">Luminosity</option>
+                                <option value="softLight">Soft Light</option>
+                                <option value="hardLight">Hard Light</option>
+                                <option value="pinLight">Pin Light</option>
+                                <option value="linearBurn">Linear Burn</option>
+                                <option value="linearDodge">Linear Dodge (Add)</option>
+                                <option value="vividLight">Vivid Light</option>
+                                <option value="subtract">Subtract</option>
+                                <option value="divide">Divide</option>
+                                <option value="contrast">Contrast</option>
+                            </select>
+                            <hr>
+                            <h4>Misc</h4>
                             <label for="dithering-mode">Dithering Mode : </label>
                             <input type="checkbox" id="dithering-mode">
                             <br>
@@ -656,7 +647,11 @@
                             <input type="button" onclick="fillAlternateSettings.showModal()" value=". . ."
                                 class="left-flat">
                             <br>
-                            <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
+                            <label for="copy-color-from-cell-checkbox">Copy Color From Cell : </label>
+                            <input type="checkbox" id="copy-color-from-cell-checkbox"><br>
+                            <span id="copied-color-shower"></span><br>
+                            <hr>
+                            <h4>Import</h4>
                             <label for="image-pixelart-to-pixel" class="file-label">
                                 <input type="file" id="image-pixelart-to-pixel" accept="image/*">
                                 Add Pixel Data From Image (Auto Size Detection)
@@ -677,20 +672,26 @@
                                 Add Pixel Data Raw Data (SPAD)
                                 <input type="file" id="raw-data-fp" accept=".spad" value="F">
                             </label> <br> <br>
-                            <label for="copy-color-from-cell-checkbox">Copy Color From Cell : </label>
-                            <input type="checkbox" id="copy-color-from-cell-checkbox"><br>
-                            <span id="copied-color-shower"></span><br>
+                        </div>
+                        <div>
+                            <br>
+                            <h3>Extra Tabs</h3> <br>
+                            <input type="button" value="Canvas Manipulation [CTRL+m]"
+                                onclick="gotoTab('canvas-manipulation', true)"><br>
+                            <input type="button" onclick="gotoTab('extra-click-modes', true)"
+                                value="Extra Click Modes [CTRL+x]"> <br>
+                            <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
+                            <input type="button" value="Color History" onclick="gotoTab('color-history', true)"><br>
                         </div>
                         <div>
                             <br>
                             <h3 data-type="hidden-tab" data-tabname="color-history">Color History
                             </h3> <br>
-                            <input type="button" value="Extract Colours" id="extract-pallette">
+                            <input type="button" value="Extract Colors" id="extract-pallette">
                             <input type="button" value="Delete All Colors" id="delete-non-default-pallette">
                             <br>
                             <div id="pallate-container">
                             </div>
-
                         </div>
                         <div>
                             <br>
@@ -770,6 +771,8 @@
                                 <label for="linear-gradient-angle">Linear Angle : </label>
                                 <input type="range" id="linear-gradient-angle" min="0" value="0" max="360">
                                 <span id='linear-gradient-angle-shower'>(0&deg;)</span>
+                                <br>
+                                <input type="button" value="Fill All" id="fill-all-gradient">
                             </div>
                             <div class="shape-settings" data-settingname="triangle">
                                 <h3>Triangle</h3>
@@ -832,15 +835,6 @@
 
                                     <label class="switch">
                                         <input type="checkbox" id="fill-rect" checked>
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
-                                <br>
-                                <div class="switch-container">
-                                    <label for="square">Square :</label>
-
-                                    <label class="switch">
-                                        <input type="checkbox" id="square">
                                         <span class="slider"></span>
                                     </label>
                                 </div>
@@ -909,7 +903,7 @@
                             </div>
                             <div class="shape-settings" data-settingname="paste">
                                 <h3>Paste</h3>
-                                <img class="selection-image-shower image">
+                                <img class="selection-image-shower image" alt="Image">
                                 <br>
                                 <br>
                                 <label for="ignore-transparent-cells">Ignore Transparent Cells : </label>
@@ -933,8 +927,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-type="hidden-tab" data-tabname="copy_options">Copy Options
-                            </h3><br>
+                            <h3 data-type="hidden-tab" data-tabname="copy_options">Copy Options</h3><br>
                             <label for="guide-checkbox2">Quadrant Guides: </label>
                             <input type="checkbox" name="guide-checkbox2" id="guide-checkbox2">
                             <br>
@@ -979,7 +972,7 @@
                                 onclick="saveCanvasAsDrawing()">
                             <br>
                             <div id="no-drawing-present-div">
-                                <img src="icons/tick.png" alt="" width="64px">
+                                <img src="icons/tick.png" alt="No Drawings Present" width="64px">
                                 <br>
                                 <span style="font-size: 1rem">Your Saved Drawings Should Appear Here.</span>
                                 <br>
@@ -996,7 +989,7 @@
                             <input type="button" value="Sepia" id="filter-sepia">
                             <input type="button" value="Grayscale" id="filter-grayscale" class="right-flat">
                             <input type="button" value="..." class="left-flat" onclick="grayscaleSettings.showModal()">
-                            <input type="button" value="Solorize" id="filter-solorize">
+                            <input type="button" value="Solarize" id="filter-solorize">
                             <br>
                             <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()"
                                 class="right-flat">
@@ -1011,7 +1004,7 @@
                             <br>
                             <hr>
                             <h4>Blurring & Sharpening</h4>
-                            <input type="button" value="Guassian Blur" id="filter-gaussian-blur" class="right-flat">
+                            <input type="button" value="Gaussian Blur" id="filter-gaussian-blur" class="right-flat">
                             <input type="button" value="..." class="left-flat"
                                 onclick="gaussianBlurSettings.showModal()">
                             <input type="button" value="Box Blur" id="filter-box-blur" class="right-flat">
@@ -1021,7 +1014,9 @@
                             <input type="button" value="Sharpen" id="filter-sharpen">
                             <br>
                             <hr>
-                            <h4>Brightining</h4>
+                            <h4>Brightening</h4>
+                            <input type="button" value="Brighten" class="right-flat" id="filter-brighten">
+                            <input type="button" value="..." class="left-flat" onclick="brightnessSettings.showModal()">
                             <input type="button" value="Weak Brighten" id="filter-weak-brighten">
                             <br>
                             <hr>
@@ -1059,9 +1054,9 @@
                             <br>
                             <hr>
                             <details>
-                                <summary>Fill Coloumn And Row Settings</summary>
-                                <h4>Fill Coloumn And Row Settings</h4>
-                                <label for="stop-col-row-fill-propogation-if">Stop Propogation If : </label>
+                                <summary>Fill Column And Row Settings</summary>
+                                <h4>Fill Column And Row Settings</h4>
+                                <label for="stop-col-row-fill-propogation-if">Stop Propagation If : </label>
                                 <select id="stop-col-row-fill-propogation-if">
                                     <option value="never">Never</option>
                                     <option value="color-changes">Color Changes</option>
@@ -1197,20 +1192,32 @@
                             <h3 data-tabname="anim" data-shortcutkey="a">Animation</h3> <br>
                             <input type="button" value="Options" onclick="animationOptions.showModal()">
                             <br>
-                            <h4>Export</h4>
-                            <label for="global-frame-delay">Time Per Frame (>35ms) : </label>
-                            <input type="number" id="global-frame-delay" value="50">
-                            <br>
-                            <details><summary>&#9432;</summary> 35ms per frame is the optimal minimum time bound for gifs for compatibility issues. </details>
-                            <br>
-                            <input type="button" value="Export GIF" id="export-gif">
-                            <input type="button" value="Export Sprite" id="export-sprite">
+                            <hr>
+                            <details>
+                                <summary>
+                                    Export
+                                </summary>
+                                <h4>GIF</h4>
+                                <label for="global-frame-delay">Time Per Frame (>35ms) : </label>
+                                <input type="number" id="global-frame-delay" value="50">
+                                <br>
+                                <details>
+                                    <summary>&#9432;</summary> 35ms per frame is the optimal minimum time bound for gifs
+                                    for compatibility issues.
+                                </details>
+                                <br>
+                                <input type="button" value="Export GIF" id="export-gif" class="highlighted-border">
+                                <br>
+                                <hr>
+                                <h4>Sprite</h4>
+                                <input type="button" value="Export Sprite" id="export-sprite"
+                                    class="highlighted-border">
+                            </details>
                             <hr>
                             <h4>Frames</h4>
                             <input type="button" value="Add Frame" id="add-frame">
                             <input type="button" value="Delete All Frames" onclick="deleteAllFrames()">
                             <br>
-                           
                             <span id="frame-count">0</span> Frame(s) <br>
                             <div id="frames"></div>
                         </div>
@@ -1224,7 +1231,7 @@
                             <input type="button" value="Paste" id="paste-into-custom-script-textarea">
                             <hr>
                             <br>
-                            <label for="code-snippet-catagory">Code Snippet Catagory : </label>
+                            <label for="code-snippet-catagory">Code Snippet Category : </label>
                             <select id="code-snippet-catagory"></select>
                             <br>
                             <label for="code-snippet">Snippet : </label>
@@ -1236,8 +1243,25 @@
                             <br>
                             <input type="button" value="Execute" id="execute-custom-script">
                             <br>
-                            <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
+                            <span>&#9432; If you're getting an unexpected result, try the checking logs : </span>
                             <input value="Logs" onclick="gotoTab('error-log')" type="button">
+                        </div>
+                        <div>
+                            <br>
+                            <h3 data-shortcutkey="2" data-tabname="composer">Action Composer</h3><br>
+                            <label for="action-type">Action : </label>
+                            <select id="action-type">
+                                <option value="undo()">Undo</option>
+                                <option value="redo()">Redo</option>
+                                <option value="addFrame()">Add Frame</option>
+                            </select>
+                            <br>
+                            <input type="button" value="Run Composer [CTRL+u]" onclick="runComposer()">
+                            <br>
+                            <input type="button" value="Add Action" onclick="addAction()">
+                            <div id="actions-container">
+
+                            </div>
                         </div>
                         <div id="themes-section">
                             <br>
@@ -1250,7 +1274,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="z">Settings</h3> <br>
+                            <h3 data-shortcutkey=",">Settings</h3> <br>
                             <input type="button" value="Preferences" onclick="preferences.showModal()">
                             <input type="button" value="Layout" onclick="gotoTab('layout')">
                             <input type="button" value="Themes" onclick="gotoTab('themes')">
@@ -1266,10 +1290,10 @@
                             <br>
                             <h2>Developed Under: </h2>
                             <img style="margin: 0; border-radius: 1vh " class="image"
-                                src="icons/logo/syn-for-research.png" width="60%"
+                                src="icons/logo/syn-for-research.png" width="60%" alt="SynFR"
                                 onclick="confirm('Do you really want to leave for an external site?') ? window.location.href = 'https://synfr.vercel.app' : false">
                             <h2>Awarded By(2024): </h2>
-                            <img style="margin: 0; border-radius: 1vh " class="image"
+                            <img style="margin: 0; border-radius: 1vh " class="image" alt="SynFA"
                                 src="icons/logo/syn-for-awards.png" width="60%">
                             <br>
                             <br>
@@ -1347,7 +1371,7 @@
                             <br>
                             <input type="button" value="Add New Color" id="p-add-new-color">
                             <input type="button" value="Delete Selected Color" id="p-remove-selected-color">
-                            <input type="button" value="Copy Selected Pallete" id="p-copy-selected">
+                            <input type="button" value="Copy Selected Palette" id="p-copy-selected">
                             <br>
                             <input type="button" value="Extract Colors From Canvas" id="p-extract-from-canvas">
                             <br>
@@ -1430,7 +1454,7 @@
     <!--The following tag will be used for color conversion-->
     <div id="psedo"></div>
     <div id="process">
-        <img src="icons/loader.png" alt="" width="64px" class="loader image">
+        <img src="icons/loader.png" alt="Loader Image" width="64px" class="loader image">
         <br>
         <span>Please Wait...</span>
         <br>
@@ -1468,6 +1492,7 @@
     <script src="js/shapes/comman.js"></script>
     <script src="js/shapes/touch.js"></script>
     <script src="js/shapes/mouse.js"></script>
+    <script src="js/guides.js"></script>
     <script src="js/main.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/color-settings.js"></script>
@@ -1495,6 +1520,8 @@
     <script src="js/lib.blend.js"></script>
     <script src="js/dialogs.js"></script>
     <script src="js/lighting.js"></script>
+    <script src="js/action-composer.js"></script>
+    <script src="js/mirroring.js"></script>
     <script>
         // Post script
         endProcess()

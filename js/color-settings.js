@@ -42,16 +42,6 @@ let hue = 0
 
 let paletteSequenceIndex = 0
 let colorHistorySequenceIndex = 0
-// let prevOpacity = 1
-// opacity.oninput = () => {
-//     opacityShower.textContent = `(${opacity.value})`
-//     customConfirm(`Do You Want To Change Opacity From ${prevOpacity} to ${opacity.value}?`, () => {
-//         prevOpacity = opacity.value
-//     }, () => {
-//         opacity.value = prevOpacity
-//         opacityShower.textContent = `(${prevOpacity})`
-//     })
-// }
 
 opacity.oninput = () => {
     opacityShower.textContent = `(${opacity.value})`
@@ -73,109 +63,116 @@ function cssToRGBAOrRgb(color) {
 
 function getCurrentSelectedColor(preview = false) {
     let colorMode = colorMSelector.value
-    if (colorMode == "random") {
-        switch (randomFrom.value) {
-            case "all":
-                color = rgbToHex(getRandColor())
-                break;
-            case "color-history":
+    let color
+    switch (colorMode) {
+        case 'normal':
+            color = currentSelectedColor
+            break
+        case "random":
+            switch (randomFrom.value) {
+                case "all":
+                    color = rgbToHex(getRandColor())
+                    break;
+                case "color-history":
+                    if (usedColors.length == 0) {
+                        customAlert("No Color Present In Color History!")
+                        color = "#000000"
+                        break
+                    }
+                    color = usedColors[Math.floor(Math.random() * usedColors.length)]
+                    break;
+                case "selected-palette":
+                    color = rgbToHex(cssToRGBAOrRgb(savedPalettes[paletteSelector.value][Math.floor(Math.random() * savedPalettes[paletteSelector.value].length)]));
+            }
+            break
+        case "hsl":
+            let currentHue;
+            if (!preview) hue += parseFloat(hueSpeedSlider.value)
+            let decimalPart = hue - Math.floor(hue)
+            currentHue = (hue % 360) + decimalPart
+            if (!preview) hueAngle.value = currentHue
+            updateHueShower()
+            if (!preview && parseInt(hueSpeedSlider.value) != 0) updateHueColorShower()
+            color = hslValToHex(currentHue, saturationSlider.value, lightingSlider.value)
+            break
+        case "eraser":
+            color = '#00000000'
+            break
+        case "css-color":
+            color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value))
+            break
+        case "palette":
+            color = rgbToHex(cssToRGBAOrRgb(savedPalettes[paletteSelector.value][paletteIndex]))
+            break
+        case "lighting":
+            return id("lighting-object-type").value
+        case "formula":
+            if (colorFormulaTypeSelector.value == "hsl") {
+                let hue = evalFormula(id("cf-hsl-hue").value, colorFormulaVars)
+                let saturation = evalFormula(id("cf-hsl-saturation").value, colorFormulaVars)
+                let lightness = evalFormula(id("cf-hsl-lightness").value, colorFormulaVars)
+                if (hue === undefined || saturation === undefined || lightness === undefined)
+                    color = "#000000"
+                else color = hslToHex(`hsl(${hue},${saturation},${lightness})`)
+            } else if (colorFormulaTypeSelector.value = "rgb") {
+                let r = evalFormula(id("cf-rgb-r").value, colorFormulaVars)
+                let g = evalFormula(id("cf-rgb-g").value, colorFormulaVars)
+                let b = evalFormula(id("cf-rgb-b").value, colorFormulaVars)
+                if (r === undefined || g === undefined || b === undefined)
+                    color = "#000000"
+                else color = rgbaToHex(`rgba(${r}, ${g}, ${b}, 1)`).slice(0, 7)
+            }
+            [...id("vars").children].forEach((elem) => {
+                let name = elem.children[2].value
+                let changeAssignmentOperator = elem.children[6].value
+                let change = elem.children[7].value
+
+                let maxPossibleValue = elem.children[9].value == "" ? Infinity : parseFloat(elem.children[9].value)
+                let baseValue = elem.children[13].value == "" ? 0 : parseFloat(elem.children[13].value)
+                let minPossibleValue = elem.children[11].value == "" ? -Infinity : parseFloat(elem.children[11].value)
+                switch (changeAssignmentOperator) {
+                    case "+=":
+                        colorFormulaVars[name] += evalFormula(change, colorFormulaVars)
+                        break
+                    case "-=":
+                        colorFormulaVars[name] -= evalFormula(change, colorFormulaVars)
+                        break
+                    case "*=":
+                        colorFormulaVars[name] *= evalFormula(change, colorFormulaVars)
+                        break
+                    case "/=":
+                        colorFormulaVars[name] /= evalFormula(change, colorFormulaVars)
+                        break
+                    case "%=":
+                        colorFormulaVars[name] %= evalFormula(change, colorFormulaVars)
+                        break
+                    case "=":
+                        colorFormulaVars[name] = evalFormula(change, colorFormulaVars)
+                        break
+                }
+                if (colorFormulaVars[name] > maxPossibleValue) colorFormulaVars[name] = baseValue
+                if (colorFormulaVars[name] < minPossibleValue) colorFormulaVars[name] = baseValue
+                elem.children[4].value = colorFormulaVars[name]
+            })
+            break
+        case "sequence":
+            let sequenceMode = id("sequence-from").value
+            if (sequenceMode == "selected-palette") {
+                paletteSequenceIndex = (paletteSequenceIndex + 1) % savedPalettes[paletteSelector.value].length
+                color = rgbToHex(savedPalettes[paletteSelector.value][paletteSequenceIndex])
+            } else {
+                colorHistorySequenceIndex = (colorHistorySequenceIndex + 1) % usedColors.length
                 if (usedColors.length == 0) {
                     customAlert("No Color Present In Color History!")
                     color = "#000000"
-                    break
                 }
-                color = usedColors[Math.floor(Math.random() * usedColors.length)]
-                break;
-            case "selected-palette":
-                color = rgbToHex(cssToRGBAOrRgb(savedPalettes[paletteSelector.value][Math.floor(Math.random() * savedPalettes[paletteSelector.value].length)]));
-                break;
-        }
-
-    }
-    else if (colorMode == "hsl") {
-        let currentHue;
-        if (!preview) hue += parseFloat(hueSpeedSlider.value)
-        let decimalPart = hue - Math.floor(hue)
-        currentHue = (hue % 360) + decimalPart
-        if (!preview) hueAngle.value = currentHue
-        updateHueShower()
-        if (!preview && parseInt(hueSpeedSlider.value) != 0) updateHueColorShower()
-        color = hslValToHex(currentHue, saturationSlider.value, lightingSlider.value)
-    }
-    else if (colorMode == "eraser")
-        color = '#00000000'
-    else if (colorMode == "css-color")
-        color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value));
-    else if (colorMode == "palette")
-        color = rgbToHex(cssToRGBAOrRgb(savedPalettes[paletteSelector.value][paletteIndex]))
-    else if (colorMode == "lighting")
-        return id("lighting-object-type").value
-    else if (colorMode == "formula") {
-        if (colorFormulaTypeSelector.value == "hsl") {
-            let hue = evalFormula(id("cf-hsl-hue").value, colorFormulaVars)
-            let saturation = evalFormula(id("cf-hsl-saturation").value, colorFormulaVars)
-            let lightness = evalFormula(id("cf-hsl-lightness").value, colorFormulaVars)
-            if (hue === undefined || saturation === undefined || lightness === undefined)
-                color = "#000000"
-            else color = hslToHex(`hsl(${hue},${saturation},${lightness})`)
-        } else if (colorFormulaTypeSelector.value = "rgb") {
-            let r = evalFormula(id("cf-rgb-r").value, colorFormulaVars)
-            let g = evalFormula(id("cf-rgb-g").value, colorFormulaVars)
-            let b = evalFormula(id("cf-rgb-b").value, colorFormulaVars)
-            if (r === undefined || g === undefined || b === undefined)
-                color = "#000000"
-            else color = rgbaToHex(`rgba(${r}, ${g}, ${b}, 1)`).slice(0, 7)
-        }
-        [...id("vars").children].forEach((elem) => {
-            let name = elem.children[2].value
-            let changeAssignmentOperator = elem.children[6].value
-            let change = elem.children[7].value
-
-            let maxPossibleValue = elem.children[9].value == "" ? Infinity : parseFloat(elem.children[9].value)
-            let baseValue = elem.children[13].value == "" ? 0 : parseFloat(elem.children[13].value)
-            let minPossibleValue = elem.children[11].value == "" ? -Infinity : parseFloat(elem.children[11].value)
-            switch (changeAssignmentOperator) {
-                case "+=":
-                    colorFormulaVars[name] += evalFormula(change, colorFormulaVars)
-                    break
-                case "-=":
-                    colorFormulaVars[name] -= evalFormula(change, colorFormulaVars)
-                    break
-                case "*=":
-                    colorFormulaVars[name] *= evalFormula(change, colorFormulaVars)
-                    break
-                case "/=":
-                    colorFormulaVars[name] /= evalFormula(change, colorFormulaVars)
-                    break
-                case "%=":
-                    colorFormulaVars[name] %= evalFormula(change, colorFormulaVars)
-                    break
-                case "=":
-                    colorFormulaVars[name] = evalFormula(change, colorFormulaVars)
-                    break
+                color = usedColors[colorHistorySequenceIndex]
             }
-            if (colorFormulaVars[name] > maxPossibleValue) colorFormulaVars[name] = baseValue
-            if (colorFormulaVars[name] < minPossibleValue) colorFormulaVars[name] = baseValue
-            elem.children[4].value = colorFormulaVars[name]
-        })
+            break
     }
-    else if (colorMode == "sequence") {
-        let sequenceMode = id("sequence-from").value
-        if (sequenceMode == "selected-palette") {
-            paletteSequenceIndex = (paletteSequenceIndex + 1) % savedPalettes[paletteSelector.value].length
-            color = rgbToHex(savedPalettes[paletteSelector.value][paletteSequenceIndex])
-        } else {
-            colorHistorySequenceIndex = (colorHistorySequenceIndex + 1) % usedColors.length
-            if (usedColors.length == 0) {
-                customAlert("No Color Present In Color History!")
-                color = "#000000"
-            }
-            color = usedColors[colorHistorySequenceIndex]
-        }
-    } else
-        color = currentSelectedColor
-    let opacityHex = Math.round(opacity.value * 255).toString(16).padStart(2, '0')
-    if (color.length != 9) color += opacityHex
+    let opacityTail = ""
+    if (color.length != 9) opacityTail = Math.round(opacity.value * 255).toString(16).padStart(2, '0')
+    color += opacityTail
     return slightVariationsCheckbox.checked ? slightlyDifferentColor(color) : color
 }
 
@@ -231,10 +228,11 @@ function slightlyDifferentColor(hexColor, th = 24) {
 let skips = 0
 let fillCounts = 1
 let ditheringMode = id("dithering-mode")
-function setCellColor(cellElem, color) {
+
+function setCellColor(cellElem, color, isMain = true) {
     if (ditheringMode.checked) {
-        let row = y(cellElem.index)
-        let col = x(cellElem.index)
+        let row = x(cellElem.index)
+        let col = y(cellElem.index)
         if (rows % 2 == cols % 2) {
             if (row % 2 && col % 2) return
             if (row % 2 == 0 && col % 2 == 0) return
@@ -247,20 +245,18 @@ function setCellColor(cellElem, color) {
         return;
     }
     if (fillAlternate.checked && fillCounts > 0) {
-        fillCell(cellElem, color)
+        fillCell(cellElem, color, isMain)
         fillCounts--;
     } else if (!fillAlternate.checked) {
-        fillCell(cellElem, color)
-    }
-    else {
+        fillCell(cellElem, color, isMain)
+    } else {
         skips = parseInt(fillGap.value) - 1;
         fillCounts = parseInt(fillCount.value);
     }
-
 }
 
 onlyFillIfColorIsCheckbox.oninput = () => {
-    id("info-fill-rule").textContent = onlyFillIfColorIsCheckbox.checked ? "[FILL RULE ON]," : "fill rule off,"
+    id("info-fill-rule").textContent = onlyFillIfColorIsCheckbox.checked ? "[FR:ON]," : "[FR:OFF],"
     if (onlyFillIfColorIsCheckbox.checked) {
         id("info-fill-rule").style.color = "red"
     } else {
@@ -268,8 +264,9 @@ onlyFillIfColorIsCheckbox.oninput = () => {
     }
 
 }
-
-function fillCell(cellElem, color) {
+const mirroring = id('mirroring')
+const mirroringType = id('mirroring-type')
+function fillCell(cellElem, color, isMain = true) {
     if (['@bulb', '@barrier', '@none'].includes(color)) {
         cellElem.lightingObjectType = color
         cellElem.style.backgroundSize = "100% 100%"
@@ -281,15 +278,10 @@ function fillCell(cellElem, color) {
         cellElem.style.backgroundImage = iconPath
         return
     }
-    //let currentColor = rgbaToHex(window.getComputedStyle(cellElem).getPropertyValue('background-color'))
     let currentColor = rgbaToHex(buffer.getItem()[cellElem.index])
-    let fillOnlyIfColorsAre = fillOnlyThisColor.value.split("||")
-    let flipFillOnlyIf = flipFillOnlyIfType.value == "If"
-    let th = onlyFillMatchingThreshold.value
-    for (let i = 0; i < fillOnlyIfColorsAre.length; i++) {
-        fillOnlyIfColorsAre[i] = rgbaToHex(cssToRGBAOrRgb(fillOnlyIfColorsAre[i]))
-    }
     if (onlyFillIfColorIsCheckbox.checked) {
+        let flipFillOnlyIf = flipFillOnlyIfType.value == "If"
+        let th = onlyFillMatchingThreshold.value
         if (flipFillOnlyIf) {
             if (!checkIfColorInArray(fillOnlyIfColorsAre, currentColor, th)) return
         } else {
@@ -298,8 +290,28 @@ function fillCell(cellElem, color) {
     }
     let finalColor = color
     if (id("filling-mode").value == 'blend') finalColor = rgbaObjectToHex(blendColors(hexToRgbaObject(color), hexToRgbaObject(currentColor), id('blending-mode').value))
-    if(finalColor == currentColor) return
+    if (finalColor == currentColor) return
     cellElem.style.backgroundColor = finalColor
+    if (mirroring.checked && isMain) {
+        switch (mirroringType.value) {
+            case 'vertical':
+                setCellColor(cells[mirrorVertically(cellElem.index)], color, false)
+                break
+            case 'horizontal':
+                setCellColor(cells[mirrorHorizontally(cellElem.index)], color, false)
+                break
+        }
+    }
+}
+
+let fillOnlyIfColorsAre = []
+fillOnlyThisColor.oninput = createFillRuleArray
+
+function createFillRuleArray() {
+    fillOnlyIfColorsAre = fillOnlyThisColor.value.split("||")
+    for (let i = 0; i < fillOnlyIfColorsAre.length; i++) {
+        fillOnlyIfColorsAre[i] = rgbaToHex(cssToRGBAOrRgb(fillOnlyIfColorsAre[i]))
+    }
 }
 
 function checkIfColorInArray(array, color, th = 100) {

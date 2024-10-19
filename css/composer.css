@@ -1,0 +1,27 @@
+.action{
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--primary);
+    background-color: var(--secondary) ;
+    width: fit-content;
+    text-align: center;
+    margin-left: 8px;
+    padding: 6px 20px;
+    border-radius: 64px;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.action img{
+    margin: 0;
+    width: 24px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+#actions-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

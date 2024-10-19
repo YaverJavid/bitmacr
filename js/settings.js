@@ -20,7 +20,7 @@ document.getElementById("shortcut-info-checkbox").addEventListener("change", fun
 })
 
 
-// Default Pallatte Visibility 
+// Default Pallette Visibility 
 const defaultPallettes = document.getElementsByClassName("default-pallette")
 
 function changeDefaultPalletteVisibility(mode) {

@@ -295,20 +295,15 @@ function pad(str, len) {
 
 
 function getHSLFromHex(hex) {
-    // Convert hex to RGB
     var r = parseInt(hex.substring(1, 3), 16) / 255;
     var g = parseInt(hex.substring(3, 5), 16) / 255;
     var b = parseInt(hex.substring(5, 7), 16) / 255;
-
-    // Find the minimum and maximum values of R, G and B
     var cmin = Math.min(r, g, b),
         cmax = Math.max(r, g, b),
         delta = cmax - cmin,
         hue = 0,
         saturation = 0,
         lightness = 0;
-
-    // Calculate hue
     if (delta === 0) {
         hue = 0;
     } else if (cmax === r) {
@@ -318,7 +313,6 @@ function getHSLFromHex(hex) {
     } else {
         hue = (r - g) / delta + 4;
     }
-
     hue = Math.round(hue * 60);
 
     if (hue < 0) {

@@ -1,5 +1,12 @@
- @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&display=swap');
+ /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&display=swap'); */
  @import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
+
+ @font-face {
+     font-family: 'Noto Sans Symbols';
+     src: url('/fonts/NotoSansSymbols/NotoSansSymbols-Regular.ttf') format('truetype');
+     font-weight: normal;
+     font-style: normal;
+ }
 
  :root {
      --accent: #ffffff;
@@ -38,7 +45,7 @@
  * {
      /* font-family: "Pixelify Sans", sans-serif; */
      user-select: none;
-     /* line-height: 2;  */
+
      font-family: 'Noto Sans Symbols', sans-serif;
 
 
@@ -59,16 +66,16 @@
  }
 
  .cell {
-     border: 1px solid var(--primary);
      border-width: 1px 0 0px 0;
      box-sizing: border-box;
      background: #00000000;
-     background-size: "100% 100%"
+     background-size: "100% 100%";
+     border-collapse: collapse;
  }
 
- .cell:hover {
-     border-style: dashed
- }
+ /* .cell:hover {
+     border: 1px dashed var(--primary)!important
+ } */
 
  marquee {
      font-family: 'Paytone One', sans-serif;
@@ -681,7 +688,7 @@
 
  .active-shape,
  .active-cmode {
-     border: 3px solid black!important;
+     border: 3px solid black !important;
  }
 
  .shape-settings {
@@ -763,11 +770,8 @@
 
 
  .highlighted-border {
-     background: linear-gradient(white, white) padding-box,
-         linear-gradient(to right, darkblue, darkorchid) border-box;
      border-radius: 20px !important;
-     border: 8px solid transparent !important;
-     border-color: transparent;
+     border: 8px solid var(--primary) !important;
  }
 
  #error-log * {
@@ -933,5 +937,9 @@
      border: 1px solid black;
      background-color: #ffffff;
      margin: 0;
-     padding: 0 4px!important;
+     padding: 0 4px !important;
+ }
+
+ #copied-color-shower {
+    user-select: text;
  }

@@ -11,7 +11,7 @@
     background: var(--accent);
     margin-left: 8px;
     padding: 6px 20px;
-    border-radius: 50vh;
+    border-radius: 64px;
     display: flex;
     justify-content: space-between;
     align-items: center;

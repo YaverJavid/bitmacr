@@ -5,8 +5,8 @@ function firstl(first, ...others) {
 
 const fp = console.log
 const avgc = (r, g, b) => (r + g + b) / 3
-const y = pid => pid % rows
-const x = pid => Math.floor(pid / cols)
+const y = pid => Math.floor(pid / cols)
+const x = pid => pid % cols
 const $ = id => colorFormulaVars[id]
 const fc = i =>  cells[i].onclick()
 const pack = (x, y) => y * cols + x

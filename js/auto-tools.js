@@ -11,17 +11,14 @@ id("image-pixelart-to-pixel").addEventListener("input", function () {
             ctx.drawImage(img, 0, 0)
             let imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
             let pixelSize = getMinContinuousStreak(imgd)
-
             let ph = Math.round(img.height / pixelSize)
             let pw = Math.round(img.width / pixelSize)
-            let th = parseInt(id("auto-size-detection-threshold").value)
-
-            if (pw > (MAX_CANVAS_DIMENSION + 20) || ph > (MAX_CANVAS_DIMENSION + 20)) {
+            //let th = parseInt(id("auto-size-detection-threshold").value)
+            if ((pw > (Number(MAX_CANVAS_DIMENSION))+20) || ph > (Number(MAX_CANVAS_DIMENSION) + 20)) {
                 customAlert(`Dimension Greater Than Supported! (${pw}:${ph})`)
                 return
             }
-
-            let data = imageToPixeArtData(img, pw, ph)
+            let data = imageToPixelArtData(img, pw, ph)
             addCanvas(ph, pw)
             applyPaintData(data)
             buffer.clearStack()

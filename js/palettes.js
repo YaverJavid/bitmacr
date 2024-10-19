@@ -98,11 +98,11 @@ for (let prop in savedPalettes) {
 
 for (let i = 0; i < palettes.length; i++) {
     if (palettes[i].dataset.onlyShow != "true")
-        addEventListenerOnPallete(palettes[i])
+        addEventListenerOnPalette(palettes[i])
 }
 let paletteIndex = 0
 
-function addEventListenerOnPallete(palette) {
+function addEventListenerOnPalette(palette) {
     for (let j = 0; j < palette.children.length; j++) {
         if (palette.children[j].classList.contains(SELECTED_PALETTE_COLOR_TOKEN))
             palette.children[j].classList.remove(SELECTED_PALETTE_COLOR_TOKEN)
@@ -125,13 +125,13 @@ function addEventListenerOnPallete(palette) {
 
 function addColorToPaletteManager(color) {
     if (paletteCreatorPalette.children.length == PALETTE_LIMIT) {
-        customAlert("Cannot Add More Colours, Reached Limit : " + PALETTE_LIMIT + " !")
+        customAlert("Cannot Add More Colors, Reached Limit : " + PALETTE_LIMIT + " !")
         return
     }
     const newColor = document.createElement("div")
     newColor.style.background = color ? color : getRandColor()
     paletteCreatorPalette.appendChild(newColor)
-    addEventListenerOnPallete(paletteCreatorPalette)
+    addEventListenerOnPalette(paletteCreatorPalette)
 }
 
 document.getElementById("p-add-new-color").onclick = () => {
@@ -152,7 +152,7 @@ document.getElementById("p-remove-selected-color").onclick = () => {
         return
     }
     paletteCreatorPalette.removeChild(paletteCreatorPalette.selected)
-    addEventListenerOnPallete(paletteCreatorPalette)
+    addEventListenerOnPalette(paletteCreatorPalette)
 }
 
 document.getElementById("save-palette").onclick = () => {
@@ -190,7 +190,7 @@ function updatePaletteSelector() {
         colorElem.style.background = palette[i]
         paletteCS.appendChild(colorElem)
     }
-    addEventListenerOnPallete(paletteCS)
+    addEventListenerOnPalette(paletteCS)
     paletteIndex = paletteCS.children.length - 1   
 }
 
@@ -209,7 +209,7 @@ function deleteSelectedPalette() {
                 updatePaletteSelector()
             })
     } else {
-        customAlert("Atleast One Palette Should Remain!")
+        customAlert("At least One Palette Should Remain!")
     }
 }
 
@@ -222,7 +222,7 @@ id("p-copy-selected").onclick = () => {
         color.style.backgroundColor = selectedPalette[i]
         paletteCreatorPalette.appendChild(color)
     }
-    addEventListenerOnPallete(paletteCreatorPalette)
+    addEventListenerOnPalette(paletteCreatorPalette)
 }
 
 id("p-extract-from-canvas").onclick = () => {

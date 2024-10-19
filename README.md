@@ -5,7 +5,14 @@
 ### 2024-018[12-Oct-2024]
 
 - Added Gradient Tool
-- Added Square Option In Rectangle
+- Hold Shift To Move Circle Around
+- Hold Alt To Set The Current Radius To Fixed Radius Input
+- Hold Shift To Lock Rectangle To A Square
+- Hold Shift to lock line to the nearest 45 degree
+- Layout Rearrangements
+- std::shortcuts : ctrl+z : undo, ctrl+y : redo & ctrl+, : settings
+- Added Action Composer
+- Added Mirroring
 - Optimizations
 
 ### 2024-017[29-Sep-2024]
@@ -14,7 +21,7 @@
 - Added Color Sequence Color Type
 - Fixed Selection Bug
 - Other Minor Improvements
-- Added 10 Default Palattes
+- Added 10 Default Palettes
 - Changed Logo
 - Filling mode can Now be Changed On Top Bar
 - Resize Handler Is Now Removed
@@ -45,8 +52,8 @@
 
 - Added Threshold Support For Replace Content Awarely
 - Zoom Interface Improvements
-- Optimised And Upgraded Sphere
-- Added Fliping Tool For Selected Part
+- Optimized And Upgraded Sphere
+- Added Flipping Tool For Selected Part
 - Color Formula Support For Desktop Version
 - Color Formula Variables Now Stack
 - Added Dithering Mode
@@ -56,9 +63,9 @@
 
 - Replaced Some Tabs With Dialogs
 - Added And Changed Some Filters
-- Added Sharpning Filter
+- Added Sharpening Filter
 - Added Sprite Exportation
-- Added Flow Attribute For Coloumn & Row Filling
+- Added Flow Attribute For Column & Row Filling
 - Added lighting tools
 
 ### 2024-011[29-Jul-2024]
@@ -80,7 +87,7 @@
 
 ### 2024-009[21-Jul-2024]
 
-- Added support for codde snippets in custom script
+- Added support for code snippets in custom script
 - Added more blur settings
 - Added mix modes for pasting
 - Fixed bugs regarding paste & zoom
@@ -88,7 +95,7 @@
 - Select all added
 - Some tool tips too
 - Logo now appears in right in widescreen
-- Fixed some cursor desgin
+- Fixed some cursor design
 - Fixed gaussian ghost colors bug
 
 ### 2024-008[21-Jul-2024]
@@ -102,12 +109,12 @@
 
 ### 2024-006[24-Jun-2024]
 
-- Added maximum possible canvas size customisation (in preferences)
+- Added maximum possible canvas size customization (in preferences)
 - Bug Fix - No more wrong canvas sizes in confirm box
 
 #### 2024-006.x1 -> [24-Jun-2024]
 
-- Added a way to select browser type manualy in preferences
+- Added a way to select browser type manually in preferences
 - Bug fixes
 
 ### 2024.005 [10-Jun-2024]
@@ -205,7 +212,7 @@
 ### 9.4.2[12-09-2023]
 
 - Now You Can Export In SVG Format
-- Added Resulation Support For PNG's
+- Added Resolution Support For PNG's
 
 ### 9.4.1[30-08-2023]
 
@@ -217,7 +224,7 @@
 ### 9.4.0[dated(15-08-2023)]
 
 - Added Popular Ratios And Sizes
-- Bug Fix : Now Frame Duplication Will Trigger Frame Count Updation
+- Bug Fix : Now Frame Duplication Will Trigger Frame Counter
 
 ### 9.3.9[dated(11-08-2023)]
 
@@ -225,7 +232,7 @@
 - Added Sound Feedback After Saving A Drawing
 - Now Users Can Double Click On Drawing Name To Set The Current Drawing Name To It To Facilitate Drawing Editing
 - Fixed  Copy Selected Pallette
-- Hue color shower is now in intereactive
+- Hue color shower is now in Interactive
 - Double clicking on shape shows the shape tool tab
 - Now You Can Disable The Undo Preservation During Canvas Col/Row Addition, Can Result In Faster Response Time
 - MAJOR :: GIF SUPPORT NOW GENERALLY AVAILABLE AND FULLY USABLE
@@ -293,12 +300,12 @@
 ### 9.3.1[dated(01-06-2023)]
 
 - Color Would Now Be Remembered
-- Now fill only if colour is, could have multiple colours separated by `||`
+- Now fill only if color is, could have multiple colors separated by `||`
 - Also Above Could Be Flipped i.e `fill only if not`
 - To Save Memory, Sessions Will Not Contain State History
-- Variation Settings Has Now A Seprate Tab
+- Variation Settings Has Now A Separate Tab
 - Guide Options Is Now Only Available From General Tab
-- Css Colour String Will Now Be Highlited
+- Css Color String Will Now Be Highlighted
 - Some Layout Tweaks
 
 ### 9.3.0 [dated(25-05-2023)]
@@ -313,7 +320,7 @@
 
 - Added Opacity Control On Actual Canvas For Better Tracing
 - Added `Fill  Alternate Settings`
-- Soloved A Bug About Sessions
+- Solved A Bug About Sessions
 - Some Layout Tweaks
 
 ### 9.2.8 [dated(19-05-2023)]
@@ -355,9 +362,9 @@ Yellow Theme
 
 - Fill only transparent now supports fill only any color
 - Now there is a way to replace color with selected color
-- Added A button To Delete All Non Default Pallatte Colors
-- Added Option In Color Selector To Get Colors Randomly From Pallatte
-- Added Settings In Color Settings For `Randomly From Pallatte`
+- Added A button To Delete All Non Default Pallette Colors
+- Added Option In Color Selector To Get Colors Randomly From Pallette
+- Added Settings In Color Settings For `Randomly From Pallette`
 
 ### 9.2.3
 
@@ -383,7 +390,7 @@ Yellow Theme
 - You can now export mini images with every cell one pixel
 - You can now hide and show borders on first tab
 - color settings include hue settings & variation setting for now
-- In hue settings you can control hue speed, saturation , lightingness, hue angle.
+- In hue settings you can control hue speed, saturation , lightness, hue angle.
 - In variation settings you can control threshold of how much you want your variations to be
 
 ### 8.1.n
@@ -400,7 +407,7 @@ Yellow Theme
 - Added support for getting data from images
 - Fixed Bugs
 - Hue Addition To Spheres
-- Changed the apprerence uploader buttons
+- Changed the appearance uploader buttons
 - Border showing status will now be saved between sessions
 
 ### 7.0.n
@@ -424,14 +431,14 @@ Yellow Theme
 - Added line support in paint mode.
 - Changed the algorithm for export, now images will have no fine unexpected black lines(BUG17), if allah wills!
 - Added a way to access previous major versions of the same app, it has its own tab.
-- Soloved some bugs.
+- Solved some bugs.
 - 7.0.3: Bug Fixes
 
 ### 6.6.n
 
 - Added Support For Shapes
 - Fixed Bugs
-- Reorganised Some UI
+- Reorganized Some UI
 - Added Contact Information
 - Added APK
 - 6.6.6 updated service worker
@@ -444,17 +451,17 @@ Yellow Theme
 ### 6.4.n
 
 - Added Option For Entering Color Using Input Text
-- Reorganised Menu - Added Themes Into Settings Tab
+- Reorganized Menu - Added Themes Into Settings Tab
 - Removed Advanced Tab and Added Its Options Into General Settings Accessible From Settings Tab
 - Added An Option To Copy Color Into Clipboard From Cell, Is In Basic Tools Tab.
-- Added Settings To Hide Shortcuts Info & To Hide Default Pallatte.
+- Added Settings To Hide Shortcuts Info & To Hide Default Pallette.
 - Bug Fixes
 - 6.4.1 : Added Quadrant Guide Support For Odd Numbered Canvas Size
 
 ### 6.3.n
 
 - Bug Fixes : Fixed Color Selection Bugs
-- Added Color Pallates Section
+- Added Color Palette Section
 - Added New Themes :
 
  ```plaintext
@@ -462,7 +469,7 @@ Dark Lime
 Blue Gold
 Red Yellow
 Purple Yellow
-Turquoise Whité
+Turquoise White
 Blue Peach
 Green Yellow
 Orange Khaki

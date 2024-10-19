@@ -11,7 +11,6 @@ self.addEventListener('fetch', e => {
         caches.open('dynamic-cache').then(cache => {
             return cache.match(e.request).then(res => {
                 return res || fetch(e.request).then(fetchRes => {
-                    // Cache new requests dynamically
                     cache.put(e.request, fetchRes.clone());
                     return fetchRes;
                 });

@@ -1,4 +1,26 @@
 {
     "liveServer.settings.port": 5501,
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "cSpell.words": [
+        "adstrip",
+        "aflag",
+        "Awarely",
+        "behaviour",
+        "bflag",
+        "bitmacr",
+        "csname",
+        "frostblur",
+        "gflag",
+        "Invertion",
+        "Paintzone",
+        "pixm",
+        "qguide",
+        "QGUIDES",
+        "rflag",
+        "settingname",
+        "shortcutkey",
+        "SPAD",
+        "Yaver",
+        "yjpm"
+    ]
 }

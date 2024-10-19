@@ -101,6 +101,19 @@ id("shift-colors-button").onclick = () => {
         };
     })
 }
+id("filter-brighten").onclick = () => {
+    filterCanvas((pixel, pid) => {
+        let br = id("brightness-factor").value
+        let r = Math.min(pixel.r * br, 255);
+        let g = Math.min(pixel.g * br, 255);
+        let b = Math.min(pixel.b * br, 255);
+        let a = pixel.a; 
+        return { r, g, b, a };
+    });
+}
+
+id("brightness-factor").oninput = () => id("brightness-factor-shower").innerHTML = `(${id("brightness-factor").value})`
+
 
 id("filter-bnw").onclick = () => {
     filterCanvas((pixel, pid) => {
@@ -433,7 +446,8 @@ id("box-blur-radius").oninput = () => {
     id("box-blur-radius-shower").innerHTML = `(${id("box-blur-radius").value})`
 }
 
-let fillingMode  
+let fillingMode 
+ 
 function pauseBlending() {
     fillingMode = id('filling-mode').value
     id('filling-mode').value = 'replace'

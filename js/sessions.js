@@ -14,15 +14,13 @@ const B_SESSION_NO = "pixmacr_session_no"
 setUpLocalStorageBucket(B_SESSION_NO, "0")
 
 class Session {
-    constructor(cols, rows, cellBorder, buffer) {
+    constructor(cols, rows,  buffer) {
         this.cols = cols;
         this.rows = rows;
-        this.cellBorder = cellBorder;
         this.buffer = buffer;
     }
     use() {
         localStorageREF.setItem(B_SESSION_NO, currentSession)
-
         buffer = this.buffer;
         cols = this.cols;
         rows = this.rows;
@@ -37,21 +35,16 @@ class Session {
             buffer.pointer = 0
         }
         applyPaintData(buffer.getItem());
-        updateBorderStatus(this.cellBorder)
     }
     updateCanvasSize() {
         this.cols = cols;
         this.rows = rows;
     }
-    updateBorderStatus(borderSatus) {
-        this.cellBorder = borderSatus;
-    }
 }
 
 function getSessionElement(n, active = true) {
     let session = document.createElement("div")
-    if (active)
-    {
+    if (active) {
         removeActiveClassesOnSessions()
         session.classList.add(SESSION_ACTIVE_CLASS)
         localStorageREF.setItem(B_SESSION_NO, currentSession)
@@ -62,6 +55,8 @@ function getSessionElement(n, active = true) {
     sessionId.classList.add("session-id")
     sessionId.textContent = n
     closeButton.src = "icons/close.svg"
+    closeButton.alt = 'CLOSE'
+    closeButton.title = 'Close Session'
     closeButton.classList.add("session-delete-button")
     session.appendChild(closeButton)
     session.innerHTML += `Session`
@@ -70,7 +65,7 @@ function getSessionElement(n, active = true) {
         let n = parseInt(session.children[1].textContent)
         if (!(ev.target === session.children[0])) {
             if (n == currentSession) return
-            if(zoomedIn) zoomOut()
+            if (zoomedIn) zoomOut()
             removeActiveClassesOnSessions()
             currentSession = n
             session.classList.add(SESSION_ACTIVE_CLASS);
@@ -81,7 +76,7 @@ function getSessionElement(n, active = true) {
                 customAlert(`Can't Close "Session ${n}", its active!`)
                 return
             }
-            customConfirm(`Do you really wannt to close "Session ${n}"?`, () => {
+            customConfirm(`Do you really want to close "Session ${n}"?`, () => {
                 if (n == currentSession) {
                     customAlert(`Can't Close "Session ${n}", its active!`)
                     return
@@ -101,7 +96,7 @@ function getSessionElement(n, active = true) {
 
 addSessionButton.onclick = () => {
     sessions.push(
-        new Session(cols, rows, borderCheckbox.checked, new Stack())
+        new Session(cols, rows, new Stack())
     )
     sessions[sessions.length - 1].use()
     recordPaintData()
@@ -128,7 +123,7 @@ function bufferObjectToBufferStack(bufferObject) {
 function sessionsJSONToJS(json) {
     let sessions = JSON.parse(json)
     for (let i = 0; i < sessions.length; i++) {
-        sessions[i] = new Session(sessions[i].cols, sessions[i].rows, sessions[i].cellBorder, bufferObjectToBufferStack(sessions[i].buffer))
+        sessions[i] = new Session(sessions[i].cols, sessions[i].rows, bufferObjectToBufferStack(sessions[i].buffer))
     }
     return sessions
 }
@@ -139,7 +134,7 @@ function saveSessions(sessions, feedback = false) {
             sessions[i].buffer.deleteAllExcept()
         localStorageREF.setItem(SESSIONS_BUCKET_NAME, JSON.stringify(sessions))
     } catch (e) {
-        customAlert("Can't Save : Memory Exeeded 🙀, Try Clearing Some Sessions!")
+        customAlert("Can't Save : Memory Exceeded 🙀, Try Clearing Some Sessions!")
         return
     }
     if (feedback) playSaveSound()
@@ -147,14 +142,14 @@ function saveSessions(sessions, feedback = false) {
 }
 
 
-setUpLocalStorageBucket(SESSIONS_BUCKET_NAME, JSON.stringify([new Session(cols, rows, borderCheckbox.checked, buffer)]))
+setUpLocalStorageBucket(SESSIONS_BUCKET_NAME, JSON.stringify([new Session(cols, rows, guide.checked, buffer)]))
 
 let sessions = sessionsJSONToJS(getBucketVal(SESSIONS_BUCKET_NAME))
 let currentSession = parseInt(getBucketVal(B_SESSION_NO))
 currentSession = currentSession < sessions.length ? currentSession : 0
 if (addNewSessionOnOpening.checked) {
     sessions.push(
-        new Session(cols, rows, borderCheckbox.checked, new Stack())
+        new Session(cols, rows, new Stack())
     )
     currentSession = sessions.length - 1
 }
@@ -173,8 +168,8 @@ sessions[currentSession].use()
 
 window.addEventListener("unload", () => {
     localStorageREF.setItem(B_SAVED_PALETTES, JSON.stringify(savedPalettes))
-    if (autoSave.checked){
-        if(zoomedIn) zoomOut()
+    if (autoSave.checked) {
+        if (zoomedIn) zoomOut()
         saveSessions(sessions)
     }
 })
