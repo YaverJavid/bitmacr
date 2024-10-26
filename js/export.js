@@ -43,7 +43,8 @@ function exportImage(mini = false) {
     } else if (exportSelector.value == "selected-part") {
         paintData = selectedPart
     }
-    let dataUrl = colorDataToImage(paintData, cellBorderWidthSlider.value, cellBorderColorSelector.value, mini, id("export-res").value)
+    let res = id('res-type').value == 'direct' ? id("export-res").value : (id("pixel-size").value * Math.max(rows, cols))
+    let dataUrl = colorDataToImage(paintData, cellBorderWidthSlider.value, cellBorderColorSelector.value, mini, res)
     downloadImage(dataUrl, `pixmacr-yj-[${paintData[0].length}_${paintData.length}]`)
 }
 
@@ -77,7 +78,7 @@ id("svg-pixel-size").oninput = () => {
     id("svg-pixel-size-shower").textContent = `(${id("svg-pixel-size").value})`
 }
 let shapeAdded = false
-id("add-shape").addEventListener("input", function() {
+id("add-shape").addEventListener("input", function () {
     let file = this.files[0];
     if (file.type.startsWith("image/")) {
         const reader = new FileReader();
@@ -102,12 +103,13 @@ id("export-with-shape").onclick = () => {
     for (let i = 0; i < currentBuffer.length; i++)
         paintData.push(rgbaToHex(currentBuffer[i]))
     paintData = toPaintData2D(paintData)
+    let res = id('res-type').value == 'direct' ? id("export-res").value : (id("pixel-size").value * Math.max(rows, cols))
     exportImage.src = colorDataToImage(
         paintData,
         cellBorderWidthSlider.value,
         cellBorderColorSelector.value,
         false,
-        id("export-res").value
+        res
     )
     let canvas = document.createElement("canvas")
     canvas.width = exportImage.naturalWidth
@@ -116,7 +118,7 @@ id("export-with-shape").onclick = () => {
     let cw = canvas.width / cols
     let shape = new Image;
     shape.src = id("shape-preview").src
-    shape.onload = function() {
+    shape.onload = function () {
         ctx.drawImage(exportImage, 0, 0)
         for (let c = 0; c < cols; c++) {
             for (let r = 0; r < rows; r++) {
@@ -129,9 +131,24 @@ id("export-with-shape").onclick = () => {
 }
 
 function toOverlays() {
-    customConfirm("Do you want to leave to another site (undo date will be lost)?", ()=>{
+    customConfirm("Do you want to leave to another site (undo date will be lost)?", () => {
         window.location.href = "/overlays"
     })
 }
 
 
+id("res-type").onchange = () => {
+    if (id("res-type").value == 'linked') {
+        id('linked-res-options').classList.remove('hidden')
+        id('direct-res-options').classList.add('hidden')
+    } else {
+        id('direct-res-options').classList.remove('hidden')
+        id('linked-res-options').classList.add('hidden')
+    }
+}
+
+id('pixel-size').oninput = () => {
+    let pixelSize = id('pixel-size').value
+    id('linked-final-res').textContent = `${pixelSize * rows} x ${pixelSize * cols}.`
+    id('pixel-size-shower').textContent = `(${pixelSize})` 
+}

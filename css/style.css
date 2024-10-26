@@ -3,7 +3,7 @@
 
  @font-face {
      font-family: 'Noto Sans Symbols';
-     src: url('/fonts/NotoSansSymbols/NotoSansSymbols-Regular.ttf') format('truetype');
+     src: url('../fonts/NotoSansSymbols/NotoSansSymbols-Regular.ttf') format('truetype');
      font-weight: normal;
      font-style: normal;
  }
@@ -51,9 +51,6 @@
 
  }
 
-
-
-
  #paint-zone {
      display: grid;
      grid-template-columns: repeat(24, 1fr);
@@ -63,6 +60,7 @@
      /* height: 96vw; */
      border: 0.5px solid var(--primary);
      position: relative;
+     overflow: auto;
  }
 
  .cell {
@@ -170,6 +168,34 @@
      border-radius: 8px;
  }
 
+ .color-picker-icon {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background-color: gray;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    vertical-align: middle;
+    margin-right: 10px;
+    background-image: url(../icons/color-picker.png);
+    background-size: cover;
+   
+}
+
+.color-picker-icon.checked {
+    background-color: #ffcc00;
+}
+
+.checkbox {
+    display: none;
+}
+
+.color-picker-wrapper {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
 
 
  hr {

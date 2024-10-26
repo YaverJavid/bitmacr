@@ -2,6 +2,14 @@
 
 ## Change Log
 
+### 2024-019[12-Oct-2024]
+
+- Added Icons Where Ever There Were `Select Color From Cell` Checkboxes
+- Added Color Pickers For Gradient Colors
+- Added Gradient Visualiser
+- Right Clicking Pick The Color
+- Added Linked Resolution
+
 ### 2024-018[12-Oct-2024]
 
 - Added Gradient Tool

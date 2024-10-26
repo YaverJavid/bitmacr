@@ -85,7 +85,9 @@ const cells = document.getElementsByClassName("cell"),
         pasteOnClick: id("paste-onclick-checkbox"),
         onclickFillCol: id("onclick-fill-col"),
         onclickFillRow: id("onclick-fill-row"),
-        selectHitsSpecificColor: id("select-hits-specific-color")
+        selectHitsSpecificColor: id("select-hits-specific-color"),
+        cp1 : id('cp-gradient-start-color'),
+        cp2 : id('cp-gradient-end-color')
     },
     autoSave = id("auto-save"),
     addNewSessionOnOpening = id("add-new-session-on-opening"),

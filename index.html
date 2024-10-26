@@ -95,7 +95,6 @@
         <span id="simplify-colors-threshold-shower">(100)</span>
         <br>
         <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
-        </div>
     </dialog>
 
     <dialog id="variationSettings">
@@ -376,12 +375,14 @@
                             <br>
                             <div id="color-selector-unit">
                                 <div id="no-specific-color-selector" class="visible-color-selector">
+                                    <br>
                                     <label for="color-selector">Select Color : </label>
                                     <input value="#556677" type="color" name="color-selector" id="color-selector">
-                                    Or <input class="hex-input" type="text" id="color-selector-hex"
-                                        placeholder="Enter Hex..." maxlength="7"> <br>
-                                    <label for="select-color">Pick Color From The Pixel : </label>
-                                    <input type="checkbox" name="select-color" id="select-color">
+                                    <label class="color-picker-wrapper">
+                                        <input type="checkbox" class="checkbox" id="select-color">
+                                        <div class="color-picker-icon"></div>
+                                    </label>
+                                    <br> <br>
                                 </div>
                                 <div data-csname="lighting">
                                     <label for="lighting-object-type">Lighting Object Type : </label>
@@ -464,17 +465,26 @@
                                     <label for="saturation-slider">Saturation : </label>
                                     <input type="range" name="" id="saturation-slider" min="0" max="100" value="50">
                                     <span id="saturation-shower">(50%)</span>
-                                    <input type="checkbox" id="select-saturation-cell">
+                                    <label class="color-picker-wrapper">
+                                        <input type="checkbox" class="checkbox" id="select-saturation-cell">
+                                        <div class="color-picker-icon"></div>
+                                    </label>
                                     <br>
                                     <label for="lighting-slider">Lighting : </label>
                                     <input type="range" id="lighting-slider" min="0" max="100" value="40">
                                     <span id="lighting-shower">(40%)</span>
-                                    <input type="checkbox" id="select-lighting-cell">
+                                    <label class="color-picker-wrapper">
+                                        <input type="checkbox" class="checkbox" id="select-lighting-cell">
+                                        <div class="color-picker-icon"></div>
+                                    </label>
                                     <br>
                                     <label for="hue-angle">Hue Angle : </label>
                                     <input type="range" id="hue-angle" min="0" max="360" step="0.1" value="0">
                                     <span id="hue-angle-shower">(0&deg;)</span>
-                                    <input type="checkbox" id="select-hue-from-cell">
+                                    <label class="color-picker-wrapper">
+                                        <input type="checkbox" class="checkbox" id="select-hue-from-cell">
+                                        <div class="color-picker-icon"></div>
+                                    </label>
                                     <br>
                                     <label for="hue-speed-slider">Speed : </label>
                                     <input type="button" id="m-hue-speed">
@@ -538,6 +548,7 @@
                             <select id="mirroring-type">
                                 <option value="horizontal">Horizontal</option>
                                 <option value="vertical">Vertical</option>
+                                <option value="both">Both</option>
                             </select>
                             <hr>
                             <h4>Session Options</h4>
@@ -551,7 +562,8 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas Manipulation</h3><br>
+                            <h3 data-tabname="canvas-manipulation" data-type="hidden-tab" data-shortcutkey="m">Canvas
+                                Manipulation</h3><br>
                             <input type="button" id="shift-up" value="Shift Up"> <br>
                             <input type="button" id="shift-right" value="Shift Right" style="margin-right: 0.7lh">
                             <input type="button" id="shift-left" value="Shift Left"> <br>
@@ -588,11 +600,12 @@
                             <input type="button" value="×" class="right-flat"
                                 onclick="fillOnlyThisColor.value='';fillOnlyIfColorsAre = []">
                             <input type="text" id="fill-only-this-color" class="hex-input left-flat"
-                                placeholder="Any CSS Color"> :
+                                placeholder="Any CSS Color">
+                            <label class="color-picker-wrapper">
+                                <input type="checkbox" class="checkbox" id="select-for-only-fill-if">
+                                <div class="color-picker-icon"></div>
+                            </label> :
                             <input type="checkbox" id="only-fill-if-color-is" />
-                            <br>
-                            <label for="select-for-only-fill-if">Select Color From Cell : </label>
-                            <input type="checkbox" id="select-for-only-fill-if">
                             <br>
                             <label for="only-fill-matching-threshold">Threshold : </label>
                             <input id="only-fill-matching-threshold" type="range" max="255" min="0" value="0">
@@ -675,16 +688,6 @@
                         </div>
                         <div>
                             <br>
-                            <h3>Extra Tabs</h3> <br>
-                            <input type="button" value="Canvas Manipulation [CTRL+m]"
-                                onclick="gotoTab('canvas-manipulation', true)"><br>
-                            <input type="button" onclick="gotoTab('extra-click-modes', true)"
-                                value="Extra Click Modes [CTRL+x]"> <br>
-                            <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
-                            <input type="button" value="Color History" onclick="gotoTab('color-history', true)"><br>
-                        </div>
-                        <div>
-                            <br>
                             <h3 data-type="hidden-tab" data-tabname="color-history">Color History
                             </h3> <br>
                             <input type="button" value="Extract Colors" id="extract-pallette">
@@ -752,10 +755,21 @@
                             <div class="shape-settings" data-settingname="gradient">
                                 <h3>Gradient Tools</h3>
                                 <br>
+                                <canvas id="gradient-visualiser" class="canvas-visualiser"></canvas>
+                                <br> <br>
                                 <label for="gradient-start-color">Start Color : </label>
-                                <input type="color" id="gradient-start-color" value="#000000"> <br> <br>
+                                <input type="color" id="gradient-start-color" value="#000000">
+                                <label class="color-picker-wrapper">
+                                    <input type="checkbox" class="checkbox" id="cp-gradient-start-color">
+                                    <div class="color-picker-icon"></div>
+                                </label>
+                                <br> <br>
                                 <label for="gradient-end-color">End Color : </label>
                                 <input type="color" id="gradient-end-color" value="#ffffff">
+                                <label class="color-picker-wrapper">
+                                    <input type="checkbox" class="checkbox" id="cp-gradient-end-color">
+                                    <div class="color-picker-icon"></div>
+                                </label>
                                 <br>
                                 <br>
                                 <label for="gradient-type">Type : </label>
@@ -914,6 +928,16 @@
                         </div>
                         <div>
                             <br>
+                            <h3>Extra Tabs</h3> <br>
+                            <input type="button" value="Canvas Manipulation [CTRL+m]"
+                                onclick="gotoTab('canvas-manipulation', true)"><br>
+                            <input type="button" onclick="gotoTab('extra-click-modes', true)"
+                                value="Extra Click Modes [CTRL+x]"> <br>
+                            <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
+                            <input type="button" value="Color History" onclick="gotoTab('color-history', true)"><br>
+                        </div>
+                        <div>
+                            <br>
                             <h3 data-tabname="tracing-tools">Tracing Tools</h3>
                             <br>
                             <label for="fp-trace-image" class="file-label">
@@ -928,9 +952,6 @@
                         <div>
                             <br>
                             <h3 data-type="hidden-tab" data-tabname="copy_options">Copy Options</h3><br>
-                            <label for="guide-checkbox2">Quadrant Guides: </label>
-                            <input type="checkbox" name="guide-checkbox2" id="guide-checkbox2">
-                            <br>
                             <label for="multiply-q-selector">Multiply From : </label>
                             <select name="multiply-q-selector" id="multiply-q-selector">
                                 <option value="1">Quadrant I</option>
@@ -1084,22 +1105,28 @@
                             <h3 data-shortcutkey="r">Replace Tools</h3><br>
                             <label for="color-selector">Find : </label>
                             <input value="#FF0000" type="color" id="color-to-be-replaced-selector">
+                            <label class="color-picker-wrapper">
+                                <input type="checkbox" class="checkbox" id="select-color-for-find">
+                                <div class="color-picker-icon"></div>
+                            </label>
                             Or <input class="hex-input" type="text" id="color-to-be-replaced-selector-hex"
                                 placeholder="Enter Hex..." maxlength="7"> <br>
-                            <label for="select-color-for-find">Select Color From Cell : </label>
-                            <input type="checkbox" id="select-color-for-find"><br>
                             <label for="color-selector">Replace With : </label>
                             <input value="#FF0000" type="color" id="color-to-replace-with-selector">
+                            <label class="color-picker-wrapper">
+                                <input type="checkbox" class="checkbox" id="select-color-for-replacer">
+                                <div class="color-picker-icon"></div>
+                            </label>
                             Or <input class="hex-input" type="text" id="color-to-replace-with-selector-hex"
                                 placeholder="Enter Hex..." maxlength="7">
-                            <br> <label for="select-color-for-replacer">Select Color From Cell : </label>
-                            <input type="checkbox" id="select-color-for-replacer"><br>
+                            <br>
                             <label for="replace-with-normal">Or Replace With Selected Color : </label>
                             <input type="checkbox" id="replace-with-normal"><br>
                             <label for="color-match-threshold-range">Threshold : </label>
                             <input type="range" min="0" max="225" value="0" id="color-match-threshold-range">
                             <span id="threshold-shower">(0)</span>
-                            <br> <input type="button" value="Replace" id="replace-button"> <br>
+                            <br> <input type="button" value="Replace" id="replace-button" class="highlighted-border">
+                            <br>
                             <input type="button" id="replace-content-awarely" value="Replace Content Awarely">
                         </div>
                         <div>
@@ -1143,11 +1170,30 @@
                                 Cells: </label>
                             <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
                             <br>
-                            <label for="export-res">Resolution : </label>
-                            <span id="export-res-shower">(1024)</span>
-                            <input type="button" id="export-res-minus">
-                            <input id="export-res" type="range" min="100" , max="5000" value="1024">
-                            <input type="button" id="export-res-plus">
+                            <label for="res-type">Resolution Type : </label>
+                            <select id="res-type">
+                                <option value="direct">Direct</option>
+                                <option value="linked" selected>Linked</option>
+                            </select>
+                            <br>
+                            <div id="linked-res-options">
+                                <label for="pixel-size">Pixel Size : </label>
+                                <input type="range" id="pixel-size"  value="5" step="1" min="1" max="35">
+                                <span id="pixel-size-shower">(5)</span>
+                                <br>
+                                Final Size Of The Image Will Be <span id="linked-final-res" style="text-decoration: overline;"></span>
+                                <br>
+                                <span>&#9432; Prefer using this, it helps to detect pixel art size reliably.</span>
+                            </div>
+                            <div id="direct-res-options" class="hidden">
+                                <label for="export-res">Resolution : </label>
+                                <span id="export-res-shower">(1024)</span>
+                                <input type="button" id="export-res-minus">
+                                <input id="export-res" type="range" min="100" , max="5000" value="1024">
+                                <input type="button" id="export-res-plus">
+                                <br>
+                                <span>&#9432; This will be applied to the largest dimension.</span>
+                            </div>
                             <br>
                             <input type="button" id="export-button2" value="Export (PNG)" class="highlighted-border">
                             <br>
@@ -1381,12 +1427,13 @@
                             </div> <br>
                             <label for="change-palette-creator-color">Change Color To : </label>
                             <input type="color" id="change-palette-creator-color" value="#ff0000">
+                            <label class="color-picker-wrapper">
+                                <input type="checkbox" class="checkbox" id="select-color-for-palette-creator">
+                                <div class="color-picker-icon"></div>
+                            </label>
                             <br>
                             <br>
                             <input type="text" id="change-palette-creator-css-color" placeholder="Any Css Color...">
-                            <br>
-                            <label for="select-color-for-palette-creator">Select Color From Cell : </label>
-                            <input type="checkbox" id="select-color-for-palette-creator">
                             <hr>
                             <br>
                             <input type="text" id="p-name" placeholder="Palette Name...">

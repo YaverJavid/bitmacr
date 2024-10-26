@@ -311,13 +311,13 @@ for (let i = 0; i < rotateCopiedDataButtons.length; i++) {
 
 function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
     if (blx == -1 || bly == -1) return
-    let linesize = size
-    while (linesize > 0) {
-        for (let dx = 0; dx < linesize; dx++) {
+    let lineSize = size
+    while (lineSize > 0) {
+        for (let dx = 0; dx < lineSize; dx++) {
             setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
         }
         bly--
-        linesize -= perColDY
+        lineSize -= perColDY
         if (options.allOn == "left") blx += perColDY
         else if (options.allOn == "right") blx
         else blx += (Math.ceil(perColDY / 2))
@@ -436,19 +436,57 @@ id("curve-depth").oninput = visualiseCurve
 
 function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
     if (blx == -1 || bly == -1) return
-    let linesize = size
-    while (linesize > 0) {
-        for (let dx = 0; dx < linesize; dx++) {
+    let lineSize = size
+    while (lineSize > 0) {
+        for (let dx = 0; dx < lineSize; dx++) {
             setCellColor(pixels[bly][blx + dx], getCurrentSelectedColor())
         }
         bly--
-        linesize -= perColDY
+        lineSize -= perColDY
         if (options.allOn == "left") blx += perColDY
         else if (options.allOn == "right") blx
         else blx += (Math.ceil(perColDY / 2))
     }
 }
 
+// GRADIENT VISUALISER
+const gradientCanvas = id("gradient-visualiser")
+const gradientCtx = gradientCanvas.getContext("2d")
+gradientCanvas.width = 400
+gradientCanvas.height = gradientCanvas.width * 0.5
+
+function visualiseGradient() {
+    let startColor = id("gradient-start-color").value;
+    let endColor = id("gradient-end-color").value;
+    let gradient;
+    if (id("gradient-type").value == 'linear') {
+        let angle = parseInt(id("linear-gradient-angle").value)
+        let radians = (180 - angle) * Math.PI / 180;
+
+        let x0 = gradientCanvas.width / 2 + Math.cos(radians) * gradientCanvas.width / 2;
+        let y0 = gradientCanvas.height / 2 + Math.sin(radians) * gradientCanvas.height / 2;
+        let x1 = gradientCanvas.width / 2 - Math.cos(radians) * gradientCanvas.width / 2;
+        let y1 = gradientCanvas.height / 2 - Math.sin(radians) * gradientCanvas.height / 2;
+        gradient = gradientCtx.createLinearGradient(x0, y0, x1, y1);
+    } else {
+        let radius = Math.min(gradientCanvas.width, gradientCanvas.height) / 2;
+        gradient = gradientCtx.createRadialGradient(
+            gradientCanvas.width / 2, gradientCanvas.height / 2, 0,
+            gradientCanvas.width / 2, gradientCanvas.height / 2, radius
+        );
+    }
+    gradient.addColorStop(0, startColor);
+    gradient.addColorStop(1, endColor);
+    gradientCtx.fillStyle = gradient;
+    gradientCtx.fillRect(0, 0, gradientCanvas.width, gradientCanvas.height);
+}
+visualiseGradient()
+
+id("gradient-type").oninput = visualiseGradient
+id("gradient-start-color").oninput = visualiseGradient
+id("gradient-end-color").oninput = visualiseGradient
+
+// CURVE VISUALISER
 const curveCanvas = id("curve-visualiser")
 const curveCtx = curveCanvas.getContext("2d")
 curveCanvas.width = 400
@@ -566,7 +604,10 @@ id("fill-all-gradient").onclick = () => {
     recordPaintData()
 }
 
-id('linear-gradient-angle').oninput = () => id('linear-gradient-angle-shower').innerHTML = `(${id('linear-gradient-angle').value}&deg)`
+id('linear-gradient-angle').oninput = () => {
+    id('linear-gradient-angle-shower').innerHTML = `(${id('linear-gradient-angle').value}&deg)`
+    visualiseGradient()
+}
 id('gradient-opacity').oninput = () => id('gradient-opacity-shower').innerHTML = `(${id('gradient-opacity').value})`
 const shapeInfoShower = id('shape-info-shower')
 const cursorInfoShower = id('cursor-info')
@@ -657,10 +698,10 @@ function draw(e, gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw, x, y) {
                 let angle = Math.round(getAngle(sgy, sgx, gx, gy) / 45) * 45
                 let ec = calculateEndingCoords(sgy, sgx, Math.round(getAngle(sgy, sgx, gx, gy) / 45) * 45, distance)
                 drawLine(cells2d, sgy, sgx, Math.round(ec.x), Math.round(ec.y), id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
-                shapeInfoShower.innerHTML = `[${angle}&deg;]`
+                shapeInfoShower.innerHTML = `[${(-1*Math.round(angle))+180}&deg;]`
             } else {
                 drawLine(cells2d, sgy, sgx, gx, gy, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
-                shapeInfoShower.innerHTML = `[${Math.round(getAngle(sgy, sgx, gx, gy))}&deg;]`
+                shapeInfoShower.innerHTML = `[${(-1*Math.round(getAngle(sgy, sgx, gx, gy)))+180}&deg;]`
             }
             alreadyFilledLinePoints = new Set()
             break

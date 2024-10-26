@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.2024.018"
+const VERSION = "v.2024.019"
 id("version").textContent = VERSION
 
 
@@ -178,12 +178,20 @@ function addCanvas(argRows, argCols, clearStack = true) {
     canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
     for (let i = 0; i < cells.length; i++) {
         cells[i].index = i
-        cells[i].onclick = function () {
+        cells[i].oncontextmenu = (e) => {
+            e.preventDefault()
+            let fullColor = rgbToHex(buffer.getItem()[i])
+            let selectedColor = fullColor.slice(0, 7)
+            setPaletteCurrentColor(selectedColor)
+        }
+        cells[i].onclick = function (e) {
             if (openCheckbox) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
                 let selectedColor = fullColor.slice(0, 7)
                 let _openCheckbox = openCheckbox
-                id(openCheckbox).checked = false
+                let checkbox = id(openCheckbox)
+                checkbox.checked = false
+                if (checkbox.classList.contains('checkbox')) checkbox.nextElementSibling.classList.remove("checked")
                 openCheckbox = undefined
                 switch (_openCheckbox) {
                     case 'select-color':
@@ -222,6 +230,14 @@ function addCanvas(argRows, argCols, clearStack = true) {
                         fillOnlyThisColor.value += selectedColor
                         createFillRuleArray()
                         break
+                    case 'cp-gradient-start-color':
+                        id('gradient-start-color').value = selectedColor
+                        visualiseGradient()
+                        break
+                    case 'cp-gradient-end-color':
+                        id('gradient-end-color').value = selectedColor
+                        visualiseGradient()
+                        break
                     case 'select-color-for-palette-creator':
                         paletteCreatorPalette.selected.style.background = selectedColor
                         break
@@ -244,12 +260,12 @@ function addCanvas(argRows, argCols, clearStack = true) {
                         break
                     case 'onclick-fill-col':
                         openCheckbox = _openCheckbox
-                        id(_openCheckbox).checked = true
+                        checkbox.checked = true
                         fillCol(i % cols, Math.floor(i / cols))
                         break
                     case 'onclick-fill-row':
                         openCheckbox = _openCheckbox
-                        id(_openCheckbox).checked = true
+                        checkbox.checked = true
                         fillRow(Math.floor(i / cols), i % cols)
                         break
                     case 'select-hits-specific-color':
@@ -258,9 +274,19 @@ function addCanvas(argRows, argCols, clearStack = true) {
                 }
                 recordPaintData()
             } else if (clickModeSelector.value == "fill" && colorMSelector.value != 'lighting') {
+                if (e.shiftKey) {
+                    setCellColor(this, getCurrentSelectedColor())
+                    recordPaintData()
+                    return
+                }
                 applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
                 recordPaintData()
             } else {
+                if (colorMSelector.value != 'lighting' && e.shiftKey) {
+                    applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
+                    recordPaintData()
+                    return
+                }
                 setCellColor(this, getCurrentSelectedColor())
                 recordPaintData()
             }
@@ -271,6 +297,8 @@ function addCanvas(argRows, argCols, clearStack = true) {
     for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
     cells2d = toPaintData2D(cells2d);
     refreshGuides()
+    let pixelSize = id('pixel-size').value
+    id('linked-final-res').textContent = `${pixelSize*rows} x ${pixelSize*cols}.`
 }
 
 function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {
@@ -301,6 +329,8 @@ function fillColCellsInRange(x, start, end, step, centerColor, mainCall) {
     }
 }
 
+
+
 function fillRow(y, pivot, mainCall = true) {
     let centerColor = rgbaToHex(window.getComputedStyle(cells[pack(pivot, y)]).getPropertyValue('background-color'));
     fillRowCellsInRange(y, pivot, cols, 1, centerColor, mainCall);
@@ -313,6 +343,7 @@ function fillCol(x, pivot, mainCall = true) {
     fillColCellsInRange(x, pivot, rows, 1, centerColor, mainCall)
     fillColCellsInRange(x, pivot - 1, -1, -1, centerColor, mainCall)
 }
+
 
 colorSelector.addEventListener("input", function () {
     setPaletteCurrentColor(this.value)
@@ -351,7 +382,10 @@ for (let colorCopierCheckbox in clickManagerCheckboxes) {
             openCheckbox = undefined
             return
         }
-        if (openCheckbox) id(openCheckbox).checked = false
+        if (openCheckbox) {
+            if (id(openCheckbox).classList.contains('checkbox')) id(openCheckbox).nextElementSibling.classList.remove("checked")
+            id(openCheckbox).checked = false
+        }
         openCheckbox = this.id
     }
 }
@@ -488,14 +522,6 @@ for (let i = 0; i < defaultPalletteColors.length; i++) {
     pallateContainer.innerHTML += getPaletteHTML(defaultPalletteColors[i], true)
 }
 
-// input text color hex ...
-id("color-selector-hex").addEventListener("input", function () {
-    if (validateHex(this.value)) {
-        setPaletteCurrentColor(this.value)
-        colorSelector.value = this.value
-    }
-})
-
 id("color-to-be-replaced-selector-hex").addEventListener("input", function () {
     if (validateHex(this.value)) {
         colorToBeReplacedSelector.value = this.value
@@ -560,6 +586,7 @@ function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     let resW, resH
+    
     if (canvasWidth > canvasHeight) {
         resW = res
         resH = res * (canvasHeight / canvasWidth)
@@ -630,3 +657,17 @@ id("top-reload").onclick = () => {
     })
 }
 id("top-reload").ondblclick = () => window.location.reload()
+
+
+const checkboxes = document.querySelectorAll('.checkbox');
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('input', function () {
+        const icon = this.nextElementSibling;
+        if (this.checked) {
+            icon.classList.add('checked');
+        } else {
+            icon.classList.remove('checked');
+        }
+    });
+});
+

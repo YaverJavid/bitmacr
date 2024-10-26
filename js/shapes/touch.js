@@ -12,7 +12,7 @@ paintZone.addEventListener('touchstart', (event) => {
     startingCoords.gridY = currentCellIndex % cols
     startingCoords.x = x
     startingCoords.y = y
-    if (paintModeSelector.value == "line" && connectLastLineLocation.checked && lineLastCoords != {}) {
+    if (paintModeSelector.value === "line" && connectLastLineLocation.checked && lineLastCoords !== {}) {
         let cells2D = []
         for (let i = 0; i < cells.length; i++)
             cells2D.push(cells[i])
@@ -20,7 +20,7 @@ paintZone.addEventListener('touchstart', (event) => {
         drawLine(cells2D, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX)
         recordPaintData()
     }
-    else if (paintModeSelector.value == "line-stroke") isStartOfLineStroke = true
+    else if (paintModeSelector.value === "line-stroke") isStartOfLineStroke = true
 })
 
 const paintZoneHeight = window.getComputedStyle(paintZone).getPropertyValue("height")
@@ -28,7 +28,7 @@ const paintZoneHeight = window.getComputedStyle(paintZone).getPropertyValue("hei
 paintZone.addEventListener('touchmove', (event) => {
     if (wasLastTouchStart) {
         wasLastTouchStart = false
-        if (event.touches.length == 3) {
+        if (event.touches.length === 3) {
             if (buffer.setPointer(buffer.pointer - 1))
                 applyPaintData(buffer.getItem())
             return

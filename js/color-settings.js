@@ -51,12 +51,12 @@ function updateHueShower() {
     hueAngleShower.innerHTML = `(${hueAngle.value}&deg;)`
 }
 
-let psedoElementForColorConversion = id("psedo")
+let pseudoElementForColorConversion = id("psedo")
 
 function cssToRGBAOrRgb(color) {
-    psedoElementForColorConversion.style.background = color
+    pseudoElementForColorConversion.style.background = color
     return window.getComputedStyle(
-        psedoElementForColorConversion, true
+        pseudoElementForColorConversion, true
     ).getPropertyValue("background-color")
 }
 
@@ -299,6 +299,11 @@ function fillCell(cellElem, color, isMain = true) {
                 break
             case 'horizontal':
                 setCellColor(cells[mirrorHorizontally(cellElem.index)], color, false)
+                break
+            case 'both':
+                setCellColor(cells[mirrorVertically(cellElem.index)], color, false)
+                setCellColor(cells[mirrorHorizontally(cellElem.index)], color, false)
+                setCellColor(cells[mirrorVertically(mirrorHorizontally(cellElem.index))], color, false)
                 break
         }
     }
