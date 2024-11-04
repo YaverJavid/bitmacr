@@ -298,17 +298,17 @@ function getHSLFromHex(hex) {
     var r = parseInt(hex.substring(1, 3), 16) / 255;
     var g = parseInt(hex.substring(3, 5), 16) / 255;
     var b = parseInt(hex.substring(5, 7), 16) / 255;
-    var cmin = Math.min(r, g, b),
-        cmax = Math.max(r, g, b),
-        delta = cmax - cmin,
+    var cMin = Math.min(r, g, b),
+        cMax = Math.max(r, g, b),
+        delta = cMax - cMin,
         hue = 0,
         saturation = 0,
         lightness = 0;
     if (delta === 0) {
         hue = 0;
-    } else if (cmax === r) {
+    } else if (cMax === r) {
         hue = ((g - b) / delta) % 6;
-    } else if (cmax === g) {
+    } else if (cMax === g) {
         hue = (b - r) / delta + 2;
     } else {
         hue = (r - g) / delta + 4;
@@ -320,7 +320,7 @@ function getHSLFromHex(hex) {
     }
 
     // Calculate lightness
-    lightness = (cmax + cmin) / 2;
+    lightness = (cMax + cMin) / 2;
 
     // Calculate saturation
     if (delta === 0) {

@@ -23,6 +23,17 @@
 </head>
 
 <body>
+    <dialog id="contractual">
+        <div class="close-container">
+            <h3>Contractual</h3>
+            <input type="button" value="CLOSE" disabled>
+        </div><br>
+        <label>I agree to <a href="https://pixmacrhome.vercel.app/privacypolicy">Privacy Policy</a> : </label> <input type="checkbox" id="pp">
+        <br>
+        <label>I agree to <a  href="https://pixmacrhome.vercel.app/termsandconditions">Terms and Conditions</a> : </label> <input type="checkbox" id="tac">
+        <p>*By clicking "Use App" you agree to all checked policies</p>
+        <input type="button" value="Use App*" onclick="sign()">
+    </dialog>
     <dialog id="motionBlurSettings">
         <div class="close-container">
             <h3>Motion Blur</h3>
@@ -935,6 +946,7 @@
                                 value="Extra Click Modes [CTRL+x]"> <br>
                             <input type="button" onclick="gotoTab('copy_options')" value="Copy Options"> <br>
                             <input type="button" value="Color History" onclick="gotoTab('color-history', true)"><br>
+                            <input type="button" value="Composer [CTRL+2]" onclick="gotoTab('composer')">
                         </div>
                         <div>
                             <br>
@@ -1145,93 +1157,117 @@
                         <div>
                             <br>
                             <h3 data-shortcutkey="e">Export Options</h3><br>
+                            <label for="export-type">Export Type : </label>
+                            <select id="export-type">
+                                <option value="png">PNG</option>
+                                <option value="svg">SVG</option>
+                                <option value="overlay">Overlay</option>
+                                <option value="mini">Mini</option>
+                                <option value="native">Native (SPAD)</option>
+                            </select>
+                            <hr>
+                            <br>
                             <label for="export-selector">
-                                Export :
+                                Export Area:
                             </label>
                             <select id="export-selector">
                                 <option value="canvas">Canvas</option>
                                 <option value="selected-part">Selected Part</option>
                             </select>
                             <br>
-                            <input type="button" value="Drawing Preview" onclick="drawingPreview.showModal()">
-                            <hr>
-                            <h4>PNG</h4>
-                            <label for="cell-border-width-slider">Cell Border: </label>
-                            <input type="range" name="cell-border-width-slider" id="cell-border-width-slider" min='0'
-                                max='5' value='0' step="0.1">
-                            <span id="cell-border-width-shower">(0)</span>
-                            <br>
-                            <label for="cell-border-color-selector">Cell Border Color: </label>
-                            <input type="color" id="cell-border-color-selector">
-                            Or <input class="hex-input" type="text" id="export-cell-border-selector-hex"
-                                placeholder="Enter Hex..." maxlength="7">
-                            <br>
-                            <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On Transparent
-                                Cells: </label>
-                            <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
-                            <br>
-                            <label for="res-type">Resolution Type : </label>
-                            <select id="res-type">
-                                <option value="direct">Direct</option>
-                                <option value="linked" selected>Linked</option>
-                            </select>
-                            <br>
-                            <div id="linked-res-options">
-                                <label for="pixel-size">Pixel Size : </label>
-                                <input type="range" id="pixel-size"  value="5" step="1" min="1" max="35">
-                                <span id="pixel-size-shower">(5)</span>
+                            <div id="resolution-box">
+                                <label for="cell-border-width-slider">Cell Border: </label>
+                                <input type="range" name="cell-border-width-slider" id="cell-border-width-slider"
+                                    min='0' max='5' value='0' step="0.1">
+                                <span id="cell-border-width-shower">(0)</span>
                                 <br>
-                                Final Size Of The Image Will Be <span id="linked-final-res" style="text-decoration: overline;"></span>
+                                <label for="cell-border-color-selector">Cell Border Color: </label>
+                                <input type="color" id="cell-border-color-selector">
+                                Or <input class="hex-input" type="text" id="export-cell-border-selector-hex"
+                                    placeholder="Enter Hex..." maxlength="7">
                                 <br>
-                                <span>&#9432; Prefer using this, it helps to detect pixel art size reliably.</span>
+                                <label for="cell-border-on-transparent-cells-checkbox">Cell Border Also On
+                                    Transparent
+                                    Cells: </label>
+                                <input type="checkbox" id="cell-border-on-transparent-cells-checkbox">
+                                <hr>
+                                <br>
+                                <label for="res-type">Resolution Type : </label>
+                                <select id="res-type">
+                                    <option value="direct">Direct</option>
+                                    <option value="linked" selected>Linked</option>
+                                </select>
+                                <br>
+                                <div id="linked-res-options">
+                                    <label for="pixel-size">Pixel Size : </label>
+                                    <input type="range" id="pixel-size" value="5" step="1" min="1" max="35">
+                                    <span id="pixel-size-shower">(5)</span>
+                                    <br>
+                                    Final Size Of The Image Will Be <span id="linked-final-res"
+                                        style="text-decoration: overline;"></span>
+                                    <br>
+                                    <span>&#9432; Prefer using this, it helps to detect pixel art size
+                                        reliably.</span>
+                                </div>
+                                <div id="direct-res-options" class="hidden">
+                                    <label for="export-res">Resolution : </label>
+                                    <span id="export-res-shower">(1024)</span>
+                                    <input type="button" id="export-res-minus">
+                                    <input id="export-res" type="range" min="100" , max="5000" value="1024">
+                                    <input type="button" id="export-res-plus">
+                                    <br>
+                                    <span>&#9432; This will be applied to the largest dimension.</span>
+                                </div>
+                                <hr>
+                                <br>
                             </div>
-                            <div id="direct-res-options" class="hidden">
-                                <label for="export-res">Resolution : </label>
-                                <span id="export-res-shower">(1024)</span>
-                                <input type="button" id="export-res-minus">
-                                <input id="export-res" type="range" min="100" , max="5000" value="1024">
-                                <input type="button" id="export-res-plus">
-                                <br>
-                                <span>&#9432; This will be applied to the largest dimension.</span>
+                            <div id="exporters-container">
+                                <div id="png-exporter" class="visible">
+                                    <input type="button" value="Preview" onclick="drawingPreview.showModal()">
+                                    <br>
+                                    <input type="button" id="export-button2" value="Export (PNG)"
+                                        class="highlighted-border">
+                                </div>
+
+                                <div id="overlay-exporter">
+                                    <input type="button" value="Add Overlay Image Here"
+                                        onclick="gotoTab('shape-manager', true)">
+                                    <br>
+                                    <label for="add-shape-on-transparent-cells">Add Overlay On Transparent Cells :
+                                    </label>
+                                    <input type="checkbox" id="add-shape-on-transparent-cells" checked>
+                                    <br>
+                                    <input type="button" value="Export With Overlays" id="export-with-shape"
+                                        class="highlighted-border">
+                                    <details>
+                                        <summary>
+                                            &#9432;
+                                        </summary>
+                                        Overlay is an image that is painted over every pixel. It is usually a
+                                        transparent
+                                        image.
+                                        It can be used to give pixels shading.
+                                    </details>
+                                </div>
+
+                                <div id="svg-exporter">
+                                    <input type="button" value="Export SVG" id="export-svg" class="highlighted-border">
+                                </div>
+
+                                <div id="native-exporter">
+                                    <input type="button" value="Export (SPAD)" id="export-raw-data"
+                                        class="highlighted-border"><br>
+                                </div>
+
+                                <div id="mini-exporter">
+                                    <input type="button" value="Export Mini" id="export-mini"
+                                        class="highlighted-border">
+                                    <br>
+                                    <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your
+                                        pixel
+                                        art.</span>
+                                </div>
                             </div>
-                            <br>
-                            <input type="button" id="export-button2" value="Export (PNG)" class="highlighted-border">
-                            <br>
-                            <hr>
-                            <h4>Overlays</h4>
-                            <input type="button" value="Add Overlay Image Here"
-                                onclick="gotoTab('shape-manager', true)">
-                            <br>
-                            <label for="add-shape-on-transparent-cells">Add Overlay On Transparent Cells : </label>
-                            <input type="checkbox" id="add-shape-on-transparent-cells" checked>
-                            <br>
-                            <input type="button" value="Export With Overlays" id="export-with-shape"
-                                class="highlighted-border">
-                            <details>
-                                <summary>
-                                    &#9432;
-                                </summary>
-                                Overlay is an image that is painted over every pixel. It is usually a transparent image.
-                                It can be used to give pixels shading.
-                            </details>
-                            <hr>
-                            <h4>SVG</h4>
-                            <label for="svg-pixel-size">Pixel Size : </label>
-                            <input type="range" id="svg-pixel-size" max="50" min="1" value="1">
-                            <span id="svg-pixel-size-shower">(1)</span>
-                            <br>
-                            <input type="button" value="Export SVG" id="export-svg" class="highlighted-border">
-                            <br>
-                            <hr>
-                            <h4>Native</h4>
-                            <input type="button" value="Export (SPAD)" id="export-raw-data"
-                                class="highlighted-border"><br>
-                            <hr>
-                            <h4>Miscellaneous</h4>
-                            <input type="button" value="Export Mini" id="export-mini" class="highlighted-border"> <br>
-                            <span>&#9432; Exporting Mini means exporting a png sized exactly as the size of your pixel
-                                art.</span>
-                            <hr>
                         </div>
                         <div>
                             <br>
@@ -1294,7 +1330,7 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="2" data-tabname="composer">Action Composer</h3><br>
+                            <h3 data-shortcutkey="2" data-tabname="composer" data-type="hidden-tab">Action Composer</h3><br>
                             <label for="action-type">Action : </label>
                             <select id="action-type">
                                 <option value="undo()">Undo</option>
@@ -1569,6 +1605,7 @@
     <script src="js/lighting.js"></script>
     <script src="js/action-composer.js"></script>
     <script src="js/mirroring.js"></script>
+    <script src="js/legal.js"></script>
     <script>
         // Post script
         endProcess()

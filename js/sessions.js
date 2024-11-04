@@ -142,7 +142,7 @@ function saveSessions(sessions, feedback = false) {
 }
 
 
-setUpLocalStorageBucket(SESSIONS_BUCKET_NAME, JSON.stringify([new Session(cols, rows, guide.checked, buffer)]))
+setUpLocalStorageBucket(SESSIONS_BUCKET_NAME, JSON.stringify([new Session(cols, rows, buffer)]))
 
 let sessions = sessionsJSONToJS(getBucketVal(SESSIONS_BUCKET_NAME))
 let currentSession = parseInt(getBucketVal(B_SESSION_NO))

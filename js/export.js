@@ -41,6 +41,10 @@ function exportImage(mini = false) {
             paintData.push(rgbaToHex(currentBuffer[i]))
         paintData = toPaintData2D(paintData)
     } else if (exportSelector.value == "selected-part") {
+        if (!selectedPart) {
+            customAlert("No Data Selected!")
+            return
+        }
         paintData = selectedPart
     }
     let res = id('res-type').value == 'direct' ? id("export-res").value : (id("pixel-size").value * Math.max(rows, cols))
@@ -48,35 +52,48 @@ function exportImage(mini = false) {
     downloadImage(dataUrl, `pixmacr-yj-[${paintData[0].length}_${paintData.length}]`)
 }
 
-function createSVGFromArray(colorArray, pixelSize) {
-    const numRows = colorArray.length;
-    const numCols = colorArray[0].length;
+function createRunLengthEncodedSVG(matrix) {
+    const height = matrix.length;
+    const width = matrix[0].length;
+    
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" shape-rendering="crispEdges">\n`;
 
-    let svg = `<svg width="${numCols * pixelSize}" height="${numRows * pixelSize}" xmlns="http://www.w3.org/2000/svg">`;
+    for (let y = 0; y < height; y++) {
+        let currentColor = null;
+        let runStartX = 0;
 
-    for (let row = 0; row < numRows; row++) {
-        for (let col = 0; col < numCols; col++) {
-            const color = colorArray[row][col];
-            svg += `<rect x="${col * pixelSize}" y="${row * pixelSize}" width="${pixelSize}" height="${pixelSize}" fill="${color}" />`;
+        for (let x = 0; x <= width; x++) {
+            const color = x < width ? matrix[y][x] : null;  // Get color or null if end of row
+
+            if (color !== currentColor) {
+                if (currentColor !== null) {
+                    // End of a run, add path for the previous color
+                    svg += `<path stroke="${currentColor}" d="M${runStartX} ${y}h${x - runStartX}" />\n`;
+                }
+                currentColor = color;
+                runStartX = x;
+            }
         }
     }
 
-    svg += '</svg>';
+    svg += `</svg>`;
     return svg;
 }
 
 
 id("export-svg").onclick = () => {
-    downloadText("pixmacr.svg", createSVGFromArray(toPaintData2D(buffer.getItem()), parseInt(id("svg-pixel-size").value)))
+    let data = (id('export-selector').value == 'canvas') ? toPaintData2D(buffer.getItem()) : selectedPart
+    if (!data) {
+        customAlert('No Data Selected!')
+        return
+    }
+    downloadText('pixmacr.svg', createRunLengthEncodedSVG(data))
 }
 
 id("export-res").oninput = () => {
     id("export-res-shower").textContent = `(${id("export-res").value})`
 }
 
-id("svg-pixel-size").oninput = () => {
-    id("svg-pixel-size-shower").textContent = `(${id("svg-pixel-size").value})`
-}
 let shapeAdded = false
 id("add-shape").addEventListener("input", function () {
     let file = this.files[0];
@@ -102,7 +119,13 @@ id("export-with-shape").onclick = () => {
     paintData = []
     for (let i = 0; i < currentBuffer.length; i++)
         paintData.push(rgbaToHex(currentBuffer[i]))
-    paintData = toPaintData2D(paintData)
+    paintData = (id('export-selector').value == 'canvas') ? toPaintData2D(paintData) : selectedPart
+    if (!paintData) {
+        customAlert("Nothing Selected!!")
+        return
+    }
+    let lx = paintData[0].length
+    let ly = paintData.length
     let res = id('res-type').value == 'direct' ? id("export-res").value : (id("pixel-size").value * Math.max(rows, cols))
     exportImage.src = colorDataToImage(
         paintData,
@@ -115,13 +138,13 @@ id("export-with-shape").onclick = () => {
     canvas.width = exportImage.naturalWidth
     canvas.height = exportImage.naturalHeight
     let ctx = canvas.getContext("2d")
-    let cw = canvas.width / cols
+    let cw = canvas.width / lx
     let shape = new Image;
     shape.src = id("shape-preview").src
     shape.onload = function () {
         ctx.drawImage(exportImage, 0, 0)
-        for (let c = 0; c < cols; c++) {
-            for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < lx; c++) {
+            for (let r = 0; r < ly; r++) {
                 if (id("add-shape-on-transparent-cells").checked || paintData[r][c] != "#00000000")
                     ctx.drawImage(shape, c * cw, r * cw, cw, cw)
             }
@@ -150,5 +173,28 @@ id("res-type").onchange = () => {
 id('pixel-size').oninput = () => {
     let pixelSize = id('pixel-size').value
     id('linked-final-res').textContent = `${pixelSize * rows} x ${pixelSize * cols}.`
-    id('pixel-size-shower').textContent = `(${pixelSize})` 
+    id('pixel-size-shower').textContent = `(${pixelSize})`
 }
+
+let visibleExporter = 'png-exporter'
+
+
+id('export-type').oninput = () => {
+    id(visibleExporter).classList.remove('visible')
+    visibleExporter = id('export-type').value + '-exporter'
+    id(visibleExporter).classList.add('visible')
+    if (['png-exporter', 'overlay-exporter'].includes(visibleExporter)) id('resolution-box').style.display = 'block'
+    else id('resolution-box').style.display = 'none'
+}
+
+
+document.getElementById("export-raw-data").addEventListener("click", () => {
+    if (id('export-selector').value == 'selected-part' && !selectedPart) {
+        customAlert('No Data Selected!')
+        return
+    }
+    let data = (id('export-selector').value == 'canvas') ?
+        getCurrentDrawingData() :
+        toRawData(selectedPart.slice().flat(), selectedPart.length, selectedPart[0].length, true)
+    downloadText(drawingName.value + 'pixmacr.spad', data)
+})

@@ -14,8 +14,8 @@ id("image-pixelart-to-pixel").addEventListener("input", function () {
             let ph = Math.round(img.height / pixelSize)
             let pw = Math.round(img.width / pixelSize)
             //let th = parseInt(id("auto-size-detection-threshold").value)
-            if ((pw > (Number(MAX_CANVAS_DIMENSION))+20) || ph > (Number(MAX_CANVAS_DIMENSION) + 20)) {
-                customAlert(`Dimension Greater Than Supported! (${pw}:${ph})`)
+            if ((pw > (Number(MAX_CANVAS_DIMENSION)) + 20) || ph > (Number(MAX_CANVAS_DIMENSION) + 20)) {
+                customAlert(`Dimension Greater Than Supported! (c${pw}:r${ph})`)
                 return
             }
             let data = imageToPixelArtData(img, pw, ph)
@@ -79,6 +79,7 @@ function getMinContinuousStreak(imageData) {
         // Update the global minimum streak
         minStreak = Math.min(minStreak, localMinStreak);
     }
-
+    console.log(tAllStreaks);
+    
     return minStreak === Infinity ? 0 : minStreak; // Return 0 if no streak was found
 }

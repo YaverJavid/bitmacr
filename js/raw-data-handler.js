@@ -2,7 +2,7 @@ setUpLocalStorageBucket("drawings", "{}")
 
 let drawings = JSON.parse(localStorageREF.getItem("drawings"))
 
-document.getElementById("raw-data-fp").addEventListener("input", function() {
+document.getElementById("raw-data-fp").addEventListener("input", function () {
     let fr = new FileReader;
     fr.onload = () => {
         let data = parseRawData(fr.result)
@@ -39,24 +39,19 @@ function getCurrentDrawingData() {
     return toRawData(buffer.getItem(), rows, cols)
 }
 
-function toRawData(primitiveData, rows, cols) {
+function toRawData(primitiveData, rows, cols, isHexed = false) {
     let data = ""
     data += rows + ',' + cols + ':'
-    for (var i = 0; i < buffer.getItem().length; i++) {
+    for (let i = 0; i < primitiveData.length; i++) {
         if (i != 0) data += ','
         if (primitiveData[i] == "rgba(0, 0, 0, 0)") {
             data += '#00000000'
             continue
         }
-        data += rgbToHex(buffer.getItem()[i])
+        data += isHexed ? primitiveData[i] : rgbToHex(primitiveData[i])
     }
     return data
 }
-
-document.getElementById("export-raw-data").addEventListener("click", () => {
-    let data = getCurrentDrawingData()
-    downloadText(drawingName.value + '(pixmacr).spad', data)
-})
 
 function verifyAndProcessRawColorArray(rawArray, rows, cols) {
     if (rows * cols != rawArray.length)
@@ -68,26 +63,22 @@ function verifyAndProcessRawColorArray(rawArray, rows, cols) {
 }
 
 
-
-
-
 function saveCanvasAsDrawing() {
     if (drawingName.value == "") {
         customAlert("Enter The Name First!")
         return
-    } else if (drawingName.value.toLowerCase() == "cid") {
-        CIDSound.play()
-    } else {
-        saveSound.play()
     }
+    else if (drawingName.value.toLowerCase() == "cid") CIDSound.play()
+    else saveSound.play()
+
     let currentDrawingName = drawingName.value
     if (!(currentDrawingName in drawings)) {
-        drawingsContainer.innerHTML = getDrawingHTML(currentDrawingName) + drawingsContainer.innerHTML 
+        drawingsContainer.innerHTML = getDrawingHTML(currentDrawingName) + drawingsContainer.innerHTML
         addEventListenersToSavedDrawings()
     }
     drawings[currentDrawingName] = getCurrentDrawingData()
     saveDrawings()
-    drawingsContainer.children[0].scrollIntoView({behaviour: "smooth"})
+    drawingsContainer.children[0].scrollIntoView({ behaviour: "smooth" })
 }
 
 function saveDrawings() {
@@ -112,7 +103,7 @@ function getDrawingHTML(drawingName) {
 
 
 for (let drawingName in drawings) {
-    drawingsContainer.innerHTML = getDrawingHTML(drawingName) + drawingsContainer.innerHTML 
+    drawingsContainer.innerHTML = getDrawingHTML(drawingName) + drawingsContainer.innerHTML
 }
 
 addEventListenersToSavedDrawings()
@@ -131,12 +122,12 @@ function addEventListenersToSavedDrawings() {
         let currentDrawingName = drawingNames[i].innerHTML
         drawingDeleteIcons[i].addEventListener("click", () => {
             customConfirm(`Do you really want to delete drawing "${currentDrawingName}"?`, () => {
-                    delete drawings[currentDrawingName]
-                    drawingElements[i].style.display = "none"
-                    deleteSound.play()
-                    updateNoDrawingPresentDiv()
-                },
-                () => {}, saveDrawings
+                delete drawings[currentDrawingName]
+                drawingElements[i].style.display = "none"
+                deleteSound.play()
+                updateNoDrawingPresentDiv()
+            },
+                () => { }, saveDrawings
             )
         })
         drawingApplyIcons[i].addEventListener("click", () => {
@@ -188,15 +179,15 @@ function addEventListenersToSavedDrawings() {
             drawingPreviews[i].width = "200"
             drawingPreviews[i].src = dataUrl
         })
-        drawingsContainer.children[i].children[1].ondblclick = ()=>{
+        drawingsContainer.children[i].children[1].ondblclick = () => {
             drawingName.value = drawingsContainer.children[i].children[1].innerHTML
-        } 
+        }
     }
 }
 
 
 const flexibleDimension = document.querySelector("#flexible-dimension")
-document.getElementById("image-to-pixel").addEventListener("input", function() {
+document.getElementById("image-to-pixel").addEventListener("input", function () {
     let file = this.files[0];
     if (file.type.startsWith("image/")) {
         const reader = new FileReader();
@@ -204,9 +195,9 @@ document.getElementById("image-to-pixel").addEventListener("input", function() {
             let img = new Image();
             img.src = event.target.result;
             img.addEventListener("load", () => {
-                let width, height, flexibleDimensionValue  = flexibleDimension.value 
-                if(flexibleDimensionValue == "lesser") flexibleDimensionValue = img.width < img.height ? "width" : "height"
-                else if(flexibleDimensionValue == "greater") flexibleDimensionValue = img.width > img.height ? "width" : "height"
+                let width, height, flexibleDimensionValue = flexibleDimension.value
+                if (flexibleDimensionValue == "lesser") flexibleDimensionValue = img.width < img.height ? "width" : "height"
+                else if (flexibleDimensionValue == "greater") flexibleDimensionValue = img.width > img.height ? "width" : "height"
                 if (flexibleDimensionValue == "none") {
                     width = cols
                     height = rows
@@ -227,8 +218,8 @@ document.getElementById("image-to-pixel").addEventListener("input", function() {
 });
 
 
-function updateNoDrawingPresentDiv(){
-    if(Object.keys(drawings).length === 0) id("no-drawing-present-div").style.display = "initial"
+function updateNoDrawingPresentDiv() {
+    if (Object.keys(drawings).length === 0) id("no-drawing-present-div").style.display = "initial"
     else id("no-drawing-present-div").style.display = "none"
 }
 

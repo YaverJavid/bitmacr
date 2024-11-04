@@ -2,6 +2,13 @@
 
 ## Change Log
 
+### 2024-020[05-Nov-2024]
+
+- Redesigned The Export Tab
+- Export Area Support For All Export Types
+- New And Better SVG Renderer
+- Popular Sizes Updated
+
 ### 2024-019[12-Oct-2024]
 
 - Added Icons Where Ever There Were `Select Color From Cell` Checkboxes

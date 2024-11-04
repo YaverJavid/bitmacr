@@ -798,6 +798,7 @@
  .highlighted-border {
      border-radius: 20px !important;
      border: 8px solid var(--primary) !important;
+     margin-top: 16 px;
  }
 
  #error-log * {
@@ -858,7 +859,7 @@
      align-self: center;
  }
 
- @media(min-width:600px) {
+ @media(min-width:800px) {
      body {
          background-size: 100%;
      }
@@ -969,3 +970,12 @@
  #copied-color-shower {
     user-select: text;
  }
+
+ #exporters-container > *{
+    display: none;
+ }
+
+ 
+ .visible{
+    display: block !important
+}

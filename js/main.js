@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.2024.019"
+const VERSION = "v.2024.20"
 id("version").textContent = VERSION
 
 
@@ -578,15 +578,12 @@ deleteNonDefaultPallette.onclick = () => {
 
 
 function colorDataToImage(colors, borderWidth, borderColor, mini = false, res = 1024) {
-    // Calculate the dimensions of the canvas
     const canvasWidth = colors[0].length;
     const canvasHeight = colors.length;
-    // Create a new canvas element
     const canvas = document.createElement('canvas');
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     let resW, resH
-    
     if (canvasWidth > canvasHeight) {
         resW = res
         resH = res * (canvasHeight / canvasWidth)
@@ -670,4 +667,3 @@ checkboxes.forEach(checkbox => {
         }
     });
 });
-

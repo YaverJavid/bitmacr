@@ -47,7 +47,7 @@ class Theme {
 
 let themes = [
     new Theme("#E1F5FE", "#000000", "#ffffff", "Blue Theme"),
-    new Theme("#FEFCE1", "#000000", "#ffffff", "Creame Theme"),
+    new Theme("#FEFCE1", "#000000", "#ffffff", "Cream Theme"),
     new Theme("#ffffff", "#000000", "#ffffff", "White Theme"),
     new Theme("#F9E1FE", "#000000", "#ffffff", "Violet Theme"),
     new Theme("#FEE1F1", "#000000", "#ffffff", "Pink Theme"),

@@ -280,6 +280,8 @@ const popularPixelArtSizes = [
     [16, 16, 'Minecraft 16 : 16'],
     [64, 64, 'Standard 64'],
     [24, 24, '24-Bit'],
+    [128, 128, '128-Bit'],
+    [164, 164, '164-Bit'],
     [72, 72, '72-Bit'],
     [4, 4, 'Four Square']
 ];
