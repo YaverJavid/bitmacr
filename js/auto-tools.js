@@ -79,7 +79,5 @@ function getMinContinuousStreak(imageData) {
         // Update the global minimum streak
         minStreak = Math.min(minStreak, localMinStreak);
     }
-    console.log(tAllStreaks);
-    
     return minStreak === Infinity ? 0 : minStreak; // Return 0 if no streak was found
 }
