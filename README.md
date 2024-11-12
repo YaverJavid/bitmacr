@@ -2,6 +2,14 @@
 
 ## Change Log
 
+### 2024-021[-Nov-2024]
+
+- Added Mirroring Support For Flood-Fill
+- Added LAB Color Selector
+- Added Channel Customization For Random Color Selector & Noise Addition Filter
+- Added Gray Color Selector
+- Changed Some Icons
+
 ### 2024-020[05-Nov-2024]
 
 - Redesigned The Export Tab

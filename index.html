@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/composer.css">
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
+    <link rel="prefetch" href="icons/misc/blend.png">
 </head>
 
 <body>
@@ -28,9 +29,11 @@
             <h3>Contractual</h3>
             <input type="button" value="CLOSE" disabled>
         </div><br>
-        <label>I agree to <a href="https://pixmacrhome.vercel.app/privacypolicy">Privacy Policy</a> : </label> <input type="checkbox" id="pp">
+        <label>I agree to <a href="https://pixmacrhome.vercel.app/privacypolicy">Privacy Policy</a> : </label> <input
+            type="checkbox" id="pp">
         <br>
-        <label>I agree to <a  href="https://pixmacrhome.vercel.app/termsandconditions">Terms and Conditions</a> : </label> <input type="checkbox" id="tac">
+        <label>I agree to <a href="https://pixmacrhome.vercel.app/termsandconditions">Terms and Conditions</a> :
+        </label> <input type="checkbox" id="tac">
         <p>*By clicking "Use App" you agree to all checked policies</p>
         <input type="button" value="Use App*" onclick="sign()">
     </dialog>
@@ -287,6 +290,60 @@
         <input type="range" id="brightness-factor" min="0.1" max="10" value="2" step="0.1">
         <span id="brightness-factor-shower">(2)</span>
     </dialog>
+    <dialog id="noiseFilterSettings">
+        <div class="close-container">
+            <h3>Noise Filter Settings</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="noise-thr"><span style="color: red;">Red</span> Strength : </label>
+        <input type="range" id="noise-thr" max="255" min="0" value="25">
+        <span id="noise-thr-shower">(25)</span>
+        <br>
+        <label for="noise-thg"><span style="color: green;">Green</span> Strength : </label>
+        <input type="range" id="noise-thg" max="255" min="0" value="25">
+        <span id="noise-thg-shower">(25)</span>
+        <br>
+        <label for="noise-thb"><span style="color: blue;">Blue</span> Strength: </label>
+        <input type="range" id="noise-thb" max="255" min="0" value="25">
+        <span id="noise-thb-shower">(25)</span>
+    </dialog>
+    <dialog id="randomColorSettings">
+        <div class="close-container">
+            <h3>Random From All Setting</h3>
+            <input type="button" value="CLOSE">
+        </div><br>
+        <label for="randomize-r">Randomize <span style="color: red;">Red</span> Channel : </label>
+        <input type="checkbox" id="randomize-r" checked>
+        <br>
+        <div class="hidden" id="fixed-r-at-container">
+            <label for="fixed-r-at">Fixed <span style="color: red;">Red</span> At : </label>
+            <input type="range" id="fixed-r-at" max="255" min="0" value="0">
+            <span id="fixed-r-at-shower">(0)</span>
+            <hr>
+        </div>
+        <br>
+        <label for="randomize-g">Randomize <span style="color: green;">Green</span> Channel : </label>
+        <input type="checkbox" id="randomize-g" checked>
+        <br>
+        <div class="hidden" id="fixed-g-at-container">
+            <label for="fixed-g-at">Fixed <span style="color: green;">Green</span> At : </label>
+            <input type="range" id="fixed-g-at" max="255" min="0" value="0">
+            <span id="fixed-g-at-shower">(0)</span>
+            <hr>
+        </div>
+        <br>
+        <label for="randomize-b">Randomize <span style="color: blue;">Blue</span> Channel : </label>
+        <input type="checkbox" id="randomize-b" checked>
+        <br>
+        <div class="hidden" id="fixed-b-at-container">
+            <label for="fixed-b-at">Fixed <span style="color: blue;">Blue</span> At : </label>
+            <input type="range" id="fixed-b-at" max="255" min="0" value="0">
+            <span id="fixed-b-at-shower">(0)</span>
+            <hr>
+        </div>
+        <br>
+    </dialog>
+    <!-- dialogs end -->
     <br>
     <div id="logo-sessions-container">
         <div id="sessions-section">
@@ -369,18 +426,20 @@
                             <div id="color-m-selector" class="h-selector">
                                 <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode"
                                     title="Normal">
-                                <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette" title="Pallette">
                                 <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser" title="Eraser">
+                                <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette" title="Pallette">
+                                <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl" title="HSL">
+                                <img src='icons/color-mode/lab.png' alt='cm' data-value="lab" title="LAB">
                                 <img src='icons/color-mode/formula.png' alt='cm' data-value="formula"
                                     title="Color Formula">
                                 <img src='icons/color-mode/random.png' alt='cm' data-value="random" title="Random">
-                                <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl" title="HSL">
-                                <img src='icons/color-mode/css.png' alt='cm' data-value="css-color"
-                                    title="CSS Color String">
                                 <img src='icons/color-mode/bulb.png' alt='cm' data-value="lighting"
                                     title="Lighting Tools">
                                 <img src='icons/color-mode/sequence.png' alt='cm' data-value="sequence"
                                     title="Color Sequence">
+                                <img src='icons/color-mode/css.png' alt='cm' data-value="css-color"
+                                    title="CSS Color String">
+                                <img src='icons/color-mode/gray.png' alt='cm' data-value="gray" title="Grays">
                             </div>
                             <br>
                             <br>
@@ -406,7 +465,7 @@
                                     <input type="button" value="Clear All Objects" id="clear-all-lighting-objects">
                                     <input type="button" value="Hide Objects" id="hide-lighting-objects">
                                     <br>
-                                    <input type="button" value="Apply Light" id="apply-light" class="right-flat">
+                                    <input type="button" value="Bake Light" id="apply-light" class="right-flat">
                                     <input type="button" value="..." class="left-flat"
                                         onclick="lightingSettings.showModal()">
                                 </div>
@@ -421,17 +480,23 @@
                                     <select id="color-formula-type">
                                         <option value="rgb">RGB</option>
                                         <option value="hsl">HSL</option>
+                                        <option value="lab">LAB</option>
                                     </select>
                                     <div id="color-formula-inputs-container">
+                                        <div data-cfinputname="rgb" class="active-cf-input">
+                                            RGB(<input type="text" id="cf-rgb-r" class="small-input">, <input
+                                                type="text" id="cf-rgb-g" class="small-input">,<input type="text"
+                                                id="cf-rgb-b" class="small-input">)
+                                        </div>
                                         <div data-cfinputname="hsl">
                                             HSL(<input type="text" id="cf-hsl-hue" class="small-input">, <input
                                                 type="text" id="cf-hsl-saturation" class="small-input">, <input
                                                 type="text" id="cf-hsl-lightness" class="small-input">)
                                         </div>
-                                        <div data-cfinputname="rgb" class="active-cf-input">
-                                            RGB(<input type="text" id="cf-rgb-r" class="small-input">, <input
-                                                type="text" id="cf-rgb-g" class="small-input">,<input type="text"
-                                                id="cf-rgb-b" class="small-input">)
+                                        <div data-cfinputname="lab">
+                                            LAB(<input type="text" id="cf-lab-l" class="small-input">, <input
+                                                type="text" id="cf-lab-a" class="small-input">,<input type="text"
+                                                id="cf-lab-b" class="small-input">)
                                         </div>
                                     </div>
                                     <span>&#9432; If you're getting an unexpected result, try checking logs : </span>
@@ -452,11 +517,13 @@
                                 </div>
                                 <div data-csname="random">
                                     <label for="random-from">Random From : </label>
-                                    <select id="random-from">
+                                    <select id="random-from" class="right-flat">
                                         <option value="all">All</option>
                                         <option value="color-history">Color History</option>
                                         <option value="selected-palette">Selected Pallette</option>
                                     </select>
+                                    <input type="button" value="..." class="left-flat"
+                                        onclick="randomColorSettings.showModal()">
                                 </div>
                                 <div data-csname="sequence">
                                     <label for="sequence-from">Sequence From : </label>
@@ -464,14 +531,9 @@
                                         <option value="selected-palette">Selected Pallette</option>
                                         <option value="color-history">Color History</option>
                                     </select>
-                                    <!-- <br>
-                                    <label for="reset-index-on-pallete-change">Reset Index On Palette Change : </label>
-                                    <input type="checkbox"id="reset-index-on-pallete-change">
-                                    <br> -->
                                 </div>
                                 <div data-csname="hsl">
                                     <input type="color" id="hue-color-shower">
-
                                     <br>
                                     <label for="saturation-slider">Saturation : </label>
                                     <input type="range" name="" id="saturation-slider" min="0" max="100" value="50">
@@ -508,6 +570,29 @@
                                     <input type="text" id="color-string-input" placeholder="Enter CSS Color String"
                                         class="right-flat" style="width:45%">
                                     <div id="css-color-string-shower" class="left-flat"></div>
+                                </div>
+                                <div data-csname="lab">
+                                    <input type="color" id="lab-preview">
+                                    <br>
+                                    <label for="lab-l">L : </label>
+                                    <input type="range" id="lab-l" max="100" min="0" value="50">
+                                    <span id="lab-l-shower">(50)</span>
+                                    <br>
+                                    <label for="lab-a">A : </label>
+                                    <input type="range" id="lab-a" max="127" min="-128" value="0">
+                                    <span id="lab-a-shower">(0)</span>
+                                    <br>
+                                    <label for="lab-b">B : </label>
+                                    <input type="range" id="lab-b" max="127" min="-128" value="0">
+                                    <span id="lab-b-shower">(0)</span>
+                                </div>
+                                <div data-csname="gray">
+                                    <br>
+                                    <span class="color-shower" id="gray-color-shower">0000</span>
+                                    <br> <br>
+                                    <label for="gray">Gray : </label>
+                                    <input type="range" id="gray" min="0" max="255" value="100">
+                                    <span id="gray-shower">(100)</span>
                                 </div>
                             </div>
                             <hr>
@@ -1029,7 +1114,9 @@
                             <input type="button" value="..." class="left-flat"
                                 onclick="simplifyColorsSettings.showModal()">
                             <input type="button" value="Black And White" id="filter-bnw">
-                            <input type="button" value="Add Noise" id="shift-colors-button">
+                            <input type="button" value="Add Noise" id="shift-colors-button" class="right-flat">
+                            <input type="button" value="..." class="left-flat"
+                                onclick="noiseFilterSettings.showModal()">
                             <input type="button" value="Remove Ghost Colors" id="filter-remove-ghost-colors"
                                 class="right-flat">
                             <input type="button" value="?" class="left-flat"
@@ -1330,7 +1417,8 @@
                         </div>
                         <div>
                             <br>
-                            <h3 data-shortcutkey="2" data-tabname="composer" data-type="hidden-tab">Action Composer</h3><br>
+                            <h3 data-shortcutkey="2" data-tabname="composer" data-type="hidden-tab">Action Composer</h3>
+                            <br>
                             <label for="action-type">Action : </label>
                             <select id="action-type">
                                 <option value="undo()">Undo</option>
@@ -1498,6 +1586,7 @@
                                 <option value="flip">Flip</option>
                                 <option value="curve">Curve</option>
                                 <option value="gradient">Gradient</option>
+                                <option value="lab">LAB</option>
                             </select>
                             <br>
                         </div>
@@ -1554,13 +1643,20 @@
     <script>
         //Pre Script
         const id = id => document.getElementById(id)
+        function attachInputListener(eid, act = () => { }, unit = '') {
+            const listener = () => {
+                id(eid + '-shower').innerHTML = `(${id(eid).value}${unit})`
+                act()
+            }
+            id(eid).oninput = listener
+            return listener
+        }
         startProcess(`Gathering Up Resources... <br>  <br>  <br>
         <span style="color: gray; font-size:0.8rem">   Meanwhile: The Credits   <br>
         Company: Syn For Experiments™ <br>
         Idea: Yaver Javid  <br>
         Programmer: Yaver Javid  <br>
-        Unnecessarily: Zanoor  </span>
-        `)
+        Unnecessarily: Zanoor  </span>`)
     </script>
     <script src="js/path.js"></script>
     <script src="js/icons.js"></script>

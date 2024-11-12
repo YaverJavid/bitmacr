@@ -46,8 +46,8 @@ const B_COLOR = "pix_color"
 const rotateClockwise = document.getElementById("rotate-clockwise-button")
 setPaletteCurrentColor(localStorageREF[B_COLOR] || "#334470")
 let chooseColorRandomly = false
-let rows = 10,
-    cols = 10
+let rows = 32,
+    cols = 32
 let menuSegmentLocations = []
 
 for (let i = 0; i < menus.length; i++) {
@@ -279,8 +279,16 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     recordPaintData()
                     return
                 }
-                applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
-                recordPaintData()
+                floodFillEvent(i)
+                if (mirroring.checked) {
+                    if (mirroringType.value == 'horizontal') floodFillEvent(mirrorHorizontally(i))
+                    else if (mirroringType.value == 'vertical') floodFillEvent(mirrorVertically(i))
+                    else if (mirroringType.value == 'both') {
+                        floodFillEvent(mirrorVertically(i))
+                        floodFillEvent(mirrorHorizontally(i))
+                        floodFillEvent(mirrorVertically(mirrorHorizontally(i)))
+                    }
+                }
             } else {
                 if (colorMSelector.value != 'lighting' && e.shiftKey) {
                     applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
@@ -298,7 +306,14 @@ function addCanvas(argRows, argCols, clearStack = true) {
     cells2d = toPaintData2D(cells2d);
     refreshGuides()
     let pixelSize = id('pixel-size').value
-    id('linked-final-res').textContent = `${pixelSize*rows} x ${pixelSize*cols}.`
+    id('linked-final-res').textContent = `${pixelSize * rows} x ${pixelSize * cols}.`
+}
+
+function floodFillEvent(i) {
+    let x = i % cols
+    let y = Math.floor(i / cols)
+    applyPaintData(floodFill(toPaintData2D(buffer.getItem()), x, y).flat())
+    recordPaintData()
 }
 
 function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {

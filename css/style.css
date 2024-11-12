@@ -169,33 +169,33 @@
  }
 
  .color-picker-icon {
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-    background-color: gray;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-    vertical-align: middle;
-    margin-right: 10px;
-    background-image: url(../icons/color-picker.png);
-    background-size: cover;
-   
-}
+     width: 25px;
+     height: 25px;
+     display: inline-block;
+     background-color: gray;
+     border-radius: 50%;
+     transition: background-color 0.3s ease;
+     vertical-align: middle;
+     margin-right: 10px;
+     background-image: url(../icons/color-picker.png);
+     background-size: cover;
 
-.color-picker-icon.checked {
-    background-color: #ffcc00;
-}
+ }
 
-.checkbox {
-    display: none;
-}
+ .color-picker-icon.checked {
+     background-color: #ffcc00;
+ }
 
-.color-picker-wrapper {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
+ .checkbox {
+     display: none;
+ }
+
+ .color-picker-wrapper {
+     display: inline-flex;
+     align-items: center;
+     cursor: pointer;
+     margin-bottom: 10px;
+ }
 
 
  hr {
@@ -968,14 +968,20 @@
  }
 
  #copied-color-shower {
-    user-select: text;
+     user-select: text;
  }
 
- #exporters-container > *{
-    display: none;
+ #exporters-container>* {
+     display: none;
  }
 
- 
- .visible{
-    display: block !important
-}
+
+ .visible {
+     display: block !important
+ }
+
+ .color-shower {
+     border: 1px solid var(--primary);
+     background-color: rgb(100, 100, 100);
+     color: rgb(100, 100, 100);
+ }

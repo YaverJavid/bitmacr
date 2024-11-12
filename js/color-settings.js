@@ -71,7 +71,7 @@ function getCurrentSelectedColor(preview = false) {
         case "random":
             switch (randomFrom.value) {
                 case "all":
-                    color = rgbToHex(getRandColor())
+                    color = rgbToHex(getRandomFromAllColor())
                     break;
                 case "color-history":
                     if (usedColors.length == 0) {
@@ -95,8 +95,14 @@ function getCurrentSelectedColor(preview = false) {
             if (!preview && parseInt(hueSpeedSlider.value) != 0) updateHueColorShower()
             color = hslValToHex(currentHue, saturationSlider.value, lightingSlider.value)
             break
+        case 'gray':
+            color = rgbToHex(`rgb(${id('gray').value}, ${id('gray').value}, ${id('gray').value})`)
+            break
         case "eraser":
             color = '#00000000'
+            break
+        case 'lab':
+            color = id('lab-preview').value
             break
         case "css-color":
             color = rgbToHex(cssToRGBAOrRgb(colorStringInput.value))
@@ -114,13 +120,20 @@ function getCurrentSelectedColor(preview = false) {
                 if (hue === undefined || saturation === undefined || lightness === undefined)
                     color = "#000000"
                 else color = hslToHex(`hsl(${hue},${saturation},${lightness})`)
-            } else if (colorFormulaTypeSelector.value = "rgb") {
+            } else if (colorFormulaTypeSelector.value == "rgb") {
                 let r = evalFormula(id("cf-rgb-r").value, colorFormulaVars)
                 let g = evalFormula(id("cf-rgb-g").value, colorFormulaVars)
                 let b = evalFormula(id("cf-rgb-b").value, colorFormulaVars)
                 if (r === undefined || g === undefined || b === undefined)
                     color = "#000000"
                 else color = rgbaToHex(`rgba(${r}, ${g}, ${b}, 1)`).slice(0, 7)
+            } else if (colorFormulaTypeSelector.value == "lab") {
+                let l = evalFormula(id("cf-lab-l").value, colorFormulaVars)
+                let a = evalFormula(id("cf-lab-a").value, colorFormulaVars)
+                let b = evalFormula(id("cf-lab-b").value, colorFormulaVars)
+                if (l === undefined || a === undefined || b === undefined)
+                    color = "#000000"
+                else color = labToHex(l, a, b)
             }
             [...id("vars").children].forEach((elem) => {
                 let name = elem.children[2].value
@@ -433,3 +446,54 @@ id('filling-mode').onclick = () => {
 id("blending-mode").onclick = () => {
     updateFillingModeUI()
 }
+
+
+id('randomize-r').onchange = () => {
+    if (id('randomize-r').checked) id('fixed-r-at-container').classList.add('hidden')
+    else id('fixed-r-at-container').classList.remove('hidden')
+}
+
+id('randomize-g').onchange = () => {
+    if (id('randomize-g').checked) id('fixed-g-at-container').classList.add('hidden')
+    else id('fixed-g-at-container').classList.remove('hidden')
+}
+
+id('randomize-b').onchange = () => {
+    if (id('randomize-b').checked) id('fixed-b-at-container').classList.add('hidden')
+    else id('fixed-b-at-container').classList.remove('hidden')
+}
+attachInputListener('fixed-r-at')
+attachInputListener('fixed-g-at')
+attachInputListener('fixed-b-at')
+
+
+function getRandomFromAllColor() {
+    let r = id('randomize-r').checked ? (Math.random() * 255) : id('fixed-r-at').value
+    let g = id('randomize-g').checked ? (Math.random() * 255) : id('fixed-g-at').value
+    let b = id('randomize-b').checked ? (Math.random() * 255) : id('fixed-b-at').value
+    return `rgb(${r}, ${g}, ${b})`
+}
+// Lab
+function updateLabUI() {
+    let color = labToHex(id('lab-l').valueAsNumber, id('lab-a').valueAsNumber, id('lab-b').valueAsNumber)
+    id('lab-preview').value = color
+}
+const labLEvent = attachInputListener('lab-l', updateLabUI)
+const labAEvent = attachInputListener('lab-a', updateLabUI)
+const labBEvent = attachInputListener('lab-b', updateLabUI)
+
+id('lab-preview').oninput = () => {
+    let color = hexToLab(id('lab-preview').value)
+    id('lab-l').value = color.L
+    id('lab-a').value = color.A
+    id('lab-b').value = color.B
+    labLEvent()
+    labAEvent()
+    labBEvent()
+}
+updateLabUI()
+
+attachInputListener('gray', ()=>{
+    id('gray-color-shower').style.color = `rgb(${id('gray').value}, ${id('gray').value}, ${id('gray').value})`
+    id('gray-color-shower').style.backgroundColor = `rgb(${id('gray').value}, ${id('gray').value}, ${id('gray').value})`
+})

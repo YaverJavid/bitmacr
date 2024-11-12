@@ -90,24 +90,31 @@ id("filter-solorize").onclick = () => {
 id("filter-remove-ghost-colors").onclick = () => filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
 
 
+id('noise-thr').oninput = ()=> id('noise-thr-shower').innerHTML = `(${id('noise-thr').value})`
+id('noise-thg').oninput = ()=> id('noise-thg-shower').innerHTML = `(${id('noise-thg').value})`
+id('noise-thb').oninput = ()=> id('noise-thb-shower').innerHTML = `(${id('noise-thb').value})`
 id("shift-colors-button").onclick = () => {
     filterCanvas((pixel, pid) => {
         if (pixel.a == 0) return pixel
+        let thr = id('noise-thr').value
+        let thg = id('noise-thg').value
+        let thb = id('noise-thb').value
         return {
-            r: Math.min(255, pixel.r + (Math.round(Math.random() * 25))),
-            g: Math.min(255, pixel.g + (Math.round(Math.random() * 25))),
-            b: Math.min(255, pixel.b + (Math.round(Math.random() * 25))),
+            r: Math.max(Math.min(255, pixel.r + (Math.round(Math.random() * thr * 2)) - thr), 0),
+            g: Math.max(Math.min(255, pixel.g + (Math.round(Math.random() * thg * 2)) - thg), 0),
+            b: Math.max(Math.min(255, pixel.b + (Math.round(Math.random() * thb * 2)) - thb), 0),
             a: pixel.a
         };
     })
 }
+
 id("filter-brighten").onclick = () => {
     filterCanvas((pixel, pid) => {
         let br = id("brightness-factor").value
         let r = Math.min(pixel.r * br, 255);
         let g = Math.min(pixel.g * br, 255);
         let b = Math.min(pixel.b * br, 255);
-        let a = pixel.a; 
+        let a = pixel.a;
         return { r, g, b, a };
     });
 }
@@ -446,8 +453,8 @@ id("box-blur-radius").oninput = () => {
     id("box-blur-radius-shower").innerHTML = `(${id("box-blur-radius").value})`
 }
 
-let fillingMode 
- 
+let fillingMode
+
 function pauseBlending() {
     fillingMode = id('filling-mode').value
     id('filling-mode').value = 'replace'

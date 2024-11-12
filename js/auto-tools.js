@@ -40,18 +40,12 @@ id("auto-size-detection-threshold").oninput = () => {
 
 function getMinContinuousStreak(imageData) {
     const { data, width, height } = imageData;
-    let minStreak = Infinity; // Initialize with Infinity to find the minimum
-
-    // Function to get color as a single value
+    let minStreak = Infinity;
     const getColor = (r, g, b, a) => (r << 24) | (g << 16) | (b << 8) | a;
-
-    // Iterate over each horizontal line
     for (let y = 0; y < height; y++) {
         let currentColor = null;
         let currentStreak = 0;
-        let localMinStreak = Infinity;
-
-        // Iterate over each pixel in the horizontal line
+        let localMinStreak = Infinity
         for (let x = 0; x < width; x++) {
             const index = (y * width + x) * 4;
             const r = data[index];
@@ -70,14 +64,10 @@ function getMinContinuousStreak(imageData) {
                 currentStreak = 1;
             }
         }
-
-        // Check the last streak in the line
         if (currentStreak > 0) {
             localMinStreak = Math.min(localMinStreak, currentStreak);
         }
-
-        // Update the global minimum streak
         minStreak = Math.min(minStreak, localMinStreak);
     }
-    return minStreak === Infinity ? 0 : minStreak; // Return 0 if no streak was found
+    return minStreak === Infinity ? 0 : minStreak;
 }
