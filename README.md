@@ -2,7 +2,7 @@
 
 ## Change Log
 
-### 2024-021[-Nov-2024]
+### 2024-021[13-Nov-2024]
 
 - Added Mirroring Support For Flood-Fill
 - Added LAB Color Selector
