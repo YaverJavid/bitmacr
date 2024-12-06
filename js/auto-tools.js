@@ -34,9 +34,6 @@ id("image-pixelart-to-pixel").addEventListener("input", function () {
     this.value = null;
 })
 
-id("auto-size-detection-threshold").oninput = () => {
-    id("auto-size-detection-threshold-shower").innerHTML = `(${id("auto-size-detection-threshold").value})`
-}
 
 function getMinContinuousStreak(imageData) {
     const { data, width, height } = imageData;

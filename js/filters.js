@@ -89,10 +89,6 @@ id("filter-solorize").onclick = () => {
 
 id("filter-remove-ghost-colors").onclick = () => filterCanvas((pixel, pid) => pixel.a == 0 ? { r: 0, g: 0, b: 0, a: 0 } : pixel)
 
-
-id('noise-thr').oninput = ()=> id('noise-thr-shower').innerHTML = `(${id('noise-thr').value})`
-id('noise-thg').oninput = ()=> id('noise-thg-shower').innerHTML = `(${id('noise-thg').value})`
-id('noise-thb').oninput = ()=> id('noise-thb-shower').innerHTML = `(${id('noise-thb').value})`
 id("shift-colors-button").onclick = () => {
     filterCanvas((pixel, pid) => {
         if (pixel.a == 0) return pixel
@@ -119,7 +115,7 @@ id("filter-brighten").onclick = () => {
     });
 }
 
-id("brightness-factor").oninput = () => id("brightness-factor-shower").innerHTML = `(${id("brightness-factor").value})`
+
 
 
 id("filter-bnw").onclick = () => {
@@ -159,9 +155,6 @@ function simplifyColorsEvent() {
     applyPaintData(simplifyColors(hexColors, simplifyColorsThreshold.value), true)
     recordPaintData()
 }
-
-simplifyColorsThreshold.oninput = () => id("simplify-colors-threshold-shower").textContent = `(${simplifyColorsThreshold.value})`
-
 
 
 id("apply-custom-filter").onclick = () => {
@@ -435,6 +428,8 @@ id("filter-motion-blur").onclick = () => {
     recordPaintData()
     resumeBlending()
 }
+
+
 id("filter-sharpen").onclick = () => {
     let filteredData = sharpen(buffer.getItem().slice(), cols, rows)
     pauseBlending()
@@ -443,15 +438,6 @@ id("filter-sharpen").onclick = () => {
     resumeBlending()
 }
 
-id("motion-blur-radius").oninput = () => {
-    id("motion-blur-radius-shower").innerHTML = `(${id("motion-blur-radius").value})`
-}
-id("gaussian-blur-radius").oninput = () => {
-    id("gaussian-blur-radius-shower").innerHTML = `(${id("gaussian-blur-radius").value})`
-}
-id("box-blur-radius").oninput = () => {
-    id("box-blur-radius-shower").innerHTML = `(${id("box-blur-radius").value})`
-}
 
 let fillingMode
 
@@ -462,4 +448,18 @@ function pauseBlending() {
 
 function resumeBlending() {
     id('filling-mode').value = fillingMode
+}
+
+id("filter-flood-all").onclick = () => {
+    let visited = new Set()
+    let data = toPaintData2D(buffer.getItem().slice())   
+    for (let i = 0; i < cols * rows; i++) {   
+        if (!visited.has(`${x(i)}-${y(i)}`)){
+            let color = id('filter-flood-fill-with-one-color').checked ? getCurrentSelectedColor() : false;
+            [data, visited_] = floodFillWithCoords(data, x(i), y(i), color)
+            visited = new Set([...visited, ...visited_])
+        }
+    }
+    applyPaintData(data.flat(), false)
+    recordPaintData()
 }

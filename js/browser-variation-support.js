@@ -78,6 +78,8 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
         redirectMenuViewTo(currentTabIndex * controlWidth)
         let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
         paintZone.style.height = elemWidth * rows + "vw"
+        const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
+        cellWidth = parseFloat(paintZoneWidth) / cols
     }
 } else {
     id('undo').value = '«'

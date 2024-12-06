@@ -10,6 +10,8 @@ const fixedRectWidth = document.getElementById("fixed-rect-width")
 const fixedRectHeight = document.getElementById("fixed-rect-height")
 const selectionShower = document.getElementById("selection-shower")
 const shapesElems = document.getElementById("shapes-selector").children
+let penFloodFillCoordsVisited = new Set()
+let penFillBuffer
 const ACTIVE_SHAPE_CLASS = "active-shape"
 const SELECTED_CELL_HINT_TOKEN = "selected-cell-hint"
 let selectedPart, zoomedPart, partToFlip, zoomOriginX, zoomOriginY, fullRows, fullCols, flipOriginY, flipOriginX
@@ -170,7 +172,7 @@ function copy(mode = "select") {
     return { failed: false }
 }
 
-function paste(xb, yb, data2d, paint2d, zoomOut = false) {
+function paste(xb, yb, data2d, paint2d, oop = "paste") {
     if (!data2d) return
     let h = data2d.length
     let w = data2d[0].length
@@ -178,12 +180,12 @@ function paste(xb, yb, data2d, paint2d, zoomOut = false) {
     let yt = yb - h
     let array = data2d.flat();
     let j = 0
-    let ignoreTransparentCells = id('ignore-transparent-cells').checked
+    let ignoreTransparentCells = oop != "paste" ? false : id('ignore-transparent-cells').checked;
     for (let y = yt; y < yb; y++) {
         for (let x = xt; x < xb; x++) {
             if (paint2d[y]) {
                 if (paint2d[y][x]) {
-                    color = zoomOut ? rgbaToHex(array[j]) : array[j]
+                    color = oop == 'zoom-out' ? rgbaToHex(array[j]) : array[j]
                     if (!(ignoreTransparentCells && color == "#00000000")) {
                         setCellColor(paint2d[y][x], color)
                     }
@@ -410,29 +412,36 @@ id("flip-selection-vertically").onclick = () => {
     updateSelectionUI()
 }
 
-id("line-width").oninput = () => {
-    id("line-width-shower").textContent = `(${id("line-width").value})`
+function visualiseThickness(thickness, lineCap) {
+    refillCanvas()
+    drawThickPoint(cells2d, Math.floor(cols / 2), Math.floor(rows / 2), thickness, lineCap, true)
 }
 
-id("stroke-line-width").oninput = () => {
-    id("stroke-line-width-shower").textContent = `(${id("stroke-line-width").value})`
-}
+attachInputListener('line-width', () => {
+    visualiseThickness(id('line-width').value, id('line-cap').value)
+}, '')
+
+id('line-width').onmouseup = refillCanvas
+id('line-width').ontouchend = refillCanvas
+
+attachInputListener('stroke-line-width', () => {
+    visualiseThickness(id('stroke-line-width').value, id('stroke-line-cap').value)
+}, '')
+id('stroke-line-width').onmouseup = refillCanvas
+id('stroke-line-width').ontouchend = refillCanvas
 
 
-id("curve-origin").oninput = () => {
-    id("curve-origin-shower").textContent = `(${id("curve-origin").value})`
-    visualiseCurve();
-}
+attachInputListener('curve-line-width', () => {
+    visualiseThickness(id('curve-line-width').value, id('curve-line-cap').value)
+}, '')
+id('curve-line-width').onmouseup = refillCanvas
+id('curve-line-width').ontouchend = refillCanvas
 
-id("curvature").oninput = () => {
-    id("curvature-shower").textContent = `(${id("curvature").value})`
-    visualiseCurve();
-}
 
-id("curve-line-width").oninput = () => {
-    id("curve-line-width-shower").textContent = `(${id("curve-line-width").value})`
-}
+attachInputListener('curve-origin', visualiseCurve, '')
+attachInputListener('curvature', visualiseCurve, '')
 id("curve-depth").oninput = visualiseCurve
+
 
 function drawEquilateralTriangle(blx, bly, pixels, size, perColDY = 1, options = {}) {
     if (blx == -1 || bly == -1) return
@@ -609,23 +618,45 @@ id('linear-gradient-angle').oninput = () => {
     visualiseGradient()
 }
 id('gradient-opacity').oninput = () => id('gradient-opacity-shower').innerHTML = `(${id('gradient-opacity').value})`
+
+
+function getDifference(sx, sy, ex, ey) {
+    let dxRaw = -1 * (sx - ex) + 1
+    let dyRaw = (sy - ey) + 1
+    let dx = dxRaw, dy = dyRaw
+    if (dxRaw < 1) dx = 1
+    if (dyRaw < 1) dy = 1
+    return [dxRaw * -1, dyRaw, dx, dy]
+}
+
+function refillCanvas() {
+    for (let i = 0; i < cells.length; i++) cells[i].style.backgroundColor = buffer.getItem()[i];
+}
+
+
 const shapeInfoShower = id('shape-info-shower')
 const cursorInfoShower = id('cursor-info')
 let lastRadius
 
-function draw(e, gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw, x, y) {
-    cursorInfoShower.textContent = `[x${gx + 1},y${gy + 1}]`
+function draw(e, ex, ey, sx, sy, sgx, sgy) {
+    let currentCell = document.elementFromPoint(ex, ey);
+    let cellIndex = currentCell.index
+    let egx = cellIndex % cols
+    let egy = Math.floor(cellIndex / cols)
+
+    let [dxRaw, dyRaw, dx, dy] = getDifference(sgx, sgy, egx, egy);
+    cursorInfoShower.textContent = `[x${egx + 1},y${egy + 1}]`
     let radius = dx
     switch (paintModeSelector.value) {
         case 'line-stroke':
             if (currentCell.classList[0] != "cell") return
             if (isStartOfLineStroke)
-                drawLine(cells2d, sgy, sgx, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
+                drawLine(cells2d, sgx, sgy, egx, egy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
             else
-                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, gx, gy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
+                drawLine(cells2d, lastLineStrokeEndingCoords.gridX, lastLineStrokeEndingCoords.gridY, egx, egy, id('stroke-line-width').value, id("stroke-line-cap").value, id("allow-line-stroke-doubles").checked)
             isStartOfLineStroke = false
-            lastLineStrokeEndingCoords.gridY = gy
-            lastLineStrokeEndingCoords.gridX = gx
+            lastLineStrokeEndingCoords.gridY = egy
+            lastLineStrokeEndingCoords.gridX = egx
             break
         case "flip":
         case "zoom":
@@ -634,44 +665,39 @@ function draw(e, gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw, x, y) {
             let paintZonePosition = paintZone.getBoundingClientRect()
             let correctedStartingY = sy - paintZonePosition.y
             let correctedStartingX = sx - paintZonePosition.x
-
             handleSelectionShowerVisibility(
-                // 1 is border width of self
-                ((gy - sgx + 1) * cw - 1) + "px",
-                ((gx - sgy + 1) * cw - 1) + "px",
-                (correctedStartingY - (correctedStartingY % cw)) + "px",
-                (correctedStartingX - (correctedStartingX % cw)) + "px",
+                // 1 is border width of self (h, w, t, l)
+                (egy - sgy + 1) * cellWidth + "px",
+                (egx - sgx + 1) * cellWidth + "px",
+                (correctedStartingY - (correctedStartingY % cellWidth)) + "px",
+                (correctedStartingX - (correctedStartingX % cellWidth)) + "px",
                 "1px"
             )
             selectionCoords = {
-                ytl: Math.min(Math.max(sgx, 0), rows),
-                xtl: Math.min(Math.max(sgy, 0), cols),
-                ybr: Math.min(gy + 1, rows),
-                xbr: Math.min(gx + 1, cols)
+                ytl: Math.min(Math.max(sgy, 0), rows),
+                xtl: Math.min(Math.max(sgx, 0), cols),
+                ybr: Math.min(egy + 1, rows),
+                xbr: Math.min(egx + 1, cols)
             }
             break
         case "paste":
             if (!selectedPart) return
             if (currentCell.classList[0] != "cell") return
-            let py = gy + selectedPart.length
-            let px = gx + selectedPart[0].length
-            paste(px, py, selectedPart, cells2d)
+            let py = egy + selectedPart.length
+            let px = egx + selectedPart[0].length
+            paste(px, py, selectedPart, cells2d, 'paste')
             break
         case 'rect':
             let bx, by, h, w
             if (fixedRectSize.checked) {
-                bx = gx
-                by = gy
-                w = parseInt(fixedRectWidth.value)
-                h = parseInt(fixedRectHeight.value)
+                bx = egx, by = egy, w = parseInt(fixedRectWidth.value), h = parseInt(fixedRectHeight.value)
             } else {
-                bx = sgy
-                by = sgx
-                w = dx
-                h = dy
+                bx = sgx, by = sgy, w = dx, h = dy
+                if (!e.shiftKey && dxRaw >= 0) bx = egx, w = dxRaw + 2
+                if (!e.shiftKey && dyRaw <= 0) by = egy, h = Math.abs(dyRaw) + 2
             }
             if (e.shiftKey) {
-                let distance = Math.round(Math.sqrt((((x - sx) ** 2) + ((y - sy) ** 2))) / cw)
+                let distance = Math.round(Math.sqrt((((ex - sx) ** 2) + ((ey - sy) ** 2))) / cellWidth)
                 h = distance
                 w = distance
             }
@@ -682,8 +708,8 @@ function draw(e, gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw, x, y) {
             if (e.altKey) id('fixed-radius-value').value = radius
             if (fixedRadius.checked) radius = parseInt(fixedRadiusValue.value)
             else if (e.shiftKey) radius = lastRadius
-            let circleX = (fixedRadius.checked || e.shiftKey) ? gy : (sgx - radius)
-            let circleY = (fixedRadius.checked || e.shiftKey) ? gx : (sgy + radius)
+            let circleX = (fixedRadius.checked || e.shiftKey) ? egy : (sgy - radius)
+            let circleY = (fixedRadius.checked || e.shiftKey) ? egx : (sgx + radius)
             if (circleAlgorithm.value == "accurate")
                 drawCircle(circleX, circleY, radius, cells2d, fillCircle.checked)
             else if (circleAlgorithm.value == "natural")
@@ -694,32 +720,69 @@ function draw(e, gx, gy, sx, sy, sgx, sgy, dx, dy, currentCell, cw, x, y) {
         case 'line':
             if (currentCell.classList[0] != "cell") return
             if (e.shiftKey) {
-                let distance = Math.round(Math.sqrt((((x - sx) ** 2) + ((y - sy) ** 2))) / cw)
-                let angle = Math.round(getAngle(sgy, sgx, gx, gy) / 45) * 45
-                let ec = calculateEndingCoords(sgy, sgx, Math.round(getAngle(sgy, sgx, gx, gy) / 45) * 45, distance)
-                drawLine(cells2d, sgy, sgx, Math.round(ec.x), Math.round(ec.y), id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
-                shapeInfoShower.innerHTML = `[${(-1*Math.round(angle))+180}&deg;]`
+                let distance = Math.round(Math.sqrt((((ex - sx) ** 2) + ((ey - sy) ** 2))) / cellWidth)
+                let angle = Math.round(getAngle(sgx, sgy, egx, egy) / 45) * 45
+                let ec = calculateEndingCoords(sgx, sgy, Math.round(getAngle(sgx, sgy, egx, egy) / 45) * 45, distance)
+                drawLine(cells2d, sgx, sgy, Math.round(ec.x), Math.round(ec.y), id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
+                shapeInfoShower.innerHTML = `[${(-1 * Math.round(angle)) + 180}&deg;]`
             } else {
-                drawLine(cells2d, sgy, sgx, gx, gy, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
-                shapeInfoShower.innerHTML = `[${(-1*Math.round(getAngle(sgy, sgx, gx, gy)))+180}&deg;]`
+                drawLine(cells2d, sgx, sgy, egx, egy, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked)
+                shapeInfoShower.innerHTML = `[${(-1 * Math.round(getAngle(sgx, sgy, egx, egy))) + 180}&deg;]`
             }
             alreadyFilledLinePoints = new Set()
             break
         case "triangle":
-            drawEquilateralTriangle(sgy, sgx, cells2d, Math.abs(sgy - gx), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
+            drawEquilateralTriangle(sgx, sgy, cells2d, Math.abs(sgx - egx), parseInt(id("change-per-col").value), { allOn: id("all-changes-on").value })
             break
         case 'sphere':
-            drawSphere(sgx - radius, sgy + radius, radius, cells2d)
+            drawSphere(sgy - radius, sgx + radius, radius, cells2d)
             break
         case 'curve':
             if (currentCell.classList[0] != "cell") return
             let curvature = Number(id("curvature").value)
             curvature += Number(id("curve-depth").value) * (Math.sign(curvature) || 1)
-            drawCurve(cells2d, sgy, sgx, gx, gy, id('curve-line-width').value, id('curve-line-cap').value, curvature, id('curve-origin').value, id("curve-steps").value)
+            let curveLineWidth = id('curve-line-width').value,
+                curveLineCap = id('curve-line-cap').value,
+                curveOrigin = id('curve-origin').value,
+                curveSteps = id("curve-steps").value
+            drawCurve(cells2d, sgx, sgy, egx, egy, curveLineWidth, curveLineCap, curvature, curveOrigin, curveSteps)
             alreadyFilledLinePoints = new Set()
             break
         case 'gradient':
-            drawGradient(cells2d, sgy, sgx, dy, dx, id('gradient-start-color').value, id("gradient-end-color").value, id('gradient-type').value, id('linear-gradient-angle').value)
+            let gradientStartColor = id('gradient-start-color').value,
+                gradientEndColor = id('gradient-end-color').value,
+                gradientType = id('gradient-type').value,
+                linearGradientAngle = id('linear-gradient-angle').value
+            drawGradient(cells2d, sgx, sgy, dy, dx, gradientStartColor, gradientEndColor, gradientType, linearGradientAngle)
+            break
+        case 'pen-fill':
+            if (penFloodFillCoordsVisited.has(`${egx}-${egy}`)) return
+            let color = id('pen-fill-with-one-color').checked ? getCurrentSelectedColor() : false
+            let [data, visited] = floodFillWithCoords(penFillBuffer, egx, egy, color)
+            penFillBuffer = data.slice()
+            applyPaintData(data.flat())
+            penFloodFillCoordsVisited = new Set([...penFloodFillCoordsVisited, ...visited])
+            break
+        case 'cuboid':
+            let cuboidW = valueAsNumber('cuboid-width'),
+                cuboidH = valueAsNumber('cuboid-height'),
+                cuboidB = valueAsNumber('cuboid-breadth'),
+                cuboidRX = valueAsNumber('cuboid-rotation-x'),
+                cuboidRY = valueAsNumber('cuboid-rotation-x'),
+                cuboidRZ = valueAsNumber('cuboid-rotation-x')
+            if (e.altKey) {
+                let dist = Math.ceil(distance2d(sgx, sgy, egx, egy))
+                cuboidB = dist
+                cuboidH = dist
+                cuboidW = dist
+            }
+            drawCuboid(cells2d, egx, egy, cuboidW, cuboidH, cuboidB, cuboidRX, cuboidRY, cuboidRZ)
+            break
+        case 'star':
+            let starRadius = Math.ceil(distance2d(sgx, sgy, egx, egy))
+            let starInnerRadius = valueAsNumber('star-inner-radius')
+            let starPoints = valueAsNumber('star-points')
+            drawStar(cells2d, sgx, sgy, starRadius, starInnerRadius, starPoints)
             break
     }
 }
@@ -738,3 +801,66 @@ function getAngle(x1, y1, x2, y2) {
     const angleInDegrees = angleInRadians * (180 / Math.PI);
     return angleInDegrees;
 }
+
+function drawStar(matrix, cx, cy, outerRadius, innerRadiusPercent, points) {
+    let step = Math.PI / points;
+    let vertices = [];
+    let innerRadius = (innerRadiusPercent / 100) * outerRadius;
+    for (let i = 0; i < 2 * points; i++) {
+        let angle = i * step - Math.PI / 2;
+        let r = (i % 2 === 0) ? outerRadius : innerRadius;
+        let x = Math.round(cx + r * Math.cos(angle));
+        let y = Math.round(cy + r * Math.sin(angle));
+        vertices.push([x, y]);
+    }
+    for (let i = 0; i < vertices.length; i++) {
+        let [x1, y1] = vertices[i];
+        let [x2, y2] = vertices[(i + 1) % vertices.length];
+        drawSimpleLine(matrix, x1, y1, x2, y2);
+    }
+}
+
+function drawSimpleLine(matrix, x1, y1, x2, y2) {
+    let dx = Math.abs(x2 - x1);
+    let dy = Math.abs(y2 - y1);
+    let sx = (x1 < x2) ? 1 : -1;
+    let sy = (y1 < y2) ? 1 : -1;
+    let err = dx - dy;
+
+    while (true) {
+        try {
+            setCellColor(matrix[y1][x1], getCurrentSelectedColor());
+        } catch { }
+
+        if (x1 === x2 && y1 === y2) break; // Exit when the line ends
+        let e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
+    }
+}
+
+function visualiseStar() {
+    refillCanvas()
+    let x = Math.floor(cols / 2) - 1
+    let y = Math.floor(rows / 2) - 1
+    let size = ath.floor(Math.min(cols, rows) / 2)
+    let innerRadiusPercent = valueAsNumber("star-inner-radius")
+    let points = valueAsNumber('star-points')
+
+    drawStar(cells2d, x, y, size, innerRadiusPercent, points)
+}
+
+attachInputListener('star-points', visualiseStar)
+id('star-points').ontouchend = refillCanvas
+id('star-points').onmouseup = refillCanvas
+
+
+attachInputListener('star-inner-radius', visualiseStar, '%')
+id('star-inner-radius').ontouchend = refillCanvas
+id('star-inner-radius').onmouseup = refillCanvas

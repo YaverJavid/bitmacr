@@ -90,9 +90,7 @@ id("export-svg").onclick = () => {
     downloadText('pixmacr.svg', createRunLengthEncodedSVG(data))
 }
 
-id("export-res").oninput = () => {
-    id("export-res-shower").textContent = `(${id("export-res").value})`
-}
+
 
 let shapeAdded = false
 id("add-shape").addEventListener("input", function () {

@@ -2,6 +2,22 @@
 
 ## Change Log
 
+### 2024-022[-Dec-2024]
+
+- Added Auto Barrier Tools For Lighting & Few Additional Lighting Tools
+- Added Pen Fill
+- Changed Dialog Style And Animated It Opening & Closing
+- Added Better Undo-Redo Support For Mirrored Flood Fill
+- Added A Filter Called Flood All In Stylistic Filters Section Of Filters
+- Added Flood Fill With One Color Option In Basic Tools
+- Added One Key Shortcuts eg.: R : Toggling The Fill Rule & M : Toggling The Mirroring etc.
+- Now The Rectangle Supports Drawing From All Sides
+- Added Cuboid Shape
+- Added On Canvas Visualizers For Line Widths
+- Updated Some Icons
+- Flipping And Zoom Out Issue Fixed
+- Zoom Issue For Touch Devices Has Been Patched
+
 ### 2024-021[13-Nov-2024]
 
 - Added Mirroring Support For Flood-Fill

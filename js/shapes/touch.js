@@ -1,6 +1,7 @@
 let wasLastTouchStart = false
 
 paintZone.addEventListener('touchstart', (event) => {
+    alreadyFilledLinePoints = new Set()
     wasLastTouchStart = true
     const { targetTouches } = event;
     const touch = targetTouches[0];
@@ -8,11 +9,11 @@ paintZone.addEventListener('touchstart', (event) => {
     const x = touch.clientX;
     const y = touch.clientY;
     const currentCellIndex = document.elementFromPoint(x, y).index
-    startingCoords.gridX = Math.floor(currentCellIndex / cols);
-    startingCoords.gridY = currentCellIndex % cols
+    startingCoords.gridX = currentCellIndex % cols;
+    startingCoords.gridY =  Math.floor(currentCellIndex / cols)
     startingCoords.x = x
     startingCoords.y = y
-    if (paintModeSelector.value === "line" && connectLastLineLocation.checked && lineLastCoords !== {}) {
+    if (paintModeSelector.value === "line" && connectLastLineLocation.checked && lineLastCoords != {}) {
         let cells2D = []
         for (let i = 0; i < cells.length; i++)
             cells2D.push(cells[i])
@@ -21,6 +22,10 @@ paintZone.addEventListener('touchstart', (event) => {
         recordPaintData()
     }
     else if (paintModeSelector.value === "line-stroke") isStartOfLineStroke = true
+    else if (paintModeSelector.value == 'pen-fill') {
+        penFillBuffer = toPaintData2D(buffer.getItem().slice())
+        penFloodFillCoordsVisited = new Set()
+    }
 })
 
 const paintZoneHeight = window.getComputedStyle(paintZone).getPropertyValue("height")
@@ -28,11 +33,7 @@ const paintZoneHeight = window.getComputedStyle(paintZone).getPropertyValue("hei
 paintZone.addEventListener('touchmove', (event) => {
     if (wasLastTouchStart) {
         wasLastTouchStart = false
-        if (event.touches.length === 3) {
-            if (buffer.setPointer(buffer.pointer - 1))
-                applyPaintData(buffer.getItem())
-            return
-        }
+        if (event.touches.length === 3) return undo()
     }
     event.preventDefault();
     if (event.touches.length != 1 || paintModeSelector.value == "none") return
@@ -40,22 +41,8 @@ paintZone.addEventListener('touchmove', (event) => {
     const touch = targetTouches[0];
     const x = touch.clientX
     const y = touch.clientY
-
-    let currentCell = document.elementFromPoint(x, y);
-    let cellIndex = currentCell.index
-    const currentGridY = Math.floor(cellIndex / cols);
-    const currentGridX = cellIndex % cols
-
-    if (paintModeSelector.value != "line-stroke") refillCanvas()
-
-    const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
-    const cw = parseFloat(paintZoneWidth) / cols
-    let dx = -1 * Math.ceil((startingCoords.x - x) / cw) + 1
-    let dy = Math.ceil((startingCoords.y - y) / cw)
-    if (dx < 1) dx = 1
-    if (dy < 1) dy = 1
-
-    draw(event, currentGridX, currentGridY, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY, dx, dy, currentCell, cw, x, y)
+    if (!["line-stroke", "pen-fill"].includes(paintModeSelector.value)) refillCanvas()
+    draw(event, x, y, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY)
 });
 
 
@@ -73,7 +60,7 @@ paintZone.addEventListener('touchend', (event) => {
         zoomOriginX = selectionCoords.xbr
         fullCols = cols
         fullRows = rows
-        if (!copy(zoom = true).failed) {
+        if (!copy('zoom').failed) {
             zoomedIn = true
             originalSnapshot = JSON.stringify(buffer)
             applySelectedPartSilent(zoomedPart)
@@ -94,7 +81,7 @@ paintZone.addEventListener('touchend', (event) => {
             for (let i = 0; i < cells.length; i++) cells2d.push(cells[i])
             cells2d = toPaintData2D(cells2d);
             for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
-            paste(bx, by, partToFlip, cells2d)
+            paste(bx, by, partToFlip, cells2d, 'flip')
             recordPaintData()
         }
     }
@@ -106,5 +93,4 @@ paintZone.addEventListener('touchend', (event) => {
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
     if (paintModeSelector.value != "none") recordPaintData()
-    alreadyFilledLinePoints = new Set()
 })

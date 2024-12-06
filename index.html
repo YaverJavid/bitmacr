@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="css/composer.css">
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
+    <!-- preloads -->
     <link rel="prefetch" href="icons/misc/blend.png">
+    <link rel="prefetch" href="icons/fill-mode/fill-1.png">
 </head>
 
 <body>
@@ -29,321 +31,394 @@
             <h3>Contractual</h3>
             <input type="button" value="CLOSE" disabled>
         </div><br>
-        <label>I agree to <a href="https://pixmacrhome.vercel.app/privacypolicy">Privacy Policy</a> : </label> <input
-            type="checkbox" id="pp">
-        <br>
-        <label>I agree to <a href="https://pixmacrhome.vercel.app/termsandconditions">Terms and Conditions</a> :
-        </label> <input type="checkbox" id="tac">
-        <p>*By clicking "Use App" you agree to all checked policies</p>
-        <input type="button" value="Use App*" onclick="sign()">
+        <div class="dialog-content">
+            <label>I agree to <a href="https://pixmacrhome.vercel.app/privacypolicy">Privacy Policy</a> : </label>
+            <input type="checkbox" id="pp">
+            <br>
+            <label>I agree to <a href="https://pixmacrhome.vercel.app/termsandconditions">Terms and Conditions</a> :
+            </label> <input type="checkbox" id="tac">
+            <p>*By clicking "Use App" you agree to all checked policies</p>
+            <input type="button" value="Use App*" onclick="sign()">
+        </div>
     </dialog>
     <dialog id="motionBlurSettings">
         <div class="close-container">
             <h3>Motion Blur</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="motion-blur-direction">Blur Direction : </label>
-        <select id="motion-blur-direction">
-            <option value="horizontal">Horizontal</option>
-            <option value="vertical">Vertical</option>
-        </select>
-        <br>
-        <label for="motion-blur-radius">Motion Blur Radius : </label>
-        <input type="range" id="motion-blur-radius" value="1" max="15" min="1">
-        <span id="motion-blur-radius-shower">(1)</span>
+        <div class="dialog-content">
+            <label for="motion-blur-direction">Blur Direction : </label>
+            <select id="motion-blur-direction">
+                <option value="horizontal">Horizontal</option>
+                <option value="vertical">Vertical</option>
+            </select>
+            <br>
+            <label for="motion-blur-radius">Motion Blur Radius : </label>
+            <input type="range" id="motion-blur-radius" value="1" max="15" min="1">
+            <span id="motion-blur-radius-shower">(1)</span>
+        </div>
     </dialog>
     <dialog id="gaussianBlurSettings">
         <div class="close-container">
             <h3>Gaussian Blur</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
+        </div><br>
+        <div class="dialog-content">
+            <label for="gaussian-blur-radius">Gaussian Blur Radius : </label>
+            <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
+            <span id="gaussian-blur-radius-shower">(1)</span>
+            <br>
+            <label for="gaussian-blur-alpha-process">Alpha Process : </label>
+            <select id="gaussian-blur-alpha-process">
+                <option value="loose-alpha">Loose Alpha</option>
+                <option value="mix">Mix</option>
+                <option value="preserve-alpha">Preserve Pixel Alpha</option>
+            </select>
         </div>
-        <br>
-        <label for="gaussian-blur-radius">Gaussian Blur Radius : </label>
-        <input type="range" id="gaussian-blur-radius" value="1" max="15" min="1">
-        <span id="gaussian-blur-radius-shower">(1)</span>
-        <br>
-        <label for="gaussian-blur-alpha-process">Alpha Process : </label>
-        <select id="gaussian-blur-alpha-process">
-            <option value="loose-alpha">Loose Alpha</option>
-            <option value="mix">Mix</option>
-            <option value="preserve-alpha">Preserve Pixel Alpha</option>
-        </select>
     </dialog>
     <dialog id="boxBlurSettings">
         <div class="close-container">
             <h3>Box Blur</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="box-blur-radius">Box Blur Radius : </label>
-        <input type="range" id="box-blur-radius" value="1" max="15" min="1">
-        <span id="box-blur-radius-shower">(1)</span>
+        <div class="dialog-content">
+            <label for="box-blur-radius">Box Blur Radius : </label>
+            <input type="range" id="box-blur-radius" value="1" max="15" min="1">
+            <span id="box-blur-radius-shower">(1)</span>
+        </div>
     </dialog>
     <dialog id="invertSettings">
         <div class="close-container">
             <h3>Invert Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div>
         <br>
-        <label for="invert-r-channel">Invert <span style="color: red;text-shadow: 1px 1px 2px black">Red</span> Channel
-            : </label>
-        <input type="checkbox" id="invert-r-channel" checked>
-        <br>
-        <label for="invert-g-channel">Invert <span style="color: green;text-shadow: 1px 1px 2px black">Green</span>
-            Channel : </label>
-        <input type="checkbox" id="invert-g-channel" checked>
-        <br>
-        <label for="invert-b-channel">Invert <span style="color: blue;text-shadow: 1px 1px 2px black">Blue</span>
-            Channel : </label>
-        <input type="checkbox" id="invert-b-channel" checked>
-        <br>
-        <label for="invert-a-channel">Invert Alpha Channel : </label>
-        <input type="checkbox" id="invert-a-channel">
+        <div class="dialog-content">
+            <label for="invert-r-channel">Invert <span style="color: red;text-shadow: 1px 1px 2px black">Red</span>
+                Channel
+                : </label>
+            <input type="checkbox" id="invert-r-channel" checked>
+            <br>
+            <label for="invert-g-channel">Invert <span style="color: green;text-shadow: 1px 1px 2px black">Green</span>
+                Channel : </label>
+            <input type="checkbox" id="invert-g-channel" checked>
+            <br>
+            <label for="invert-b-channel">Invert <span style="color: blue;text-shadow: 1px 1px 2px black">Blue</span>
+                Channel : </label>
+            <input type="checkbox" id="invert-b-channel" checked>
+            <br>
+            <label for="invert-a-channel">Invert Alpha Channel : </label>
+            <input type="checkbox" id="invert-a-channel">
+        </div>
     </dialog>
     <dialog id="simplifyColorsSettings">
         <div class="close-container">
             <h3>Simplify Colors Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
-        <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
-        <span id="simplify-colors-threshold-shower">(100)</span>
-        <br>
-        <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
+        <div class="dialog-content">
+            <label for="simplify-colors-threshold">Simplify Colors Threshold : </label>
+            <input type="range" id="simplify-colors-threshold" min="0" max="255" value="100">
+            <span id="simplify-colors-threshold-shower">(100)</span>
+            <br>
+            <input type="button" value="Simplify Colors" onclick="simplifyColorsEvent()">
+        </div>
     </dialog>
 
     <dialog id="variationSettings">
         <div class="close-container">
             <h3>Variation Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="color-variation-th-slider">Threshold : </label>
-        <input type="range" id="color-variation-th-slider" max="15" min="1" value="2">
-        <span id="color-variation-th-shower">(2)</span>
+        <div class="dialog-content">
+            <label for="color-variation-th-slider">Threshold : </label>
+            <input type="range" id="color-variation-th-slider" max="15" min="1" value="2">
+            <span id="color-variation-th-shower">(2)</span>
+        </div>
     </dialog>
     <dialog id="fillAlternateSettings">
         <div class="close-container">
             <h3>Fill Alternate Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="fill-gap">Fill Gap : </label>
-        <input type="number" id="fill-gap" value="1"> <br>
-        <label for="fill-count">Fill Count : </label>
-        <input type="button" id="minus-fill-count">
-        <input type="number" value="1" id="fill-count">
-        <input type="button" id="plus-fill-count">
+        <div class="dialog-content">
+            <label for="fill-gap">Fill Gap : </label>
+            <input type="number" id="fill-gap" value="1"> <br>
+            <label for="fill-count">Fill Count : </label>
+            <input type="button" id="minus-fill-count">
+            <input type="number" value="1" id="fill-count">
+            <input type="button" id="plus-fill-count">
 
+        </div>
     </dialog>
     <dialog id="autoPixelDataFromImageSettings">
         <div class="close-container">
             <h3>Auto Size Detection Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="auto-size-detection-threshold">Threshold : </label>
-        <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0" disabled>
-        <span id="auto-size-detection-threshold-shower">(0)</span>
+        <div class="dialog-content">
+            <label for="auto-size-detection-threshold">Threshold : </label>
+            <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0" disabled>
+            <span id="auto-size-detection-threshold-shower">(0)</span>
+        </div>
     </dialog>
     <dialog id="pixelDataFromImageSettings">
         <div class="close-container">
             <h3>Pixel Data From Image Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled :
-        </label>
-        <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
-        <label for="flexible-dimension">Flexible Dimension : </label>
-        <select id="flexible-dimension">
-            <option value="none">None(Stretch)</option>
-            <option value="width">Width</option>
-            <option value="height">Height</option>
-            <option value="lesser">Whichever Is Lesser</option>
-            <option value="greater">Whichever Is Greater</option>
+        <div class="dialog-content">
+            <label for="image-to-pixel-art-image-smoothening-enabled">Image Smoothening Enabled :
+            </label>
+            <input type="checkbox" id="image-to-pixel-art-image-smoothening-enabled"> <br>
+            <label for="flexible-dimension">Flexible Dimension : </label>
+            <select id="flexible-dimension">
+                <option value="none">None(Stretch)</option>
+                <option value="width">Width</option>
+                <option value="height">Height</option>
+                <option value="lesser">Whichever Is Lesser</option>
+                <option value="greater">Whichever Is Greater</option>
 
-        </select>
+            </select>
+        </div>
     </dialog>
     <dialog id="drawingPreview">
         <div class="close-container">
             <h3>Drawing Preview</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
-        <img width="0" height="0" alt="">
+        <div class="dialog-content">
+            <input type="button" value="Refresh" id="refresh-drawing-checker"><br>
+            <img width="0" height="0" alt="">
+        </div>
     </dialog>
     <dialog id="removeGhostColorsSettings">
         <div class="close-container">
             <h3>Help : Remove Ghost Colors</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <p style="max-width: 600px;">
-            This feature cleans up your image by removing any hidden color data from fully transparent pixels.
-            When you click the button, it scans the image and ensures that any pixel that is completely transparent
-            (alpha
-            value of 0) is also set to black (red, green, and blue values all set to 0).
-        </p>
+        <div class="dialog-content">
+            <p style="max-width: 600px;">
+                This feature cleans up your image by removing any hidden color data from fully transparent pixels.
+                When you click the button, it scans the image and ensures that any pixel that is completely transparent
+                (alpha
+                value of 0) is also set to black (red, green, and blue values all set to 0).
+            </p>
+        </div>
     </dialog>
     <dialog id="lightingSettings">
         <div class="close-container">
             <h3>Lighting Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="light-intensity">Intensity : </label>
-        <input type="number" id="light-intensity" value="5" placeholder="Enter Ideally 0-10">
-        <br>
-        <label for="light-color">Light Color : </label>
-        <input type="color" id="light-color" value="#ffffff">
-        <br>
-        <br>
-        <label for="light-color-opacity">Light Color Opacity : </label>
-        <input id="light-color-opacity" type="range" max="1" min="0" step="0.1" value="1">
-        <span id="light-color-opacity-shower">(1)</span>
-        <br>
-        <label for="light-law">Distance Modal :</label>
-        <select id="light-law">
-            <option value="inverse">Inverse</option>
-            <option value="inverse-square">Inverse Square</option>
-        </select>
-        <br>
-        <label for="illuminate-bulb-pixel">Illuminate the Bulb Pixel : </label>
-        <input type="checkbox" id="illuminate-bulb-pixel" checked>
-        <br>
-        <label for="auto-ghost-color-elimination-post-lighting">Auto Apply Ghost Color Filter : </label>
-        <input type="checkbox" id="auto-ghost-color-elimination-post-lighting" checked>
-        <hr>
+        <div class="dialog-content">
+            <label for="light-intensity">Intensity : </label>
+            <input type="number" id="light-intensity" value="5" placeholder="Enter Ideally 0-10">
+            <br>
+            <label for="light-color">Light Color : </label>
+            <input type="color" id="light-color" value="#ffffff">
+            <br>
+            <br>
+            <label for="light-color-opacity">Light Color Opacity : </label>
+            <input id="light-color-opacity" type="range" max="1" min="0" step="0.1" value="1">
+            <span id="light-color-opacity-shower">(1)</span>
+            <br>
+            <label for="light-law">Distance Modal :</label>
+            <select id="light-law">
+                <option value="inverse">Inverse</option>
+                <option value="inverse-square">Inverse Square</option>
+            </select>
+            <br>
+            <label for="illuminate-bulb-pixel">Illuminate the Bulb Pixel : </label>
+            <input type="checkbox" id="illuminate-bulb-pixel" checked>
+            <br>
+            <label for="auto-ghost-color-elimination-post-lighting">Auto Apply Ghost Color Filter : </label>
+            <input type="checkbox" id="auto-ghost-color-elimination-post-lighting" checked>
+            <hr>
+        </div>
     </dialog>
     <dialog id="preferences" style="width:400px; max-width: 90wv;">
         <div class="close-container">
             <h3>Preferences</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <div class="switch-container">
-            <label for="auto-save">Auto Save Sessions</label>
-            <label class="switch">
-                <input type="checkbox" id="auto-save" checked>
-                <span class="slider"></span>
-            </label>
+        <div class="dialog-content">
+            <div class="switch-container">
+                <label for="auto-save">Auto Save Sessions</label>
+                <label class="switch">
+                    <input type="checkbox" id="auto-save" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <br>
+            <div class="switch-container">
+                <label for="add-new-session-on-opening">Add New Session On Opening </label>
+                <label class="switch">
+                    <input type="checkbox" id="add-new-session-on-opening">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <br>
+            <hr>
+            <h5>Following Settings Require a Reload To Apply: </h5>
+            <label for="max-allowed-canvas-size">Max C. Size (max:250) : </label>
+            <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px" placeholder="(100)">
+            <br>
+            <label for="browser-selector">Browser: </label>
+            <select id="browser-selector" class="right-flat">
+                <option value="IOS.SAFARI">Safari (iOS)</option>
+                <option value="IOS.WV">WebView (iOS)</option>
+                <option value="AOS.WV">WebView (Android)</option>
+                <option value="AOS.CHROME">Chrome (Android)</option>
+                <option value="AOS.FIREFOX">Firefox (Android)</option>
+                <option value="AOS.EDGE">Edge (Android)</option>
+                <option value="AOS.OTHER">Other (Android)</option>
+                <option value="DESKTOP.CHROME">Chrome (Desktop)</option>
+                <option value="DESKTOP.FIREFOX">Firefox (Desktop)</option>
+                <option value="DESKTOP.EDGE">Edge (Desktop)</option>
+                <option value="DESKTOP.SAFARI">Safari (Desktop)</option>
+                <option value="DESKTOP.OTHER">Other (Desktop)</option>
+            </select>
+            <input type="button" value="Auto" class="left-flat" id="reset-browser-type">
         </div>
-        <br>
-        <div class="switch-container">
-            <label for="add-new-session-on-opening">Add New Session On Opening </label>
-            <label class="switch">
-                <input type="checkbox" id="add-new-session-on-opening">
-                <span class="slider"></span>
-            </label>
-        </div>
-        <br>
-        <hr>
-        <h5>Following Settings Require a Reload To Apply: </h5>
-        <label for="max-allowed-canvas-size">Max C. Size (max:250) : </label>
-        <input type="number" max="250" id="max-allowed-canvas-size" min="0" style="width:50px" placeholder="(100)">
-        <br>
-        <label for="browser-selector">Browser: </label>
-        <select id="browser-selector" class="right-flat">
-            <option value="IOS.SAFARI">Safari (iOS)</option>
-            <option value="IOS.WV">WebView (iOS)</option>
-            <option value="AOS.WV">WebView (Android)</option>
-            <option value="AOS.CHROME">Chrome (Android)</option>
-            <option value="AOS.FIREFOX">Firefox (Android)</option>
-            <option value="AOS.EDGE">Edge (Android)</option>
-            <option value="AOS.OTHER">Other (Android)</option>
-            <option value="DESKTOP.CHROME">Chrome (Desktop)</option>
-            <option value="DESKTOP.FIREFOX">Firefox (Desktop)</option>
-            <option value="DESKTOP.EDGE">Edge (Desktop)</option>
-            <option value="DESKTOP.SAFARI">Safari (Desktop)</option>
-            <option value="DESKTOP.OTHER">Other (Desktop)</option>
-        </select>
-        <input type="button" value="Auto" class="left-flat" id="reset-browser-type">
     </dialog>
     <dialog id="animationOptions">
         <div class="close-container">
             <h3>Animation Options</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
-        <input type="checkbox" id="auto-trace-last-frame">
-        <br>
-        <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
-        <input type="checkbox" id="auto-fallback-to-background" checked>
-        <br>
-        <img src="" id="animation-background-shower" class="image" alt="">
-        <br>
-        <br>
-        <br>
-        <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
+        <div class="dialog-content">
+            <label for="auto-trace-last-frame">Auto Trace Last Frame : </label>
+            <input type="checkbox" id="auto-trace-last-frame">
+            <br>
+            <label for="auto-fallback-to-background">Auto Fallback To Background : </label>
+            <input type="checkbox" id="auto-fallback-to-background" checked>
+            <br>
+            <img src="" id="animation-background-shower" class="image" alt="">
+            <br>
+            <br>
+            <br>
+            <input type="button" value="Add Current Canvas As Background " id="add-canvas-as-background" />
+        </div>
     </dialog>
     <dialog id="grayscaleSettings">
         <div class="close-container">
             <h3>Grayscale Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="grayscale-algorithm">Algorithm : </label>
-        <select id="grayscale-algorithm">
-            <option value="accurate">Accurate</option>
-            <option value="natural">Natural</option>
-            <option value="lightness">Lightness</option>
-        </select>
+        <div class="dialog-content">
+            <label for="grayscale-algorithm">Algorithm : </label>
+            <select id="grayscale-algorithm">
+                <option value="accurate">Accurate</option>
+                <option value="natural">Natural</option>
+                <option value="lightness">Lightness</option>
+            </select>
+        </div>
     </dialog>
     <dialog id="brightnessSettings">
         <div class="close-container">
             <h3>Brightness Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="brightness-factor">Brightness Factor : </label>
-        <input type="range" id="brightness-factor" min="0.1" max="10" value="2" step="0.1">
-        <span id="brightness-factor-shower">(2)</span>
+        <div class="dialog-content">
+            <label for="brightness-factor">Brightness Factor : </label>
+            <input type="range" id="brightness-factor" min="0.1" max="10" value="2" step="0.1">
+            <span id="brightness-factor-shower">(2)</span>
+        </div>
     </dialog>
     <dialog id="noiseFilterSettings">
         <div class="close-container">
             <h3>Noise Filter Settings</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="noise-thr"><span style="color: red;">Red</span> Strength : </label>
-        <input type="range" id="noise-thr" max="255" min="0" value="25">
-        <span id="noise-thr-shower">(25)</span>
-        <br>
-        <label for="noise-thg"><span style="color: green;">Green</span> Strength : </label>
-        <input type="range" id="noise-thg" max="255" min="0" value="25">
-        <span id="noise-thg-shower">(25)</span>
-        <br>
-        <label for="noise-thb"><span style="color: blue;">Blue</span> Strength: </label>
-        <input type="range" id="noise-thb" max="255" min="0" value="25">
-        <span id="noise-thb-shower">(25)</span>
+        <div class="dialog-content">
+            <label for="noise-thr"><span style="color: red;">Red</span> Strength : </label>
+            <input type="range" id="noise-thr" max="255" min="0" value="25">
+            <span id="noise-thr-shower">(25)</span>
+            <br>
+            <label for="noise-thg"><span style="color: green;">Green</span> Strength : </label>
+            <input type="range" id="noise-thg" max="255" min="0" value="25">
+            <span id="noise-thg-shower">(25)</span>
+            <br>
+            <label for="noise-thb"><span style="color: blue;">Blue</span> Strength: </label>
+            <input type="range" id="noise-thb" max="255" min="0" value="25">
+            <span id="noise-thb-shower">(25)</span>
+        </div>
     </dialog>
     <dialog id="randomColorSettings">
         <div class="close-container">
             <h3>Random From All Setting</h3>
-            <input type="button" value="CLOSE">
+            <span class="dialog-close-icon">X</span>
         </div><br>
-        <label for="randomize-r">Randomize <span style="color: red;">Red</span> Channel : </label>
-        <input type="checkbox" id="randomize-r" checked>
-        <br>
-        <div class="hidden" id="fixed-r-at-container">
-            <label for="fixed-r-at">Fixed <span style="color: red;">Red</span> At : </label>
-            <input type="range" id="fixed-r-at" max="255" min="0" value="0">
-            <span id="fixed-r-at-shower">(0)</span>
-            <hr>
+        <div class="dialog-content">
+            <label for="randomize-r">Randomize <span style="color: red;">Red</span> Channel : </label>
+            <input type="checkbox" id="randomize-r" checked>
+            <br>
+            <div class="hidden" id="fixed-r-at-container">
+                <label for="fixed-r-at">Fixed <span style="color: red;">Red</span> At : </label>
+                <input type="range" id="fixed-r-at" max="255" min="0" value="0">
+                <span id="fixed-r-at-shower">(0)</span>
+                <hr>
+            </div>
+            <br>
+            <label for="randomize-g">Randomize <span style="color: green;">Green</span> Channel : </label>
+            <input type="checkbox" id="randomize-g" checked>
+            <br>
+            <div class="hidden" id="fixed-g-at-container">
+                <label for="fixed-g-at">Fixed <span style="color: green;">Green</span> At : </label>
+                <input type="range" id="fixed-g-at" max="255" min="0" value="0">
+                <span id="fixed-g-at-shower">(0)</span>
+                <hr>
+            </div>
+            <br>
+            <label for="randomize-b">Randomize <span style="color: blue;">Blue</span> Channel : </label>
+            <input type="checkbox" id="randomize-b" checked>
+            <br>
+            <div class="hidden" id="fixed-b-at-container">
+                <label for="fixed-b-at">Fixed <span style="color: blue;">Blue</span> At : </label>
+                <input type="range" id="fixed-b-at" max="255" min="0" value="0">
+                <span id="fixed-b-at-shower">(0)</span>
+                <hr>
+            </div>
+            <br>
         </div>
-        <br>
-        <label for="randomize-g">Randomize <span style="color: green;">Green</span> Channel : </label>
-        <input type="checkbox" id="randomize-g" checked>
-        <br>
-        <div class="hidden" id="fixed-g-at-container">
-            <label for="fixed-g-at">Fixed <span style="color: green;">Green</span> At : </label>
-            <input type="range" id="fixed-g-at" max="255" min="0" value="0">
-            <span id="fixed-g-at-shower">(0)</span>
-            <hr>
-        </div>
-        <br>
-        <label for="randomize-b">Randomize <span style="color: blue;">Blue</span> Channel : </label>
-        <input type="checkbox" id="randomize-b" checked>
-        <br>
-        <div class="hidden" id="fixed-b-at-container">
-            <label for="fixed-b-at">Fixed <span style="color: blue;">Blue</span> At : </label>
-            <input type="range" id="fixed-b-at" max="255" min="0" value="0">
-            <span id="fixed-b-at-shower">(0)</span>
-            <hr>
-        </div>
-        <br>
     </dialog>
-    <!-- dialogs end -->
+    <dialog id="floodAllSettings">
+        <div class="close-container">
+            <h3>Flood All Settings</h3>
+            <span class="dialog-close-icon">X</span>
+        </div><br>
+        <div class="dialog-content">
+            <label for="filter-flood-fill-with-one-color">Flood Fill With One Color :</label>
+            <input type="checkbox" id="filter-flood-fill-with-one-color">
+        </div>
+    </dialog>
+    <dialog id="lightingObjectTypeSettings">
+        <div class="close-container">
+            <h3>Lighting Object Type Settings</h3>
+            <span class="dialog-close-icon">X</span>
+        </div>
+        <h4>Bulb</h4>
+        <label for="add-barriers-around">Add Barrier(s) Around : </label>
+        <input type="checkbox" id="add-barriers-around">
+        <details>
+            <summary>Add Barrier(s) Around Settings</summary>
+            <label for="barrier-on-top">Barrier On Top : </label>
+            <input type="checkbox" id="barrier-on-top">
+            <br>
+            <label for="barrier-on-left">Barrier On Left : </label>
+            <input type="checkbox" id="barrier-on-left" checked>
+            <br>
+            <label for="barrier-on-right">Barrier On Right : </label>
+            <input type="checkbox" id="barrier-on-right" checked>
+            <br>
+            <label for="barrier-on-bottom">Barrier On Bottom : </label>
+            <input type="checkbox" id="barrier-on-bottom" checked>
+            <br>
+        </details>
+        <hr>
+    </dialog>
+    <!-- dialogs end here -->
     <br>
     <div id="logo-sessions-container">
         <div id="sessions-section">
@@ -390,24 +465,24 @@
                     <img data-value="rect" data-cursor="auto" src="icons/paint-mode/rectangle-filled.png"
                         title="Rectangle">
                     <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png" title="Circle">
-                    <img data-value="selecting" data-cursor="auto" id="copy-selector" src="icons/paint-mode/copy.png"
-                        title="Select">
+                    <img data-value="selecting" data-cursor="auto" src="icons/paint-mode/copy.png" title="Select">
                     <img data-value="paste" data-cursor="auto" src="icons/paint-mode/paste.png" title="Paste">
                     <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png" title="Line">
-                    <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" style="margin-right: 5px"
-                        title="Flipper">
+                    <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" title="Flipper">
                     <img data-value="gradient" data-cursor="auto" src="icons/paint-mode/gradient.png"
                         title="Gradient Tools">
-                    <img data-value="curve" data-cursor="auto" src="icons/paint-mode/curve.png"
-                        style="margin-right: 5px" title="Curve Tool">
+                    <img data-value="curve" data-cursor="auto" src="icons/paint-mode/curve.png" title="Curve Tool">
                     <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
-                    <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png"
-                        style="margin-right: 5px" title="Sphere">
+                    <img data-value="pen-fill" data-cursor="auto" src="icons/paint-mode/pen-fill.png" title="Pen Fill">
+                    <img data-value="star" data-cursor="auto" src="icons/paint-mode/star.png" title="Star Tool">
+                    <img data-value="cuboid" data-cursor="auto" src="icons/paint-mode/cuboid.png" title="Cuboid">
+                    <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png" title="Sphere">
                 </div>
                 <div class="selector" id="click-mode-selector" data-oneway="true">
                     <!-- Make Sure Height Of Every Option Is Same -->
                     <img data-value="cell" src="icons/fill-mode/cell.png" title="Fill Cell" alt="C">
-                    <img data-value="fill" src="icons/fill-mode/fill.png" title="Flood Fill" alt="F">
+                    <img data-value="fill" src="icons/fill-mode/fill.png" title="Flood Fill" alt="F"
+                        id="flood-fill-button">
                 </div>
             </div>
             <br>
@@ -456,14 +531,18 @@
                                 </div>
                                 <div data-csname="lighting">
                                     <label for="lighting-object-type">Lighting Object Type : </label>
-                                    <select id="lighting-object-type">
+                                    <select id="lighting-object-type" class="right-flat">
                                         <option value="@bulb">Bulb</option>
                                         <option value="@barrier">Barrier</option>
                                         <option value="@none">Eraser</option>
                                     </select>
+                                    <input type="button" value="..." class="left-flat"
+                                        onclick="lightingObjectTypeSettings.showModal()">
                                     <br>
                                     <input type="button" value="Clear All Objects" id="clear-all-lighting-objects">
                                     <input type="button" value="Hide Objects" id="hide-lighting-objects">
+                                    <input type="button" onclick="gotoTab('additional-lighting-tools')"
+                                        value="Additional Tools">
                                     <br>
                                     <input type="button" value="Bake Light" id="apply-light" class="right-flat">
                                     <input type="button" value="..." class="left-flat"
@@ -756,6 +835,9 @@
                             <input type="button" onclick="fillAlternateSettings.showModal()" value=". . ."
                                 class="left-flat">
                             <br>
+                            <label for="flood-fill-with-one-color">Flood Fill With One Color : </label>
+                            <input type="checkbox" id="flood-fill-with-one-color">
+                            <br>
                             <label for="copy-color-from-cell-checkbox">Copy Color From Cell : </label>
                             <input type="checkbox" id="copy-color-from-cell-checkbox"><br>
                             <span id="copied-color-shower"></span><br>
@@ -803,6 +885,40 @@
                                 <img src="icons/banners/no-shape-selected.png" alt="NO SHAPE SELECTED"
                                     style="width: 70%">
                             </div>
+                            <div class="shape-settings" data-settingname="cuboid">
+                                <h3>Cuboid</h3>
+                                <br>
+                                <label for="cuboid-height">Height : </label>
+                                <input type="range" id="cuboid-height" max="50" min="0" value="25">
+                                <span id="cuboid-height-shower">(25)</span>
+                                <br>
+                                <label for="cuboid-width">Width : </label>
+                                <input type="range" id="cuboid-width" max="50" min="0" value="25">
+                                <span id="cuboid-width-shower">(25)</span>
+                                <br>
+                                <label for="cuboid-breadth">Breadth : </label>
+                                <input type="range" id="cuboid-breadth" max="50" min="0" value="25">
+                                <span id="cuboid-breadth-shower">(25)</span>
+                                <hr>
+                                <br>
+                                <label for="cuboid-rotation-x">Rotation X : </label>
+                                <input type="range" id="cuboid-rotation-x" max="360" min="0" value="45">
+                                <span id="cuboid-rotation-x-shower">(45&deg;)</span>
+                                <br>
+                                <label for="cuboid-rotation-y">Rotation Y : </label>
+                                <input type="range" id="cuboid-rotation-y" max="360" min="0" value="45">
+                                <span id="cuboid-rotation-y-shower">(45&deg;)</span>
+                                <br>
+                                <label for="cuboid-rotation-z">Rotation Z : </label>
+                                <input type="range" id="cuboid-rotation-z" max="360" min="0" value="45">
+                                <span id="cuboid-rotation-z-shower">(45&deg;)</span>
+                            </div>
+                            <div class="shape-settings" data-settingname="pen-fill">
+                                <h3>Pen Fill</h3>
+                                <br>
+                                <label for="pen-fill-with-one-color">Fill With One Color : </label>
+                                <input type="checkbox" id="pen-fill-with-one-color">
+                            </div>
                             <div class="shape-settings" data-settingname="curve">
                                 <h3>Curve Tools</h3>
                                 <br>
@@ -838,6 +954,17 @@
                                     <option value="50">50</option>
                                     <option value="100">100 (Slow, Accurate)</option>
                                 </select>
+                            </div>
+                            <div class="shape-settings" data-settingname="star">
+                                <h3>Star Tool</h3>
+                                <br>
+                                <label for="star-points">Points : </label>
+                                <input type="range" id="star-points" max="32" min="2" value="5">
+                                <span id="star-points-shower">(5)</span>
+                                <br>
+                                <label for="star-inner-radius">Inner Radius : </label>
+                                <input type="range" id="star-inner-radius" max="100" min="0" value="50">
+                                <span id="star-inner-radius-shower">(50%)</span>
                             </div>
                             <div class="shape-settings" data-settingname="flip">
                                 <h3>Flipper</h3>
@@ -1078,8 +1205,32 @@
                             </details>
                             <br> <input type="button" value="Multiply" id="multiply-q-button">
                         </div>
-
-                        <div id="drawings-section">
+                        <div>
+                            <br>
+                            <h3 data-type="hidden-tab" data-tabname="additional-lighting-tools">Additional Lighting
+                                Tools</h3> <br>
+                            <input type="button" value="Auto Add Barriers" id="auto-add-barriers" class="right-flat">
+                            <input type="button" value="Remove" class="left-flat" id="auto-remove-barriers">
+                            <details>
+                                <summary>Auto Barrier Settings</summary>
+                                <label for="auto-barrier-top">Barrier On Top : </label>
+                                <input type="checkbox" id="auto-barrier-top">
+                                <br>
+                                <label for="auto-barrier-left">Barrier On Left : </label>
+                                <input type="checkbox" id="auto-barrier-left" checked>
+                                <br>
+                                <label for="auto-barrier-right">Barrier On Right : </label>
+                                <input type="checkbox" id="auto-barrier-right" checked>
+                                <br>
+                                <label for="auto-barrier-bottom">Barrier On Bottom : </label>
+                                <input type="checkbox" id="auto-barrier-bottom" checked>
+                            </details>
+                            <hr>
+                            <br>
+                            <input type="button" value="Clear All Lights" id="clear-all-lights">
+                            <input type="button" value="Clear All Barriers" id="clear-all-barriers">
+                        </div>
+                        <div id=" drawings-section">
                             <br>
                             <h3>Saved Drawings</h3>
                             <br>
@@ -1138,6 +1289,11 @@
                             <input type="button" value="Brighten" class="right-flat" id="filter-brighten">
                             <input type="button" value="..." class="left-flat" onclick="brightnessSettings.showModal()">
                             <input type="button" value="Weak Brighten" id="filter-weak-brighten">
+                            <br>
+                            <hr>
+                            <h4>Stylistic</h4>
+                            <input type="button" value="Flood All" id="filter-flood-all" class="right-flat">
+                            <input type="button" value="..." class="left-flat" onclick="floodAllSettings.showModal()">
                             <br>
                             <hr>
                             <h4>Custom Filter</h4>
@@ -1312,8 +1468,10 @@
                                 <div id="png-exporter" class="visible">
                                     <input type="button" value="Preview" onclick="drawingPreview.showModal()">
                                     <br>
-                                    <input type="button" id="export-button2" value="Export (PNG)"
-                                        class="highlighted-border">
+                                    <div class="rainbow-border-container">
+                                        <input type="button" id="export-button2" value="Export (PNG)"
+                                            class="highlighted-border">
+                                    </div>
                                 </div>
 
                                 <div id="overlay-exporter">
@@ -1586,7 +1744,9 @@
                                 <option value="flip">Flip</option>
                                 <option value="curve">Curve</option>
                                 <option value="gradient">Gradient</option>
-                                <option value="lab">LAB</option>
+                                <option value="pen-fill">Pen Fill</option>
+                                <option value="star">Star Tool</option>
+                                <option value="cuboid">Cuboid</option>
                             </select>
                             <br>
                         </div>
@@ -1643,6 +1803,8 @@
     <script>
         //Pre Script
         const id = id => document.getElementById(id)
+        const value = idn => id(idn).value
+        const valueAsNumber = idn => id(idn).valueAsNumber
         function attachInputListener(eid, act = () => { }, unit = '') {
             const listener = () => {
                 id(eid + '-shower').innerHTML = `(${id(eid).value}${unit})`
@@ -1651,6 +1813,8 @@
             id(eid).oninput = listener
             return listener
         }
+        const NOOP = () => { }
+
         startProcess(`Gathering Up Resources... <br>  <br>  <br>
         <span style="color: gray; font-size:0.8rem">   Meanwhile: The Credits   <br>
         Company: Syn For Experiments™ <br>
@@ -1658,17 +1822,20 @@
         Programmer: Yaver Javid  <br>
         Unnecessarily: Zanoor  </span>`)
     </script>
+    <script src="js/input-attachers.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/path.js"></script>
     <script src="js/icons.js"></script>
-    <script src="js/utils.js"></script>
     <script src="js/selec.js"></script>
     <script src="js/alert.js"></script>
     <script src="js/logging.js"></script>
     <script src="js/lib.local-storage-tools.js"></script>
-    <script src="js/lib.slider-plus-minus.js"></script>
+    <script src="js/lib.slider-plus-minus.js"></script>\
+    <script src="js/lib.variable-range.js"></script>
     <script src="js/declarations.js"></script>
     <script src="js/stack.js"></script>
     <script src="js/shapes/comman.js"></script>
+    <script src="js/shapes/3d.js"></script>
     <script src="js/shapes/touch.js"></script>
     <script src="js/shapes/mouse.js"></script>
     <script src="js/guides.js"></script>

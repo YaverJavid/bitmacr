@@ -18,6 +18,7 @@
      --frostblur: blur(5px);
      --shadow-color: white;
      color-scheme: only light;
+     --dialog-transition-duration: 100ms;
  }
 
 
@@ -32,8 +33,6 @@
      text-align: center;
      background: var(--secondary);
      background-size: fit;
-     /* image-rendering */
-
  }
 
 
@@ -57,7 +56,6 @@
      grid-template-rows: repeat(24, 1fr);
      flex-wrap: wrap;
      width: 100%;
-     /* height: 96vw; */
      border: 0.5px solid var(--primary);
      position: relative;
      overflow: auto;
@@ -71,13 +69,9 @@
      border-collapse: collapse;
  }
 
- /* .cell:hover {
-     border: 1px dashed var(--primary)!important
- } */
-
  marquee {
+     margin-top: 5px;
      font-family: 'Paytone One', sans-serif;
-     /* -webkit-text-stroke: 0.2px white; */
  }
 
  marquee a {
@@ -216,12 +210,11 @@
      box-sizing: border-box;
      justify-content: space-around;
      align-items: center;
-     margin: 0vw 0vw;
+     margin: 0;
      margin-top: 0;
      background: var(--accent);
      border-radius: 5vh;
      border: 1px solid var(--primary);
-     margin-bottom: 1.5vw;
      backdrop-filter: var(--frostblur);
      overflow-x: scroll;
      gap: 4px;
@@ -315,7 +308,8 @@
      margin-bottom: 16px;
      overflow-x: scroll;
      scrollbar-color: transparent;
-     position: static
+     position: static;
+     padding-bottom: 5px;
  }
 
  select {
@@ -921,21 +915,51 @@
      display: none;
  }
 
+ @keyframes open-dialog {
+     from {
+         transform: perspective(1000px) rotateX(20deg);
+     }
+
+     to {
+         transform: perspective(1000px) rotateX(0deg);
+     }
+ }
+
+ @keyframes close-dialog {
+     from {
+         transform: perspective(1000px) rotateX(0deg);
+     }
+
+     to {
+         transform: perspective(1000px) rotateX(20deg);
+     }
+ }
+
  dialog {
      background: var(--secondary);
      color: var(--primary);
      border: 1px solid var(--primary);
-     border-radius: 24px;
+     padding: 0;
+     min-width: 25%;
+     transform-origin: top;
+     animation: close-dialog var(--dialog-transition-duration) forwards;
+     animation-timing-function: ease-out;
+     transition:
+         display var(--dialog-transition-duration) allow-discrete,
+         overlay var(--dialog-transition-duration) allow-discrete;
+
+     &[open] {
+         animation: open-dialog var(--dialog-transition-duration) forwards;
+     }
  }
-
-
 
  .close-container {
      display: flex;
      justify-content: space-between;
-     padding: 0 16px;
-     margin-top: 16px;
+     padding: 8px 16px 3px 16px;
      gap: 16px;
+     background-color: var(--primary);
+     color: var(--secondary);
  }
 
  .close-container h3 {
@@ -947,8 +971,14 @@
  }
 
  dialog::backdrop {
-     background-color: var(--secondary);
-     opacity: 60%;
+     /* background-color: var(--secondary);
+     opacity: 0.7; */
+     backdrop-filter: blur(5px);
+
+ }
+
+ .dialog-content {
+     margin: 0 16px
  }
 
  .canvas-visualiser {
@@ -956,6 +986,7 @@
      border: 1px solid var(--primary);
 
  }
+
 
  .generic-icon {
      height: 1lh;
@@ -984,4 +1015,13 @@
      border: 1px solid var(--primary);
      background-color: rgb(100, 100, 100);
      color: rgb(100, 100, 100);
+ }
+
+ #selection-shower {
+     box-sizing: border-box;
+ }
+
+ .dialog-close-icon {
+     font-weight: bold;
+     cursor: pointer
  }

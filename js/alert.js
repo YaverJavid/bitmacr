@@ -2,13 +2,14 @@ const alertMessage = document.getElementById("alert-message")
 const alertHeading = document.getElementById("alert-heading")
 const alertBox = document.getElementById("alert")
 const alertCancelButton = document.getElementById("alert-cancel-button")
-let nothing = () => {}
+let noop = () => {}
 
-var cancel = nothing
-var ok = nothing
-var then = nothing
+var cancel = noop
+var ok = noop
+var then = noop
 var hasAlertAnswered = true
-function customConfirm(message, ifOk = nothing, ifCancel = nothing, argThen = nothing ) {
+function customConfirm(message, ifOk = noop, ifCancel = noop, _then = noop ) {
+    // then("replaced")
     alertCancelButton.style.opacity = 1;
     alertBox.style.opacity = "1"
     alertBox.style.zIndex = "2"
@@ -17,7 +18,7 @@ function customConfirm(message, ifOk = nothing, ifCancel = nothing, argThen = no
     ok = ifOk
     if(!hasAlertAnswered) then("unanswered")
     hasAlertAnswered = false
-    then = argThen
+    then = _then
 }
 
 function customAlert(message){
@@ -25,11 +26,11 @@ function customAlert(message){
     alertBox.style.zIndex = "2"
     alertMessage.innerHTML = "<strong>ALERT : </strong>" +  message
     alertCancelButton.style.opacity = 0;
-    cancel = nothing
-    ok = nothing
+    cancel = noop
+    ok = noop
     if(!hasAlertAnswered) then("unanswered")
     hasAlertAnswered = false
-    then = nothing
+    then = noop
 }
 
 function hideAlert() {

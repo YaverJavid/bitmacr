@@ -14,7 +14,7 @@ function createBrightnessMap(x, y) {
             if (isShadowed(cells, x, y, i, j)) continue
             const distance = Math.max(Math.sqrt((i - x) ** 2 + (j - y) ** 2), 1)
             const intensity = (lightLaw == 'inverse' ? (1 / (distance)) : (1 / (distance ** 2))) * id("light-intensity").value
-            if(id('illuminate-bulb-pixel').checked || (!(y == j && x == i)))cells[pack(i, j)].lightingFactor += Math.min(intensity, 1)
+            if (id('illuminate-bulb-pixel').checked || (!(y == j && x == i))) cells[pack(i, j)].lightingFactor += Math.min(intensity, 1)
         }
     }
 }
@@ -70,20 +70,24 @@ function isShadowed(array, lx, ly, xc, yc) {
     return array[pack(lx, ly)].lightingObjectType === "@barrier";
 }
 
+function showLightingObjects() {
+    for (let i = 0; i < cells.length; i++) {
+        const cell = cells[i]
+        let iconPath
+        if (cell.lightingObjectType == "@bulb") iconPath = "url(icons/lighting/bulb.png)"
+        else if (cell.lightingObjectType == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
+        else iconPath = 'none'
+        cell.style.backgroundImage = iconPath
+    }
+}
+
 let lightingObjectsHidden = false
 
 id("hide-lighting-objects").onclick = () => {
     if (lightingObjectsHidden) {
         id("hide-lighting-objects").value = 'Hide  Objects'
         lightingObjectsHidden = false
-        for (let i = 0; i < cells.length; i++) {
-            const cell = cells[i]
-            let iconPath
-            if (cell.lightingObjectType == "@bulb") iconPath = "url(icons/lighting/bulb.png)"
-            else if (cell.lightingObjectType == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
-            else continue
-            cell.style.backgroundImage = iconPath
-        }
+        showLightingObjects()
     } else {
         id("hide-lighting-objects").value = 'Show Objects'
         lightingObjectsHidden = true
@@ -106,6 +110,78 @@ function mixlight(lightColor, color, intensity) {
     return `rgba(${r}, ${g}, ${b}, ${a})`
 }
 
-id("light-color-opacity").oninput = () => {
-    id('light-color-opacity-shower').textContent = `(${id("light-color-opacity").value})`
+
+id('auto-add-barriers').onclick = () => {
+    for (let y = 0; y < cells2d.length; y++) {
+        for (let x = 0; x < cells2d[0].length; x++) {
+            if (cells2d[y][x].lightingObjectType == '@bulb') {
+                createBarriersAround(x, y, 'auto-barrier-top', 'auto-barrier-bottom', 'auto-barrier-left', 'auto-barrier-right')
+            }
+        }
+    }
+}
+
+id('auto-remove-barriers').onclick = () => {
+    for (let y = 0; y < cells2d.length; y++) {
+        for (let x = 0; x < cells2d[0].length; x++) {
+            if (cells2d[y][x].lightingObjectType == '@bulb') {
+                if (id('auto-barrier-left').checked && cells2d[y][x - 1] && cells2d[y][x - 1].lightingObjectType == '@barrier')
+                    cells2d[y][x - 1].lightingObjectType = undefined
+                if (id('auto-barrier-right').checked && cells2d[y][x + 1] && cells2d[y][x + 1].lightingObjectType == '@barrier')
+                    cells2d[y][x + 1].lightingObjectType = undefined
+                if (id('auto-barrier-top').checked && cells2d[y - 1] && cells2d[y - 1][x].lightingObjectType == '@barrier')
+                    cells2d[y - 1][x].lightingObjectType = undefined
+                if (id('auto-barrier-bottom').checked && cells2d[y + 1] && cells2d[y + 1][x].lightingObjectType == '@barrier')
+                    cells2d[y + 1][x].lightingObjectType = undefined
+            }
+        }
+    }
+    if (!lightingObjectsHidden) showLightingObjects()
+}
+
+id('clear-all-barriers').onclick = () => {
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].lightingObjectType == '@barrier') {
+            cells[i].lightingObjectType = undefined
+        }
+    }
+    if (!lightingObjectsHidden) showLightingObjects()
+}
+
+
+id('clear-all-lights').onclick = () => {
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].lightingObjectType == '@bulb') {
+            cells[i].lightingObjectType = undefined
+        }
+    }
+    if (!lightingObjectsHidden) showLightingObjects()
+}
+
+function createBarriersAround(x, y, t, b, l, r) {
+    if (id(l).checked && cells2d[y][x - 1] && !cells2d[y][x - 1].lightingObjectType) {
+        cells2d[y][x - 1].lightingObjectType = '@barrier'
+        refreshCellLightingTypeIcon(cells2d[y][x - 1])
+    }
+    if (id(r).checked && cells2d[y][x + 1] && !cells2d[y][x + 1].lightingObjectType) {
+        cells2d[y][x + 1].lightingObjectType = '@barrier'
+        refreshCellLightingTypeIcon(cells2d[y][x + 1])
+    }
+    if (id(t).checked && cells2d[y - 1] && !cells2d[y - 1][x].lightingObjectType) {
+        cells2d[y - 1][x].lightingObjectType = '@barrier'
+        refreshCellLightingTypeIcon(cells2d[y - 1][x])
+    }
+    if (id(b).checked && cells2d[y + 1] && !cells2d[y + 1][x].lightingObjectType) {
+        cells2d[y + 1][x].lightingObjectType = '@barrier'
+        refreshCellLightingTypeIcon(cells2d[y+1][x])
+    }
+}
+
+function refreshCellLightingTypeIcon(cell) {
+    if (lightingObjectsHidden) return
+    cell.style.backgroundSize = "100% 100%"
+    let iconPath = 'none'
+    if (cell.lightingObjectType == "@bulb") iconPath = "url(icons/lighting/bulb.png)"
+    else if (cell.lightingObjectType == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
+    cell.style.backgroundImage = iconPath
 }

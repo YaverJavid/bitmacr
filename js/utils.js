@@ -126,8 +126,13 @@ function hexToRgbaObject(hex) {
     return { r, g, b, a: opacity };
 }
 
+
 function colorObjectToRGBA(obj) {
     return `rgb(${obj.r},${obj.g},${obj.b},${obj.a})`
+}
+
+function hexToRGBAString(hex) {
+    return colorObjectToRGBA(hexToRgbaObject(hex))
 }
 
 function convertRGBAStrToObj(rgbaStr) {
@@ -383,4 +388,14 @@ function hexToLab(hex) {
     let A = 500 * (x - y);
     let B = 200 * (y - z);
     return { L, A, B };
+}
+
+
+let pseudoElementForColorConversion = id("psedo")
+
+function cssToRGBAOrRgb(color) {
+    pseudoElementForColorConversion.style.background = color
+    return window.getComputedStyle(
+        pseudoElementForColorConversion, true
+    ).getPropertyValue("background-color")
 }

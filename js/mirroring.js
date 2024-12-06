@@ -7,5 +7,6 @@ function mirrorVertically(i) {
 function mirrorHorizontally(i) {
     let px = x(i)
     let py = y(i)
-    return pack(px, rows - py - 1) 
+    return pack(px, rows - py - 1)
 }
+

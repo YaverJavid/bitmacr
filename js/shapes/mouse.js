@@ -1,10 +1,11 @@
 paintZone.addEventListener('mousedown', (event) => {
+    alreadyFilledLinePoints = new Set()
     if (["none", "stroke"].includes(paintModeSelector.value)) return;
     const x = event.clientX;
     const y = event.clientY;
     const currentCellIndex = Array.from(cells).indexOf(document.elementFromPoint(x, y));
-    startingCoords.gridX = Math.floor(currentCellIndex / cols);
-    startingCoords.gridY = currentCellIndex % cols;
+    startingCoords.gridX = currentCellIndex % cols;
+    startingCoords.gridY = Math.floor(currentCellIndex / cols);
     startingCoords.x = x;
     startingCoords.y = y;
     if (paintModeSelector.value == "line" && connectLastLineLocation.checked && lineLastCoords != {}) {
@@ -12,35 +13,24 @@ paintZone.addEventListener('mousedown', (event) => {
         for (let i = 0; i < cells.length; i++)
             cells2d.push(cells[i]);
         cells2d = toPaintData2D(cells2d);
-        drawLine(cells2d, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX);
+        drawLine(cells2d, lineLastCoords.x, lineLastCoords.y, startingCoords.gridY, startingCoords.gridX, id('line-width').value, id('line-cap').value, id("allow-line-doubles").checked);
         recordPaintData();
     } else if (paintModeSelector.value == "line-stroke") {
         isStartOfLineStroke = true;
+    } else if (paintModeSelector.value == 'pen-fill') {
+        penFillBuffer = toPaintData2D(buffer.getItem().slice())
+        penFloodFillCoordsVisited = new Set()
     }
 });
 
-function refillCanvas() {
-    for (let i = 0; i < cells.length; i++) cells[i].style.backgroundColor = buffer.getItem()[i];
-}
 
 paintZone.addEventListener('mousemove', (event) => {
     if (event.buttons !== 1 || paintModeSelector.value == "none") return
     event.preventDefault();
     const x = event.clientX;
     const y = event.clientY;
-    let currentCell = document.elementFromPoint(x, y);
-    let cellIndex = currentCell.index
-    const currentGridY = Math.floor(cellIndex / cols);
-    const currentGridX = cellIndex % cols
-if (paintModeSelector.value != "line-stroke") refillCanvas()
-    const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
-    const cw = parseFloat(paintZoneWidth) / cols
-    let dx = -1 * Math.ceil((startingCoords.x - x) / cw) + 1
-    let dy = Math.ceil((startingCoords.y - y) / cw)
-    if (dx < 1) dx = 1
-    if (dy < 1) dy = 1
-
-    draw(event, currentGridX, currentGridY, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY, dx, dy, currentCell, cw, x, y)
+    if (!["line-stroke", "pen-fill"].includes(paintModeSelector.value)) refillCanvas()
+    draw(event, x, y, startingCoords.x, startingCoords.y, startingCoords.gridX, startingCoords.gridY)
 });
 
 
@@ -81,7 +71,7 @@ function handleMousePaintEnd(event) {
             cells2d = toPaintData2D(cells2d);
             if (id("flipper-direction").value == "horizontal") for (let i = 0; i < partToFlip.length; i++) partToFlip[i].reverse()
             else partToFlip.reverse()
-            paste(bx, by, partToFlip, cells2d)
+            paste(bx, by, partToFlip, cells2d, 'flip')
             recordPaintData()
         }
     } else if (paintModeSelector.value == "line") {
@@ -91,7 +81,6 @@ function handleMousePaintEnd(event) {
         lineLastCoords.x = currentCellIndex % cols;
         lineLastCoords.y = Math.floor(currentCellIndex / cols);
     }
-    alreadyFilledLinePoints = new Set()
     if (paintModeSelector.value != "none") recordPaintData();
 }
 

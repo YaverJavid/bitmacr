@@ -26,7 +26,7 @@ colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
 
-const VERSION = "v.2024.21"
+const VERSION = "v.2024.22"
 id("version").textContent = VERSION
 
 
@@ -61,13 +61,13 @@ for (let i = 0; i < menus.length; i++) {
     </div>`
 }
 
-function redirectMenuViewTo(location) {
+function redirectMenuViewTo(location, scrollIntoView = false) {
+    if (scrollIntoView) bottomControls.scrollIntoView()
     bottomControls.scrollLeft = location
 }
 let currentTabIndex = 0
 function gotoTab(tabName, scrollIntoView = false) {
-    if (scrollIntoView) bottomControls.scrollIntoView()
-    redirectMenuViewTo(tabLocations[tabName] * controlWidth)
+    redirectMenuViewTo(tabLocations[tabName] * controlWidth, scrollIntoView)
     currentTabIndex = tabLocations[tabName]
 }
 
@@ -193,6 +193,8 @@ function addCanvas(argRows, argCols, clearStack = true) {
                 checkbox.checked = false
                 if (checkbox.classList.contains('checkbox')) checkbox.nextElementSibling.classList.remove("checked")
                 openCheckbox = undefined
+                let y = Math.floor(i / cols)
+                let x = i % cols
                 switch (_openCheckbox) {
                     case 'select-color':
                         setPaletteCurrentColor(selectedColor)
@@ -226,8 +228,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
                         lightingShower.innerHTML = `(${lightingSlider.value}%)`
                         break
                     case 'select-for-only-fill-if':
-                        if (fillOnlyThisColor.value) fillOnlyThisColor.value += "||"
-                        fillOnlyThisColor.value += selectedColor
+                        fillOnlyThisColor.value += (fillOnlyThisColor.value ? "||" : '') + selectedColor
                         createFillRuleArray()
                         break
                     case 'cp-gradient-start-color':
@@ -244,12 +245,7 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     case 'paste-onclick-checkbox':
                         openCheckbox = _openCheckbox
                         id(_openCheckbox).checked = true
-                        let y = Math.floor(i / cols)
-                        let x = i % cols
                         if (!selectedPart) return
-                        let cells2d = []
-                        for (let i = 0; i < cells.length; i++)  cells2d.push(cells[i])
-                        cells2d = toPaintData2D(cells2d);
                         paste(
                             x + selectedPart[0].length,
                             y + selectedPart.length,
@@ -261,12 +257,12 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     case 'onclick-fill-col':
                         openCheckbox = _openCheckbox
                         checkbox.checked = true
-                        fillCol(i % cols, Math.floor(i / cols))
+                        fillCol(x, y)
                         break
                     case 'onclick-fill-row':
                         openCheckbox = _openCheckbox
                         checkbox.checked = true
-                        fillRow(Math.floor(i / cols), i % cols)
+                        fillRow(y, x)
                         break
                     case 'select-hits-specific-color':
                         id("hits-specific-color").value = fullColor
@@ -279,19 +275,20 @@ function addCanvas(argRows, argCols, clearStack = true) {
                     recordPaintData()
                     return
                 }
-                floodFillEvent(i)
+                let data = toPaintData2D(buffer.getItem())
+                data = floodFillEvent(data, i)
                 if (mirroring.checked) {
-                    if (mirroringType.value == 'horizontal') floodFillEvent(mirrorHorizontally(i))
-                    else if (mirroringType.value == 'vertical') floodFillEvent(mirrorVertically(i))
-                    else if (mirroringType.value == 'both') {
-                        floodFillEvent(mirrorVertically(i))
-                        floodFillEvent(mirrorHorizontally(i))
-                        floodFillEvent(mirrorVertically(mirrorHorizontally(i)))
-                    }
+                    if (['both', 'horizontal'].includes(mirroringType.value)) data = floodFillEvent(data, mirrorHorizontally(i))
+                    else if (['both', 'vertical'].includes(mirroringType.value)) data = floodFillEvent(data, mirrorVertically(i))
+                    else if (mirroringType.value == 'both') data = floodFillEvent(data, mirrorVertically(mirrorHorizontally(i)))
                 }
+                applyPaintData(data.flat())
+                recordPaintData()
             } else {
                 if (colorMSelector.value != 'lighting' && e.shiftKey) {
-                    applyPaintData(floodFill(toPaintData2D(buffer.getItem()), i % cols, Math.floor(i / cols)).flat())
+                    let data = toPaintData2D(buffer.getItem())
+                    applyPaintData(data.flat(), false)
+                    data = floodFillEvent(data, i)
                     recordPaintData()
                     return
                 }
@@ -307,13 +304,15 @@ function addCanvas(argRows, argCols, clearStack = true) {
     refreshGuides()
     let pixelSize = id('pixel-size').value
     id('linked-final-res').textContent = `${pixelSize * rows} x ${pixelSize * cols}.`
+    const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
+    cellWidth = parseFloat(paintZoneWidth) / cols
 }
 
-function floodFillEvent(i) {
+function floodFillEvent(data, i) {
     let x = i % cols
     let y = Math.floor(i / cols)
-    applyPaintData(floodFill(toPaintData2D(buffer.getItem()), x, y).flat())
-    recordPaintData()
+    let color = id("flood-fill-with-one-color").checked ? getCurrentSelectedColor() : false
+    return floodFill(data, x, y, color)
 }
 
 function fillRowCellsInRange(y, start, end, step, centerColor, mainCall) {

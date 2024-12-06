@@ -51,15 +51,6 @@ function updateHueShower() {
     hueAngleShower.innerHTML = `(${hueAngle.value}&deg;)`
 }
 
-let pseudoElementForColorConversion = id("psedo")
-
-function cssToRGBAOrRgb(color) {
-    pseudoElementForColorConversion.style.background = color
-    return window.getComputedStyle(
-        pseudoElementForColorConversion, true
-    ).getPropertyValue("background-color")
-}
-
 
 function getCurrentSelectedColor(preview = false) {
     let colorMode = colorMSelector.value
@@ -268,27 +259,25 @@ function setCellColor(cellElem, color, isMain = true) {
     }
 }
 
-onlyFillIfColorIsCheckbox.oninput = () => {
+onlyFillIfColorIsCheckbox.oninput = changeFillRuleUI
+
+function changeFillRuleUI() {
     id("info-fill-rule").textContent = onlyFillIfColorIsCheckbox.checked ? "[FR:ON]," : "[FR:OFF],"
     if (onlyFillIfColorIsCheckbox.checked) {
         id("info-fill-rule").style.color = "red"
     } else {
         id("info-fill-rule").style.color = "var(--primary)"
     }
-
 }
 const mirroring = id('mirroring')
 const mirroringType = id('mirroring-type')
 function fillCell(cellElem, color, isMain = true) {
-    if (['@bulb', '@barrier', '@none'].includes(color)) {
+    if (color[0] == '@') {
         cellElem.lightingObjectType = color
-        cellElem.style.backgroundSize = "100% 100%"
-        if (lightingObjectsHidden) return
-        let iconPath
-        if (color == '@bulb') iconPath = "url(icons/lighting/bulb.png)"
-        else if (color == '@barrier') iconPath = "url(icons/lighting/barrier.png)"
-        else if (color == '@none') iconPath = "none"
-        cellElem.style.backgroundImage = iconPath
+        refreshCellLightingTypeIcon(cellElem)
+        if (id('add-barriers-around').checked && id('lighting-object-type').value == '@bulb')
+            createBarriersAround(x(cellElem.index), y(cellElem.index), 'barrier-on-top', 'barrier-on-bottom', 'barrier-on-left', 'barrier-on-right')
+        if (!lightingObjectsHidden) showLightingObjects()
         return
     }
     let currentColor = rgbaToHex(buffer.getItem()[cellElem.index])
@@ -462,9 +451,7 @@ id('randomize-b').onchange = () => {
     if (id('randomize-b').checked) id('fixed-b-at-container').classList.add('hidden')
     else id('fixed-b-at-container').classList.remove('hidden')
 }
-attachInputListener('fixed-r-at')
-attachInputListener('fixed-g-at')
-attachInputListener('fixed-b-at')
+
 
 
 function getRandomFromAllColor() {
@@ -493,7 +480,7 @@ id('lab-preview').oninput = () => {
 }
 updateLabUI()
 
-attachInputListener('gray', ()=>{
+attachInputListener('gray', () => {
     id('gray-color-shower').style.color = `rgb(${id('gray').value}, ${id('gray').value}, ${id('gray').value})`
     id('gray-color-shower').style.backgroundColor = `rgb(${id('gray').value}, ${id('gray').value}, ${id('gray').value})`
 })

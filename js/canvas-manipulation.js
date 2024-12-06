@@ -151,6 +151,7 @@ id('clear-button').addEventListener("click", () => {
 id('fill-all-button').onclick = fillAll
 
 function fillAll() {
+    if(colorMSelector.value == 'lighting') return
     for (let i = 0; i < cells.length; i++) setCellColor(cells[i], getCurrentSelectedColor())
     recordPaintData()
 }
@@ -166,7 +167,7 @@ function getHByWRatio() {
 function changeCanvasSize(offset = 0) {
     cellsSlider.value = parseInt(cellsSlider.value) + offset
     if (Math.round(getHByWRatio() * cellsSlider.value) > MAX_CANVAS_DIMENSION) {
-        customAlert(`Cannot add canvas with one demension greater than ${MAX_CANVAS_DIMENSION}!`)
+        customAlert(`Cannot add canvas with one dimension greater than ${MAX_CANVAS_DIMENSION}!`)
         cellsSlider.value = cols
         canvasSizeShower.innerHTML = `(c${cols} : r${rows})`
         return
@@ -210,10 +211,10 @@ function changeColSize(offset = 0) {
         })
 }
 
-
 cellsSlider.oninput = () => {
     canvasSizeShower.textContent = `(c${Math.round(getHByWRatio() * cellsSlider.value)} : r${cellsSlider.value})`
 }
+
 
 incrementRow.onclick = () => changeRowSize(1)
 rowSlider.onchange = () => changeRowSize()
