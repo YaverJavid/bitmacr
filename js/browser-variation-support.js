@@ -82,6 +82,6 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
         cellWidth = parseFloat(paintZoneWidth) / cols
     }
 } else {
-    id('undo').value = '«'
-    id('redo').value = '»'
+    id('undo').value = '⟨⟨⟨⟨'
+    id('redo').value = '⟩⟩⟩⟩'
 }
