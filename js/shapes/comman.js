@@ -62,10 +62,8 @@ function drawRectangle(x, y, w, h, plane, filled) {
     y++
     for (let i = (y - h); i < y; i++) {
         for (let j = x; j < (x + w); j++) {
-            try {
-                if (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1))
-                    setCellColor(plane[i][j], getCurrentSelectedColor())
-            } catch { }
+            if (plane[i] && plane[i][j] && (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1))) 
+                setCellColor(plane[i][j], getCurrentSelectedColor())
         }
     }
 }
@@ -768,8 +766,8 @@ function draw(e, ex, ey, sx, sy, sgx, sgy) {
                 cuboidH = valueAsNumber('cuboid-height'),
                 cuboidB = valueAsNumber('cuboid-breadth'),
                 cuboidRX = valueAsNumber('cuboid-rotation-x'),
-                cuboidRY = valueAsNumber('cuboid-rotation-x'),
-                cuboidRZ = valueAsNumber('cuboid-rotation-x')
+                cuboidRY = valueAsNumber('cuboid-rotation-y'),
+                cuboidRZ = valueAsNumber('cuboid-rotation-z')
             if (e.altKey) {
                 let dist = Math.ceil(distance2d(sgx, sgy, egx, egy))
                 cuboidB = dist

@@ -72,6 +72,7 @@ const cells = document.getElementsByClassName("cell"),
         q3MultiplyTargetCheckbox: id("q3-multiply-target-checkbox"),
         q4MultiplyTargetCheckbox: id("q4-multiply-target-checkbox")
     },
+    rotateClockwise = document.getElementById("rotate-clockwise-button"),
     clickManagerCheckboxes = {
         colorSelectCheckbox: id("select-color"),
         selectColorForFind: id("select-color-for-find"),

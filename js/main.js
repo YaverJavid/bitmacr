@@ -20,8 +20,6 @@ colorToBeReplacedSelector.addEventListener("change", () => {
     targetColor = colorToBeReplacedSelector.value
 })
 
-
-
 colorToReplaceWithSelector.addEventListener("change", () => {
     replacementColor = colorToReplaceWithSelector.value
 })
@@ -36,16 +34,13 @@ let prevSelectedColor
 let buffer = new Stack(1024)
 let borderColor = getPrimaryColor().slice(1)
 let cellBorderWidth = 1
-// hex should be lowercase
 var defaultPalletteColors = []
 let usedColors = defaultPalletteColors.flat()
 let tabLocations = []
 let pallateColors = document.getElementsByClassName("pallate-color")
 let currentSelectedColor = undefined
 const B_COLOR = "pix_color"
-const rotateClockwise = document.getElementById("rotate-clockwise-button")
 setPaletteCurrentColor(localStorageREF[B_COLOR] || "#334470")
-let chooseColorRandomly = false
 let rows = 32,
     cols = 32
 let menuSegmentLocations = []
@@ -145,9 +140,9 @@ function applyPaintData(data, simpleFill = true) {
 
 let cells2d
 
-function addCanvas(argRows, argCols, clearStack = true) {
-    rows = argRows
-    cols = argCols
+function addCanvas(_rows, _cols, clearStack = true) {
+    rows = _rows
+    cols = _cols
     id("info-size").textContent = `[c${cols}:r${rows}]`
     if (clearStack)
         buffer.clearStack()
@@ -166,8 +161,8 @@ function addCanvas(argRows, argCols, clearStack = true) {
     if (typeof sessions !== 'undefined') sessions[currentSession].updateCanvasSize()
     rowsShower.innerHTML = `(${rows})`
     colsShower.innerHTML = `(${cols})`
-    colSlider.value = cols
-    rowSlider.value = rows
+    colSlider.value = _cols
+    rowSlider.value = _rows
     if (rows != cols) {
         rotateClockwise.style.opacity = "0.3"
         rotateClockwise.disabled = true

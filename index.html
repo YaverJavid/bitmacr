@@ -434,8 +434,8 @@
                 <input type="button" id="undo" value="UNDO" title="Undo : [CTRL+z]">
                 <input type="button" class="zoom-out" id="top-zoom-out" value="⇱" title="Zoom Out">
                 <input type="button" id="export-button" value="SAVE&darr;" title="Export With Love">
-                <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;"
-                    title="Force Save Sessions">
+                <!-- <input type="button" onclick="saveSessions(sessions); saveSound.play()" value="&#9113;"
+                    title="Force Save Sessions"> -->
                 <input type="button" value="+F" onclick="addFrame()" title="Add Frame">
                 <input type="button" value="&#x21bb;" id="top-reload" title="Reload">
                 <img src="icons/misc/replacing.png" alt="Blend Mode" class="generic-icon" title="Replacing"
@@ -713,7 +713,7 @@
                             <label for="guide">Cell Border : </label>
                             <input type="checkbox" id="guide" checked>
                             <br>
-                            <label for="qguides">Quadrant Guides: </label>
+                            <label for="qguide">Quadrant Guides: </label>
                             <input type="checkbox" id="qguide" checked>
                             <hr>
                             <h4>Mirroring</h4>
@@ -1850,10 +1850,10 @@
     <script src="js/animation.js"></script>
     <script src="js/animation-exporter.js" type="module"></script>
     <script src="js/flood-fill.js"></script>
+    <script src="js/canvas-manipulation.js"></script>
     <script src="js/sessions.js"></script>
     <script src="js/trace-image.js"></script>
     <script src="js/export.js"></script>
-    <script src="js/canvas-manipulation.js"></script>
     <script src="js/palettes.js"></script>
     <script src="js/sound.js"></script>
     <script src="js/auto-tools.js"></script>

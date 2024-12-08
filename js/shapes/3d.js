@@ -49,7 +49,13 @@ function visualiseCuboid() {
     refillCanvas()
     let paddingTB = Math.floor(rows * 0.2)
     let paddingLR = Math.floor(cols * 0.2)
-    drawCuboid(cells2d, paddingTB, paddingLR, valueAsNumber('cuboid-width'), valueAsNumber('cuboid-height'), valueAsNumber('cuboid-breadth'), valueAsNumber('cuboid-rotation-x'), valueAsNumber('cuboid-rotation-y'), valueAsNumber('cuboid-rotation-z'))
+    let cuboidW = valueAsNumber('cuboid-width'),
+        cuboidH = valueAsNumber('cuboid-height'),
+        cuboidB = valueAsNumber('cuboid-breadth'),
+        cuboidRX = valueAsNumber('cuboid-rotation-x'),
+        cuboidRY = valueAsNumber('cuboid-rotation-y'),
+        cuboidRZ = valueAsNumber('cuboid-rotation-z')
+    drawCuboid(cells2d, paddingLR, paddingTB, cuboidW, cuboidH, cuboidB, cuboidRX, cuboidRY, cuboidRZ)
 }
 
 attachInputListener('cuboid-rotation-x', visualiseCuboid, '&deg;')
