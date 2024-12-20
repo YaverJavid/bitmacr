@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+body {
+    background-color: red;
+    color: white;
+    text-align: center;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+#keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 600px;
+
+}
+
+.button {
+    cursor: pointer;
+    border: 2px solid white;
+    padding: 9px 16px;
+
+}
+
+.button:hover {
+    border-radius: 4px;
+    background-color: crimson;
+}
+
+#answer {
+    font-size: 2rem;
+    display: flex;
+    gap: 8px;
+}
+
+.answer-closer {
+    font-family: monospace;
+    font-size: 1rem;
+    vertical-align: super;
+    cursor: pointer;
+}
+
+em {
+    text-decoration: underline;
+}
+
+.screen {
+    background-color: red;
+    border: none;
+    color: white;
+    outline: none;
+}
+
+.screen::backdrop {
+    background-color: red;
+}
+
+#next-question {
+    margin-top: 32px;
+}
+
+#title-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#score-shower-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+}
+
+#score-shower-container span {
+    height: 50%;
+}
+
+#question{
+    font-size: 1.3rem;
+}

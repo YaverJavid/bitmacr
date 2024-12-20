@@ -136,15 +136,7 @@ function addEventListenersToSavedDrawings() {
                 () => {
                     let data = parseRawData(drawings[currentDrawingName])
                     addCanvas(data.rows, data.cols)
-                    canvasSizeShower.textContent = `(${data.cols})`
-                    cellsSlider.value = data.cols
                     applyPaintData(data.colorData)
-                    if (!borderCheckbox.checked) {
-                        removeBorder()
-                    }
-                    if (guideCheckbox.checked) {
-                        addGuides()
-                    }
                     recordPaintData()
                 }
             )

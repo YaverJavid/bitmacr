@@ -176,6 +176,18 @@ function blendColors(colorTop, colorBottom, mode) {
             bResult = bTop < 128 ? (2 * bTop * bBottom / 255) : (255 - 2 * (255 - bTop) * (255 - bBottom) / 255);
             aResult = aTop + aBottom * (1 - aTop / 255);
             break;
+        case 'opacity':
+            rResult = rBottom
+            gResult = gBottom
+            bResult = bBottom
+            aResult = aTop
+            break;
+        case 'yaverian':
+            rResult = rTop / 5;
+            gResult = gTop / 3;
+            bResult = bTop / 3;
+            aResult = 1
+            break;
         default:
             throw new Error('Blend mode not supported');
     }

@@ -847,7 +847,7 @@ function visualiseStar() {
     refillCanvas()
     let x = Math.floor(cols / 2) - 1
     let y = Math.floor(rows / 2) - 1
-    let size = ath.floor(Math.min(cols, rows) / 2)
+    let size = Math.floor(Math.min(cols, rows) / 2)
     let innerRadiusPercent = valueAsNumber("star-inner-radius")
     let points = valueAsNumber('star-points')
 

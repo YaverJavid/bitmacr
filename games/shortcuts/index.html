@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8" />
+  <title>PixmacrPuzz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="title-container">
+    <h1>Pixmacr&trade;Puzz</h1>
+    <div id="score-shower-container">
+      <span>Score : <span id="top-score">0/0</span></span>
+      <span> Questions left : <span id="top-questions-left"></span></span>
+    </div>
+  </div>
+  <dialog id="tip-screen" class="screen">
+    <h1> Wrong Answer!</h1>
+    <h3>Correct Answer Was : <span id="correct-answer"></span></h3>
+    <span id="tip-content"></span>
+    <div class="button" id="next-question">Next</div>
+  </dialog>
+
+  <dialog id="finish-screen" class="screen">
+    <h1>You Scored : <span id="score">_SCR_</span></h1>
+    <div class="button" id="finish">Play Again</div>
+  </dialog>
+  <p id="question">What is the shortcut for "<span id="question-specifier"></span>"?</p>
+  <div id="answer">
+  </div>
+  <br>
+  <div id="keyboard">
+    <div class="key button">A</div>
+    <div class="key button">B</div>
+    <div class="key button">C</div>
+    <div class="key button">D</div>
+    <div class="key button">E</div>
+    <div class="key button">F</div>
+    <div class="key button">G</div>
+    <div class="key button">H</div>
+    <div class="key button">I</div>
+    <div class="key button">J</div>
+    <div class="key button">K</div>
+    <div class="key button">L</div>
+    <div class="key button">M</div>
+    <div class="key button">N</div>
+    <div class="key button">O</div>
+    <div class="key button">P</div>
+    <div class="key button">Q</div>
+    <div class="key button">R</div>
+    <div class="key button">S</div>
+    <div class="key button">T</div>
+    <div class="key button">U</div>
+    <div class="key button">V</div>
+    <div class="key button">W</div>
+    <div class="key button">X</div>
+    <div class="key button">Y</div>
+    <div class="key button">Z</div>
+    <div class="key button">1</div>
+    <div class="key button">2</div>
+    <div class="key button">3</div>
+    <div class="key button">.</div>
+    <div class="key button">,</div>
+    <div class="key button">Ctrl</div>
+  </div>
+  <br>
+  <br>
+  <div class="button" id="answer-button">
+    Answer ⏎
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

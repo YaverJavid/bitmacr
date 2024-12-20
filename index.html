@@ -157,6 +157,13 @@
             <span class="dialog-close-icon">X</span>
         </div><br>
         <div class="dialog-content">
+            <!-- <label for="algorithm">Algorithm : </label>
+            <select id="algorithm">
+                <option value="min-streak">Min Streak</option>
+                <option value="squish">Squish</option>
+                <option value="rounded-min-streak">Rounded Min Streak</option>
+            </select>
+            <br> -->
             <label for="auto-size-detection-threshold">Threshold : </label>
             <input type="range" id="auto-size-detection-threshold" max="255" min="0" step="1" value="0" disabled>
             <span id="auto-size-detection-threshold-shower">(0)</span>
@@ -819,6 +826,8 @@
                                 <option value="subtract">Subtract</option>
                                 <option value="divide">Divide</option>
                                 <option value="contrast">Contrast</option>
+                                <option value="opacity">Opacity</option>
+                                <option value="yaverian">Yaverian</option>
                             </select>
                             <hr>
                             <h4>Misc</h4>
@@ -1628,7 +1637,9 @@
                             <img src="others/logo.png" width="15%" alt="Logo" style="border-radius: 1vh; margin: 0"
                                 ondblclick="gotoTab('dev')" class="image">
                             <br>
-                            <a href="shortcuts/index.html">Shortcuts Cheatsheet</a>
+                            <br>
+                            <a href="shortcuts/index.html">Shortcuts Cheatsheet</a><br>
+                            <input type="button" value="Shortcut Game" onclick="window.location.href = 'games/shortcuts'">
                             <br>
                             <span>Pixmacr @ <span id="version"></span> (<a href="README.md">What's New?</a>)</span>
                         </div>
