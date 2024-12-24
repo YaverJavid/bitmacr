@@ -298,7 +298,6 @@ function pad(str, len) {
     return "0".repeat(len - str.length) + str;
 }
 
-
 function getHSLFromHex(hex) {
     var r = parseInt(hex.substring(1, 3), 16) / 255;
     var g = parseInt(hex.substring(3, 5), 16) / 255;
@@ -390,8 +389,7 @@ function hexToLab(hex) {
     return { L, A, B };
 }
 
-
-let pseudoElementForColorConversion = id("psedo")
+let pseudoElementForColorConversion = id("pseudo")
 
 function cssToRGBAOrRgb(color) {
     pseudoElementForColorConversion.style.background = color

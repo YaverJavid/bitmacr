@@ -62,7 +62,7 @@ function drawRectangle(x, y, w, h, plane, filled) {
     y++
     for (let i = (y - h); i < y; i++) {
         for (let j = x; j < (x + w); j++) {
-            if (plane[i] && plane[i][j] && (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1))) 
+            if (plane[i] && plane[i][j] && (filled || j == x || j == (x + w - 1) || i == (y - h) || i == (y - 1)))
                 setCellColor(plane[i][j], getCurrentSelectedColor())
         }
     }
@@ -634,7 +634,7 @@ function refillCanvas() {
 
 const shapeInfoShower = id('shape-info-shower')
 const cursorInfoShower = id('cursor-info')
-let lastRadius
+let lastRadius = 5, lastStarRadius = 5
 
 function draw(e, ex, ey, sx, sy, sgx, sgy) {
     let currentCell = document.elementFromPoint(ex, ey);
@@ -780,7 +780,16 @@ function draw(e, ex, ey, sx, sy, sgx, sgy) {
             let starRadius = Math.ceil(distance2d(sgx, sgy, egx, egy))
             let starInnerRadius = valueAsNumber('star-inner-radius')
             let starPoints = valueAsNumber('star-points')
-            drawStar(cells2d, sgx, sgy, starRadius, starInnerRadius, starPoints)
+            let starX = sgx, starY = sgy
+            if (e.shiftKey) {
+                starRadius = lastStarRadius
+                starX = egx
+                starY = egy
+            }
+            console.log(cells2d, starX, starY, starRadius, starInnerRadius, starPoints);
+            
+            drawStar(cells2d, starX, starY, starRadius, starInnerRadius, starPoints)
+            lastStarRadius = starRadius
             break
     }
 }

@@ -4,8 +4,8 @@ class Color {
         this.value = this.main
     }
     static cssColorStringToRGBOrRGBA(cssColorString) {
-        psedoElem.style.background = cssColorString
-        return window.getComputedStyle(psedoElem).getPropertyValue("background")
+        pseudoElem.style.background = cssColorString
+        return window.getComputedStyle(pseudoElem).getPropertyValue("background")
     }
     toHex() {
         let rgbaValues = this.main.substring(this.main.indexOf('(') + 1, this.main.lastIndexOf(')')).split(',');
