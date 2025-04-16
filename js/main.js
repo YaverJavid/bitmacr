@@ -180,6 +180,7 @@ function addCanvas(_rows, _cols, clearStack = true) {
             setPaletteCurrentColor(selectedColor)
         }
         cells[i].onclick = function (e) {
+            if(!e) e = {}
             if (openCheckbox) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
                 let selectedColor = fullColor.slice(0, 7)
