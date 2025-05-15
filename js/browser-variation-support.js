@@ -88,4 +88,5 @@ if (BROWSER_TYPE.includes("DESKTOP")) {
 } else {
     id('undo').value = '⟨⟨⟨⟨'
     id('redo').value = '⟩⟩⟩⟩'
+    id("launch-edit-mode-button").style.display = 'none'
 }
