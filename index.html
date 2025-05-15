@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="css/process.css">
     <link rel="stylesheet" href="css/toggle-switch.css">
     <link rel="stylesheet" href="css/composer.css">
+    <link rel="stylesheet" href="css/editmode.css">
+
     <link rel="manifest" href="others/manifest.json">
     <link rel="apple-touch-icon" href="others/logo.png">
     <!-- preloads -->
@@ -1639,7 +1641,8 @@
                             <br>
                             <br>
                             <a href="shortcuts/index.html">Shortcuts Cheatsheet</a><br>
-                            <input type="button" value="Shortcut Game" onclick="window.location.href = 'games/shortcuts'">
+                            <input type="button" value="Shortcut Game"
+                                onclick="window.location.href = 'games/shortcuts'">
                             <br>
                             <span>Pixmacr @ <span id="version"></span> (<a href="README.md">What's New?</a>)</span>
                         </div>
@@ -1794,6 +1797,52 @@
         </div>
     </div>
     <br>
+    <div id="em-fixed-controls-left" class="invisible">
+        <input type="color" id="em-color">
+        <div id="em-colors-selector" class="v-selector">
+            <img src='icons/color-mode/normal.png' alt='cm' data-value="normal" class="active-cmode" title="Normal">
+            <img src='icons/color-mode/eraser.png' alt='cm' data-value="eraser" title="Eraser">
+            <img src='icons/color-mode/pallette.png' alt='cm' data-value="palette" title="Pallette">
+            <img src='icons/color-mode/hsl.png' alt='cm' data-value="hsl" title="HSL">
+            <img src='icons/color-mode/lab.png' alt='cm' data-value="lab" title="LAB">
+            <img src='icons/color-mode/formula.png' alt='cm' data-value="formula" title="Color Formula">
+            <img src='icons/color-mode/random.png' alt='cm' data-value="random" title="Random">
+            <img src='icons/color-mode/bulb.png' alt='cm' data-value="lighting" title="Lighting Tools">
+            <img src='icons/color-mode/sequence.png' alt='cm' data-value="sequence" title="Color Sequence">
+            <img src='icons/color-mode/css.png' alt='cm' data-value="css-color" title="CSS Color String">
+            <img src='icons/color-mode/gray.png' alt='cm' data-value="gray" title="Grays">
+        </div>
+    </div>
+
+
+
+    <div id="em-fixed-controls-right" class="invisible">
+        <div class="v-selector" id="em-click-mode-selector">
+            <img id="cm-click-mode-cell" data-value="cell" src="icons/fill-mode/cell.png" title="Fill Cell" alt="C" class="active">
+            <img id="cm-click-mode-fill" data-value="fill" src="icons/fill-mode/fill.png" title="Flood Fill" alt="F">
+        </div>
+        <div class="v-selector" id="em-shapes-selector">
+            <img data-value="none" data-cursor="auto" class="active-shape" src="icons/paint-mode/none.png" title="None">
+            <img data-value="line-stroke" data-cursor="auto" src="icons/paint-mode/stroke.png" title="Pen">
+            <img data-value="zoom" data-cursor="auto" src="icons/paint-mode/zoom.png" title="Zoom">
+            <img data-value="rect" data-cursor="auto" src="icons/paint-mode/rectangle-filled.png" title="Rectangle">
+            <img data-value="circle" data-cursor="auto" src="icons/paint-mode/circle-filled.png" title="Circle">
+            <img data-value="selecting" data-cursor="auto" src="icons/paint-mode/copy.png" title="Select">
+            <img data-value="paste" data-cursor="auto" src="icons/paint-mode/paste.png" title="Paste">
+            <img data-value="line" data-cursor="auto" src="icons/paint-mode/line.png" title="Line">
+            <img data-value="flip" data-cursor="auto" src="icons/paint-mode/flip.png" title="Flipper">
+            <img data-value="gradient" data-cursor="auto" src="icons/paint-mode/gradient.png" title="Gradient Tools">
+            <img data-value="curve" data-cursor="auto" src="icons/paint-mode/curve.png" title="Curve Tool">
+            <img data-value="triangle" data-cursor="auto" src="icons/paint-mode/triangle.png" title="Triangle">
+            <img data-value="pen-fill" data-cursor="auto" src="icons/paint-mode/pen-fill.png" title="Pen Fill">
+            <img data-value="star" data-cursor="auto" src="icons/paint-mode/star.png" title="Star Tool">
+            <img data-value="cuboid" data-cursor="auto" src="icons/paint-mode/cuboid.png" title="Cuboid">
+            <img data-value="sphere" data-cursor="auto" src="icons/paint-mode/sphere.png" title="Sphere">
+        </div>
+        <input type="button" value="Fill All" class="mb-0" onclick="fillAll()">
+        <input type="button" value="Clear All" class="mb-0" onclick="clearAll()">
+        <input type="button" value="Add Frame" onclick="addFrame()" class="mb-0">
+    </div>
     <!--The following tag will be used for color conversion-->
     <div id="pseudo"></div>
     <div id="process">
@@ -1880,6 +1929,7 @@
     <script src="js/action-composer.js"></script>
     <script src="js/mirroring.js"></script>
     <script src="js/legal.js"></script>
+    <script src="js/editmode.js"></script>
     <script>
         // Post script
         endProcess()

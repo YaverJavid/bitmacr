@@ -2,6 +2,11 @@
 
 ## Change Log
 
+### 2025-001[14-May-2025]
+
+- Added Edit Mode, Press E To Go Into It
+- Revamped The Shortcut System To Be More Accurate
+
 ### 2024-022[07-Dec-2024]
 
 - Added Auto Barrier Tools For Lighting & Few Additional Lighting Tools

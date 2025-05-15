@@ -36,4 +36,7 @@ function floodFillWithCoords(a2d, x, y, color = false) {
 
 id('flood-fill-with-one-color').oninput = () => {
     id('flood-fill-button').src = 'icons/fill-mode/' + (id('flood-fill-with-one-color').checked ? 'fill-1.png' : 'fill.png')
+
+    
+    id('cm-click-mode-fill').src = 'icons/fill-mode/' + (id('flood-fill-with-one-color').checked ? 'fill-1.png' : 'fill.png')
 }

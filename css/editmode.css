@@ -1,0 +1,80 @@
+.paint-zone-em {
+    width: 100%;
+}
+
+.paint-zone-container-em {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+    background-color: var(--secondary);
+    inset: 0;
+    align-items: center;
+}
+
+#em-fixed-controls-left {
+    inset: 0;
+}
+
+#em-fixed-controls-right {
+    top: 0;
+    right: 0;
+}
+
+#em-fixed-controls-right,
+#em-fixed-controls-left {
+    position: fixed;
+    width: calc(9.5vw);
+    height: 100vh;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent);
+    gap: 16px;
+}
+
+.v-selector {
+    width: 50px;
+    max-height: 50vh;
+    overflow-y: scroll;
+    border: 1px solid var(--primary);
+    padding: 16px;
+    border-radius: 64px;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.v-selector img {
+    width: 50px;
+    box-sizing: border-box;
+    border-radius: 64px;
+    padding: 6px;
+    margin-top: 0;
+
+    background: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+#em-color {
+    width: 82px !important;
+    height: 82px !important;
+    flex-shrink: 0;
+    padding: 16px;
+    border: 1px solid var(--primary);
+    border-radius: 64px;
+}
+
+#em-fixed-controls-right input[type=button],
+#em-fixed-controls-left input[type=button] {
+    width: 80%
+}
+
+.active {
+    border: 2px solid black !important;
+}

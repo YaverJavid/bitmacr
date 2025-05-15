@@ -142,16 +142,18 @@ id("flip-horizontally").onclick = () => {
     recordPaintData()
 }
 
-id('clear-button').addEventListener("click", () => {
+id('clear-button').onclick = clearAll
+
+function clearAll(){
     for (let i = 0; i < cells.length; i++)
         setCellColor(cells[i], "#00000000")
     recordPaintData()
-})
+}
 
 id('fill-all-button').onclick = fillAll
 
 function fillAll() {
-    if(colorMSelector.value == 'lighting') return
+    if (colorMSelector.value == 'lighting') return
     for (let i = 0; i < cells.length; i++) setCellColor(cells[i], getCurrentSelectedColor())
     recordPaintData()
 }

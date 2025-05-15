@@ -74,12 +74,16 @@ id("reset-browser-type").onclick = () => {
 
 if (BROWSER_TYPE.includes("DESKTOP")) {
     window.onresize = () => {
-        controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
-        redirectMenuViewTo(currentTabIndex * controlWidth)
-        let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
-        paintZone.style.height = elemWidth * rows + "vw"
-        const paintZoneWidth = window.getComputedStyle(paintZone).getPropertyValue("width");
-        cellWidth = parseFloat(paintZoneWidth) / cols
+        if (!editmode) {
+            const paintZoneWidth = window.getComputedStyle(paintZone).width;
+            controlWidth = parseFloat(getComputedStyle(document.getElementsByClassName("controls")[1]).getPropertyValue("width"))
+            redirectMenuViewTo(currentTabIndex * controlWidth)
+            let elemWidth = parseFloat(getComputedStyle(paintZone).getPropertyValue("width")) / window.innerWidth * 100 / cols
+            paintZone.style.height = elemWidth * rows + "vw"
+            cellWidth = parseFloat(paintZoneWidth) / cols
+        } else {
+            resizeEditmodePaintZone()
+        }
     }
 } else {
     id('undo').value = '⟨⟨⟨⟨'

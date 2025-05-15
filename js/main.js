@@ -180,7 +180,7 @@ function addCanvas(_rows, _cols, clearStack = true) {
             setPaletteCurrentColor(selectedColor)
         }
         cells[i].onclick = function (e) {
-            if(!e) e = {}
+            if (!e) e = {}
             if (openCheckbox) {
                 let fullColor = rgbToHex(buffer.getItem()[i])
                 let selectedColor = fullColor.slice(0, 7)
@@ -355,10 +355,10 @@ function fillCol(x, pivot, mainCall = true) {
 }
 
 
-colorSelector.addEventListener("input", function () {
-    setPaletteCurrentColor(this.value)
+colorSelector.oninput = () => {
+    setPaletteCurrentColor(colorSelector.value)
     colorHistorySequenceIndex = 0
-})
+}
 
 
 function setPaletteCurrentColor(color) {
