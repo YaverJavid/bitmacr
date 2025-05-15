@@ -178,6 +178,7 @@ function addCanvas(_rows, _cols, clearStack = true) {
             let fullColor = rgbToHex(buffer.getItem()[i])
             let selectedColor = fullColor.slice(0, 7)
             setPaletteCurrentColor(selectedColor)
+            id('em-color').value = selectedColor
         }
         cells[i].onclick = function (e) {
             if (!e) e = {}
