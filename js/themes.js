@@ -22,6 +22,13 @@ function setTheme(accent, primary, secondary, iconsInverted = false) {
     changeCellBorderColor(borderColor)
     handleIconInvertion(iconsInverted)
     adstrip.style.color = iconsInverted ? "#ffffff" : "#000000"
+
+    if (iconsInverted) {
+        id('top-logo').style.mixBlendMode = 'screen';
+    } else {
+        id('top-logo').style.mixBlendMode = 'multiply';
+    }
+
 }
 
 borderColor = "#" + getPrimaryColor().slice(1)
@@ -29,12 +36,12 @@ changeCellBorderColor(borderColor)
 
 class Theme {
     constructor(accent, primary, secondary, name, iconsInverted = false) {
-        this.accent = accent,
-            this.secondary = secondary,
-            this.name = name,
-            this.primary = primary,
-            this.iconsInverted = iconsInverted,
-            this.htmlString = Theme.getThemeButtonHTML(accent, primary, secondary, name, iconsInverted)
+        this.accent = accent
+        this.secondary = secondary
+        this.name = name
+        this.primary = primary
+        this.iconsInverted = iconsInverted
+        this.htmlString = Theme.getThemeButtonHTML(accent, primary, secondary, name, iconsInverted)
     }
     static getThemeButtonHTML(accent, primary, secondary, name, iconsInverted = false) {
         return `<input style="color: green" type="button" class="theme-selector" data-accent="${accent}" data-secondary="${secondary}" data-primary=${primary} data-ii="${iconsInverted}" value="${name}"/>`
@@ -83,4 +90,20 @@ document.getElementById("theme-hue").addEventListener("input", function () {
 
 function handleIconInvertion(invert) {
     root.style.setProperty("--iconInversion", `invert(${invert ? '1' : '0'})`)
+}
+
+function applyTextShadowAllSides() {
+    const shadow = '1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff';
+    document.querySelectorAll('*').forEach(el => {
+        if (window.getComputedStyle(el).color !== 'rgba(255, 255, 255, 1)') {
+            el.style.textShadow = shadow;
+        }
+    });
+}
+
+// Remove text shadow from all elements
+function removeTextShadowAllSides() {
+    document.querySelectorAll('*').forEach(el => {
+        el.style.textShadow = '';
+    });
 }
